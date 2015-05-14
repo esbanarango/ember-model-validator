@@ -1,6 +1,6 @@
 import resolver from './helpers/resolver';
 import {
   setResolver
-} from 'ember-qunit';
+} from 'ember-mocha';
 
 setResolver(resolver);
