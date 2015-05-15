@@ -56,6 +56,19 @@ describe('ValidatorMixin', function() {
 
       });
 
+			describe('when data is corrected after validation', function() {
+
+			  it('it clean the erros', function() {
+		      var model = this.subject({email:'adsfasdf$',name:'Jose Rene'});
+		      Ember.run(function() {
+		      	expect(model.validate()).to.equal(false);
+		      	model.set('email','rene@higuita.com');
+		      	expect(model.validate()).to.equal(true);
+		      });
+			  });
+
+			});
+
 	  }
 	);
 
