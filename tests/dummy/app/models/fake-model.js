@@ -8,10 +8,15 @@ export default DS.Model.extend(Validator,{
   otherFakes: DS.hasMany('other-model'),
 
   validations: {
-    presence: ['name','email'],
-    email: ['email'],
-    relations: {
-      hasMany:['otherFakes']
+    name:{
+      presence: true
+    },
+    email:{
+      presence: true,
+      email: true
+    },
+    otherFakes:{
+      relations: ['hasMany']
     }
   }
 

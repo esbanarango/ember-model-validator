@@ -6,8 +6,13 @@ export default DS.Model.extend(Validator,{
   email: DS.attr('string'),
 
   validations: {
-    presence: ['name','email'],
-    email: ['email']
+  	name:{
+      presence: true
+  	},
+  	email:{
+      presence: true,
+      email: true
+  	}
   }
 
 });

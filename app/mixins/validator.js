@@ -5,7 +5,8 @@ export default Ember.Mixin.create({
   isValidNow: true,
   validate: function() {
     var store = this.get('store'),
-    		errors = null;
+    		errors = null,
+    		validations = this.get('validations');
 
   	// Clean all the current errors
     this.get('errors').clear();
@@ -13,12 +14,13 @@ export default Ember.Mixin.create({
     this.set('isValidNow',true);
     errors = this.get('validationErrors');
 
-    // Check for presence:
-    this._validatePresence();
-    // Check for valid emails:
-    this._validateEmail();
-    // Check relations:
-    this._validateRelations();
+		for (var property in validations) {
+			for (var validation in validations[property]) {
+				var validationName = (validation.charAt(0).toUpperCase() + validation.slice(1));
+				this[`_validate${validationName}`](property, validations[property]);
+			}
+		}
+
     if (!this.get('isValidNow')) {
       // It may be invalid because of its relations
       if(Object.keys(errors).length !== 0){
@@ -30,46 +32,35 @@ export default Ember.Mixin.create({
       return true;
     }
   },
-  _validatePresence: function() {
+  _validatePresence: function(property, validation) {
   	var  _this = this,
   				errors = this.get('validationErrors'),
   				validations = this.get('validations');
-    if(validations && validations.hasOwnProperty('presence')) {
-      validations.presence.forEach(function(property) {
-        if (Ember.isBlank(_this.get(property))){
-        	if (!Ember.isArray(errors[property])) {errors[property] = [];}
-          _this.set('isValidNow',false);
-        	errors[property].push(['This field is required']);
-        }
-      });
+
+    if (Ember.isBlank(_this.get(property))){
+    	if (!Ember.isArray(errors[property])) {errors[property] = [];}
+      _this.set('isValidNow',false);
+    	errors[property].push(['This field is required']);
     }
   },
-  _validateEmail: function() {
+  _validateEmail: function(property, validation) {
   	var  _this = this,
   				errors = this.get('validationErrors'),
   				validations = this.get('validations');
-    if(validations && validations.hasOwnProperty('email')) {
-      validations.email.forEach(function(property) {
-        if (_this.get(property) && _this.get(property).match(/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i) === null){
-        	if (!Ember.isArray(errors[property])) {errors[property] = [];}
-          _this.set('isValidNow',false);
-        	errors[property].push(['Enter a valid email address']);
-        }
-      });
+    if (_this.get(property) && _this.get(property).match(/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i) === null){
+    	if (!Ember.isArray(errors[property])) {errors[property] = [];}
+      _this.set('isValidNow',false);
+    	errors[property].push(['Enter a valid email address']);
     }
   },
-  _validateRelations: function() {
+  _validateRelations: function(property, validation) {
     var  _this = this,
           validations = this.get('validations');
-    if(validations && validations.hasOwnProperty("relations")) {
-      if(validations.relations.hasOwnProperty("hasMany")) {
-        validations.relations.hasMany.forEach(function(relation) {
-          if(_this.get(relation)){
-            _this.get(relation).forEach(function(objRelation) {
-              if(!objRelation.validate()){
-                _this.set('isValidNow',false);
-              }
-            });
+    if(validation.relations.indexOf("hasMany") !== -1) {
+      if(_this.get(property)){
+        _this.get(property).forEach(function(objRelation) {
+          if(!objRelation.validate()){
+            _this.set('isValidNow',false);
           }
         });
       }
