@@ -33,38 +33,42 @@ export default Ember.Mixin.create({
     }
   },
   _validatePresence: function(property, validation) {
-  	var  _this = this,
-  				errors = this.get('validationErrors'),
-  				validations = this.get('validations');
-
-    if (Ember.isBlank(_this.get(property))){
+  	var  errors = this.get('validationErrors');
+    if (Ember.isBlank(this.get(property))){
     	if (!Ember.isArray(errors[property])) {errors[property] = [];}
-      _this.set('isValidNow',false);
+      this.set('isValidNow',false);
     	errors[property].push(['This field is required']);
     }
   },
   _validateEmail: function(property, validation) {
-  	var  _this = this,
-  				errors = this.get('validationErrors'),
-  				validations = this.get('validations');
-    if (_this.get(property) && _this.get(property).match(/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i) === null){
+  	var  errors = this.get('validationErrors');
+    if (this.get(property) && this.get(property).match(/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i) === null){
     	if (!Ember.isArray(errors[property])) {errors[property] = [];}
-      _this.set('isValidNow',false);
+      this.set('isValidNow',false);
     	errors[property].push(['Enter a valid email address']);
     }
   },
+  _validateNumericality: function(property, validation) {
+  	var  errors = this.get('validationErrors');
+    if (!this._isNumber(this.get(property))){
+    	if (!Ember.isArray(errors[property])) {errors[property] = [];}
+      this.set('isValidNow',false);
+    	errors[property].push(['Is not a number']);
+    }
+  },
   _validateRelations: function(property, validation) {
-    var  _this = this,
-          validations = this.get('validations');
+    var  _this = this;
     if(validation.relations.indexOf("hasMany") !== -1) {
-      if(_this.get(property)){
-        _this.get(property).forEach(function(objRelation) {
+      if(this.get(property)){
+        this.get(property).forEach(function(objRelation) {
           if(!objRelation.validate()){
             _this.set('isValidNow',false);
           }
         });
       }
     }
-  }
-
+  },
+	_isNumber: function (n) {
+  	return !isNaN(parseFloat(n)) && isFinite(n);
+	}
 });

@@ -5,15 +5,20 @@ export default DS.Model.extend(Validator,{
   name: DS.attr('string'),
   email: DS.attr('string'),
 
+  lotteryNumber: DS.attr('number'),
+
   otherFakes: DS.hasMany('other-model'),
 
   validations: {
-    name:{
+    name: {
       presence: true
     },
-    email:{
+    email: {
       presence: true,
       email: true
+    },
+    lotteryNumber: {
+      numericality: true
     },
     otherFakes:{
       relations: ['hasMany']
