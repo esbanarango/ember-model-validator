@@ -11,7 +11,8 @@ export default DS.Model.extend(Validator,{
 
   validations: {
     name: {
-      presence: true
+      presence: true,
+      inclusion: { in: ['Jose Rene', 'Aristi Gol', 'Armani'] }
     },
     email: {
       presence: true,

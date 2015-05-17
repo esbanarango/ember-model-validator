@@ -48,6 +48,12 @@ describe('ValidatorMixin', function() {
 	      expect(model.get('errors').errorsFor('lotteryNumber').mapBy('message')[0][0]).to.equal('Is not a number');
 		  });
 
+      it('validates the inclusion of the attributes set on `validations.inclusion`', function() {
+        var model = this.subject({name:'adsfasdf$'});
+        expect(model.validate()).to.equal(false);
+        expect(model.get('errors').errorsFor('name').mapBy('message')[0][0]).to.equal('Is not included');
+      });
+
       it('validates the relations specified on `validations.relations`', function() {
       	var model = this.subject({email:'thiisagoo@email.con',name:'Jose Rene Higuita'}),
       			store = model.get('store'),

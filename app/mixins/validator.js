@@ -56,6 +56,16 @@ export default Ember.Mixin.create({
     	errors[property].push(['Is not a number']);
     }
   },
+  _validateInclusion: function(property, validation) {
+    var  errors = this.get('validationErrors');
+    if(validation.inclusion.hasOwnProperty('in')) {
+      if(validation.inclusion.in.indexOf(this.get(property)) === -1){
+        if (!Ember.isArray(errors[property])) {errors[property] = [];}
+        this.set('isValidNow',false);
+        errors[property].push(['Is not included']);
+      }
+    }
+  },
   _validateRelations: function(property, validation) {
     var  _this = this;
     if(validation.relations.indexOf("hasMany") !== -1) {
