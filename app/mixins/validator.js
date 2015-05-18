@@ -48,7 +48,7 @@ export default Ember.Mixin.create({
   },
   _validateEmail: function(property, validation) {
   	var  errors = this.get('validationErrors');
-    if (this.get(property) && this.get(property).match(/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i) === null){
+    if (!this.get(property) || this.get(property).match(/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i) === null){
     	if (!Ember.isArray(errors[property])) {errors[property] = [];}
       this.set('isValidNow',false);
     	errors[property].push([this.mailMessage]);
