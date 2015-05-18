@@ -5,6 +5,7 @@ export default DS.Model.extend(Validator,{
   name: DS.attr('string'),
   email: DS.attr('string'),
 
+  legacyCode: DS.attr('string'),
   lotteryNumber: DS.attr('number'),
 
   otherFakes: DS.hasMany('other-model'),
@@ -17,6 +18,9 @@ export default DS.Model.extend(Validator,{
     email: {
       presence: true,
       email: true
+    },
+    legacyCode:{
+      format: {with: /^[a-zA-Z]+$/}
     },
     lotteryNumber: {
       numericality: true

@@ -36,6 +36,12 @@ describe('ValidatorMixin', function() {
 	      expect(model.get('errors').errorsFor('name').mapBy('message')[0][0]).to.equal(model.presenceMessage);
 		  });
 
+      it('validates the format of the attributes set on `validations.format`', function() {
+        var model = this.subject({legacyCode: 3123123});
+        expect(model.validate()).to.equal(false);
+        expect(model.get('errors').errorsFor('legacyCode').mapBy('message')[0][0]).to.equal(model.formatMessage);
+      });
+
 		  it('validates the email format of the attributes set on `validations.email`', function() {
 	      var model = this.subject({email:'adsfasdf$'});
 	      expect(model.validate()).to.equal(false);
@@ -71,7 +77,7 @@ describe('ValidatorMixin', function() {
 			describe('when data is corrected after validation', function() {
 
 			  it('it clean the erros', function() {
-		      var model = this.subject({email:'adsfasdf$',name:'Jose Rene',lotteryNumber:124});
+		      var model = this.subject({email:'adsfasdf$',name:'Jose Rene',lotteryNumber:124,legacyCode:'abc'});
 		      Ember.run(function() {
 		      	expect(model.validate()).to.equal(false);
 		      	model.set('email','rene@higuita.com');

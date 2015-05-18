@@ -6,6 +6,7 @@ export default Ember.Mixin.create({
   inclusionMessage: 'is not included in the list',
   numericalityMessage: 'is not a number',
   mailMessage: 'is not a valid email',
+  formatMessage: 'is invalid',
 
 	validationErrors: {},
   isValidNow: true,
@@ -46,9 +47,18 @@ export default Ember.Mixin.create({
     	errors[property].push([this.presenceMessage]);
     }
   },
+  _validateFormat: function(property, validation) {
+    var errors = this.get('validationErrors'),
+        withRegexp = validation.format.with;
+    if (!this.get(property) || String(this.get(property)).match(withRegexp) === null){
+      if (!Ember.isArray(errors[property])) {errors[property] = [];}
+      this.set('isValidNow',false);
+      errors[property].push([this.formatMessage]);
+    }
+  },
   _validateEmail: function(property, validation) {
   	var  errors = this.get('validationErrors');
-    if (!this.get(property) || this.get(property).match(/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i) === null){
+    if (!this.get(property) || String(this.get(property)).match(/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i) === null){
     	if (!Ember.isArray(errors[property])) {errors[property] = [];}
       this.set('isValidNow',false);
     	errors[property].push([this.mailMessage]);
