@@ -32,26 +32,26 @@ describe('ValidatorMixin', function() {
 		  it('validates the presence of the attributes set on `validations.presence`', function() {
 	      var model = this.subject();
 	      expect(model.validate()).to.equal(false);
-	      expect(model.get('errors').errorsFor('email').mapBy('message')[0][0]).to.equal('This field is required');
-	      expect(model.get('errors').errorsFor('name').mapBy('message')[0][0]).to.equal('This field is required');
+	      expect(model.get('errors').errorsFor('email').mapBy('message')[0][0]).to.equal(model.presenceMessage);
+	      expect(model.get('errors').errorsFor('name').mapBy('message')[0][0]).to.equal(model.presenceMessage);
 		  });
 
 		  it('validates the email format of the attributes set on `validations.email`', function() {
 	      var model = this.subject({email:'adsfasdf$'});
 	      expect(model.validate()).to.equal(false);
-	      expect(model.get('errors').errorsFor('email').mapBy('message')[0][0]).to.equal('Enter a valid email address');
+	      expect(model.get('errors').errorsFor('email').mapBy('message')[0][0]).to.equal(model.mailMessage);
 		  });
 
 		  it('validates the numericality of the attributes set on `validations.numericality`', function() {
 	      var model = this.subject({lotteryNumber:'adsfasdf$'});
 	      expect(model.validate()).to.equal(false);
-	      expect(model.get('errors').errorsFor('lotteryNumber').mapBy('message')[0][0]).to.equal('Is not a number');
+	      expect(model.get('errors').errorsFor('lotteryNumber').mapBy('message')[0][0]).to.equal(model.numericalityMessage);
 		  });
 
       it('validates the inclusion of the attributes set on `validations.inclusion`', function() {
         var model = this.subject({name:'adsfasdf$'});
         expect(model.validate()).to.equal(false);
-        expect(model.get('errors').errorsFor('name').mapBy('message')[0][0]).to.equal('Is not included');
+        expect(model.get('errors').errorsFor('name').mapBy('message')[0][0]).to.equal(model.inclusionMessage);
       });
 
       it('validates the relations specified on `validations.relations`', function() {

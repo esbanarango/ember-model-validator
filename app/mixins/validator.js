@@ -1,6 +1,12 @@
 import Ember from 'ember';
 
 export default Ember.Mixin.create({
+  // Default messages
+  presenceMessage: 'can\`t be blank',
+  inclusionMessage: 'is not included in the list',
+  numericalityMessage: 'is not a number',
+  mailMessage: 'is not a valid email',
+
 	validationErrors: {},
   isValidNow: true,
   validate: function() {
@@ -37,7 +43,7 @@ export default Ember.Mixin.create({
     if (Ember.isBlank(this.get(property))){
     	if (!Ember.isArray(errors[property])) {errors[property] = [];}
       this.set('isValidNow',false);
-    	errors[property].push(['This field is required']);
+    	errors[property].push([this.presenceMessage]);
     }
   },
   _validateEmail: function(property, validation) {
@@ -45,7 +51,7 @@ export default Ember.Mixin.create({
     if (this.get(property) && this.get(property).match(/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i) === null){
     	if (!Ember.isArray(errors[property])) {errors[property] = [];}
       this.set('isValidNow',false);
-    	errors[property].push(['Enter a valid email address']);
+    	errors[property].push([this.mailMessage]);
     }
   },
   _validateNumericality: function(property, validation) {
@@ -53,7 +59,7 @@ export default Ember.Mixin.create({
     if (!this._isNumber(this.get(property))){
     	if (!Ember.isArray(errors[property])) {errors[property] = [];}
       this.set('isValidNow',false);
-    	errors[property].push(['Is not a number']);
+    	errors[property].push([this.numericalityMessage]);
     }
   },
   _validateInclusion: function(property, validation) {
@@ -62,7 +68,7 @@ export default Ember.Mixin.create({
       if(validation.inclusion.in.indexOf(this.get(property)) === -1){
         if (!Ember.isArray(errors[property])) {errors[property] = [];}
         this.set('isValidNow',false);
-        errors[property].push(['Is not included']);
+        errors[property].push([this.inclusionMessage]);
       }
     }
   },
