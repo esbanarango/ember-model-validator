@@ -1,6 +1,6 @@
 {
   "name": "ember-model-validator",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "ember-cli package, which adds validation support to your Ember-Data models.",
   "directories": {
     "doc": "doc",
