@@ -3,6 +3,7 @@ import Validator from '../mixins/validator';
 
 export default DS.Model.extend(Validator,{
   name: DS.attr('string'),
+  secondName: DS.attr('string'),
   email: DS.attr('string'),
 
   legacyCode: DS.attr('string'),
@@ -14,6 +15,9 @@ export default DS.Model.extend(Validator,{
     name: {
       presence: true,
       inclusion: { in: ['Jose Rene', 'Aristi Gol', 'Armani'] }
+    },
+    secondName: {
+      exclusion: { in: ['Gionvany Hernandez', 'Wilder Medina'] }
     },
     email: {
       presence: true,

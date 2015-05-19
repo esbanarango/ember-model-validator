@@ -4,6 +4,7 @@ export default Ember.Mixin.create({
   // Default messages
   presenceMessage: 'can\`t be blank',
   inclusionMessage: 'is not included in the list',
+  exclusionMessage: 'is reserved',
   numericalityMessage: 'is not a number',
   mailMessage: 'is not a valid email',
   formatMessage: 'is invalid',
@@ -70,6 +71,16 @@ export default Ember.Mixin.create({
     	if (!Ember.isArray(errors[property])) {errors[property] = [];}
       this.set('isValidNow',false);
     	errors[property].push([this.numericalityMessage]);
+    }
+  },
+  _validateExclusion: function(property, validation) {
+    var  errors = this.get('validationErrors');
+    if(validation.exclusion.hasOwnProperty('in')) {
+      if(validation.exclusion.in.indexOf(this.get(property)) !== -1){
+        if (!Ember.isArray(errors[property])) {errors[property] = [];}
+        this.set('isValidNow',false);
+        errors[property].push([this.exclusionMessage]);
+      }
     }
   },
   _validateInclusion: function(property, validation) {

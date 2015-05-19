@@ -60,6 +60,12 @@ describe('ValidatorMixin', function() {
         expect(model.get('errors').errorsFor('name').mapBy('message')[0][0]).to.equal(model.inclusionMessage);
       });
 
+      it('validates the exclusion of the attributes set on `validations.exclusion`', function() {
+        var model = this.subject({secondName:'Wilder Medina'});
+        expect(model.validate()).to.equal(false);
+        expect(model.get('errors').errorsFor('secondName').mapBy('message')[0][0]).to.equal(model.exclusionMessage);
+      });
+
       it('validates the relations specified on `validations.relations`', function() {
       	var model = this.subject({email:'thiisagoo@email.con',name:'Jose Rene Higuita'}),
       			store = model.get('store'),
