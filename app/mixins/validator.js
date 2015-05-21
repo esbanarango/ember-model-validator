@@ -9,6 +9,7 @@ export default Ember.Mixin.create({
   mailMessage: 'is not a valid email',
   formatMessage: 'is invalid',
   colorMessage: 'must be a valid CSS hex color code',
+  subdomainMessage: 'must be a valid CSS hex color code',
 
 	validationErrors: {},
   isValidNow: true,
@@ -76,8 +77,20 @@ export default Ember.Mixin.create({
   },
   _validateColor: function(property, validation) {
     var errors = this.get('validationErrors'),
+        propertyValue = this.get(property),
         message = this._getCustomMessage(validation.color, this.colorMessage);
-    if (!this.get(property) || String(this.get(property)).match(/([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/i) === null){
+    if (!propertyValue || String(propertyValue).match(/([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/i) === null){
+      if (!Ember.isArray(errors[property])) {errors[property] = [];}
+      this.set('isValidNow',false);
+      errors[property].push([message]);
+    }
+  },
+  _validateSubdomain: function(property, validation) {
+    var errors = this.get('validationErrors'),
+        message = this._getCustomMessage(validation.subdomain, this.subdomainMessage),
+        propertyValue = this.get(property),
+        reserved = validation.subdomain.reserved || [];
+    if (!propertyValue || String(propertyValue).match(/^[a-z\d]+([-_][a-z\d]+)*$/i) === null || reserved.indexOf(propertyValue) !== -1){
       if (!Ember.isArray(errors[property])) {errors[property] = [];}
       this.set('isValidNow',false);
       errors[property].push([message]);

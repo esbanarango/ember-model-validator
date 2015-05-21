@@ -12,6 +12,8 @@ export default DS.Model.extend(Validator,{
   lotteryNumber: DS.attr('number'),
   alibabaNumber: DS.attr('number'),
 
+  mySubdomain: DS.attr('number'),
+
   otherFakes: DS.hasMany('other-model'),
 
   validations: {
@@ -32,6 +34,9 @@ export default DS.Model.extend(Validator,{
     email: {
       presence: true,
       email: true
+    },
+    mySubdomain:{
+      subdomain:{ reserved:['admin','blog'], message: 'this subdomain is super invalid' }
     },
     mainstreamCode: {
       format: { with: /^[a-zA-Z]+$/, message: 'nu nu, that\'s not the format' }

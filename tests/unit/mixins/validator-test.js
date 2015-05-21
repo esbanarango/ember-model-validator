@@ -63,6 +63,15 @@ describe('ValidatorMixin', function() {
 	      expect(model.get('errors').errorsFor('lotteryNumber').mapBy('message')[0][0]).to.equal(model.numericalityMessage);
 		  });
 
+      it('validates the subdomain format of the attributes set on `validations.subdomain`', function() {
+        var model = this.subject({subdomain:'with space'}),
+            message = model.validations.mySubdomain.subdomain.message;
+        delete model.validations.mySubdomain.subdomain.message;
+        expect(model.validate()).to.equal(false);
+        expect(model.get('errors').errorsFor('mySubdomain').mapBy('message')[0][0]).to.equal(model.subdomainMessage);
+        model.validations.mySubdomain.subdomain['message'] = message;
+      });
+
       it('validates the inclusion of the attributes set on `validations.inclusion`', function() {
         var model = this.subject({name:'adsfasdf$'}),
             message = model.validations.name.inclusion.message;
@@ -121,6 +130,22 @@ describe('ValidatorMixin', function() {
           });
         });
 
+        it('validates the subdomain format of the attributes set on `validations.subdomain` and use the correct message', function() {
+          var model = this.subject({mySubdomain:'with space'});
+          Ember.run(function() {
+            expect(model.validate()).to.equal(false);
+            expect(model.get('errors').errorsFor('mySubdomain').mapBy('message')[0][0]).to.equal(model.validations.mySubdomain.subdomain.message);
+          });
+        });
+
+        it('validates the subdomain reserved words of the attributes set on `validations.subdomain` and use the correct message', function() {
+          var model = this.subject({mySubdomain:'admin'});
+          Ember.run(function() {
+            expect(model.validate()).to.equal(false);
+            expect(model.get('errors').errorsFor('mySubdomain').mapBy('message')[0][0]).to.equal(model.validations.mySubdomain.subdomain.message);
+          });
+        });
+
         it('validates the format of the attributes set on `validations.format` and use the correct message', function() {
           var model = this.subject({mainstreamCode: 3123123});
           Ember.run(function() {
@@ -165,6 +190,7 @@ describe('ValidatorMixin', function() {
             model.set('bussinessEmail','donJoseRene@higuita.com');
             model.set('mainstreamCode','hiphopBachatudo');
             model.set('favoritColor','423abb');
+            model.set('mySubdomain','fake_subdomain');
 		      	expect(model.validate()).to.equal(true);
 		      });
 			  });
