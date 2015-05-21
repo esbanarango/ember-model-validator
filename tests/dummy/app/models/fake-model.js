@@ -6,7 +6,7 @@ export default DS.Model.extend(Validator,{
   secondName: DS.attr('string'),
   email: DS.attr('string'),
   bussinessEmail: DS.attr('string'),
-
+  favoritColor: DS.attr('string'),
   legacyCode: DS.attr('string'),
   mainstreamCode: DS.attr('string'),
   lotteryNumber: DS.attr('number'),
@@ -25,6 +25,9 @@ export default DS.Model.extend(Validator,{
     bussinessEmail: {
       presence: { message: 'sup dude, where\'s da email' },
       email: { message: 'Be professional ma men' }
+    },
+    favoritColor:{
+      color: { message: 'not a hex color' }
     },
     email: {
       presence: true,

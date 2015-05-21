@@ -8,9 +8,11 @@ export default Ember.Mixin.create({
   numericalityMessage: 'is not a number',
   mailMessage: 'is not a valid email',
   formatMessage: 'is invalid',
+  colorMessage: 'must be a valid CSS hex color code',
 
 	validationErrors: {},
   isValidNow: true,
+
   validate: function() {
     var store = this.get('store'),
     		errors = null,
@@ -22,6 +24,7 @@ export default Ember.Mixin.create({
     this.set('isValidNow',true);
     errors = this.get('validationErrors');
 
+    // Call validators defined on each property
 		for (var property in validations) {
 			for (var validation in validations[property]) {
 				var validationName = (validation.charAt(0).toUpperCase() + validation.slice(1));
@@ -29,6 +32,7 @@ export default Ember.Mixin.create({
 			}
 		}
 
+    // Check if it's valid or not
     if (!this.get('isValidNow')) {
       // It may be invalid because of its relations
       if(Object.keys(errors).length !== 0){
@@ -40,6 +44,8 @@ export default Ember.Mixin.create({
       return true;
     }
   },
+
+  /**** Validators ****/
   _validatePresence: function(property, validation) {
   	var errors = this.get('validationErrors'),
         message = this._getCustomMessage(validation.presence, this.presenceMessage);
@@ -66,6 +72,15 @@ export default Ember.Mixin.create({
     	if (!Ember.isArray(errors[property])) {errors[property] = [];}
       this.set('isValidNow',false);
     	errors[property].push([message]);
+    }
+  },
+  _validateColor: function(property, validation) {
+    var errors = this.get('validationErrors'),
+        message = this._getCustomMessage(validation.color, this.colorMessage);
+    if (!this.get(property) || String(this.get(property)).match(/([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/i) === null){
+      if (!Ember.isArray(errors[property])) {errors[property] = [];}
+      this.set('isValidNow',false);
+      errors[property].push([message]);
     }
   },
   _validateNumericality: function(property, validation) {
@@ -111,6 +126,8 @@ export default Ember.Mixin.create({
       }
     }
   },
+
+  /**** Helpder methods ****/
   _getCustomMessage: function(validationObj,defaultMessage) {
     if (this._isThisAnObject(validationObj) && validationObj.hasOwnProperty('message')) {
       return validationObj.message;

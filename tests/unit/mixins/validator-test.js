@@ -48,6 +48,15 @@ describe('ValidatorMixin', function() {
 	      expect(model.get('errors').errorsFor('email').mapBy('message')[0][0]).to.equal(model.mailMessage);
 		  });
 
+      it('validates the color format of the attributes set on `validations.color`', function() {
+        var model = this.subject({favoritColor:'000XXX'}),
+            message = model.validations.favoritColor.color.message;
+        delete model.validations.favoritColor.color.message;
+        expect(model.validate()).to.equal(false);
+        expect(model.get('errors').errorsFor('favoritColor').mapBy('message')[0][0]).to.equal(model.colorMessage);
+        model.validations.favoritColor.color['message'] = message;
+      });
+
 		  it('validates the numericality of the attributes set on `validations.numericality`', function() {
 	      var model = this.subject({lotteryNumber:'adsfasdf$'});
 	      expect(model.validate()).to.equal(false);
@@ -104,6 +113,14 @@ describe('ValidatorMixin', function() {
           });
         });
 
+        it('validates the color format of the attributes set on `validations.color` and use the correct message', function() {
+          var model = this.subject({favoritColor:'adsfasdf$'});
+          Ember.run(function() {
+            expect(model.validate()).to.equal(false);
+            expect(model.get('errors').errorsFor('favoritColor').mapBy('message')[0][0]).to.equal(model.validations.favoritColor.color.message);
+          });
+        });
+
         it('validates the format of the attributes set on `validations.format` and use the correct message', function() {
           var model = this.subject({mainstreamCode: 3123123});
           Ember.run(function() {
@@ -147,6 +164,7 @@ describe('ValidatorMixin', function() {
 		      	model.set('email','rene@higuita.com');
             model.set('bussinessEmail','donJoseRene@higuita.com');
             model.set('mainstreamCode','hiphopBachatudo');
+            model.set('favoritColor','423abb');
 		      	expect(model.validate()).to.equal(true);
 		      });
 			  });
