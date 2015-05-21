@@ -131,11 +131,11 @@ This validator will run the `validate()` function for the specific relation. If 
 
 
 ## Usage Example
-__Ember-model-validator__ provides a mixin to be included in your models for adding validation support. This mixin can be imported from your app's namespace (e.g. ../mixins/validator in your models):
+__Ember-model-validator__ provides a mixin to be included in your models for adding validation support. This mixin can be imported from your app's namespace (e.g. ../mixins/model-validator in your models):
 
 ````js
 import DS from 'ember-data';
-import Validator from '../mixins/validator';
+import Validator from '../mixins/model-validator';
 
 export default DS.Model.extend(Validator,{
   name: DS.attr('string'),

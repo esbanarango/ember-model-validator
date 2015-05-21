@@ -6,12 +6,12 @@ import {
   it
 } from 'mocha';
 import Ember from 'ember';
-import ValidatorMixin from '../../../mixins/validator';
+import ModelValidatorMixin from '../../../mixins/model-validator';
 
-describe('ValidatorMixin', function() {
+describe('ModelValidatorMixin', function() {
   // Replace this with your real tests.
   it('works', function() {
-    var ValidatorObject = Ember.Object.extend(ValidatorMixin);
+    var ValidatorObject = Ember.Object.extend(ModelValidatorMixin);
     var subject = ValidatorObject.create();
     expect(subject).to.be.ok;
   });
