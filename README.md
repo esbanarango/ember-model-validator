@@ -119,7 +119,7 @@ The value has to have only numeric values.
 
 ### Relations
 This validator will run the `validate()` function for the specific relation. If it's a `DS.hasMany` relation then it will loop throught all.
-> Note: The relations __have__ to be [`embedded`](http://emberjs.com/api/data/classes/DS.EmbeddedRecordsMixin.html).
+> Note: The relations __have__ to be [`embedded`](http://emberjs.com/api/data/classes/DS.EmbeddedRecordsMixin.html) or the promise has to be already resolved.
 
 ````js
   validations: {
