@@ -16,8 +16,6 @@ Install __Ember-model-validator__ is easy as:
 
 ## Validators
 
-> All of validators accept the message: option, which will overwrite the default messages.
-
 - [Presence](#presence)
 - [Format](#format)
 - [Email](#email)
@@ -28,6 +26,11 @@ Install __Ember-model-validator__ is easy as:
 - [Numericality](#numericality)
 - ___[Relations](#relations)___
 
+##### Common options
+
+All validators accept the following options
+  - `message` _option_. Overwrites the default message.
+  - `errorAs` _option_. Sets the _key_ name to be used when adding errors (default to property name).
 
 ### Presence
 A value is not present if it is empty or a whitespace string. It uses [Ember.isBlank](http://emberjs.com/api/#method_isBlank) method.
@@ -154,7 +157,7 @@ export default DS.Model.extend(Validator,{
 
   validations: {
     name: {
-      presence: true,
+      presence: { errorAs:'profile.name' },
       inclusion: { in: ['Jose Rene', 'Aristi Gol', 'Armani'], message: 'Solo verde a morir' }
     },
     secondName: {
