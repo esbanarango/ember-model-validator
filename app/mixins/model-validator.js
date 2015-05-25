@@ -48,82 +48,58 @@ export default Ember.Mixin.create({
 
   /**** Validators ****/
   _validatePresence: function(property, validation) {
-  	var errors = this.get('validationErrors'),
-        message = this._getCustomMessage(validation.presence, this.presenceMessage);
     if (Ember.isBlank(this.get(property))){
-    	if (!Ember.isArray(errors[property])) {errors[property] = [];}
       this.set('isValidNow',false);
-    	errors[property].push([message]);
+      this._addToErrors(property, validation.presence, this.presenceMessage);
     }
   },
   _validateFormat: function(property, validation) {
-    var errors = this.get('validationErrors'),
-        message = this._getCustomMessage(validation.format, this.formatMessage),
-        withRegexp = validation.format.with;
+    var withRegexp = validation.format.with;
     if (!this.get(property) || String(this.get(property)).match(withRegexp) === null){
-      if (!Ember.isArray(errors[property])) {errors[property] = [];}
       this.set('isValidNow',false);
-      errors[property].push([message]);
+      this._addToErrors(property, validation.format, this.formatMessage);
     }
   },
   _validateEmail: function(property, validation) {
-  	var errors = this.get('validationErrors'),
-        message = this._getCustomMessage(validation.email, this.mailMessage);
     if (!this.get(property) || String(this.get(property)).match(/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i) === null){
-    	if (!Ember.isArray(errors[property])) {errors[property] = [];}
       this.set('isValidNow',false);
-    	errors[property].push([message]);
+      this._addToErrors(property, validation.email, this.mailMessage);
     }
   },
   _validateColor: function(property, validation) {
-    var errors = this.get('validationErrors'),
-        propertyValue = this.get(property),
-        message = this._getCustomMessage(validation.color, this.colorMessage);
+    var propertyValue = this.get(property);
     if (!propertyValue || String(propertyValue).match(/([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/i) === null){
-      if (!Ember.isArray(errors[property])) {errors[property] = [];}
       this.set('isValidNow',false);
-      errors[property].push([message]);
+      this._addToErrors(property, validation.color, this.colorMessage);
     }
   },
   _validateSubdomain: function(property, validation) {
-    var errors = this.get('validationErrors'),
-        message = this._getCustomMessage(validation.subdomain, this.subdomainMessage),
-        propertyValue = this.get(property),
+    var propertyValue = this.get(property),
         reserved = validation.subdomain.reserved || [];
     if (!propertyValue || String(propertyValue).match(/^[a-z\d]+([-_][a-z\d]+)*$/i) === null || reserved.indexOf(propertyValue) !== -1){
-      if (!Ember.isArray(errors[property])) {errors[property] = [];}
       this.set('isValidNow',false);
-      errors[property].push([message]);
+      this._addToErrors(property, validation.subdomain, this.subdomainMessage);
     }
   },
   _validateNumericality: function(property, validation) {
-  	var errors = this.get('validationErrors'),
-        message = this._getCustomMessage(validation.numericality, this.numericalityMessage);
     if (!this._isNumber(this.get(property))){
-    	if (!Ember.isArray(errors[property])) {errors[property] = [];}
       this.set('isValidNow',false);
-    	errors[property].push([message]);
+    	this._addToErrors(property, validation.numericality, this.numericalityMessage);
     }
   },
   _validateExclusion: function(property, validation) {
-    var errors = this.get('validationErrors'),
-        message = this._getCustomMessage(validation.exclusion, this.exclusionMessage);
     if(validation.exclusion.hasOwnProperty('in')) {
       if(validation.exclusion.in.indexOf(this.get(property)) !== -1){
-        if (!Ember.isArray(errors[property])) {errors[property] = [];}
         this.set('isValidNow',false);
-        errors[property].push([message]);
+        this._addToErrors(property, validation.exclusion, this.exclusionMessage);
       }
     }
   },
   _validateInclusion: function(property, validation) {
-    var errors = this.get('validationErrors'),
-        message = this._getCustomMessage(validation.inclusion, this.inclusionMessage);
     if(validation.inclusion.hasOwnProperty('in')) {
       if(validation.inclusion.in.indexOf(this.get(property)) === -1){
-        if (!Ember.isArray(errors[property])) {errors[property] = [];}
         this.set('isValidNow',false);
-        errors[property].push([message]);
+        this._addToErrors(property, validation.inclusion, this.inclusionMessage);
       }
     }
   },
@@ -147,6 +123,12 @@ export default Ember.Mixin.create({
     }else{
       return defaultMessage;
     }
+  },
+  _addToErrors: function(property, validation, defaultMessage) {
+    var errors = this.get('validationErrors'),
+        message = this._getCustomMessage(validation, defaultMessage);
+    if (!Ember.isArray(errors[property])) {errors[property] = [];}
+    errors[property].push([message]);
   },
 	_isNumber: function (n) {
   	return !isNaN(parseFloat(n)) && isFinite(n);
