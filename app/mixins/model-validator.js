@@ -126,9 +126,10 @@ export default Ember.Mixin.create({
   },
   _addToErrors: function(property, validation, defaultMessage) {
     var errors = this.get('validationErrors'),
-        message = this._getCustomMessage(validation, defaultMessage);
-    if (!Ember.isArray(errors[property])) {errors[property] = [];}
-    errors[property].push([message]);
+        message = this._getCustomMessage(validation, defaultMessage),
+        errorAs =  validation.errorAs || property;
+    if (!Ember.isArray(errors[errorAs])) {errors[errorAs] = [];}
+    errors[errorAs].push([message]);
   },
 	_isNumber: function (n) {
   	return !isNaN(parseFloat(n)) && isFinite(n);

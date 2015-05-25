@@ -18,7 +18,7 @@ export default DS.Model.extend(Validator,{
 
   validations: {
     name: {
-      presence: true,
+      presence: { errorAs:'profile.name' },
       inclusion: { in: ['Jose Rene', 'Aristi Gol', 'Armani'], message: 'Solo verde a morir' }
     },
     secondName: {

@@ -30,10 +30,13 @@ describe('ModelValidatorMixin', function() {
 	    });
 
 		  it('validates the presence of the attributes set on `validations.presence`', function() {
-	      var model = this.subject();
+	      var model = this.subject(),
+            errorAs = model.validations.name.presence.errorAs;
+        delete model.validations.name.presence.errorAs;
 	      expect(model.validate()).to.equal(false);
 	      expect(model.get('errors').errorsFor('email').mapBy('message')[0][0]).to.equal(model.presenceMessage);
 	      expect(model.get('errors').errorsFor('name').mapBy('message')[0][0]).to.equal(model.presenceMessage);
+        model.validations.name.presence['errorAs'] = errorAs;
 		  });
 
       it('validates the format of the attributes set on `validations.format`', function() {
@@ -175,6 +178,19 @@ describe('ModelValidatorMixin', function() {
           Ember.run(function() {
             expect(model.validate()).to.equal(false);
             expect(model.get('errors').errorsFor('alibabaNumber').mapBy('message')[0][0]).to.equal(model.validations.alibabaNumber.numericality.message);
+          });
+        });
+
+      });
+
+      describe('when errorAs is set', function() {
+
+        it('validates the presence of the attributes set on `validations.presence` and add errors to `errorAs`', function() {
+          var model = this.subject(),
+              errorAs = model.validations.name.presence.errorAs;
+          Ember.run(function() {
+            expect(model.validate()).to.equal(false);
+            expect(model.get('errors').errorsFor(errorAs).mapBy('message')[0][0]).to.equal(model.presenceMessage);
           });
         });
 
