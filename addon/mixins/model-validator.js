@@ -1,15 +1,7 @@
 import Ember from 'ember';
+import Messages from 'ember-model-validator/messages';
 
 export default Ember.Mixin.create({
-  // Default messages
-  presenceMessage: 'can\`t be blank',
-  inclusionMessage: 'is not included in the list',
-  exclusionMessage: 'is reserved',
-  numericalityMessage: 'is not a number',
-  mailMessage: 'is not a valid email',
-  formatMessage: 'is invalid',
-  colorMessage: 'must be a valid CSS hex color code',
-  subdomainMessage: 'must be a valid CSS hex color code',
 
 	validationErrors: {},
   isValidNow: true,
@@ -50,27 +42,27 @@ export default Ember.Mixin.create({
   _validatePresence: function(property, validation) {
     if (Ember.isBlank(this.get(property))){
       this.set('isValidNow',false);
-      this._addToErrors(property, validation.presence, this.presenceMessage);
+      this._addToErrors(property, validation.presence, Messages.presenceMessage);
     }
   },
   _validateFormat: function(property, validation) {
     var withRegexp = validation.format.with;
     if (!this.get(property) || String(this.get(property)).match(withRegexp) === null){
       this.set('isValidNow',false);
-      this._addToErrors(property, validation.format, this.formatMessage);
+      this._addToErrors(property, validation.format, Messages.formatMessage);
     }
   },
   _validateEmail: function(property, validation) {
     if (!this.get(property) || String(this.get(property)).match(/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i) === null){
       this.set('isValidNow',false);
-      this._addToErrors(property, validation.email, this.mailMessage);
+      this._addToErrors(property, validation.email, Messages.mailMessage);
     }
   },
   _validateColor: function(property, validation) {
     var propertyValue = this.get(property);
     if (!propertyValue || String(propertyValue).match(/([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/i) === null){
       this.set('isValidNow',false);
-      this._addToErrors(property, validation.color, this.colorMessage);
+      this._addToErrors(property, validation.color, Messages.colorMessage);
     }
   },
   _validateSubdomain: function(property, validation) {
@@ -78,20 +70,20 @@ export default Ember.Mixin.create({
         reserved = validation.subdomain.reserved || [];
     if (!propertyValue || String(propertyValue).match(/^[a-z\d]+([-_][a-z\d]+)*$/i) === null || reserved.indexOf(propertyValue) !== -1){
       this.set('isValidNow',false);
-      this._addToErrors(property, validation.subdomain, this.subdomainMessage);
+      this._addToErrors(property, validation.subdomain, Messages.subdomainMessage);
     }
   },
   _validateNumericality: function(property, validation) {
     if (!this._isNumber(this.get(property))){
       this.set('isValidNow',false);
-    	this._addToErrors(property, validation.numericality, this.numericalityMessage);
+    	this._addToErrors(property, validation.numericality, Messages.numericalityMessage);
     }
   },
   _validateExclusion: function(property, validation) {
     if(validation.exclusion.hasOwnProperty('in')) {
       if(validation.exclusion.in.indexOf(this.get(property)) !== -1){
         this.set('isValidNow',false);
-        this._addToErrors(property, validation.exclusion, this.exclusionMessage);
+        this._addToErrors(property, validation.exclusion, Messages.exclusionMessage);
       }
     }
   },
@@ -99,7 +91,7 @@ export default Ember.Mixin.create({
     if(validation.inclusion.hasOwnProperty('in')) {
       if(validation.inclusion.in.indexOf(this.get(property)) === -1){
         this.set('isValidNow',false);
-        this._addToErrors(property, validation.inclusion, this.inclusionMessage);
+        this._addToErrors(property, validation.inclusion, Messages.inclusionMessage);
       }
     }
   },

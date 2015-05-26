@@ -7,6 +7,7 @@ import {
 } from 'mocha';
 import Ember from 'ember';
 import ModelValidatorMixin from '../../../mixins/model-validator';
+import Messages from 'ember-model-validator/messages';
 
 describe('ModelValidatorMixin', function() {
   // Replace this with your real tests.
@@ -34,21 +35,21 @@ describe('ModelValidatorMixin', function() {
             errorAs = model.validations.name.presence.errorAs;
         delete model.validations.name.presence.errorAs;
 	      expect(model.validate()).to.equal(false);
-	      expect(model.get('errors').errorsFor('email').mapBy('message')[0][0]).to.equal(model.presenceMessage);
-	      expect(model.get('errors').errorsFor('name').mapBy('message')[0][0]).to.equal(model.presenceMessage);
+	      expect(model.get('errors').errorsFor('email').mapBy('message')[0][0]).to.equal(Messages.presenceMessage);
+	      expect(model.get('errors').errorsFor('name').mapBy('message')[0][0]).to.equal(Messages.presenceMessage);
         model.validations.name.presence['errorAs'] = errorAs;
 		  });
 
       it('validates the format of the attributes set on `validations.format`', function() {
         var model = this.subject({legacyCode: 3123123});
         expect(model.validate()).to.equal(false);
-        expect(model.get('errors').errorsFor('legacyCode').mapBy('message')[0][0]).to.equal(model.formatMessage);
+        expect(model.get('errors').errorsFor('legacyCode').mapBy('message')[0][0]).to.equal(Messages.formatMessage);
       });
 
 		  it('validates the email format of the attributes set on `validations.email`', function() {
 	      var model = this.subject({email:'adsfasdf$'});
 	      expect(model.validate()).to.equal(false);
-	      expect(model.get('errors').errorsFor('email').mapBy('message')[0][0]).to.equal(model.mailMessage);
+	      expect(model.get('errors').errorsFor('email').mapBy('message')[0][0]).to.equal(Messages.mailMessage);
 		  });
 
       it('validates the color format of the attributes set on `validations.color`', function() {
@@ -56,14 +57,14 @@ describe('ModelValidatorMixin', function() {
             message = model.validations.favoritColor.color.message;
         delete model.validations.favoritColor.color.message;
         expect(model.validate()).to.equal(false);
-        expect(model.get('errors').errorsFor('favoritColor').mapBy('message')[0][0]).to.equal(model.colorMessage);
+        expect(model.get('errors').errorsFor('favoritColor').mapBy('message')[0][0]).to.equal(Messages.colorMessage);
         model.validations.favoritColor.color['message'] = message;
       });
 
 		  it('validates the numericality of the attributes set on `validations.numericality`', function() {
 	      var model = this.subject({lotteryNumber:'adsfasdf$'});
 	      expect(model.validate()).to.equal(false);
-	      expect(model.get('errors').errorsFor('lotteryNumber').mapBy('message')[0][0]).to.equal(model.numericalityMessage);
+	      expect(model.get('errors').errorsFor('lotteryNumber').mapBy('message')[0][0]).to.equal(Messages.numericalityMessage);
 		  });
 
       it('validates the subdomain format of the attributes set on `validations.subdomain`', function() {
@@ -71,7 +72,7 @@ describe('ModelValidatorMixin', function() {
             message = model.validations.mySubdomain.subdomain.message;
         delete model.validations.mySubdomain.subdomain.message;
         expect(model.validate()).to.equal(false);
-        expect(model.get('errors').errorsFor('mySubdomain').mapBy('message')[0][0]).to.equal(model.subdomainMessage);
+        expect(model.get('errors').errorsFor('mySubdomain').mapBy('message')[0][0]).to.equal(Messages.subdomainMessage);
         model.validations.mySubdomain.subdomain['message'] = message;
       });
 
@@ -80,7 +81,7 @@ describe('ModelValidatorMixin', function() {
             message = model.validations.name.inclusion.message;
         delete model.validations.name.inclusion.message;
         expect(model.validate()).to.equal(false);
-        expect(model.get('errors').errorsFor('name').mapBy('message')[0][0]).to.equal(model.inclusionMessage);
+        expect(model.get('errors').errorsFor('name').mapBy('message')[0][0]).to.equal(Messages.inclusionMessage);
         model.validations.name.inclusion['message'] = message;
       });
 
@@ -89,7 +90,7 @@ describe('ModelValidatorMixin', function() {
             message = model.validations.secondName.exclusion.message;
         delete model.validations.secondName.exclusion.message;
         expect(model.validate()).to.equal(false);
-        expect(model.get('errors').errorsFor('secondName').mapBy('message')[0][0]).to.equal(model.exclusionMessage);
+        expect(model.get('errors').errorsFor('secondName').mapBy('message')[0][0]).to.equal(Messages.exclusionMessage);
         model.validations.secondName.exclusion['message'] = message;
       });
 
@@ -190,7 +191,7 @@ describe('ModelValidatorMixin', function() {
               errorAs = model.validations.name.presence.errorAs;
           Ember.run(function() {
             expect(model.validate()).to.equal(false);
-            expect(model.get('errors').errorsFor(errorAs).mapBy('message')[0][0]).to.equal(model.presenceMessage);
+            expect(model.get('errors').errorsFor(errorAs).mapBy('message')[0][0]).to.equal(Messages.presenceMessage);
           });
         });
 
