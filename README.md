@@ -17,6 +17,7 @@ Install __Ember-model-validator__ is easy as:
 ## Validators
 
 - [Presence](#presence)
+- [Absence](#absence)
 - [Format](#format)
 - [Email](#email)
 - [Color](#hex-color)
@@ -39,6 +40,17 @@ A value is not present if it is empty or a whitespace string. It uses [Ember.isB
   validations: {
     name: {
       presence: true
+    }
+  }
+````
+
+### Absence
+Validates that the specified attributes are absent. It uses [Ember.isPresent](http://emberjs.com/api/#method_isPresent) method.
+
+````js
+  validations: {
+    login: {
+      absence: true
     }
   }
 ````
