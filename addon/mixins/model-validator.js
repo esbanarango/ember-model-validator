@@ -45,6 +45,12 @@ export default Ember.Mixin.create({
       this._addToErrors(property, validation.presence, Messages.presenceMessage);
     }
   },
+  _validateAbsence: function(property, validation) {
+    if (Ember.isPresent(this.get(property))){
+      this.set('isValidNow',false);
+      this._addToErrors(property, validation.absence, Messages.absenceMessage);
+    }
+  },
   _validateFormat: function(property, validation) {
     var withRegexp = validation.format.with;
     if (!this.get(property) || String(this.get(property)).match(withRegexp) === null){

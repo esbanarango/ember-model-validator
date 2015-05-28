@@ -46,6 +46,12 @@ describe('ModelValidatorMixin', function() {
         expect(model.get('errors').errorsFor('legacyCode').mapBy('message')[0][0]).to.equal(Messages.formatMessage);
       });
 
+      it('validates the absence of the attributes set on `validations.absence`', function() {
+        var model = this.subject({login: 'asdasd'});
+        expect(model.validate()).to.equal(false);
+        expect(model.get('errors').errorsFor('login').mapBy('message')[0][0]).to.equal(Messages.absenceMessage);
+      });
+
 		  it('validates the email format of the attributes set on `validations.email`', function() {
 	      var model = this.subject({email:'adsfasdf$'});
 	      expect(model.validate()).to.equal(false);

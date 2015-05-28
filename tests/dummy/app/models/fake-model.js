@@ -3,6 +3,7 @@ import Validator from '../mixins/model-validator';
 
 export default DS.Model.extend(Validator,{
   name: DS.attr('string'),
+  login: DS.attr('string'),
   secondName: DS.attr('string'),
   email: DS.attr('string'),
   bussinessEmail: DS.attr('string'),
@@ -20,6 +21,9 @@ export default DS.Model.extend(Validator,{
     name: {
       presence: { errorAs:'profile.name' },
       inclusion: { in: ['Jose Rene', 'Aristi Gol', 'Armani'], message: 'Solo verde a morir' }
+    },
+    login: {
+      absence: true
     },
     secondName: {
       exclusion: { in: ['Gionvany Hernandez', 'Wilder Medina'], message: 'Que iNrresponsabilidad' }
