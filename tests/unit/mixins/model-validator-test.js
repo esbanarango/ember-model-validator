@@ -46,6 +46,12 @@ describe('ModelValidatorMixin', function() {
         expect(model.get('errors').errorsFor('legacyCode').mapBy('message')[0][0]).to.equal(Messages.formatMessage);
       });
 
+      it('validates the acceptance of the attributes set on `validations.acceptance`', function() {
+        var model = this.subject({acceptConditions: 0});
+        expect(model.validate()).to.equal(false);
+        expect(model.get('errors').errorsFor('acceptConditions').mapBy('message')[0][0]).to.equal(Messages.acceptanceMessage);
+      });
+
       it('validates the absence of the attributes set on `validations.absence`', function() {
         var model = this.subject({login: 'asdasd'});
         expect(model.validate()).to.equal(false);
@@ -113,26 +119,15 @@ describe('ModelValidatorMixin', function() {
         });
 
       });
+      describe('Acceptance validator', function() {
 
-      it('validates acceptance of the attributes set on `validations.acceptance`', function(){
-        var model = this.subject({ acceptConditions: true});
-        Ember.run(function(){
-          expect(model.validate({only:['acceptConditions']})).to.equal(true);
+        it('returns false when the attribute value is not in the list of acceptable values', function(){
+          var model = this.subject({ acceptConditions: 10});
+          Ember.run(function(){
+            expect(model.validate({only:['acceptConditions']})).to.equal(false);
+          });
         });
-      });
 
-      it('if attribute value is not acceptable validate method should return false', function(){
-        var model = this.subject({ acceptConditions: 'yes'});
-        Ember.run(function(){
-          expect(model.validate({only:['acceptConditions']})).to.equal(false);
-        });
-      });
-
-      it('if attribute value is not in the list of acceptable values, validate method should return false', function(){
-        var model = this.subject({ acceptConditions: 1});
-        Ember.run(function(){
-          expect(model.validate({only:['acceptConditions']})).to.equal(false);
-        });
       });
 
       describe('when custom message is set', function() {

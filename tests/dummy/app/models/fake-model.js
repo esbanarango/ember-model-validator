@@ -56,9 +56,8 @@ export default DS.Model.extend(Validator,{
       numericality: true
     },
     acceptConditions: {
-      acceptance: { accept: [true] }
+      acceptance: true
     },
-
     otherFakes:{
       relations: ['hasMany']
     }

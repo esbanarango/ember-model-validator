@@ -57,6 +57,14 @@ export default Ember.Mixin.create({
       this._addToErrors(property, validation.absence, Messages.absenceMessage);
     }
   },
+  _validateAcceptance: function(property,validation){
+    var propertyValue = this.get(property),
+        accept =  validation.acceptance.accept || [1,'1', true];
+    if(!Ember.A(accept).contains(propertyValue)){
+      this.set('isValidNow',false);
+      this._addToErrors(property, validation.acceptance, Messages.acceptanceMessage);
+    }
+  },
   _validateFormat: function(property, validation) {
     var withRegexp = validation.format.with;
     if (!this.get(property) || String(this.get(property)).match(withRegexp) === null){
@@ -117,16 +125,6 @@ export default Ember.Mixin.create({
           }
         });
       }
-    }
-  },
-
-  _validateAcceptance: function(property,validation){
-    var propertyValue = this.get(property) , 
-      accept =  validation.acceptance.accept || [1,'1', true];
-
-    if( ! Ember.A(accept).contains(propertyValue)){
-      this.set('isValidNow',false);
-      this._addToErrors(property, validation.acceptance, Messages.acceptanceMessage);
     }
   },
 
