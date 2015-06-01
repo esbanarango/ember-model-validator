@@ -7,5 +7,6 @@ export default {
   mailMessage: 'is not a valid email',
   formatMessage: 'is invalid',
   colorMessage: 'must be a valid CSS hex color code',
-  subdomainMessage: 'must be a valid CSS hex color code'
+  subdomainMessage: 'must be a valid CSS hex color code',
+  acceptanceMessage: 'must accept the conditions'
 };

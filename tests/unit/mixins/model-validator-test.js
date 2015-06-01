@@ -187,7 +187,6 @@ describe('ModelValidatorMixin', function() {
             expect(model.get('errors').errorsFor('alibabaNumber').mapBy('message')[0][0]).to.equal(model.validations.alibabaNumber.numericality.message);
           });
         });
-
       });
 
       describe('when errorAs is set', function() {
