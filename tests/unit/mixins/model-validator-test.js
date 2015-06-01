@@ -220,6 +220,36 @@ describe('ModelValidatorMixin', function() {
 
 			});
 
+
+      describe('when except is passed to `validate`', function() {
+
+        it('it validates all the attributes except the ones specifed', function() {
+          var model = this.subject({email:'adsfasdf$',name:'Jose Rene',lotteryNumber:124,alibabaNumber:33,legacyCode:'abc'});
+          Ember.run(function() {
+            expect(model.validate()).to.equal(false);
+            model.set('bussinessEmail','donJoseRene@higuita.com');
+            model.set('mainstreamCode','hiphopBachatudo');
+            model.set('favoritColor','423abb');
+            model.set('mySubdomain','fake_subdomain');
+            expect(model.validate({except:['email']})).to.equal(true);
+          });
+        });
+
+      });
+
+      describe('when only is passed to `validate`', function() {
+
+        it('it validates only the attributes specifed', function() {
+          var model = this.subject({email:'adsfasdf$',name:'Jose Rene',lotteryNumber:124,alibabaNumber:33,legacyCode:'abc'});
+          Ember.run(function() {
+            expect(model.validate()).to.equal(false);
+            model.set('email','rene@higuita.com');
+            expect(model.validate({only:['email']})).to.equal(true);
+          });
+        });
+
+      });
+
 	  }
 	);
 

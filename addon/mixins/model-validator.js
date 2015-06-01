@@ -6,10 +6,14 @@ export default Ember.Mixin.create({
 	validationErrors: {},
   isValidNow: true,
 
-  validate: function() {
+  validate: function(options) {
     var store = this.get('store'),
     		errors = null,
     		validations = this.get('validations');
+
+    if (options == null) {
+      options = {};
+    }
 
   	// Clean all the current errors
     this.get('errors').clear();
@@ -20,8 +24,10 @@ export default Ember.Mixin.create({
     // Call validators defined on each property
 		for (var property in validations) {
 			for (var validation in validations[property]) {
-				var validationName = (validation.charAt(0).toUpperCase() + validation.slice(1));
-				this[`_validate${validationName}`](property, validations[property]);
+        if (this._exceptOrOnly(property,options)) {
+          var validationName = (validation.charAt(0).toUpperCase() + validation.slice(1));
+          this[`_validate${validationName}`](property, validations[property]);
+        }
 			}
 		}
 
@@ -115,6 +121,12 @@ export default Ember.Mixin.create({
   },
 
   /**** Helpder methods ****/
+  _exceptOrOnly: function(property, options) {
+    var validateThis = true;
+    if(options.hasOwnProperty('except') && options.except.indexOf(property) !== -1){ validateThis = false; }
+    if(options.hasOwnProperty('only') && options.only.indexOf(property) === -1){ validateThis = false; }
+    return validateThis;
+  },
   _getCustomMessage: function(validationObj,defaultMessage) {
     if (this._isThisAnObject(validationObj) && validationObj.hasOwnProperty('message')) {
       return validationObj.message;
