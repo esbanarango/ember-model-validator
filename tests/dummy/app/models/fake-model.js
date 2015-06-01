@@ -12,6 +12,7 @@ export default DS.Model.extend(Validator,{
   mainstreamCode: DS.attr('string'),
   lotteryNumber: DS.attr('number'),
   alibabaNumber: DS.attr('number'),
+  acceptConditions: DS.attr('boolean'),
 
   mySubdomain: DS.attr('number'),
 
@@ -54,6 +55,10 @@ export default DS.Model.extend(Validator,{
     lotteryNumber: {
       numericality: true
     },
+    acceptConditions: {
+      acceptance: { accept: [true] }
+    },
+
     otherFakes:{
       relations: ['hasMany']
     }

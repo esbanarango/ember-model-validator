@@ -120,6 +120,16 @@ export default Ember.Mixin.create({
     }
   },
 
+  _validateAcceptance: function(property,validation){
+    var propertyValue = this.get(property) , 
+      accept =  validation.acceptance.accept || [1,'1', true];
+
+    if( ! Ember.A(accept).contains(propertyValue)){
+      this.set('isValidNow',false);
+      this._addToErrors(property, validation.acceptance, Messages.acceptanceMessage);
+    }
+  },
+
   /**** Helpder methods ****/
   _exceptOrOnly: function(property, options) {
     var validateThis = true;

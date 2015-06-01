@@ -114,6 +114,27 @@ describe('ModelValidatorMixin', function() {
 
       });
 
+      it('validates acceptance of the attributes set on `validations.acceptance`', function(){
+        var model = this.subject({ acceptConditions: true});
+        Ember.run(function(){
+          expect(model.validate({only:['acceptConditions']})).to.equal(true);
+        });
+      });
+
+      it('if attribute value is not acceptable validate method should return false', function(){
+        var model = this.subject({ acceptConditions: 'yes'});
+        Ember.run(function(){
+          expect(model.validate({only:['acceptConditions']})).to.equal(false);
+        });
+      });
+
+      it('if attribute value is not in the list of acceptable values, validate method should return false', function(){
+        var model = this.subject({ acceptConditions: 1});
+        Ember.run(function(){
+          expect(model.validate({only:['acceptConditions']})).to.equal(false);
+        });
+      });
+
       describe('when custom message is set', function() {
 
         it('validates the presence of the attributes set on `validations.presence` and use the correct message', function() {
@@ -187,7 +208,6 @@ describe('ModelValidatorMixin', function() {
             expect(model.get('errors').errorsFor('alibabaNumber').mapBy('message')[0][0]).to.equal(model.validations.alibabaNumber.numericality.message);
           });
         });
-
       });
 
       describe('when errorAs is set', function() {
@@ -206,7 +226,7 @@ describe('ModelValidatorMixin', function() {
 			describe('when data is corrected after validation', function() {
 
 			  it('it clean the errors', function() {
-		      var model = this.subject({email:'adsfasdf$',name:'Jose Rene',lotteryNumber:124,alibabaNumber:33,legacyCode:'abc'});
+		      var model = this.subject({email:'adsfasdf$',name:'Jose Rene',lotteryNumber:124,alibabaNumber:33,legacyCode:'abc', acceptConditions: 1});
 		      Ember.run(function() {
 		      	expect(model.validate()).to.equal(false);
 		      	model.set('email','rene@higuita.com');
@@ -214,6 +234,7 @@ describe('ModelValidatorMixin', function() {
             model.set('mainstreamCode','hiphopBachatudo');
             model.set('favoritColor','423abb');
             model.set('mySubdomain','fake_subdomain');
+            model.set('acceptConditions', true);
 		      	expect(model.validate()).to.equal(true);
 		      });
 			  });
@@ -224,13 +245,14 @@ describe('ModelValidatorMixin', function() {
       describe('when except is passed to `validate`', function() {
 
         it('it validates all the attributes except the ones specifed', function() {
-          var model = this.subject({email:'adsfasdf$',name:'Jose Rene',lotteryNumber:124,alibabaNumber:33,legacyCode:'abc'});
+          var model = this.subject({email:'adsfasdf$',name:'Jose Rene',lotteryNumber:124,alibabaNumber:33,legacyCode:'abc', acceptConditions: 1});
           Ember.run(function() {
             expect(model.validate()).to.equal(false);
             model.set('bussinessEmail','donJoseRene@higuita.com');
             model.set('mainstreamCode','hiphopBachatudo');
             model.set('favoritColor','423abb');
             model.set('mySubdomain','fake_subdomain');
+            model.set('acceptConditions', true);
             expect(model.validate({except:['email']})).to.equal(true);
           });
         });
