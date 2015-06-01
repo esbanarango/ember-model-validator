@@ -122,6 +122,13 @@ describe('ModelValidatorMixin', function() {
       });
 
       it('if attribute value is not acceptable validate method should return false', function(){
+        var model = this.subject({ acceptConditions: 'yes'});
+        Ember.run(function(){
+          expect(model.validate({only:['acceptConditions']})).to.equal(false);
+        });
+      });
+
+      it('if attribute value is not in the list of acceptable values, validate method should return false', function(){
         var model = this.subject({ acceptConditions: 1});
         Ember.run(function(){
           expect(model.validate({only:['acceptConditions']})).to.equal(false);

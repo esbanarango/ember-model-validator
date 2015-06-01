@@ -56,7 +56,7 @@ export default DS.Model.extend(Validator,{
       numericality: true
     },
     acceptConditions: {
-      acceptance: { acceptableValues: [true] }
+      acceptance: { accept: [true] }
     },
 
     otherFakes:{

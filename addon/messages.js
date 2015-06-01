@@ -8,5 +8,5 @@ export default {
   formatMessage: 'is invalid',
   colorMessage: 'must be a valid CSS hex color code',
   subdomainMessage: 'must be a valid CSS hex color code',
-  acceptanceMessage: 'must accept the conditions'
+  acceptanceMessage: 'must be accepted'
 };
