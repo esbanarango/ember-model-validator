@@ -121,8 +121,9 @@ export default Ember.Mixin.create({
   },
 
   _validateAcceptance: function(property,validation){
-    var propertyValue = this.get(property);
-    var acceptableValues = Ember.isEmpty(validation.acceptance.acceptableValues) ? [1,'1', true] : validation.acceptance.acceptableValues;
+    var propertyValue = this.get(property) , 
+      acceptableValues =  validation.acceptance.acceptableValues || [1,'1', true];
+
     if( ! Ember.A(acceptableValues).contains(propertyValue)){
       this.set('isValidNow',false);
       this._addToErrors(property, validation.acceptance, Messages.acceptanceMessage);
