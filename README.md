@@ -17,6 +17,7 @@ Install __Ember-model-validator__ is easy as:
 ## Validators
 
 - [Presence](#presence)
+- [Acceptance](#acceptance)
 - [Absence](#absence)
 - [Format](#format)
 - [Email](#email)
@@ -43,6 +44,18 @@ A value is not present if it is empty or a whitespace string. It uses [Ember.isB
     }
   }
 ````
+
+### Acceptance
+These values: `['1', 1, true]` are the acceptable values. But you can specify yours with the `accept` option.
+
+````js
+  validations: {
+    acceptConditions: {
+      acceptance: {accept: 'yes'}
+    }
+  }
+````
+> The `accept` option receives either a string or an array of acceptable values.
 
 ### Absence
 Validates that the specified attributes are absent. It uses [Ember.isPresent](http://emberjs.com/api/#method_isPresent) method.
@@ -166,6 +179,7 @@ import Validator from '../mixins/model-validator';
 
 export default DS.Model.extend(Validator,{
   name: DS.attr('string'),
+  login: DS.attr('string'),
   secondName: DS.attr('string'),
   email: DS.attr('string'),
   bussinessEmail: DS.attr('string'),
@@ -174,6 +188,7 @@ export default DS.Model.extend(Validator,{
   mainstreamCode: DS.attr('string'),
   lotteryNumber: DS.attr('number'),
   alibabaNumber: DS.attr('number'),
+  acceptConditions: DS.attr('boolean'),
 
   mySubdomain: DS.attr('number'),
 
@@ -183,6 +198,9 @@ export default DS.Model.extend(Validator,{
     name: {
       presence: { errorAs:'profile.name' },
       inclusion: { in: ['Jose Rene', 'Aristi Gol', 'Armani'], message: 'Solo verde a morir' }
+    },
+    login: {
+      absence: true
     },
     secondName: {
       exclusion: { in: ['Gionvany Hernandez', 'Wilder Medina'], message: 'Que iNrresponsabilidad' }
@@ -213,12 +231,16 @@ export default DS.Model.extend(Validator,{
     lotteryNumber: {
       numericality: true
     },
+    acceptConditions: {
+      acceptance: true
+    },
     otherFakes:{
       relations: ['hasMany']
     }
   }
 
 });
+
 `````
 After setting the validationces on your model you will be able to:
 
