@@ -22,6 +22,7 @@ Install __Ember-model-validator__ is easy as:
 - [Format](#format)
 - [Email](#email)
 - [Color](#hex-color)
+- [ZipCode](#zipcode)
 - [Subdomain](#subdomain)
 - [Inclusion](#inclusion)
 - [Exclusion](#exclusion)
@@ -86,6 +87,17 @@ Validates the proper fortmat of the email.
   validations: {
     email: {
       email: true
+    }
+  }
+````
+
+### ZipCode
+The value must be a correct zipcode. Regexp used `/^\b\d{5}(-\d{4})?\b$/i`.
+
+````js
+  validations: {
+    postalCode:{
+      zipCode: true
     }
   }
 ````
