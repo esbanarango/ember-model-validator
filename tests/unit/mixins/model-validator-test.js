@@ -58,6 +58,12 @@ describe('ModelValidatorMixin', function() {
         expect(model.get('errors').errorsFor('login').mapBy('message')[0][0]).to.equal(Messages.absenceMessage);
       });
 
+      it('validates the absence of the attributes set on `validations.absence`', function() {
+        var model = this.subject({postalCode: 'dfasdfsad'});
+        expect(model.validate()).to.equal(false);
+        expect(model.get('errors').errorsFor('postalCode').mapBy('message')[0][0]).to.equal(Messages.zipCodeMessage);
+      });
+
 		  it('validates the email format of the attributes set on `validations.email`', function() {
 	      var model = this.subject({email:'adsfasdf$'});
 	      expect(model.validate()).to.equal(false);
@@ -230,6 +236,7 @@ describe('ModelValidatorMixin', function() {
             model.set('favoritColor','423abb');
             model.set('mySubdomain','fake_subdomain');
             model.set('acceptConditions', true);
+            model.set('postalCode', '09980-9992');
 		      	expect(model.validate()).to.equal(true);
 		      });
 			  });
@@ -248,6 +255,7 @@ describe('ModelValidatorMixin', function() {
             model.set('favoritColor','423abb');
             model.set('mySubdomain','fake_subdomain');
             model.set('acceptConditions', true);
+            model.set('postalCode', '09011');
             expect(model.validate({except:['email']})).to.equal(true);
           });
         });

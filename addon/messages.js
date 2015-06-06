@@ -8,5 +8,6 @@ export default {
   formatMessage: 'is invalid',
   colorMessage: 'must be a valid CSS hex color code',
   subdomainMessage: 'must be a valid CSS hex color code',
-  acceptanceMessage: 'must be accepted'
+  acceptanceMessage: 'must be accepted',
+  zipCodeMessage: 'is not a valid zip code'
 };

@@ -14,6 +14,8 @@ export default DS.Model.extend(Validator,{
   alibabaNumber: DS.attr('number'),
   acceptConditions: DS.attr('boolean'),
 
+  postalCode:  DS.attr('string'),
+
   mySubdomain: DS.attr('number'),
 
   otherFakes: DS.hasMany('other-model'),
@@ -57,6 +59,9 @@ export default DS.Model.extend(Validator,{
     },
     acceptConditions: {
       acceptance: true
+    },
+    postalCode:{
+      zipCode: true
     },
     otherFakes:{
       relations: ['hasMany']

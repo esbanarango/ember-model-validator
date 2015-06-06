@@ -78,6 +78,13 @@ export default Ember.Mixin.create({
       this._addToErrors(property, validation.email, Messages.mailMessage);
     }
   },
+  _validateZipCode: function(property, validation) {
+    var propertyValue = this.get(property);
+    if (!propertyValue || String(propertyValue).match(/^\b\d{5}(-\d{4})?\b$/i) === null){
+      this.set('isValidNow',false);
+      this._addToErrors(property, validation.zipCode, Messages.zipCodeMessage);
+    }
+  },
   _validateColor: function(property, validation) {
     var propertyValue = this.get(property);
     if (!propertyValue || String(propertyValue).match(/([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/i) === null){
