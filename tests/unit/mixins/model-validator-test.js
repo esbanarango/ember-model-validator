@@ -112,16 +112,36 @@ describe('ModelValidatorMixin', function() {
         model.validations.secondName.exclusion['message'] = message;
       });
 
-      it('validates the relations specified on `validations.relations`', function() {
-      	var model = this.subject({email:'thiisagoo@email.con',name:'Jose Rene Higuita'}),
-      			store = model.get('store'),
-      			otherFakes = null;
+      describe('Relations validations', function() {
+        describe('`hasMany` relations', function() {
+          it('validates the relations specified on `validations.relations`', function() {
+            var model = this.subject({email:'thiisagoo@email.con',name:'Jose Rene Higuita'}),
+                store = model.get('store'),
+                otherFakes = null;
 
-        Ember.run(function() {
-          otherFakes = model.get('otherFakes');
+            Ember.run(function() {
+              otherFakes = model.get('otherFakes');
 
-          otherFakes.pushObject(store.createRecord('other-model'));
-          expect(model.validate()).to.equal(false);
+              otherFakes.pushObject(store.createRecord('other-model'));
+              expect(model.validate({only:['otherFakes']})).to.equal(false);
+            });
+
+          });
+        });
+
+        describe('`belongsTo` relations', function() {
+          it('validates the relations specified on `validations.relations`', function() {
+            var model = this.subject({email:'thiisagoo@email.con',name:'Jose Rene Higuita'}),
+                store = model.get('store'),
+                otherFakes = null;
+
+            Ember.run(function() {
+              model.set('otherFake',store.createRecord('other-model'));
+              expect(model.validate({only:['otherFake']})).to.equal(false);
+              expect(model.get('otherFake.errors').errorsFor('name').mapBy('message')[0][0]).to.equal(Messages.presenceMessage);
+            });
+
+          });
         });
 
       });

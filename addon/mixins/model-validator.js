@@ -132,6 +132,10 @@ export default Ember.Mixin.create({
           }
         });
       }
+    }else if(validation.relations.indexOf("belongsTo") !== -1){
+      if(this.get(property) && !this.get(property).validate()){
+        this.set('isValidNow',false);
+      }
     }
   },
 

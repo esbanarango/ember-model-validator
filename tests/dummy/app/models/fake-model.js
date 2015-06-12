@@ -20,6 +20,8 @@ export default DS.Model.extend(Validator,{
 
   otherFakes: DS.hasMany('other-model'),
 
+  otherFake: DS.belongsTo('other-model'),
+
   validations: {
     name: {
       presence: { errorAs:'profile.name' },
@@ -65,6 +67,9 @@ export default DS.Model.extend(Validator,{
     },
     otherFakes:{
       relations: ['hasMany']
+    },
+    otherFake:{
+      relations: ['belongsTo']
     }
   }
 
