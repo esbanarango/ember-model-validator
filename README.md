@@ -24,6 +24,7 @@ Install __Ember-model-validator__ is easy as:
 - [Color](#hex-color)
 - [ZipCode](#zipcode)
 - [Subdomain](#subdomain)
+- [URL](#url)
 - [Inclusion](#inclusion)
 - [Exclusion](#exclusion)
 - [Numericality](#numericality)
@@ -124,6 +125,17 @@ The value must a well formatted subdomain. Here you can also specify reserved wo
   }
 ````
 
+### URL
+The value must a well formatted URL.
+
+````js
+  validations: {
+    myBlog: {
+      URL: true
+    }
+  }
+````
+
 ### Inclusion
 The value has to be included in a given set.
 
@@ -205,9 +217,15 @@ export default DS.Model.extend(Validator,{
   alibabaNumber: DS.attr('number'),
   acceptConditions: DS.attr('boolean'),
 
-  mySubdomain: DS.attr('number'),
+  postalCode:  DS.attr('string'),
+
+  mySubdomain: DS.attr('string'),
+
+  myBlog: DS.attr('string'),
 
   otherFakes: DS.hasMany('other-model'),
+
+  otherFake: DS.belongsTo('other-model'),
 
   validations: {
     name: {
@@ -234,6 +252,9 @@ export default DS.Model.extend(Validator,{
     mySubdomain:{
       subdomain:{ reserved:['admin','blog'], message: 'this subdomain is super invalid' }
     },
+    myBlog: {
+      URL: true
+    },
     mainstreamCode: {
       format: { with: /^[a-zA-Z]+$/, message: 'nu nu, that\'s not the format' }
     },
@@ -249,12 +270,19 @@ export default DS.Model.extend(Validator,{
     acceptConditions: {
       acceptance: true
     },
+    postalCode:{
+      zipCode: true
+    },
     otherFakes:{
       relations: ['hasMany']
+    },
+    otherFake:{
+      relations: ['belongsTo']
     }
   }
 
 });
+
 
 `````
 After setting the validationces on your model you will be able to:
