@@ -16,7 +16,9 @@ export default DS.Model.extend(Validator,{
 
   postalCode:  DS.attr('string'),
 
-  mySubdomain: DS.attr('number'),
+  mySubdomain: DS.attr('string'),
+
+  myBlog: DS.attr('string'),
 
   otherFakes: DS.hasMany('other-model'),
 
@@ -46,6 +48,9 @@ export default DS.Model.extend(Validator,{
     },
     mySubdomain:{
       subdomain:{ reserved:['admin','blog'], message: 'this subdomain is super invalid' }
+    },
+    myBlog: {
+      URL: true
     },
     mainstreamCode: {
       format: { with: /^[a-zA-Z]+$/, message: 'nu nu, that\'s not the format' }

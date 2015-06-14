@@ -70,6 +70,12 @@ describe('ModelValidatorMixin', function() {
 	      expect(model.get('errors').errorsFor('email').mapBy('message')[0][0]).to.equal(Messages.mailMessage);
 		  });
 
+      it('validates the url format of the attributes set on `validations.url`', function() {
+        var model = this.subject({myBlog:'//www.hola.com'});
+        expect(model.validate()).to.equal(false);
+        expect(model.get('errors').errorsFor('myBlog').mapBy('message')[0][0]).to.equal(Messages.URLMessage);
+      });
+
       it('validates the color format of the attributes set on `validations.color`', function() {
         var model = this.subject({favoritColor:'000XXX'}),
             message = model.validations.favoritColor.color.message;
@@ -257,6 +263,7 @@ describe('ModelValidatorMixin', function() {
             model.set('mySubdomain','fake_subdomain');
             model.set('acceptConditions', true);
             model.set('postalCode', '09980-9992');
+            model.set('myBlog', 'http://esbanarango.com');
 		      	expect(model.validate()).to.equal(true);
 		      });
 			  });
@@ -276,6 +283,7 @@ describe('ModelValidatorMixin', function() {
             model.set('mySubdomain','fake_subdomain');
             model.set('acceptConditions', true);
             model.set('postalCode', '09011');
+            model.set('myBlog', 'http://esbanarango.com');
             expect(model.validate({except:['email']})).to.equal(true);
           });
         });

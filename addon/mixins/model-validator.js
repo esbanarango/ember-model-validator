@@ -92,6 +92,13 @@ export default Ember.Mixin.create({
       this._addToErrors(property, validation.color, Messages.colorMessage);
     }
   },
+  _validateURL: function(property, validation) {
+    var propertyValue = this.get(property);
+    if (!propertyValue || String(propertyValue).match(/^((http|https):\/\/(\w+:{0,1}\w*@)?(\S+)|)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?$/) === null){
+      this.set('isValidNow',false);
+      this._addToErrors(property, validation.URL, Messages.URLMessage);
+    }
+  },
   _validateSubdomain: function(property, validation) {
     var propertyValue = this.get(property),
         reserved = validation.subdomain.reserved || [];
