@@ -129,27 +129,6 @@ export default Ember.Mixin.create({
       }
     }
   },
-  _validateLength: function(property, validation) {
-    var propertyValue = this.get(property),
-        stringLength = !propertyValue ? 0 : String(propertyValue).length,
-        validationType = Ember.typeOf(validation.length);
-    if(validationType === 'number') {
-      if(stringLength !== validation.length){
-        this.set('isValidNow',false);
-        this._addToErrors(property, validation.length, Messages.wrongLengthMessage.fmt(validation.length));
-      }
-    }else if(validationType === 'array'){
-      var minimum = validation.length[0],
-          maximum = validation.length[1];
-      if(stringLength < minimum){
-        this.set('isValidNow',false);
-        this._addToErrors(property, validation.length, Messages.tooShortMessage.fmt(minimum));
-      }else if (stringLength > maximum) {
-          this.set('isValidNow',false);
-        this._addToErrors(property, validation.length, Messages.tooLongMessage.fmt(maximum));
-      }
-    }
-  },
   _validateRelations: function(property, validation) {
     var  _this = this;
     if(validation.relations.indexOf("hasMany") !== -1) {
@@ -166,8 +145,66 @@ export default Ember.Mixin.create({
       }
     }
   },
+	_validateMustContainCapital: function(property, validation) {
+		var notContainCapital = String(this.get(property)).match(/(?=.*[A-Z])/) === null;
+		var message = validation.mustContainCapital.message || Messages.mustContainCapitalMessage;
 
-  /**** Helpder methods ****/
+		if (validation.mustContainCapital && notContainCapital) {
+			this.set('isValidNow', false);
+      this._addToErrors(property, validation, message);
+		}
+	},
+	_validateMustContainLower: function(property, validation) {
+		var containsLower = String(this.get(property)).match(/(?=.*[a-z])/) !== null;
+		var message = validation.mustContainLower.message || Messages.mustContainLowerMessage;
+
+		if (validation.mustContainLower && !containsLower) {
+			this.set('isValidNow', false);
+      this._addToErrors(property, validation, message);
+		}
+	},
+	_validateMustContainNumber: function(property, validation) {
+		var containsNumber = String(this.get(property)).match(/(?=.*[0-9])/) !== null;
+		var message = validation.mustContainNumber.message || Messages.mustContainNumberMessage;
+
+		if (validation.mustContainNumber && !containsNumber) {
+			this.set('isValidNow', false);
+			this._addToErrors(property, validation, message);
+		}
+	},
+	_validateMustContainSpecial: function(property, validation) {
+		var regexString = validation.mustContainSpecial.acceptableChars || '-+_!@#$%^&*.,?';
+		var regex = new RegExp(`(?=.*[${regexString}])`);
+		var containsSpecial = String(this.get(property)).match(regex) !== null;
+		var message = validation.mustContainSpecial.message || Messages.mustContainSpecialMessage;
+
+		if (validation.mustContainSpecial && !containsSpecial) {
+			this.set('isValidNow', false);
+			this._addToErrors(property, validation, message.fmt(regexString));
+		}
+	},
+	_validateMinLength: function(property, validation) {
+		var minLength = validation.minLength.value;
+		var hasThisValidation = validation.hasOwnProperty('minLength');
+		var message = validation.minLength.message || Messages.minLengthMessage;
+
+		if (hasThisValidation && this.get(property).length < minLength) {
+			this.set('isValidNow', false);
+			this._addToErrors(property, validation, message.fmt(minLength));
+		}
+	},
+	_validateMaxLength: function(property, validation) {
+		var maxLength = validation.maxLength.value;
+		var hasThisValidation = validation.hasOwnProperty('maxLength');
+		var message = validation.maxLength.message || Messages.maxLengthMessage;
+
+		if (hasThisValidation && this.get(property).length > maxLength) {
+			this.set('isValidNow', false);
+			this._addToErrors(property, validation, message.fmt(maxLength));
+		}
+	},
+
+  /**** Helper methods ****/
   _exceptOrOnly: function(property, options) {
     var validateThis = true;
     if(options.hasOwnProperty('except') && options.except.indexOf(property) !== -1){ validateThis = false; }
