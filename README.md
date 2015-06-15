@@ -205,7 +205,7 @@ validations: {
     mustContainNumber: true,
     mustContainSpecial: {
       message: 'One of these chacters is required: %@',
-      acceptableChars: '!@&%()$'
+      acceptableChars: '-+_!@#$%^&*.,?()'
     },
     minLength: {
       value: 6
