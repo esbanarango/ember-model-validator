@@ -29,6 +29,8 @@ Install __Ember-model-validator__ is easy as:
 - [Exclusion](#exclusion)
 - [Numericality](#numericality)
 - ___[Relations](#relations)___
+- [Password](#password)
+
 
 ##### Common options
 
@@ -183,6 +185,47 @@ This validator will run the `validate()` function for the specific relation. If 
     }
   }
 ````
+
+###Password
+A set of validators which are especially useful for validating passwords.
+
+- mustContainCapital (capital case character)
+- mustContainLower (lower case character)
+- mustContainNumber
+- mustContainSpecial
+- maxLength
+- minLength
+
+````js
+validations: {
+  password: {
+    presence: true,
+    mustContainCapital: true,
+    mustContainLower: true,
+    mustContainNumber: true,
+    mustContainSpecial: {
+      message: 'One of these chacters is required: %@',
+      acceptableChars: '!@&%()$'
+    },
+    minLength: {
+      value: 6
+    },
+    maxLength: {
+      value: 10,
+      message: 'Whooah there, Cowboy! %@ characters are needed to proceed!'
+    }
+  },
+  someOtherThing: {
+    mustContainSpecial: true,
+    maxLength: {
+      value: 7
+    }
+  }
+}
+
+````
+
+
 
 ## Usage
 __Ember-model-validator__ provides a mixin to be included in your models for adding validation support. This mixin can be imported from your app's namespace (e.g. `../mixins/model-validator` in your models).
