@@ -129,6 +129,27 @@ export default Ember.Mixin.create({
       }
     }
   },
+  _validateLength: function(property, validation) {
+    var propertyValue = this.get(property),
+        stringLength = !propertyValue ? 0 : String(propertyValue).length,
+        validationType = Ember.typeOf(validation.length);
+    if(validationType === 'number') {
+      if(stringLength !== validation.length){
+        this.set('isValidNow',false);
+        this._addToErrors(property, validation.length, Messages.wrongLengthMessage.fmt(validation.length));
+      }
+    }else if(validationType === 'array'){
+      var minimum = validation.length[0],
+          maximum = validation.length[1];
+      if(stringLength < minimum){
+        this.set('isValidNow',false);
+        this._addToErrors(property, validation.length, Messages.tooShortMessage.fmt(minimum));
+      }else if (stringLength > maximum) {
+          this.set('isValidNow',false);
+        this._addToErrors(property, validation.length, Messages.tooLongMessage.fmt(maximum));
+      }
+    }
+  },
   _validateRelations: function(property, validation) {
     var  _this = this;
     if(validation.relations.indexOf("hasMany") !== -1) {

@@ -10,5 +10,8 @@ export default {
   subdomainMessage: 'must be a valid subdomain',
   acceptanceMessage: 'must be accepted',
   zipCodeMessage: 'is not a valid zip code',
-  URLMessage: 'must be a valid url'
+  URLMessage: 'must be a valid url',
+  wrongLengthMessage: 'is the wrong length (should be %@ characters)',
+  tooShortMessage: 'is too short (minimum is %@ characters)',
+  tooLongMessage: 'is too long (maximum is %@ characters)'
 };
