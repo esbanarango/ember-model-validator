@@ -209,7 +209,7 @@ export default Ember.Mixin.create({
 		}
 	},
 	_validateMustContainSpecial: function(property, validation) {
-		var regexString = validation.mustContainSpecial.acceptableChars || '-+_!@#$%^&*.,?';
+		var regexString = validation.mustContainSpecial.acceptableChars || '-+_!@#$%^&*.,?()';
 		var regex = new RegExp(`(?=.*[${regexString}])`);
 		var containsSpecial = String(this.get(property)).match(regex) !== null;
 		var message = validation.mustContainSpecial.message || Messages.mustContainSpecialMessage;
