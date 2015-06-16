@@ -71,7 +71,10 @@ export default DS.Model.extend(Validator,{
       email: true
     },
     password: {
-      mustContainCapital: true
+      mustContainCapital: true,
+      mustContainLower: true,
+      mustContainNumber: true,
+      mustContainSpecial: true
     },
     mySubdomain:{
       subdomain:{ reserved:['admin','blog'], message: 'this subdomain is super invalid' }
