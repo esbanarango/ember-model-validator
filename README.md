@@ -218,7 +218,7 @@ This validator will run the `validate()` function for the specific relation. If 
 ````
 
 ###Password
-A set of validators which are especially useful for validating passwords.
+A set of validators which are especially useful for validating passwords. Be aware that these all of these password-aimed validations will work standalone and carry the same [common properties](#common) with the rest of the validations, they don't only work for passwords!
 
 - mustContainCapital (capital case character)
 - mustContainLower (lower case character)
