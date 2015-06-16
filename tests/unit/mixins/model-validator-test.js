@@ -167,6 +167,17 @@ describe('ModelValidatorMixin', function() {
 
       });
 
+      describe('Password validations', function() {
+
+        it('accepts a string that meets all validation requirements', function() {
+          var model = this.subject({ password: 'k$1hkjGd' });
+          Ember.run(function() {
+            expect(model.validate({only:['password']})).to.equal(true);
+          });
+        });
+        
+      });
+
       describe('Relations validations', function() {
         describe('`hasMany` relations', function() {
           it('validates the relations specified on `validations.relations`', function() {
