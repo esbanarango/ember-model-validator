@@ -224,8 +224,7 @@ A set of validators which are especially useful for validating passwords.
 - mustContainLower (lower case character)
 - mustContainNumber
 - mustContainSpecial
-- maxLength
-- minLength
+- length (explained in-depth [above](#length))
 
 ````js
 validations: {
@@ -238,19 +237,12 @@ validations: {
       message: 'One of these chacters is required: %@',
       acceptableChars: '-+_!@#$%^&*.,?()'
     },
-    minLength: {
-      value: 6
-    },
-    maxLength: {
-      value: 10,
-      message: 'Whooah there, Cowboy! %@ characters are needed to proceed!'
+    length: {
+      minimum: 6
     }
   },
   someOtherThing: {
-    mustContainSpecial: true,
-    maxLength: {
-      value: 7
-    }
+    mustContainSpecial: true
   }
 }
 
