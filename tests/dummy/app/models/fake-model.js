@@ -7,6 +7,7 @@ export default DS.Model.extend(Validator,{
   secondName: DS.attr('string'),
   email: DS.attr('string'),
   password: DS.attr('string'),
+  passwordConfirmation: DS.attr('string'),
   bussinessEmail: DS.attr('string', {defaultValue: 'donJoseRene@higuita.com'}),
   favoritColor: DS.attr('string', {defaultValue: '423abb'}),
   legacyCode: DS.attr('string'),
@@ -71,6 +72,7 @@ export default DS.Model.extend(Validator,{
       email: true
     },
     password: {
+      match: 'passwordConfirmation',
       mustContainCapital: true,
       mustContainLower: true,
       mustContainNumber: true,

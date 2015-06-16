@@ -52,6 +52,12 @@ describe('ModelValidatorMixin', function() {
         expect(model.get('errors').errorsFor('acceptConditions').mapBy('message')[0][0]).to.equal(Messages.acceptanceMessage);
       });
 
+      it('validates the matching of the attributes set on `validations.password`', function() {
+        var model = this.subject({password: 'k$1hkjGd', passwordConfirmation: 'uuuu'});
+        expect(model.validate()).to.equal(false);
+        expect(model.get('errors').errorsFor('password').mapBy('message')[0][0]).to.equal(Ember.String.fmt(Messages.matchMessage,model._unCamelCase('passwordConfirmation')));
+      });
+
       it('validates the absence of the attributes set on `validations.absence`', function() {
         var model = this.subject({login: 'asdasd'});
         expect(model.validate()).to.equal(false);
@@ -170,7 +176,7 @@ describe('ModelValidatorMixin', function() {
       // Length validation testing is handled above
       describe('Password validations', function() {
         it('accepts a string that meets all validation requirements', function() {
-          var model = this.subject({ password: 'k$1hkjGd' });
+          var model = this.subject({ password: 'k$1hkjGd', passwordConfirmation: 'k$1hkjGd' });
           Ember.run(function() {
             expect(model.validate({only:['password']})).to.equal(true);
           });
@@ -348,9 +354,11 @@ describe('ModelValidatorMixin', function() {
 			describe('when data is corrected after validation', function() {
 
 			  it('it clean the errors', function() {
-		      var model = this.subject({email:'adsfasdf$',name:'Jose Rene',lotteryNumber:124,alibabaNumber:33,legacyCode:'abc', acceptConditions: 1, password: 'k$1hkjGd'});
+		      var model = this.subject({email:'adsfasdf$',name:'Jose Rene',lotteryNumber:124,alibabaNumber:33,legacyCode:'abc', acceptConditions: 1});
 		      Ember.run(function() {
 		      	expect(model.validate()).to.equal(false);
+            model.set('password','k$1hkjGd');
+            model.set('passwordConfirmation','k$1hkjGd');
 		      	model.set('email','rene@higuita.com');
 		      	expect(model.validate()).to.equal(true);
 		      });
@@ -362,8 +370,10 @@ describe('ModelValidatorMixin', function() {
       describe('when except is passed to `validate`', function() {
 
         it('it validates all the attributes except the ones specifed', function() {
-          var model = this.subject({email:'adsfasdf$',name:'Jose Rene',lotteryNumber:124,alibabaNumber:33,legacyCode:'abc', acceptConditions: 1, password: 'k$1hkjGd'});
+          var model = this.subject({email:'adsfasdf$',name:'Jose Rene',lotteryNumber:124,alibabaNumber:33,legacyCode:'abc', acceptConditions: 1});
           Ember.run(function() {
+            model.set('password','k$1hkjGd');
+            model.set('passwordConfirmation','k$1hkjGd');
             expect(model.validate()).to.equal(false);
             expect(model.validate({except:['email']})).to.equal(true);
           });

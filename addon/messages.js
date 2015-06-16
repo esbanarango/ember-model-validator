@@ -17,5 +17,6 @@ export default {
   mustContainNumberMessage: 'must include a number',
   mustContainSpecialMessage: 'must include one of these special characters: %@',
   mustContainLowerMessage: 'must include a lower case character',
-  mustContainCapitalMessage: 'must include an upper case character'
+  mustContainCapitalMessage: 'must include an upper case character',
+  matchMessage: 'must match %@'
 };
