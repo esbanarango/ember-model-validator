@@ -167,6 +167,7 @@ describe('ModelValidatorMixin', function() {
 
       });
 
+      // Length validation testing is handled above
       describe('Password validations', function() {
         it('accepts a string that meets all validation requirements', function() {
           var model = this.subject({ password: 'k$1hkjGd' });
