@@ -6,6 +6,7 @@ export default DS.Model.extend(Validator,{
   login: DS.attr('string'),
   secondName: DS.attr('string'),
   email: DS.attr('string'),
+  password: DS.attr('string'),
   bussinessEmail: DS.attr('string', {defaultValue: 'donJoseRene@higuita.com'}),
   favoritColor: DS.attr('string', {defaultValue: '423abb'}),
   legacyCode: DS.attr('string'),
@@ -68,6 +69,12 @@ export default DS.Model.extend(Validator,{
     email: {
       presence: true,
       email: true
+    },
+    password: {
+      mustContainCapital: true,
+      mustContainLower: true,
+      mustContainNumber: true,
+      mustContainSpecial: true
     },
     mySubdomain:{
       subdomain:{ reserved:['admin','blog'], message: 'this subdomain is super invalid' }

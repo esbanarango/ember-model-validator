@@ -30,6 +30,8 @@ Install __Ember-model-validator__ is easy as:
 - [Exclusion](#exclusion)
 - [Numericality](#numericality)
 - ___[Relations](#relations)___
+- [Password](#password)
+
 
 ##### Common options
 
@@ -86,8 +88,8 @@ Speficy a Regexp to validate with. It uses the [match()](https://developer.mozil
 Speficy the lengths that are allowed.
 
 ##### Options
-  - A `number`. The exact length of the value allowed (Alias for `is).
-  - An `array`. Will expand to `minimum` and `maximum. First element is the lower bound, second element is the upper bound.
+  - A `number`. The exact length of the value allowed (Alias for `is`).
+  - An `array`. Will expand to `minimum` and `maximum`. First element is the lower bound, second element is the upper bound.
   - `is` _option_. The exact length of the value allowed.
   - `minimum` _option_. The minimum length of the value allowed.
   - `maximum` _option_. The maximum length of the value allowed.
@@ -214,6 +216,39 @@ This validator will run the `validate()` function for the specific relation. If 
     }
   }
 ````
+
+###Password
+A set of validators which are especially useful for validating passwords. Be aware that these all of these password-aimed validations will work standalone and carry the same [common options](#common-options) with the rest of the validations. They don't only work for passwords!
+
+- mustContainCapital (capital case character)
+- mustContainLower (lower case character)
+- mustContainNumber
+- mustContainSpecial
+- length (explained in-depth [above](#length))
+
+````js
+validations: {
+  password: {
+    presence: true,
+    mustContainCapital: true,
+    mustContainLower: true,
+    mustContainNumber: true,
+    mustContainSpecial: {
+      message: 'One of these chacters is required: %@',
+      acceptableChars: '-+_!@#$%^&*.,?()'
+    },
+    length: {
+      minimum: 6
+    }
+  },
+  someOtherThing: {
+    mustContainSpecial: true
+  }
+}
+
+````
+
+
 
 ## Usage
 __Ember-model-validator__ provides a mixin to be included in your models for adding validation support. This mixin can be imported from your app's namespace (e.g. `../mixins/model-validator` in your models).

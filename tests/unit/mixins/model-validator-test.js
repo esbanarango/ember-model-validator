@@ -167,6 +167,52 @@ describe('ModelValidatorMixin', function() {
 
       });
 
+      // Length validation testing is handled above
+      describe('Password validations', function() {
+        it('accepts a string that meets all validation requirements', function() {
+          var model = this.subject({ password: 'k$1hkjGd' });
+          Ember.run(function() {
+            expect(model.validate({only:['password']})).to.equal(true);
+          });
+        });
+
+        describe('capital character validation', function() {
+          it('rejects a string that does not contain a capital character', function() {
+            var model = this.subject({ password: 'k$1hkjgd' });
+            Ember.run(function() {
+              expect(model.validate({ only:['password'] })).to.equal(false);
+            });
+          });
+        });
+
+        describe('lower case character validation', function() {
+          it('rejects a string that does not contain a lower case character', function() {
+            var model = this.subject({ password: 'k$1hkjgd' });
+            Ember.run(function() {
+              expect(model.validate({ only:['password'] })).to.equal(false);
+            });
+          });
+        });
+
+        describe('special character validation', function() {
+          it('rejects a string that does not contain a special character', function() {
+            var model = this.subject({ password: 'kW1hkjgd' });
+            Ember.run(function() {
+              expect(model.validate({ only:['password'] })).to.equal(false);
+            });
+          });
+        });
+
+        describe('number validation', function() {
+          it('rejects a string that does not contain a number', function() {
+            var model = this.subject({ password: 'k$Whkjgd' });
+            Ember.run(function() {
+              expect(model.validate({ only:['password'] })).to.equal(false);
+            });
+          });
+        });
+      });
+
       describe('Relations validations', function() {
         describe('`hasMany` relations', function() {
           it('validates the relations specified on `validations.relations`', function() {
@@ -302,7 +348,7 @@ describe('ModelValidatorMixin', function() {
 			describe('when data is corrected after validation', function() {
 
 			  it('it clean the errors', function() {
-		      var model = this.subject({email:'adsfasdf$',name:'Jose Rene',lotteryNumber:124,alibabaNumber:33,legacyCode:'abc', acceptConditions: 1});
+		      var model = this.subject({email:'adsfasdf$',name:'Jose Rene',lotteryNumber:124,alibabaNumber:33,legacyCode:'abc', acceptConditions: 1, password: 'k$1hkjGd'});
 		      Ember.run(function() {
 		      	expect(model.validate()).to.equal(false);
 		      	model.set('email','rene@higuita.com');
@@ -316,7 +362,7 @@ describe('ModelValidatorMixin', function() {
       describe('when except is passed to `validate`', function() {
 
         it('it validates all the attributes except the ones specifed', function() {
-          var model = this.subject({email:'adsfasdf$',name:'Jose Rene',lotteryNumber:124,alibabaNumber:33,legacyCode:'abc', acceptConditions: 1});
+          var model = this.subject({email:'adsfasdf$',name:'Jose Rene',lotteryNumber:124,alibabaNumber:33,legacyCode:'abc', acceptConditions: 1, password: 'k$1hkjGd'});
           Ember.run(function() {
             expect(model.validate()).to.equal(false);
             expect(model.validate({except:['email']})).to.equal(true);

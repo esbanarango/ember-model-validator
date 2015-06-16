@@ -181,8 +181,46 @@ export default Ember.Mixin.create({
       }
     }
   },
+	_validateMustContainCapital: function(property, validation) {
+		var notContainCapital = String(this.get(property)).match(/(?=.*[A-Z])/) === null;
+		var message = validation.mustContainCapital.message || Messages.mustContainCapitalMessage;
 
-  /**** Helpder methods ****/
+		if (validation.mustContainCapital && notContainCapital) {
+			this.set('isValidNow', false);
+      this._addToErrors(property, validation, message);
+		}
+	},
+	_validateMustContainLower: function(property, validation) {
+		var containsLower = String(this.get(property)).match(/(?=.*[a-z])/) !== null;
+		var message = validation.mustContainLower.message || Messages.mustContainLowerMessage;
+
+		if (validation.mustContainLower && !containsLower) {
+			this.set('isValidNow', false);
+      this._addToErrors(property, validation, message);
+		}
+	},
+	_validateMustContainNumber: function(property, validation) {
+		var containsNumber = String(this.get(property)).match(/(?=.*[0-9])/) !== null;
+		var message = validation.mustContainNumber.message || Messages.mustContainNumberMessage;
+
+		if (validation.mustContainNumber && !containsNumber) {
+			this.set('isValidNow', false);
+			this._addToErrors(property, validation, message);
+		}
+	},
+	_validateMustContainSpecial: function(property, validation) {
+		var regexString = validation.mustContainSpecial.acceptableChars || '-+_!@#$%^&*.,?()';
+		var regex = new RegExp(`(?=.*[${regexString}])`);
+		var containsSpecial = String(this.get(property)).match(regex) !== null;
+		var message = validation.mustContainSpecial.message || Messages.mustContainSpecialMessage;
+
+		if (validation.mustContainSpecial && !containsSpecial) {
+			this.set('isValidNow', false);
+			this._addToErrors(property, validation, Ember.String.fmt(message, regexString));
+		}
+	},
+
+  /**** Helper methods ****/
   _exceptOrOnly: function(property, options) {
     var validateThis = true;
     if(options.hasOwnProperty('except') && options.except.indexOf(property) !== -1){ validateThis = false; }
