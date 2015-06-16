@@ -14,6 +14,14 @@ export default DS.Model.extend(Validator,{
   alibabaNumber: DS.attr('number'),
   acceptConditions: DS.attr('boolean'),
 
+  socialSecurity: DS.attr('number'),
+
+  nsaNumber: DS.attr('number'),
+
+  chuncaluchoNumber: DS.attr('number'),
+
+  hugeName: DS.attr('string'),
+
   postalCode:  DS.attr('string'),
 
   mySubdomain: DS.attr('string'),
@@ -34,6 +42,21 @@ export default DS.Model.extend(Validator,{
     },
     secondName: {
       exclusion: { in: ['Gionvany Hernandez', 'Wilder Medina'], message: 'Que iNrresponsabilidad' }
+    },
+    socialSecurity: {
+      length: 5
+    },
+    nsaNumber: {
+      length: [3, 5]
+    },
+    chuncaluchoNumber: {
+      length: { is: 10, message: 'this is not the length of a chuncalucho' }
+    },
+    hugeName:{
+      length: {
+        minimum: 3,
+        maximum: 5,
+      }
     },
     bussinessEmail: {
       presence: { message: 'sup dude, where\'s da email' },
