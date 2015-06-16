@@ -238,7 +238,7 @@ export default Ember.Mixin.create({
     return validateThis;
   },
   _getCustomMessage: function(validationObj,defaultMessage) {
-    if (this._isThisAnObject(validationObj) && validationObj.hasOwnProperty('message')) {
+    if (Ember.typeOf(validationObj) === 'object' && validationObj.hasOwnProperty('message')) {
       return validationObj.message;
     }else{
       return defaultMessage;
@@ -254,9 +254,6 @@ export default Ember.Mixin.create({
 	_isNumber: function (n) {
   	return !isNaN(parseFloat(n)) && isFinite(n);
 	},
-  _isThisAnObject: function(obj) {
-    return Object.prototype.toString.call(obj) === '[object Object]';
-  },
   _unCamelCase: function (str){
     return str
               // insert a space before all caps
