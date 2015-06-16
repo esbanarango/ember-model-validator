@@ -6,13 +6,13 @@ export default DS.Model.extend(Validator,{
   login: DS.attr('string'),
   secondName: DS.attr('string'),
   email: DS.attr('string'),
-  bussinessEmail: DS.attr('string'),
-  favoritColor: DS.attr('string'),
+  bussinessEmail: DS.attr('string', {defaultValue: 'donJoseRene@higuita.com'}),
+  favoritColor: DS.attr('string', {defaultValue: '423abb'}),
   legacyCode: DS.attr('string'),
-  mainstreamCode: DS.attr('string'),
+  mainstreamCode: DS.attr('string', {defaultValue: 'hiphopBachatudo'}),
   lotteryNumber: DS.attr('number'),
   alibabaNumber: DS.attr('number'),
-  acceptConditions: DS.attr('boolean'),
+  acceptConditions: DS.attr('boolean', {defaultValue: true}),
 
   socialSecurity: DS.attr('number', {defaultValue: 12345}),
 
@@ -22,11 +22,11 @@ export default DS.Model.extend(Validator,{
 
   hugeName: DS.attr('string', {defaultValue: 12345}),
 
-  postalCode:  DS.attr('string'),
+  postalCode:  DS.attr('string', {defaultValue: '09011'}),
 
-  mySubdomain: DS.attr('string'),
+  mySubdomain: DS.attr('string', {defaultValue: 'fake_subdomain'}),
 
-  myBlog: DS.attr('string'),
+  myBlog: DS.attr('string', {defaultValue: 'http://esbanarango.com'}),
 
   otherFakes: DS.hasMany('other-model'),
 

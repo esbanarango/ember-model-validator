@@ -92,7 +92,7 @@ describe('ModelValidatorMixin', function() {
 		  });
 
       it('validates the subdomain format of the attributes set on `validations.subdomain`', function() {
-        var model = this.subject({subdomain:'with space'}),
+        var model = this.subject({mySubdomain:'with space'}),
             message = model.validations.mySubdomain.subdomain.message;
         delete model.validations.mySubdomain.subdomain.message;
         expect(model.validate()).to.equal(false);
@@ -214,7 +214,7 @@ describe('ModelValidatorMixin', function() {
       describe('when custom message is set', function() {
 
         it('validates the presence of the attributes set on `validations.presence` and use the correct message', function() {
-          var model = this.subject();
+          var model = this.subject({bussinessEmail:''});
           Ember.run(function() {
             expect(model.validate()).to.equal(false);
             expect(model.get('errors').errorsFor('bussinessEmail').mapBy('message')[0][0]).to.equal(model.validations.bussinessEmail.presence.message);
@@ -306,13 +306,6 @@ describe('ModelValidatorMixin', function() {
 		      Ember.run(function() {
 		      	expect(model.validate()).to.equal(false);
 		      	model.set('email','rene@higuita.com');
-            model.set('bussinessEmail','donJoseRene@higuita.com');
-            model.set('mainstreamCode','hiphopBachatudo');
-            model.set('favoritColor','423abb');
-            model.set('mySubdomain','fake_subdomain');
-            model.set('acceptConditions', true);
-            model.set('postalCode', '09980-9992');
-            model.set('myBlog', 'http://esbanarango.com');
 		      	expect(model.validate()).to.equal(true);
 		      });
 			  });
@@ -326,13 +319,6 @@ describe('ModelValidatorMixin', function() {
           var model = this.subject({email:'adsfasdf$',name:'Jose Rene',lotteryNumber:124,alibabaNumber:33,legacyCode:'abc', acceptConditions: 1});
           Ember.run(function() {
             expect(model.validate()).to.equal(false);
-            model.set('bussinessEmail','donJoseRene@higuita.com');
-            model.set('mainstreamCode','hiphopBachatudo');
-            model.set('favoritColor','423abb');
-            model.set('mySubdomain','fake_subdomain');
-            model.set('acceptConditions', true);
-            model.set('postalCode', '09011');
-            model.set('myBlog', 'http://esbanarango.com');
             expect(model.validate({except:['email']})).to.equal(true);
           });
         });
