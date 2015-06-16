@@ -202,7 +202,7 @@ The value has to have only numeric values.
   }
 ````
 
-###Password*
+### Password
 A set of validators which are especially useful for validating passwords. Be aware that these all of these password-aimed validations will work standalone and carry the same [common options](#common-options) with the rest of the validations. They don't only work for passwords!
 
 - `mustContainCapital` (capital case character).
