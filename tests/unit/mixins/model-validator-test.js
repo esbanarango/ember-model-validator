@@ -193,6 +193,16 @@ describe('ModelValidatorMixin', function() {
             });
           });
         });
+
+        describe('special character validation', function() {
+          it('rejects a string that does not contain a special character', function() {
+            var model = this.subject({ password: 'kW1hkjgd' });
+            Ember.run(function() {
+              expect(model.validate({ only:['password'] })).to.equal(false);
+            });
+          });
+        });
+
       });
 
       describe('Relations validations', function() {
