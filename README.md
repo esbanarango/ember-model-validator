@@ -30,6 +30,7 @@ Install __Ember-model-validator__ is easy as:
 - [Exclusion](#exclusion)
 - [Numericality](#numericality)
 - [Password*](#password)
+- [CustomValidation](#CustomValidation)
 - ___[Relations](#relations)___
 
 
@@ -201,6 +202,34 @@ The value has to have only numeric values.
     }
   }
 ````
+
+### CustomValidation
+Define a custom callback funciton to validate the model's value. The validation callback is passed 3 values: the key, value, model's scope. return true (or a truthy value) to pass the validation, return false (or falsy value) to fail the validation.
+
+````js
+  validations: {
+    lotteryNumber: {
+      custom: funciton(key, value, model){
+        return model.get('accountBalance') > 1 ? true : false;
+      }
+    }
+  }
+````
+
+this has the same action as above except will use a custom message insetad of the default.
+````js
+  validations: {
+    lotteryNumber: {
+      custom: {
+        validation: funciton(key, value, model){
+          return model.get('accountBalance') > 1 ? true : false;
+        },
+        message: 'You can't win off of good looks and charm.'
+      }
+    }
+  }
+````
+
 
 ### Password
 A set of validators which are especially useful for validating passwords. Be aware that these all of these password-aimed validations will work standalone and carry the same [common options](#common-options) with the rest of the validations. They don't only work for passwords!
