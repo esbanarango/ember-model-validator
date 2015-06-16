@@ -14,13 +14,13 @@ export default DS.Model.extend(Validator,{
   alibabaNumber: DS.attr('number'),
   acceptConditions: DS.attr('boolean'),
 
-  socialSecurity: DS.attr('number'),
+  socialSecurity: DS.attr('number', {defaultValue: 12345}),
 
-  nsaNumber: DS.attr('number'),
+  nsaNumber: DS.attr('number', {defaultValue: 1234}),
 
-  chuncaluchoNumber: DS.attr('number'),
+  chuncaluchoNumber: DS.attr('number', {defaultValue: 1234567891}),
 
-  hugeName: DS.attr('string'),
+  hugeName: DS.attr('string', {defaultValue: 12345}),
 
   postalCode:  DS.attr('string'),
 
@@ -49,15 +49,15 @@ export default DS.Model.extend(Validator,{
     nsaNumber: {
       length: [3, 5]
     },
-    chuncaluchoNumber: {
-      length: { is: 10, message: 'this is not the length of a chuncalucho' }
-    },
-    hugeName:{
-      length: {
-        minimum: 3,
-        maximum: 5,
-      }
-    },
+    // chuncaluchoNumber: {
+    //   length: { is: 10, message: 'this is not the length of a chuncalucho' }
+    // },
+    // hugeName:{
+    //   length: {
+    //     minimum: 3,
+    //     maximum: 5,
+    //   }
+    // },
     bussinessEmail: {
       presence: { message: 'sup dude, where\'s da email' },
       email: { message: 'Be professional ma men' }

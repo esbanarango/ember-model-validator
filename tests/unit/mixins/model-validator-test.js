@@ -118,6 +118,33 @@ describe('ModelValidatorMixin', function() {
         model.validations.secondName.exclusion['message'] = message;
       });
 
+      describe('Length validator', function() {
+        describe('exact Length', function() {
+          describe('when is set to a number', function() {
+            it('validates the length of the attributes set on `validations.length`', function() {
+              var model = this.subject({socialSecurity:123});
+              Ember.run(function() {
+                expect(model.validate({only:['socialSecurity']})).to.equal(false);
+                expect(model.get('errors').errorsFor('socialSecurity').mapBy('message')[0][0]).to.equal(Ember.String.fmt(Messages.wrongLengthMessage,5));
+              });
+            });
+          });
+        });
+
+        describe('range Length', function() {
+          describe('when is set to an array', function() {
+            it('validates the length of the attributes set on `validations.length`', function() {
+              var model = this.subject({nsaNumber:12});
+              Ember.run(function() {
+                expect(model.validate({only:['nsaNumber']})).to.equal(false);
+                expect(model.get('errors').errorsFor('nsaNumber').mapBy('message')[0][0]).to.equal(Ember.String.fmt(Messages.tooShortMessage,3));
+              });
+            });
+          });
+        });
+
+      });
+
       describe('Relations validations', function() {
         describe('`hasMany` relations', function() {
           it('validates the relations specified on `validations.relations`', function() {

@@ -129,6 +129,7 @@ export default Ember.Mixin.create({
       }
     }
   },
+  // Length Validator
   _validateLength: function(property, validation) {
     var propertyValue = this.get(property),
         stringLength = !propertyValue ? 0 : String(propertyValue).length,
@@ -136,19 +137,31 @@ export default Ember.Mixin.create({
     if(validationType === 'number') {
       if(stringLength !== validation.length){
         this.set('isValidNow',false);
-        this._addToErrors(property, validation.length, Messages.wrongLengthMessage.fmt(validation.length));
+        this._addToErrors(property, validation.length, Ember.String.fmt(Messages.wrongLengthMessage,validation.length));
       }
     }else if(validationType === 'array'){
       var minimum = validation.length[0],
           maximum = validation.length[1];
       if(stringLength < minimum){
         this.set('isValidNow',false);
-        this._addToErrors(property, validation.length, Messages.tooShortMessage.fmt(minimum));
+        this._addToErrors(property, validation.length, Ember.String.fmt(Messages.tooShortMessage,minimum));
       }else if (stringLength > maximum) {
           this.set('isValidNow',false);
-        this._addToErrors(property, validation.length, Messages.tooLongMessage.fmt(maximum));
+        this._addToErrors(property, validation.length, Ember.String.fmt(Messages.tooLongMessage,maximum));
+      }
+    }else if(validationType === 'object'){
+      if (validation.length.hasOwnProperty('is')) {
+
+      }else{
+
       }
     }
+  },
+  _exactLength:function() {
+
+  },
+  _rangeLength:function() {
+
   },
   _validateRelations: function(property, validation) {
     var  _this = this;
