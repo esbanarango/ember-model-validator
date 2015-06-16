@@ -29,8 +29,8 @@ Install __Ember-model-validator__ is easy as:
 - [Inclusion](#inclusion)
 - [Exclusion](#exclusion)
 - [Numericality](#numericality)
+- [Password*](#password)
 - ___[Relations](#relations)___
-- [Password](#password)
 
 
 ##### Common options
@@ -202,29 +202,14 @@ The value has to have only numeric values.
   }
 ````
 
-### Relations
-This validator will run the `validate()` function for the specific relation. If it's a `DS.hasMany` relation then it will loop through all objects.
-> Note: The relations __have__ to be [`embedded`](http://emberjs.com/api/data/classes/DS.EmbeddedRecordsMixin.html) or the promise has to be already resolved.
-
-````js
-  validations: {
-    myHasManyRelation:{
-      relations: ['hasMany']
-    },
-    myBelongsToRelation:{
-      relations: ['belongsTo']
-    }
-  }
-````
-
-###Password
+###Password*
 A set of validators which are especially useful for validating passwords. Be aware that these all of these password-aimed validations will work standalone and carry the same [common options](#common-options) with the rest of the validations. They don't only work for passwords!
 
-- mustContainCapital (capital case character)
-- mustContainLower (lower case character)
-- mustContainNumber
-- mustContainSpecial
-- length (explained in-depth [above](#length))
+- `mustContainCapital` (capital case character).
+- `mustContainLower` (lower case character).
+- `mustContainNumber`
+- `mustContainSpecial`
+- `length` (explained in-depth [above](#length)).
 
 ````js
 validations: {
@@ -248,7 +233,20 @@ validations: {
 
 ````
 
+### Relations
+This validator will run the `validate()` function for the specific relation. If it's a `DS.hasMany` relation then it will loop through all objects.
+> Note: The relations __have__ to be [`embedded`](http://emberjs.com/api/data/classes/DS.EmbeddedRecordsMixin.html) or the promise has to be already resolved.
 
+````js
+  validations: {
+    myHasManyRelation:{
+      relations: ['hasMany']
+    },
+    myBelongsToRelation:{
+      relations: ['belongsTo']
+    }
+  }
+````
 
 ## Usage
 __Ember-model-validator__ provides a mixin to be included in your models for adding validation support. This mixin can be imported from your app's namespace (e.g. `../mixins/model-validator` in your models).
