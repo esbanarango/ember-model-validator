@@ -88,7 +88,7 @@ Speficy a Regexp to validate with. It uses the [match()](https://developer.mozil
 Speficy the lengths that are allowed.
 
 ##### Options
-  - A `number`. The exact length of the value allowed (Alias for `is).
+  - A `number`. The exact length of the value allowed (Alias for `is`).
   - An `array`. Will expand to `minimum` and `maximum`. First element is the lower bound, second element is the upper bound.
   - `is` _option_. The exact length of the value allowed.
   - `minimum` _option_. The minimum length of the value allowed.
