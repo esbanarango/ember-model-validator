@@ -13,8 +13,7 @@ export default {
   URLMessage: 'must be a valid url',
   wrongLengthMessage: "is the wrong length (should be %@ characters)",
   tooShortMessage: "is too short (minimum is %@ characters)",
-  tooLongMessage: "is too long (maximum is %@ characters)"
-  minLengthMessage: 'is too short. Minimum length is %@ characters',
+  tooLongMessage: "is too long (maximum is %@ characters)",
   mustContainNumberMessage: 'must include a number',
   mustContainSpecialMessage: 'must include one of these special characters: %@',
   mustContainLowerMessage: 'must include a lower case character',
