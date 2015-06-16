@@ -25,7 +25,7 @@ export default Ember.Mixin.create({
 		for (var property in validations) {
 			for (var validation in validations[property]) {
         if (this._exceptOrOnly(property,options)) {
-          var validationName = (validation.charAt(0).toUpperCase() + validation.slice(1));
+          var validationName = Ember.String.capitalize(validation);
           this[`_validate${validationName}`](property, validations[property]);
         }
 			}
@@ -140,6 +140,15 @@ export default Ember.Mixin.create({
       }
     }
   },
+  _validateMatch: function(property, validation) {
+    var matching = validation.match.attr || validation.match,
+        propertyValue = this.get(property),
+        matchingValue = this.get(matching);
+    if (propertyValue !== matchingValue) {
+      this.set('isValidNow',false);
+      this._addToErrors(property, validation.match, Ember.String.fmt(Messages.matchMessage,this._unCamelCase(matching)));
+    }
+  },
   // Length Validator
   _validateLength: function(property, validation) {
     var propertyValue = this.get(property),
@@ -240,13 +249,13 @@ export default Ember.Mixin.create({
   },
   _getCustomValidator: function(validation){
     var customValidator = validation.custom;
-    if (this._isThisAnObject(validation.custom) && validation.custom.hasOwnProperty('validation')) {
+    if (Ember.typeOf(validation.custom) === 'object' && validation.custom.hasOwnProperty('validation')) {
       customValidator = validation.custom.validation;
     } 
     return typeof customValidator === 'function' ? customValidator : false;
   },
   _getCustomMessage: function(validationObj,defaultMessage) {
-    if (this._isThisAnObject(validationObj) && validationObj.hasOwnProperty('message')) {
+    if (Ember.typeOf(validationObj) === 'object' && validationObj.hasOwnProperty('message')) {
       return validationObj.message;
     }else{
       return defaultMessage;
@@ -262,7 +271,11 @@ export default Ember.Mixin.create({
 	_isNumber: function (n) {
   	return !isNaN(parseFloat(n)) && isFinite(n);
 	},
-  _isThisAnObject: function(obj) {
-    return Object.prototype.toString.call(obj) === '[object Object]';
+  _unCamelCase: function (str){
+    return str
+              // insert a space before all caps
+              .replace(/([A-Z])/g, ' $1')
+              // uppercase the first character
+              .replace(/^./, function(str){ return Ember.String.capitalize(str); });
   }
 });

@@ -29,6 +29,7 @@ Install __Ember-model-validator__ is easy as:
 - [Inclusion](#inclusion)
 - [Exclusion](#exclusion)
 - [Numericality](#numericality)
+- [Match](#match)
 - [Password*](#password)
 - [CustomValidation](#CustomValidation)
 - ___[Relations](#relations)___
@@ -192,6 +193,26 @@ The value can't be included in a given set.
   }
 ````
 
+### Match
+Speficy the attribute to match with.
+
+##### Options
+  - A `string`. The name of the attribute to match with  (Alias for `attr`).
+  - `attr` _option_. The name of the attribute to match with.
+````js
+  validations: {
+    email:{
+      match: 'confirmationEmail'
+    },
+    password:{
+      match: {
+        attr: 'passwordConfirmation',
+        message: 'sup, it is not the same!'
+      }
+    }
+  }
+````
+
 ### Numericality
 The value has to have only numeric values.
 
@@ -302,19 +323,29 @@ export default DS.Model.extend(Validator,{
   login: DS.attr('string'),
   secondName: DS.attr('string'),
   email: DS.attr('string'),
-  bussinessEmail: DS.attr('string'),
-  favoritColor: DS.attr('string'),
+  password: DS.attr('string'),
+  passwordConfirmation: DS.attr('string'),
+  bussinessEmail: DS.attr('string', {defaultValue: 'donJoseRene@higuita.com'}),
+  favoritColor: DS.attr('string', {defaultValue: '423abb'}),
   legacyCode: DS.attr('string'),
-  mainstreamCode: DS.attr('string'),
+  mainstreamCode: DS.attr('string', {defaultValue: 'hiphopBachatudo'}),
   lotteryNumber: DS.attr('number'),
   alibabaNumber: DS.attr('number'),
-  acceptConditions: DS.attr('boolean'),
+  acceptConditions: DS.attr('boolean', {defaultValue: true}),
 
-  postalCode:  DS.attr('string'),
+  socialSecurity: DS.attr('number', {defaultValue: 12345}),
 
-  mySubdomain: DS.attr('string'),
+  nsaNumber: DS.attr('number', {defaultValue: 1234}),
 
-  myBlog: DS.attr('string'),
+  chuncaluchoNumber: DS.attr('number', {defaultValue: 1234567891}),
+
+  hugeName: DS.attr('string', {defaultValue: 12345}),
+
+  postalCode:  DS.attr('string', {defaultValue: '09011'}),
+
+  mySubdomain: DS.attr('string', {defaultValue: 'fake_subdomain'}),
+
+  myBlog: DS.attr('string', {defaultValue: 'http://esbanarango.com'}),
 
   otherFakes: DS.hasMany('other-model'),
 
@@ -331,6 +362,21 @@ export default DS.Model.extend(Validator,{
     secondName: {
       exclusion: { in: ['Gionvany Hernandez', 'Wilder Medina'], message: 'Que iNrresponsabilidad' }
     },
+    socialSecurity: {
+      length: 5
+    },
+    nsaNumber: {
+      length: [3, 5]
+    },
+    chuncaluchoNumber: {
+      length: { is: 10, message: 'this is not the length of a chuncalucho' }
+    },
+    hugeName:{
+      length: {
+        minimum: 3,
+        maximum: 5,
+      }
+    },
     bussinessEmail: {
       presence: { message: 'sup dude, where\'s da email' },
       email: { message: 'Be professional ma men' }
@@ -341,6 +387,13 @@ export default DS.Model.extend(Validator,{
     email: {
       presence: true,
       email: true
+    },
+    password: {
+      match: 'passwordConfirmation',
+      mustContainCapital: true,
+      mustContainLower: true,
+      mustContainNumber: true,
+      mustContainSpecial: true
     },
     mySubdomain:{
       subdomain:{ reserved:['admin','blog'], message: 'this subdomain is super invalid' }
@@ -375,7 +428,6 @@ export default DS.Model.extend(Validator,{
   }
 
 });
-
 
 `````
 After setting the validationces on your model you will be able to:
