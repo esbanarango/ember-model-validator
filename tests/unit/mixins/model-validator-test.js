@@ -175,7 +175,15 @@ describe('ModelValidatorMixin', function() {
             expect(model.validate({only:['password']})).to.equal(true);
           });
         });
-        
+
+        describe('capital character validation', function() {
+          it('rejects a string that does not contain a capital character', function() {
+            var model = this.subject({ password: 'k$1hkjgd' });
+            Ember.run(function() {
+              expect(model.validate({ only:['password'] })).to.equal(false);
+            });
+          });
+        });
       });
 
       describe('Relations validations', function() {
