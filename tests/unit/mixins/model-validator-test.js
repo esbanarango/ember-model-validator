@@ -168,7 +168,6 @@ describe('ModelValidatorMixin', function() {
       });
 
       describe('Password validations', function() {
-
         it('accepts a string that meets all validation requirements', function() {
           var model = this.subject({ password: 'k$1hkjGd' });
           Ember.run(function() {
@@ -203,6 +202,14 @@ describe('ModelValidatorMixin', function() {
           });
         });
 
+        describe('number validation', function() {
+          it('rejects a string that does not contain a number', function() {
+            var model = this.subject({ password: 'k$Whkjgd' });
+            Ember.run(function() {
+              expect(model.validate({ only:['password'] })).to.equal(false);
+            });
+          });
+        });
       });
 
       describe('Relations validations', function() {
