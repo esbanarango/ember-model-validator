@@ -129,6 +129,17 @@ describe('ModelValidatorMixin', function() {
               });
             });
           });
+
+          describe('when `is` is used to set the number', function() {
+            it('validates the length of the attributes set on `validations.length`', function() {
+              var model = this.subject({chuncaluchoNumber:123});
+              Ember.run(function() {
+                expect(model.validate({only:['chuncaluchoNumber']})).to.equal(false);
+                expect(model.get('errors').errorsFor('chuncaluchoNumber').mapBy('message')[0][0]).to.equal('this is not the length of a chuncalucho');
+              });
+            });
+          });
+
         });
 
         describe('range Length', function() {
@@ -141,6 +152,17 @@ describe('ModelValidatorMixin', function() {
               });
             });
           });
+
+          describe('when is set using `minimum` and `maximum` keys', function() {
+            it('validates the length of the attributes set on `validations.length`', function() {
+              var model = this.subject({hugeName:123456});
+              Ember.run(function() {
+                expect(model.validate({only:['hugeName']})).to.equal(false);
+                expect(model.get('errors').errorsFor('hugeName').mapBy('message')[0][0]).to.equal(Ember.String.fmt(Messages.tooLongMessage,5));
+              });
+            });
+          });
+
         });
 
       });

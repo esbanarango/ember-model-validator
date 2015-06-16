@@ -49,15 +49,15 @@ export default DS.Model.extend(Validator,{
     nsaNumber: {
       length: [3, 5]
     },
-    // chuncaluchoNumber: {
-    //   length: { is: 10, message: 'this is not the length of a chuncalucho' }
-    // },
-    // hugeName:{
-    //   length: {
-    //     minimum: 3,
-    //     maximum: 5,
-    //   }
-    // },
+    chuncaluchoNumber: {
+      length: { is: 10, message: 'this is not the length of a chuncalucho' }
+    },
+    hugeName:{
+      length: {
+        minimum: 3,
+        maximum: 5,
+      }
+    },
     bussinessEmail: {
       presence: { message: 'sup dude, where\'s da email' },
       email: { message: 'Be professional ma men' }

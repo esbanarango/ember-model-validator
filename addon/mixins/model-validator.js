@@ -135,33 +135,35 @@ export default Ember.Mixin.create({
         stringLength = !propertyValue ? 0 : String(propertyValue).length,
         validationType = Ember.typeOf(validation.length);
     if(validationType === 'number') {
-      if(stringLength !== validation.length){
-        this.set('isValidNow',false);
-        this._addToErrors(property, validation.length, Ember.String.fmt(Messages.wrongLengthMessage,validation.length));
-      }
+      validation.length = {is: validation.length};
+      this._exactLength(stringLength, property, validation);
     }else if(validationType === 'array'){
-      var minimum = validation.length[0],
-          maximum = validation.length[1];
-      if(stringLength < minimum){
-        this.set('isValidNow',false);
-        this._addToErrors(property, validation.length, Ember.String.fmt(Messages.tooShortMessage,minimum));
-      }else if (stringLength > maximum) {
-          this.set('isValidNow',false);
-        this._addToErrors(property, validation.length, Ember.String.fmt(Messages.tooLongMessage,maximum));
-      }
+      validation.length = {minimum: validation.length[0], maximum: validation.length[1]};
+      this._rangeLength(stringLength, property, validation);
     }else if(validationType === 'object'){
       if (validation.length.hasOwnProperty('is')) {
-
+        this._exactLength(stringLength, property, validation);
       }else{
-
+        this._rangeLength(stringLength, property, validation);
       }
     }
   },
-  _exactLength:function() {
-
+  _exactLength:function(stringLength, property, validation) {
+    if(stringLength !== validation.length.is){
+      this.set('isValidNow',false);
+      this._addToErrors(property, validation.length, Ember.String.fmt(Messages.wrongLengthMessage,validation.length.is));
+    }
   },
-  _rangeLength:function() {
-
+  _rangeLength:function(stringLength, property, validation) {
+    var minimum = validation.length.minimum || -1,
+        maximum = validation.length.maximum || Infinity;
+    if(stringLength < minimum){
+      this.set('isValidNow',false);
+      this._addToErrors(property, validation.length, Ember.String.fmt(Messages.tooShortMessage,minimum));
+    }else if (stringLength > maximum) {
+      this.set('isValidNow',false);
+      this._addToErrors(property, validation.length, Ember.String.fmt(Messages.tooLongMessage,maximum));
+    }
   },
   _validateRelations: function(property, validation) {
     var  _this = this;
