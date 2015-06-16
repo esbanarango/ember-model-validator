@@ -20,6 +20,7 @@ Install __Ember-model-validator__ is easy as:
 - [Acceptance](#acceptance)
 - [Absence](#absence)
 - [Format](#format)
+- [Length](#length)
 - [Email](#email)
 - [Color](#hex-color)
 - [ZipCode](#zipcode)
@@ -77,6 +78,36 @@ Speficy a Regexp to validate with. It uses the [match()](https://developer.mozil
   validations: {
     legacyCode:{
       format: { with: /^[a-zA-Z]+$/ }
+    }
+  }
+````
+
+### Length
+Speficy the lengths that are allowed.
+
+##### Options
+  - A `number`. The exact length of the value allowed (Alias for `is).
+  - An `array`. Will expand to `minimum` and `maximum. First element is the lower bound, second element is the upper bound.
+  - `is` _option_. The exact length of the value allowed.
+  - `minimum` _option_. The minimum length of the value allowed.
+  - `maximum` _option_. The maximum length of the value allowed.
+
+````js
+  validations: {
+    socialSecurity: {
+      length: 5
+    },
+    nsaNumber: {
+      length: [3, 5]
+    },
+    chuncaluchoNumber: {
+      length: { is: 10, message: 'this is not the length of a chuncalucho' }
+    },
+    hugeName:{
+      length: {
+        minimum: 3,
+        maximum: 5
+      }
     }
   }
 ````
