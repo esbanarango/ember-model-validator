@@ -184,6 +184,15 @@ describe('ModelValidatorMixin', function() {
             });
           });
         });
+
+        describe('lower case character validation', function() {
+          it('rejects a string that does not contain a lower case character', function() {
+            var model = this.subject({ password: 'k$1hkjgd' });
+            Ember.run(function() {
+              expect(model.validate({ only:['password'] })).to.equal(false);
+            });
+          });
+        });
       });
 
       describe('Relations validations', function() {
