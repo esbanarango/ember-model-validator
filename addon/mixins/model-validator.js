@@ -216,7 +216,7 @@ export default Ember.Mixin.create({
 
 		if (validation.mustContainSpecial && !containsSpecial) {
 			this.set('isValidNow', false);
-			this._addToErrors(property, validation, message.fmt(regexString));
+			this._addToErrors(property, validation, Ember.String.fmt(message, regexString));
 		}
 	},
 
