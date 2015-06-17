@@ -46,6 +46,16 @@ export default Ember.Mixin.create({
   },
 
   /**** Validators ****/
+  _validateCustom: function(property, validation){
+    var customValidator = this._getCustomValidator(validation);
+    if (customValidator) {
+      var passedCustomValidation = customValidator(property, this.get(property), this);
+      if (!passedCustomValidation) {
+        this.set('isValidNow', false);
+        this._addToErrors(property, validation.custom, Messages.customValidationMessage);
+      }
+    }
+  },
   _validatePresence: function(property, validation) {
     if (Ember.isBlank(this.get(property))){
       this.set('isValidNow',false);
@@ -236,6 +246,13 @@ export default Ember.Mixin.create({
     if(options.hasOwnProperty('except') && options.except.indexOf(property) !== -1){ validateThis = false; }
     if(options.hasOwnProperty('only') && options.only.indexOf(property) === -1){ validateThis = false; }
     return validateThis;
+  },
+  _getCustomValidator: function(validation){
+    var customValidator = validation.custom;
+    if (Ember.typeOf(validation.custom) === 'object' && validation.custom.hasOwnProperty('validation')) {
+      customValidator = validation.custom.validation;
+    } 
+    return typeof customValidator === 'function' ? customValidator : false;
   },
   _getCustomMessage: function(validationObj,defaultMessage) {
     if (Ember.typeOf(validationObj) === 'object' && validationObj.hasOwnProperty('message')) {

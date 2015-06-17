@@ -72,6 +72,9 @@ export default DS.Model.extend(Validator,{
       email: true
     },
     password: {
+      custom: function(key, value, _this){
+        return String(value) === String(_this.get('socialSecurity')) ? false : true;
+      },
       match: 'passwordConfirmation',
       mustContainCapital: true,
       mustContainLower: true,
@@ -94,7 +97,14 @@ export default DS.Model.extend(Validator,{
       numericality: { message: 'is not abracadabra' }
     },
     lotteryNumber: {
-      numericality: true
+      numericality: true,
+      custom: { 
+        validation: function(key, value, _this){
+          var favColor = _this.get('favoriteColor');
+          return !!favColor;
+        },
+        message: 'must have a favorite color to play the lotto, duh'
+      }
     },
     acceptConditions: {
       acceptance: true
