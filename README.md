@@ -31,7 +31,7 @@ Install __Ember-model-validator__ is easy as:
 - [Numericality](#numericality)
 - [Match](#match)
 - [Password*](#password)
-- [CustomValidation](#CustomValidation)
+- [CustomValidation](#custom)
 - ___[Relations](#relations)___
 
 
@@ -224,8 +224,8 @@ The value has to have only numeric values.
   }
 ````
 
-### CustomValidation
-Define a custom callback funciton to validate the model's value. The validation callback is passed 3 values: the key, value, model's scope. return true (or a truthy value) to pass the validation, return false (or falsy value) to fail the validation.
+### Custom
+Define a custom callback funciton to validate the model's value. The validation callback is passed 3 values: the _key_, _value_, _model's scope_. return true (or a truthy value) to pass the validation, return false (or falsy value) to fail the validation.
 
 ````js
   validations: {
