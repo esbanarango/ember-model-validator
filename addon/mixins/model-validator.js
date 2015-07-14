@@ -37,7 +37,8 @@ export default Ember.Mixin.create({
       if(Object.keys(errors).length !== 0){
         var stateToTransition = this.get('isNew') ? 'created.uncommitted' : 'updated.uncommitted';
         this.transitionTo(stateToTransition);
-        store.recordWasInvalid(this._internalModel, errors);
+				var recordModel = this.adapterDidInvalidate ? this : this._internalModel;
+        store.recordWasInvalid(recordModel, errors);
       }
       return false;
     }else{
