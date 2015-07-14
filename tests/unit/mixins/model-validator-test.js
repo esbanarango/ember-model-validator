@@ -76,6 +76,12 @@ describe('ModelValidatorMixin', function() {
         expect( model.get('errors').errorsFor('password').mapBy('message')[0][0] ).to.equal(Messages.customValidationMessage);
       });
 
+      it('validates the an array of custom validations', function(){
+        var model = this.subject({thing: 'fail'});
+        expect(model.validate()).to.equal(false);
+        expect( model.get('errors').errorsFor('thing').mapBy('message')[0][0] ).to.equal(Messages.customValidationMessage);
+      });
+
 		  it('validates the email format of the attributes set on `validations.email`', function() {
 	      var model = this.subject({email:'adsfasdf$'});
 	      expect(model.validate()).to.equal(false);
