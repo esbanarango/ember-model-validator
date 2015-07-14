@@ -37,7 +37,7 @@ export default Ember.Mixin.create({
       if(Object.keys(errors).length !== 0){
         var stateToTransition = this.get('isNew') ? 'created.uncommitted' : 'updated.uncommitted';
         this.transitionTo(stateToTransition);
-        store.recordWasInvalid(this, errors);
+        store.recordWasInvalid(this._internalModel, errors);
       }
       return false;
     }else{
@@ -47,14 +47,17 @@ export default Ember.Mixin.create({
 
   /**** Validators ****/
   _validateCustom: function(property, validation){
-    var customValidator = this._getCustomValidator(validation);
-    if (customValidator) {
-      var passedCustomValidation = customValidator(property, this.get(property), this);
-      if (!passedCustomValidation) {
-        this.set('isValidNow', false);
-        this._addToErrors(property, validation.custom, Messages.customValidationMessage);
-      }
-    }
+		validation = Ember.isArray(validation.custom) ? validation.custom : [validation.custom];
+		for (var i = 0; i < validation.length; i++) {
+	    var customValidator = this._getCustomValidator(validation[i]);
+	    if (customValidator) {
+	      var passedCustomValidation = customValidator(property, this.get(property), this);
+	      if (!passedCustomValidation) {
+	        this.set('isValidNow', false);
+	        this._addToErrors(property, validation[i], Messages.customValidationMessage);
+	      }
+	    }
+		}
   },
   _validatePresence: function(property, validation) {
     if (Ember.isBlank(this.get(property))){
@@ -248,10 +251,10 @@ export default Ember.Mixin.create({
     return validateThis;
   },
   _getCustomValidator: function(validation){
-    var customValidator = validation.custom;
-    if (Ember.typeOf(validation.custom) === 'object' && validation.custom.hasOwnProperty('validation')) {
-      customValidator = validation.custom.validation;
-    } 
+    var customValidator = validation;
+    if (Ember.typeOf(validation) === 'object' && validation.hasOwnProperty('validation')) {
+      customValidator = validation.validation;
+    }
     return typeof customValidator === 'function' ? customValidator : false;
   },
   _getCustomMessage: function(validationObj,defaultMessage) {
