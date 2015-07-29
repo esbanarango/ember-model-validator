@@ -34,6 +34,8 @@ export default DS.Model.extend(Validator,{
 
   otherFake: DS.belongsTo('other-model'),
 
+  thing: DS.attr(''),
+
   validations: {
     name: {
       presence: { errorAs:'profile.name' },
@@ -81,6 +83,20 @@ export default DS.Model.extend(Validator,{
       mustContainNumber: true,
       mustContainSpecial: true
     },
+    thing: {
+      custom: [
+        {
+          validation: function(key, value, _this){
+            return (value !== 'blahblahblahblahbthishouldneverfaillahblahblah');
+          }
+        },
+        {
+          validation: function(key, value, _this){
+            return (value !== 'fail');
+          }
+        }
+      ]
+    },
     mySubdomain:{
       subdomain:{ reserved:['admin','blog'], message: 'this subdomain is super invalid' }
     },
@@ -98,7 +114,7 @@ export default DS.Model.extend(Validator,{
     },
     lotteryNumber: {
       numericality: true,
-      custom: { 
+      custom: {
         validation: function(key, value, _this){
           var favColor = _this.get('favoriteColor');
           return !!favColor;

@@ -225,32 +225,53 @@ The value has to have only numeric values.
 ````
 
 ### Custom
-Define a custom callback funciton to validate the model's value. The validation callback is passed 3 values: the _key_, _value_, _model's scope_. return true (or a truthy value) to pass the validation, return false (or falsy value) to fail the validation.
+Define a custom callback function to validate the model's value. The validation callback is passed 3 values: the _key_, _value_, _model's scope_. return true (or a truthy value) to pass the validation, return false (or falsy value) to fail the validation.
 
 ````js
   validations: {
     lotteryNumber: {
-      custom: funciton(key, value, model){
+      custom: function(key, value, model){
         return model.get('accountBalance') > 1 ? true : false;
       }
     }
   }
 ````
 
-this has the same action as above except will use a custom message insetad of the default.
+this has the same action as above except will use a custom message instead of the default.
 ````js
   validations: {
     lotteryNumber: {
       custom: {
-        validation: funciton(key, value, model){
+        validation: function(key, value, model){
           return model.get('accountBalance') > 1 ? true : false;
         },
-        message: 'You can't win off of good looks and charm.'
+        message: 'You can\'t win off of good looks and charm.'
       }
     }
   }
 ````
 
+to have multiple custom validation functions on the same property, give 'custom' an array of either of the two syntax above.
+````js
+  validations: {
+    lotteryNumber: {
+      custom: [
+        {
+          validation: function(key, value, model){
+            return model.get('accountBalance') > 1 ? true : false;
+          },
+          message: 'You can\'t win off of good looks and charm.'
+        },
+        {
+          validation: function(key, value, model){
+            return model.get('accountBalance') > 1 ? true : false;
+          },
+          message: 'You can\'t win off of good looks and charm.'
+        }
+      ]
+    }
+  }
+````
 
 ### Password
 A set of validators which are especially useful for validating passwords. Be aware that these all of these password-aimed validations will work standalone and carry the same [common options](#common-options) with the rest of the validations. They don't only work for passwords!
