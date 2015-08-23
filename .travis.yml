@@ -16,11 +16,3 @@ script:
 - npm test
 notifications:
   email: false
-deploy:
-  provider: npm
-  email: marranoparael31@gmail.com
-  api_key:
-    secure: V7lHGi2hkl2ujVm8RYWY41HkKuoZl20oz/Z5jUqsxk/wz7wi9OgEAuDS3vvwW+vvKz2xLyJ1og87adjTp9XosAXhYsFUiDKGkX+K47f7sDwa5XlEZipIxIlPcvx3ZxvfYDBjCDhLKNwZhB7YLuyqW0OvqzmGS2Jc8f5oLoWgv9lKUN2VcBF+ohEE755Fk6FPYP1wuqO6luMyGaICs1MOG6JZnoxkehK4/0UARo8UNKl42fhY8BTIIKhKKd82leMSWfVT2Zs65VasdrBM5nE4+pSsNYl9bu2HOueLYCXbFYgwI3KvLG+ixZjBV+EIGrCB3gXQYrG4TKyrbvXfZklgohIv+sLCzquZLCSv+pguZxIMC2u1Ebgl0n4UuyOC5yvkfRgWumINzMaHbvheW1ZZmr3rXCvaJKfAKawyvs4j8IK7oR9KQdudkKYMat0svLWQtY27ZMYlIccMasKaEml4HOj2ludwXrlUkETm6IU4x1VqQC4eV3WgnU5UPW7U2NKaUN6MXipUwA30KXBoqqq+kaaI3+9L3E6Goibd2Zug3PjFJclKGrLJxzvXBDr/0K//GUBPrmDY7lJqVXsnriBQiqjDOFba4TxdExXWsKs2LqeInAHOWliTfU5fxcZxAOJwr3V6WAIlZi1kP+LhasxwcgVPfuEMLsneZZ0gzwr61Jo=
-  on:
-    tags: true
-    repo: esbanarango/ember-model-validator
