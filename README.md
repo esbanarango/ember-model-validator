@@ -322,7 +322,9 @@ This validator will run the `validate()` function for the specific relation. If 
 ## Usage
 __Ember-model-validator__ provides a mixin to be included in your models for adding validation support. This mixin can be imported from your app's namespace (e.g. `../mixins/model-validator` in your models).
 
-By including __Ember-model-validator's__ mixin into your model, this will have a `validate` function available, it is a _synchronous_ function which returns either __true__ or __false__. You can also pass an _option_ hash for excluding or forcing certain attributes to be validated.
+By including __Ember-model-validator's__ mixin into your model, this will have a `validate` function available, it is a _synchronous_ function which returns either __true__ or __false__.
+
+You can also pass an _option_ hash for excluding or forcing certain attributes to be validated, and to prevent errors to be added.
 
 ````js
 //Using `except`
@@ -330,6 +332,11 @@ myModel.validate({except:['name', 'cellphone']});
 
 //Using `only`
 myModel.validate({only:['favoritColor', 'mainstreamCode']});
+
+//Using `addErrors`
+myModel.validate({addErrors:false});
+// This will validate the model but won't add any errors.
+
 ````
 
 ## Usage Example
