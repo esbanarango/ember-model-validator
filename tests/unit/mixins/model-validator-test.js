@@ -393,8 +393,10 @@ describe('ModelValidatorMixin', function() {
           Ember.run(function() {
             model.set('password','k$1hkjGd');
             model.set('passwordConfirmation','k$1hkjGd');
+            expect(model.validate({addErrors: false})).to.equal(false);
+            expect(model.get('errors').errorsFor('email').mapBy('message').length).to.equal(0);
             expect(model.validate()).to.equal(false);
-            expect(model.get('errors').errorsFor('password').mapBy('message').length).to.equal(0);
+            expect(model.get('errors').errorsFor('email').mapBy('message').length).to.equal(1);
           });
         });
 
