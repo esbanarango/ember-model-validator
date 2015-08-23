@@ -5,6 +5,7 @@ export default Ember.Mixin.create({
 
 	validationErrors: {},
   isValidNow: true,
+  addErrors: true,
 
   validate: function(options) {
     var store = this.get('store'),
@@ -19,11 +20,14 @@ export default Ember.Mixin.create({
     this.get('errors').clear();
     this.set('validationErrors', {});
     this.set('isValidNow', true);
-    this.set('addErrors', true);
     errors = this.get('validationErrors');
 
     // Validate but not set errors
-    if(options.hasOwnProperty('addErrors')){ this.set('addErrors', options['addErrors']); }
+    if(options.hasOwnProperty('addErrors')){
+      this.set('addErrors', options['addErrors']);
+    }else{
+      this.set('addErrors', true);
+    }
 
     // Call validators defined on each property
 		for (var property in validations) {
