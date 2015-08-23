@@ -17,9 +17,13 @@ export default Ember.Mixin.create({
 
   	// Clean all the current errors
     this.get('errors').clear();
-    this.set('validationErrors',{});
-    this.set('isValidNow',true);
+    this.set('validationErrors', {});
+    this.set('isValidNow', true);
+    this.set('addErrors', true);
     errors = this.get('validationErrors');
+
+    // Validate but not set errors
+    if(options.hasOwnProperty('addErrors')){ this.set('addErrors', options['addErrors']); }
 
     // Call validators defined on each property
 		for (var property in validations) {
@@ -270,7 +274,7 @@ export default Ember.Mixin.create({
         message = this._getCustomMessage(validation, defaultMessage),
         errorAs =  validation.errorAs || property;
     if (!Ember.isArray(errors[errorAs])) {errors[errorAs] = [];}
-    errors[errorAs].push([message]);
+    if(this.get('addErrors')){errors[errorAs].push([message]);}
   },
 	_isNumber: function (n) {
   	return !isNaN(parseFloat(n)) && isFinite(n);

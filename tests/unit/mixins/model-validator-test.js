@@ -386,8 +386,21 @@ describe('ModelValidatorMixin', function() {
 
 			});
 
+      describe('when `addErrors` is passed to `validate`', function() {
 
-      describe('when except is passed to `validate`', function() {
+        it('it validates all the attributes but does not add errors', function() {
+          var model = this.subject({email:'adsfasdf$',name:'Jose Rene',lotteryNumber:124,alibabaNumber:33,legacyCode:'abc', acceptConditions: 1, password: 'k$1hkjGd', favoriteColor: 'FFFFFF', socialSecurity: 12312});
+          Ember.run(function() {
+            model.set('password','k$1hkjGd');
+            model.set('passwordConfirmation','k$1hkjGd');
+            expect(model.validate()).to.equal(false);
+            expect(model.get('errors').errorsFor('password').mapBy('message').length).to.equal(0);
+          });
+        });
+
+      });
+
+      describe('when `except` is passed to `validate`', function() {
 
         it('it validates all the attributes except the ones specifed', function() {
           var model = this.subject({email:'adsfasdf$',name:'Jose Rene',lotteryNumber:124,alibabaNumber:33,legacyCode:'abc', acceptConditions: 1, password: 'k$1hkjGd', favoriteColor: 'FFFFFF', socialSecurity: 12312});
@@ -401,7 +414,7 @@ describe('ModelValidatorMixin', function() {
 
       });
 
-      describe('when only is passed to `validate`', function() {
+      describe('when `only` is passed to `validate`', function() {
 
         it('it validates only the attributes specifed', function() {
           var model = this.subject({email:'adsfasdf$',name:'Jose Rene',lotteryNumber:124,alibabaNumber:33,legacyCode:'abc'});
