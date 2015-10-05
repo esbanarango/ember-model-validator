@@ -38,7 +38,7 @@ Install __Ember-model-validator__ is easy as:
 ##### Common options
 
 All validators accept the following options
-  - `message` _option_. Overwrites the default message.
+  - `message` _option_. Overwrites the default message, it can be a String or a function that returns a string.
   - `errorAs` _option_. Sets the _key_ name to be used when adding errors (default to property name).
 
 ### Presence
@@ -318,6 +318,45 @@ This validator will run the `validate()` function for the specific relation. If 
     }
   }
 ````
+
+## Using function to generate custom message
+
+You can pass a function to generate a more specific error message. Some scenarios are:
+
+* When the message varies depending of the attribute value.
+* When you want to use model attributes in the message.
+
+The message function receives the attribute name, the value of the attribute and the model itself.
+
+**NOTE:** If the function doesn't return a string the default message is going to be used.
+
+### Example
+
+````js
+import DS from 'ember-data';
+import Validator from '../mixins/model-validator';
+
+export default DS.Model.extend(Validator,{
+
+  otherCustomAttribute: DS.attr('number', { defaultValue:  12345 }),
+
+  validations: {
+    otherCustomAttribute: {
+      custom: {
+        validation: function(key, value){
+          return value.toString().length === 5 ? true : false;
+        },
+        message: function(key,value, _this){
+          return key + " must have exactly 5 digits";
+        }
+      }
+    }
+  }
+
+});
+
+````
+
 
 ## Usage
 __Ember-model-validator__ provides a mixin to be included in your models for adding validation support. This mixin can be imported from your app's namespace (e.g. `../mixins/model-validator` in your models).

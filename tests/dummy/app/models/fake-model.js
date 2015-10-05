@@ -36,6 +36,10 @@ export default DS.Model.extend(Validator,{
 
   thing: DS.attr(''),
 
+  otherCustomValidation: DS.attr('number', { defaultValue:  12345 }),
+
+  otherCustomValidationBadMessageFunction: DS.attr('number', { defaultValue:  12345 }),
+
   validations: {
     name: {
       presence: { errorAs:'profile.name' },
@@ -133,6 +137,26 @@ export default DS.Model.extend(Validator,{
     },
     otherFake:{
       relations: ['belongsTo']
+    },
+    otherCustomValidation: {
+      custom: {
+        validation: function(key, value){
+          return value.toString().length === 5 ? true : false;
+        },
+        message: function(key,value, _this){
+          return key + " must have exactly 5 digits";
+        }
+      }
+    },
+    otherCustomValidationBadMessageFunction: {
+      custom: {
+        validation: function(key, value){
+          return value.toString().length === 5 ? true : false;
+        },
+        message: function(key, value, _this){
+          return 12345;
+        }
+      }
     }
   }
 

@@ -264,18 +264,23 @@ export default Ember.Mixin.create({
     if (Ember.typeOf(validation) === 'object' && validation.hasOwnProperty('validation')) {
       customValidator = validation.validation;
     }
-    return typeof customValidator === 'function' ? customValidator : false;
+    return this._isFunction(customValidator) ? customValidator : false;
   },
-  _getCustomMessage: function(validationObj,defaultMessage) {
+  _getCustomMessage: function(validationObj,defaultMessage, property) {
     if (Ember.typeOf(validationObj) === 'object' && validationObj.hasOwnProperty('message')) {
-      return validationObj.message;
+      if( this._isFunction(validationObj.message )){
+        var msg = validationObj.message.call(property, this.get(property), this);
+        return this._isString( msg ) ? msg : defaultMessage;
+      }else{
+        return validationObj.message;
+      }
     }else{
       return defaultMessage;
     }
   },
   _addToErrors: function(property, validation, defaultMessage) {
     var errors = this.get('validationErrors'),
-        message = this._getCustomMessage(validation, defaultMessage),
+        message = this._getCustomMessage(validation, defaultMessage, property),
         errorAs =  validation.errorAs || property;
     if (!Ember.isArray(errors[errorAs])) {errors[errorAs] = [];}
     if(this.get('addErrors')){errors[errorAs].push([message]);}
@@ -289,5 +294,11 @@ export default Ember.Mixin.create({
               .replace(/([A-Z])/g, ' $1')
               // uppercase the first character
               .replace(/^./, function(str){ return Ember.String.capitalize(str); });
+  },
+  _isFunction: function(func) {
+    return Ember.isEqual(Ember.typeOf(func),'function');
+  },
+  _isString: function(str){
+    return Ember.isEqual(Ember.typeOf(str), 'string');
   }
 });
