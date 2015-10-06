@@ -186,6 +186,16 @@ describe('ModelValidatorMixin', function() {
             });
           });
         });
+
+        describe('`lessThanOrEqualTo` option', function() {
+          it('validates that the number is `less than or equal` to the specified value', function() {
+            var model = this.subject({anIntegerLessThanOrEqual6:8});
+            Ember.run(function() {
+              expect(model.validate({only:['anIntegerLessThanOrEqual6']})).to.equal(false);
+              expect(model.get('errors').errorsFor('anIntegerLessThanOrEqual6').mapBy('message')[0][0]).to.equal(Ember.String.fmt(Messages.numericalityLessThanOrEqualToMessage,6));
+            });
+          });
+        });
       });
 
       describe('Length validator', function() {

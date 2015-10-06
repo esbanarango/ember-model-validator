@@ -2,6 +2,7 @@ import DS from 'ember-data';
 import Validator from '../mixins/model-validator';
 
 export default DS.Model.extend(Validator,{
+
   name: DS.attr('string'),
   login: DS.attr('string'),
   secondName: DS.attr('string'),
@@ -18,31 +19,20 @@ export default DS.Model.extend(Validator,{
   anIntegerGreaterThan4: DS.attr('number', {defaultValue: 5}),
   anIntegerLessThan4: DS.attr('number', {defaultValue: 3}),
   anIntegerGreaterThanOrEqual7: DS.attr('number', {defaultValue: 7}),
+  anIntegerLessThanOrEqual6: DS.attr('number', {defaultValue: 6}),
   aTenNumber: DS.attr('number', {defaultValue: 10}),
   acceptConditions: DS.attr('boolean', {defaultValue: true}),
-
   socialSecurity: DS.attr('number', {defaultValue: 12345}),
-
   nsaNumber: DS.attr('number', {defaultValue: 1234}),
-
   chuncaluchoNumber: DS.attr('number', {defaultValue: 1234567891}),
-
   hugeName: DS.attr('string', {defaultValue: 12345}),
-
   postalCode:  DS.attr('string', {defaultValue: '09011'}),
-
   mySubdomain: DS.attr('string', {defaultValue: 'fake_subdomain'}),
-
   myBlog: DS.attr('string', {defaultValue: 'http://esbanarango.com'}),
-
   otherFakes: DS.hasMany('other-model'),
-
   otherFake: DS.belongsTo('other-model'),
-
   thing: DS.attr(''),
-
   otherCustomValidation: DS.attr('number', { defaultValue:  12345 }),
-
   otherCustomValidationBadMessageFunction: DS.attr('number', { defaultValue:  12345 }),
 
   validations: {
@@ -129,6 +119,9 @@ export default DS.Model.extend(Validator,{
     },
     anIntegerGreaterThanOrEqual7:{
       numericality: {greaterThanOrEqualTo: 7}
+    },
+    anIntegerLessThanOrEqual6:{
+        numericality: {lessThanOrEqualTo: 6}
     },
     aTenNumber:{
       numericality: {equalTo: 10}
