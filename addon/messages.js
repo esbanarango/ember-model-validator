@@ -3,7 +3,9 @@ export default {
   absenceMessage: 'must be blank',
   inclusionMessage: 'is not included in the list',
   exclusionMessage: 'is reserved',
+  // Numericality
   numericalityMessage: 'is not a number',
+  numericalityOnlyIntegerMessage: 'must be an integer',
   mailMessage: 'is not a valid email',
   formatMessage: 'is invalid',
   colorMessage: 'must be a valid CSS hex color code',

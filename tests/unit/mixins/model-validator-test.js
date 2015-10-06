@@ -136,6 +136,18 @@ describe('ModelValidatorMixin', function() {
         model.validations.secondName.exclusion['message'] = message;
       });
 
+      describe('Numericality validator', function() {
+        describe('onlyInteger option', function() {
+          it('validates the number for only being an integer', function() {
+            var model = this.subject({anInteger:1.3});
+            Ember.run(function() {
+              expect(model.validate({only:['anInteger']})).to.equal(false);
+              expect(model.get('errors').errorsFor('anInteger').mapBy('message')[0][0]).to.equal(Messages.numericalityOnlyIntegerMessage);
+            });
+          });
+        });
+      });
+
       describe('Length validator', function() {
         describe('exact Length', function() {
           describe('when is set to a number', function() {
@@ -381,6 +393,7 @@ describe('ModelValidatorMixin', function() {
             model.set('passwordConfirmation','k$1hkjGd');
 		      	model.set('email','rene@higuita.com');
 		      	expect(model.validate()).to.equal(true);
+
 		      });
 			  });
 

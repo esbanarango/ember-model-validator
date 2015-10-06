@@ -216,6 +216,9 @@ Speficy the attribute to match with.
 ### Numericality
 The value has to have only numeric values.
 
+##### Options
+  - `onlyInteger` _option_. The value must be an integer.
+
 ````js
   validations: {
     lotteryNumber:{

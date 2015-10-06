@@ -14,6 +14,7 @@ export default DS.Model.extend(Validator,{
   mainstreamCode: DS.attr('string', {defaultValue: 'hiphopBachatudo'}),
   lotteryNumber: DS.attr('number'),
   alibabaNumber: DS.attr('number'),
+  anInteger: DS.attr('number', {defaultValue: 111}),
   acceptConditions: DS.attr('boolean', {defaultValue: true}),
 
   socialSecurity: DS.attr('number', {defaultValue: 12345}),
@@ -109,8 +110,11 @@ export default DS.Model.extend(Validator,{
     legacyCode:{
       format: { with: /^[a-zA-Z]+$/ }
     },
+    anInteger:{
+      numericality: {onlyInteger: true }
+    },
     alibabaNumber: {
-      numericality: { message: 'is not abracadabra' }
+      numericality: {message: 'is not abracadabra' }
     },
     lotteryNumber: {
       numericality: true,

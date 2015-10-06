@@ -131,7 +131,13 @@ export default Ember.Mixin.create({
     }
   },
   _validateNumericality: function(property, validation) {
-    if (!this._isNumber(this.get(property))){
+    var propertyValue = this.get(property);
+    if(validation.numericality.hasOwnProperty('onlyInteger') && validation.numericality.onlyInteger){
+      if(!(/^[+\-]?\d+$/.test(propertyValue))){
+        this.set('isValidNow',false);
+        this._addToErrors(property, validation.numericality, Messages.numericalityOnlyIntegerMessage);
+      }
+    }else if(!this._isNumber(this.get(property))){
       this.set('isValidNow',false);
     	this._addToErrors(property, validation.numericality, Messages.numericalityMessage);
     }
