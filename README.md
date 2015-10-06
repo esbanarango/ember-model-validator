@@ -38,7 +38,7 @@ Install __Ember-model-validator__ is easy as:
 ##### Common options
 
 All validators accept the following options
-  - `message` _option_. Overwrites the default message, it can be a String or a function that returns a string.
+  - `message` _option_. Overwrites the default message, it can be a String or a [function](#using-function-to-generate-custom-message) that returns a string.
   - `errorAs` _option_. Sets the _key_ name to be used when adding errors (default to property name).
 
 ### Presence
@@ -325,7 +325,7 @@ This validator will run the `validate()` function for the specific relation. If 
   }
 ````
 
-## Using function to generate custom message
+### Using function to generate custom message
 
 You can pass a function to generate a more specific error message. Some scenarios are:
 
@@ -336,7 +336,7 @@ The message function receives the attribute name, the value of the attribute and
 
 **NOTE:** If the function doesn't return a string the default message is going to be used.
 
-### Example
+##### Example
 
 ````js
 import DS from 'ember-data';
