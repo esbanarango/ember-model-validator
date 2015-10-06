@@ -7,6 +7,7 @@ export default {
   numericalityMessage: 'is not a number',
   numericalityOnlyIntegerMessage: 'must be an integer',
   numericalityGreaterThanMessage: 'must be greater than %@',
+  numericalityGreaterThanOrEqualToMessage: 'must be greater than or equal to %@',
 
   mailMessage: 'is not a valid email',
   formatMessage: 'is invalid',

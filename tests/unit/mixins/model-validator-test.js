@@ -135,7 +135,7 @@ describe('ModelValidatorMixin', function() {
         expect(model.get('errors').errorsFor('secondName').mapBy('message')[0][0]).to.equal(Messages.exclusionMessage);
         model.validations.secondName.exclusion['message'] = message;
       });
-
+      // Numericality validator
       describe('Numericality validator', function() {
         describe('`onlyInteger` option', function() {
           it('validates the number for only being an integer', function() {
@@ -148,7 +148,7 @@ describe('ModelValidatorMixin', function() {
         });
 
         describe('`greaterThan` option', function() {
-          it('validates that the number is greater Than the specified value', function() {
+          it('validates that the number is `greater than` the specified value', function() {
             var model = this.subject({anIntegerGreaterThan4:2});
             Ember.run(function() {
               expect(model.validate({only:['anIntegerGreaterThan4']})).to.equal(false);
@@ -157,6 +157,15 @@ describe('ModelValidatorMixin', function() {
           });
         });
 
+        describe('`greaterThanOrEqualTo` option', function() {
+          it('validates that the number is `greater than or equal` to the specified value', function() {
+            var model = this.subject({anIntegerGreaterThanOrEqual7:2});
+            Ember.run(function() {
+              expect(model.validate({only:['anIntegerGreaterThanOrEqual7']})).to.equal(false);
+              expect(model.get('errors').errorsFor('anIntegerGreaterThanOrEqual7').mapBy('message')[0][0]).to.equal(Ember.String.fmt(Messages.numericalityGreaterThanOrEqualToMessage,7));
+            });
+          });
+        });
       });
 
       describe('Length validator', function() {
