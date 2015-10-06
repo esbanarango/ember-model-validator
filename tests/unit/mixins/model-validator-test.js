@@ -398,6 +398,30 @@ describe('ModelValidatorMixin', function() {
             expect(model.get('errors').errorsFor('alibabaNumber').mapBy('message')[0][0]).to.equal(model.validations.alibabaNumber.numericality.message);
           });
         });
+
+        describe('When custom message is a function', function(){
+
+          describe('and function returns a string',function(){
+            it('set error message using the function return', function(){
+              var model = this.subject({otherCustomValidation: 123456 });
+              Ember.run(function() {
+                expect(model.validate()).to.equal(false);
+                expect(model.get('errors').errorsFor('otherCustomValidation').mapBy('message')[0][0]).to
+                  .equal(model.validations.otherCustomValidation.custom.message.call('otherCustomValidation', model.get('otherCustomValidation'), model));
+              });
+            });
+          });
+
+          describe('and function does not return a string', function() {
+            it('set error message to default message', function(){
+              var model = this.subject({otherCustomValidationBadMessageFunction: 123456 });
+              Ember.run(function() {
+                expect(model.validate()).to.equal(false);
+                expect(model.get('errors').errorsFor('otherCustomValidationBadMessageFunction').mapBy('message')[0][0]).to.equal(Messages.customValidationMessage);
+              });
+            });
+          });
+        });
       });
 
       describe('when errorAs is set', function() {
@@ -469,9 +493,7 @@ describe('ModelValidatorMixin', function() {
             expect(model.validate({only:['email']})).to.equal(true);
           });
         });
-
       });
-
 	  }
 	);
 
