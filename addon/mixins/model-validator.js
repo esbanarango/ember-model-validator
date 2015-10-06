@@ -137,17 +137,26 @@ export default Ember.Mixin.create({
         this.set('isValidNow',false);
         this._addToErrors(property, validation.numericality, Messages.numericalityOnlyIntegerMessage);
       }
-    }else if(validation.numericality.hasOwnProperty('greaterThan') && this._isNumber(validation.numericality.greaterThan)){
+    }
+    if(validation.numericality.hasOwnProperty('greaterThan') && this._isNumber(validation.numericality.greaterThan)){
       if(propertyValue <= validation.numericality.greaterThan){
         this.set('isValidNow',false);
         this._addToErrors(property, validation.numericality, Ember.String.fmt(Messages.numericalityGreaterThanMessage,validation.numericality.greaterThan));
       }
-    }else if(validation.numericality.hasOwnProperty('greaterThanOrEqualTo') && this._isNumber(validation.numericality.greaterThanOrEqualTo)){
+    }
+    if(validation.numericality.hasOwnProperty('greaterThanOrEqualTo') && this._isNumber(validation.numericality.greaterThanOrEqualTo)){
       if(propertyValue < validation.numericality.greaterThanOrEqualTo){
         this.set('isValidNow',false);
         this._addToErrors(property, validation.numericality, Ember.String.fmt(Messages.numericalityGreaterThanOrEqualToMessage,validation.numericality.greaterThanOrEqualTo));
       }
-    }else if(!this._isNumber(this.get(property))){
+    }
+    if(validation.numericality.hasOwnProperty('equalTo') && this._isNumber(validation.numericality.equalTo)){
+      if(propertyValue !== validation.numericality.equalTo){
+        this.set('isValidNow',false);
+        this._addToErrors(property, validation.numericality, Ember.String.fmt(Messages.numericalityEqualToMessage,validation.numericality.equalTo));
+      }
+    }
+    if(!this._isNumber(this.get(property))){
       this.set('isValidNow',false);
     	this._addToErrors(property, validation.numericality, Messages.numericalityMessage);
     }

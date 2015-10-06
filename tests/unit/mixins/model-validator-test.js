@@ -166,6 +166,16 @@ describe('ModelValidatorMixin', function() {
             });
           });
         });
+
+        describe('`equalTo` option', function() {
+          it('validates that the number is `greater than or equal` to the specified value', function() {
+            var model = this.subject({aTenNumber:2});
+            Ember.run(function() {
+              expect(model.validate({only:['aTenNumber']})).to.equal(false);
+              expect(model.get('errors').errorsFor('aTenNumber').mapBy('message')[0][0]).to.equal(Ember.String.fmt(Messages.numericalityEqualToMessage,10));
+            });
+          });
+        });
       });
 
       describe('Length validator', function() {
