@@ -16,6 +16,7 @@ export default DS.Model.extend(Validator,{
   alibabaNumber: DS.attr('number'),
   anInteger: DS.attr('number', {defaultValue: 111}),
   anIntegerGreaterThan4: DS.attr('number', {defaultValue: 5}),
+  anIntegerLessThan4: DS.attr('number', {defaultValue: 3}),
   anIntegerGreaterThanOrEqual7: DS.attr('number', {defaultValue: 7}),
   aTenNumber: DS.attr('number', {defaultValue: 10}),
   acceptConditions: DS.attr('boolean', {defaultValue: true}),
@@ -119,6 +120,9 @@ export default DS.Model.extend(Validator,{
     },
     anInteger:{
       numericality: {onlyInteger: true }
+    },
+    anIntegerLessThan4:{
+      numericality: {lessThan: 4}
     },
     anIntegerGreaterThan4:{
       numericality: {greaterThan: 4}

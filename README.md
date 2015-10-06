@@ -221,6 +221,7 @@ The value has to have only numeric values.
   - `greaterThan` _option_. The value must be greater than the supplied value.
   - `greaterThanOrEqualTo` _option_. The value must be greater or equal to the supplied value.
   - `equalTo` _option_. The value must be equal to the supplied value.
+  - `lessThan` _option_. The value must be less than the supplied value.
 
 ````js
   validations: {

@@ -176,6 +176,16 @@ describe('ModelValidatorMixin', function() {
             });
           });
         });
+
+        describe('`lessThan` option', function() {
+          it('validates that the number is `less than` the specified value', function() {
+            var model = this.subject({anIntegerLessThan4:5});
+            Ember.run(function() {
+              expect(model.validate({only:['anIntegerLessThan4']})).to.equal(false);
+              expect(model.get('errors').errorsFor('anIntegerLessThan4').mapBy('message')[0][0]).to.equal(Ember.String.fmt(Messages.numericalityLessThanMessage,4));
+            });
+          });
+        });
       });
 
       describe('Length validator', function() {

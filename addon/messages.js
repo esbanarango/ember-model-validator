@@ -9,6 +9,7 @@ export default {
   numericalityGreaterThanMessage: 'must be greater than %@',
   numericalityGreaterThanOrEqualToMessage: 'must be greater than or equal to %@',
   numericalityEqualToMessage: 'must be equal to %@',
+  numericalityLessThanMessage: 'must be less than %@',
 
   mailMessage: 'is not a valid email',
   formatMessage: 'is invalid',
