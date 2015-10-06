@@ -137,7 +137,7 @@ describe('ModelValidatorMixin', function() {
       });
 
       describe('Numericality validator', function() {
-        describe('onlyInteger option', function() {
+        describe('`onlyInteger` option', function() {
           it('validates the number for only being an integer', function() {
             var model = this.subject({anInteger:1.3});
             Ember.run(function() {
@@ -146,6 +146,17 @@ describe('ModelValidatorMixin', function() {
             });
           });
         });
+
+        describe('`greaterThan` option', function() {
+          it('validates that the number is greater Than the specified value', function() {
+            var model = this.subject({anIntegerGreaterThan4:2});
+            Ember.run(function() {
+              expect(model.validate({only:['anIntegerGreaterThan4']})).to.equal(false);
+              expect(model.get('errors').errorsFor('anIntegerGreaterThan4').mapBy('message')[0][0]).to.equal(Ember.String.fmt(Messages.numericalityGreaterThanMessage,4));
+            });
+          });
+        });
+
       });
 
       describe('Length validator', function() {

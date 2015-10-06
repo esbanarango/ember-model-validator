@@ -137,6 +137,11 @@ export default Ember.Mixin.create({
         this.set('isValidNow',false);
         this._addToErrors(property, validation.numericality, Messages.numericalityOnlyIntegerMessage);
       }
+    }else if(validation.numericality.hasOwnProperty('greaterThan') && this._isNumber(validation.numericality.greaterThan)){
+      if(propertyValue <= validation.numericality.greaterThan){
+        this.set('isValidNow',false);
+        this._addToErrors(property, validation.numericality, Ember.String.fmt(Messages.numericalityGreaterThanMessage,validation.numericality.greaterThan));
+      }
     }else if(!this._isNumber(this.get(property))){
       this.set('isValidNow',false);
     	this._addToErrors(property, validation.numericality, Messages.numericalityMessage);

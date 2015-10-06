@@ -218,6 +218,7 @@ The value has to have only numeric values.
 
 ##### Options
   - `onlyInteger` _option_. The value must be an integer.
+  - `greaterThan` _option_. The value must be greater than the supplied value..
 
 ````js
   validations: {

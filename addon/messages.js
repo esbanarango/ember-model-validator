@@ -6,6 +6,8 @@ export default {
   // Numericality
   numericalityMessage: 'is not a number',
   numericalityOnlyIntegerMessage: 'must be an integer',
+  numericalityGreaterThanMessage: 'must be greater than %@',
+
   mailMessage: 'is not a valid email',
   formatMessage: 'is invalid',
   colorMessage: 'must be a valid CSS hex color code',
