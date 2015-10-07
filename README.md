@@ -223,6 +223,8 @@ The value has to have only numeric values.
   - `equalTo` _option_. The value must be equal to the supplied value.
   - `lessThan` _option_. The value must be less than the supplied value.
   - `lessThanOrEqualTo` _option_. The value must be less or equal to the supplied value.
+  - `odd` _option_. The value must be odd.
+  - `even` _option_. The value must be even.
 
 ````js
   validations: {

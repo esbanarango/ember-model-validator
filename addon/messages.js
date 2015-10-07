@@ -11,6 +11,8 @@ export default {
   numericalityEqualToMessage: 'must be equal to %@',
   numericalityLessThanMessage: 'must be less than %@',
   numericalityLessThanOrEqualToMessage: 'must be less than or equal to %@',
+  numericalityOddMessage: 'must be odd',
+  numericalityEvenMessage: 'must be even',
 
   mailMessage: 'is not a valid email',
   formatMessage: 'is invalid',

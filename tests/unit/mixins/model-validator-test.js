@@ -196,6 +196,26 @@ describe('ModelValidatorMixin', function() {
             });
           });
         });
+
+        describe('`odd` option', function() {
+          it('validates that the number is `odd`', function() {
+            var model = this.subject({anOddNumber:2});
+            Ember.run(function() {
+              expect(model.validate({only:['anOddNumber']})).to.equal(false);
+              expect(model.get('errors').errorsFor('anOddNumber').mapBy('message')[0][0]).to.equal(Messages.numericalityOddMessage);
+            });
+          });
+        });
+
+        describe('`even` option', function() {
+          it('validates that the number is `even`', function() {
+            var model = this.subject({anEvenNumber:3});
+            Ember.run(function() {
+              expect(model.validate({only:['anEvenNumber']})).to.equal(false);
+              expect(model.get('errors').errorsFor('anEvenNumber').mapBy('message')[0][0]).to.equal(Messages.numericalityEvenMessage);
+            });
+          });
+        });
       });
 
       describe('Length validator', function() {

@@ -21,6 +21,8 @@ export default DS.Model.extend(Validator,{
   anIntegerGreaterThanOrEqual7: DS.attr('number', {defaultValue: 7}),
   anIntegerLessThanOrEqual6: DS.attr('number', {defaultValue: 6}),
   aTenNumber: DS.attr('number', {defaultValue: 10}),
+  anOddNumber: DS.attr('number', {defaultValue: 3}),
+  anEvenNumber: DS.attr('number', {defaultValue: 2}),
   acceptConditions: DS.attr('boolean', {defaultValue: true}),
   socialSecurity: DS.attr('number', {defaultValue: 12345}),
   nsaNumber: DS.attr('number', {defaultValue: 1234}),
@@ -121,10 +123,16 @@ export default DS.Model.extend(Validator,{
       numericality: {greaterThanOrEqualTo: 7}
     },
     anIntegerLessThanOrEqual6:{
-        numericality: {lessThanOrEqualTo: 6}
+      numericality: {lessThanOrEqualTo: 6}
     },
     aTenNumber:{
       numericality: {equalTo: 10}
+    },
+    anOddNumber:{
+      numericality: {odd: true}
+    },
+    anEvenNumber:{
+      numericality: {even: true}
     },
     alibabaNumber: {
       numericality: {message: 'is not abracadabra' }

@@ -132,10 +132,26 @@ export default Ember.Mixin.create({
   },
   _validateNumericality: function(property, validation) {
     var propertyValue = this.get(property);
+    if(!this._isNumber(this.get(property))){
+      this.set('isValidNow',false);
+      this._addToErrors(property, validation.numericality, Messages.numericalityMessage);
+    }
     if(validation.numericality.hasOwnProperty('onlyInteger') && validation.numericality.onlyInteger){
       if(!(/^[+\-]?\d+$/.test(propertyValue))){
         this.set('isValidNow',false);
         this._addToErrors(property, validation.numericality, Messages.numericalityOnlyIntegerMessage);
+      }
+    }
+    if(validation.numericality.hasOwnProperty('even') && validation.numericality.even){
+      if(propertyValue % 2 !== 0){
+        this.set('isValidNow',false);
+        this._addToErrors(property, validation.numericality, Messages.numericalityEvenMessage);
+      }
+    }
+    if(validation.numericality.hasOwnProperty('odd') && validation.numericality.odd){
+      if(propertyValue % 2 === 0){
+        this.set('isValidNow',false);
+        this._addToErrors(property, validation.numericality, Messages.numericalityOddMessage);
       }
     }
     if(validation.numericality.hasOwnProperty('greaterThan') && this._isNumber(validation.numericality.greaterThan)){
@@ -167,10 +183,6 @@ export default Ember.Mixin.create({
         this.set('isValidNow',false);
         this._addToErrors(property, validation.numericality, Ember.String.fmt(Messages.numericalityLessThanOrEqualToMessage,validation.numericality.lessThanOrEqualTo));
       }
-    }
-    if(!this._isNumber(this.get(property))){
-      this.set('isValidNow',false);
-    	this._addToErrors(property, validation.numericality, Messages.numericalityMessage);
     }
   },
   _validateExclusion: function(property, validation) {
