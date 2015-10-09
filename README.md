@@ -40,6 +40,7 @@ Install __Ember-model-validator__ is easy as:
 All validators accept the following options
   - `message` _option_. Overwrites the default message, it can be a String or a [function](#using-function-to-generate-custom-message) that returns a string.
   - `errorAs` _option_. Sets the _key_ name to be used when adding errors (default to property name).
+  - `allowBlank` _option_. If set to `true` and the value is blank as defined by [Ember.isBlank](http://emberjs.com/api/#method_isBlank), all other validations for the field are skipped.
 
 ### Presence
 A value is not present if it is empty or a whitespace string. It uses [Ember.isBlank](http://emberjs.com/api/#method_isBlank) method.
