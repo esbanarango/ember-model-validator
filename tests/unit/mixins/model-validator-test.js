@@ -30,6 +30,20 @@ describe('ModelValidatorMixin', function() {
 	      expect(model).to.be.ok;
 	    });
 
+
+      it('skips other validations when optional field is blank', function(){
+        var model = this.subject({anOptionalNumber: null});
+        model.validate();
+        console.log(model.get('errors.messages'));
+        model.validate();
+        expect(model.get('errors').errorsFor('anOptionalNumber').length).to.equal(0);
+      });
+      it('runs remaining validations when optional field is not blank', function(){
+        var model = this.subject({anOptionalNumber: 'abc'});
+        expect(model.validate()).to.equal(false);
+        expect(model.get('errors').errorsFor('anOptionalNumber').mapBy('message')[0][0]).to.equal(Messages.numericalityMessage);
+        expect(model.get('errors').errorsFor('anOptionalNumber').mapBy('message')[1][0]).to.equal(Messages.numericalityOnlyIntegerMessage);
+      });
 		  it('validates the presence of the attributes set on `validations.presence`', function() {
 	      var model = this.subject(),
             errorAs = model.validations.name.presence.errorAs;
