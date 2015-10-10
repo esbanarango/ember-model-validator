@@ -34,8 +34,6 @@ describe('ModelValidatorMixin', function() {
       it('skips other validations when optional field is blank', function(){
         var model = this.subject({anOptionalNumber: null});
         model.validate();
-        console.log(model.get('errors.messages'));
-        model.validate();
         expect(model.get('errors').errorsFor('anOptionalNumber').length).to.equal(0);
       });
       it('runs remaining validations when optional field is not blank', function(){
