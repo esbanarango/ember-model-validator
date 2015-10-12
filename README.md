@@ -6,7 +6,7 @@
 This README outlines the details of collaborating on this Ember addon.
 
 ## Purpose
-This Ember cli addons borns from the necessity of having some sort of similar validation support like we have on Rails with _Active Record Validations_.
+This Ember cli addon borns from the necessity of having some sort of similar validation support like we have on Rails with _Active Record Validations_.
 
 ## Installation
 
@@ -118,7 +118,7 @@ Speficy the lengths that are allowed.
 ````
 
 ### Email
-Validates the proper fortmat of the email.
+Validates the proper format of the email.
 
 ````js
   validations: {
@@ -301,7 +301,7 @@ validations: {
     mustContainLower: true,
     mustContainNumber: true,
     mustContainSpecial: {
-      message: 'One of these chacters is required: %@',
+      message: 'One of these characters is required: %@',
       acceptableChars: '-+_!@#$%^&*.,?()'
     },
     length: {
@@ -508,7 +508,7 @@ export default DS.Model.extend(Validator,{
 });
 
 `````
-After setting the validationces on your model you will be able to:
+After setting the validations on your model you will be able to:
 
 ````js
 import Ember from 'ember';
