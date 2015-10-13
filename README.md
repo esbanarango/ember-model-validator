@@ -43,7 +43,7 @@ All validators accept the following options
   - `allowBlank` _option_. If set to `true` and the value is blank as defined by [Ember.isBlank](http://emberjs.com/api/#method_isBlank), all other validations for the field are skipped.
 
 ### Presence
-A value is not present if it is empty or a whitespace string. It uses [Ember.isBlank](http://emberjs.com/api/#method_isBlank) method.
+A value is not present if it is empty or a whitespace string. It uses [Ember.isBlank](http://emberjs.com/api/#method_isBlank) method. This can be also used on __async__ `belongsTo` relations.
 
 ````js
   validations: {
@@ -397,6 +397,7 @@ import DS from 'ember-data';
 import Validator from '../mixins/model-validator';
 
 export default DS.Model.extend(Validator,{
+
   name: DS.attr('string'),
   login: DS.attr('string'),
   secondName: DS.attr('string'),
@@ -409,27 +410,34 @@ export default DS.Model.extend(Validator,{
   mainstreamCode: DS.attr('string', {defaultValue: 'hiphopBachatudo'}),
   lotteryNumber: DS.attr('number'),
   alibabaNumber: DS.attr('number'),
+  anInteger: DS.attr('number', {defaultValue: 111}),
+  anIntegerGreaterThan4: DS.attr('number', {defaultValue: 5}),
+  anIntegerLessThan4: DS.attr('number', {defaultValue: 3}),
+  anIntegerGreaterThanOrEqual7: DS.attr('number', {defaultValue: 7}),
+  anIntegerLessThanOrEqual6: DS.attr('number', {defaultValue: 6}),
+  aTenNumber: DS.attr('number', {defaultValue: 10}),
+  anOddNumber: DS.attr('number', {defaultValue: 3}),
+  anEvenNumber: DS.attr('number', {defaultValue: 2}),
+  anOptionalNumber: DS.attr('number', {defaultValue: null}),
   acceptConditions: DS.attr('boolean', {defaultValue: true}),
-
   socialSecurity: DS.attr('number', {defaultValue: 12345}),
-
   nsaNumber: DS.attr('number', {defaultValue: 1234}),
-
   chuncaluchoNumber: DS.attr('number', {defaultValue: 1234567891}),
-
   hugeName: DS.attr('string', {defaultValue: 12345}),
-
   postalCode:  DS.attr('string', {defaultValue: '09011'}),
-
   mySubdomain: DS.attr('string', {defaultValue: 'fake_subdomain'}),
-
   myBlog: DS.attr('string', {defaultValue: 'http://esbanarango.com'}),
-
   otherFakes: DS.hasMany('other-model'),
-
   otherFake: DS.belongsTo('other-model'),
+  asyncModel: DS.belongsTo('async-model',{async: true}),
+  thing: DS.attr(''),
+  otherCustomValidation: DS.attr('number', { defaultValue:  12345 }),
+  otherCustomValidationBadMessageFunction: DS.attr('number', { defaultValue:  12345 }),
 
   validations: {
+    asyncModel: {
+      presence: true
+    },
     name: {
       presence: { errorAs:'profile.name' },
       inclusion: { in: ['Jose Rene', 'Aristi Gol', 'Armani'], message: 'Solo verde a morir' }
@@ -467,11 +475,28 @@ export default DS.Model.extend(Validator,{
       email: true
     },
     password: {
+      custom: function(key, value, _this){
+        return String(value) === String(_this.get('socialSecurity')) ? false : true;
+      },
       match: 'passwordConfirmation',
       mustContainCapital: true,
       mustContainLower: true,
       mustContainNumber: true,
       mustContainSpecial: true
+    },
+    thing: {
+      custom: [
+        {
+          validation: function(key, value, _this){
+            return (value !== 'blahblahblahblahbthishouldneverfaillahblahblah');
+          }
+        },
+        {
+          validation: function(key, value, _this){
+            return (value !== 'fail');
+          }
+        }
+      ]
     },
     mySubdomain:{
       subdomain:{ reserved:['admin','blog'], message: 'this subdomain is super invalid' }
@@ -485,11 +510,45 @@ export default DS.Model.extend(Validator,{
     legacyCode:{
       format: { with: /^[a-zA-Z]+$/ }
     },
+    anInteger:{
+      numericality: {onlyInteger: true }
+    },
+    anIntegerLessThan4:{
+      numericality: {lessThan: 4}
+    },
+    anIntegerGreaterThan4:{
+      numericality: {greaterThan: 4}
+    },
+    anIntegerGreaterThanOrEqual7:{
+      numericality: {greaterThanOrEqualTo: 7}
+    },
+    anIntegerLessThanOrEqual6:{
+      numericality: {lessThanOrEqualTo: 6}
+    },
+    aTenNumber:{
+      numericality: {equalTo: 10}
+    },
+    anOddNumber:{
+      numericality: {odd: true}
+    },
+    anEvenNumber:{
+      numericality: {even: true}
+    },
+    anOptionalNumber:{
+      numericality: {onlyInteger: true, allowBlank: true}
+    },
     alibabaNumber: {
-      numericality: { message: 'is not abracadabra' }
+      numericality: {message: 'is not abracadabra' }
     },
     lotteryNumber: {
-      numericality: true
+      numericality: true,
+      custom: {
+        validation: function(key, value, _this){
+          var favColor = _this.get('favoriteColor');
+          return !!favColor;
+        },
+        message: 'must have a favorite color to play the lotto, duh'
+      }
     },
     acceptConditions: {
       acceptance: true
@@ -502,6 +561,26 @@ export default DS.Model.extend(Validator,{
     },
     otherFake:{
       relations: ['belongsTo']
+    },
+    otherCustomValidation: {
+      custom: {
+        validation: function(key, value){
+          return value.toString().length === 5 ? true : false;
+        },
+        message: function(key,value, _this){
+          return key + " must have exactly 5 digits";
+        }
+      }
+    },
+    otherCustomValidationBadMessageFunction: {
+      custom: {
+        validation: function(key, value){
+          return value.toString().length === 5 ? true : false;
+        },
+        message: function(key, value, _this){
+          return 12345;
+        }
+      }
     }
   }
 
