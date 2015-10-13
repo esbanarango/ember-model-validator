@@ -20,7 +20,7 @@ describe('ModelValidatorMixin', function() {
 	describeModel('fake-model','Fake model with simple validations',
 	  {
 	    // Specify the other units that are required for this test.
-	      needs: ['model:other-model']
+	      needs: ['model:other-model', 'model:async-model']
 	  },
 	  function() {
 	    // Replace this with your real tests.
@@ -30,27 +30,35 @@ describe('ModelValidatorMixin', function() {
 	      expect(model).to.be.ok;
 	    });
 
+      describe('allowBlank option', function() {
+        it('skips other validations when optional field is blank', function(){
+          var model = this.subject({anOptionalNumber: null});
+          model.validate();
+          expect(model.get('errors').errorsFor('anOptionalNumber').length).to.equal(0);
+        });
+        it('runs remaining validations when optional field is not blank', function(){
+          var model = this.subject({anOptionalNumber: 'abc'});
+          expect(model.validate()).to.equal(false);
+          expect(model.get('errors').errorsFor('anOptionalNumber').mapBy('message')[0][0]).to.equal(Messages.numericalityMessage);
+          expect(model.get('errors').errorsFor('anOptionalNumber').mapBy('message')[1][0]).to.equal(Messages.numericalityOnlyIntegerMessage);
+        });
+      });
 
-      it('skips other validations when optional field is blank', function(){
-        var model = this.subject({anOptionalNumber: null});
-        model.validate();
-        expect(model.get('errors').errorsFor('anOptionalNumber').length).to.equal(0);
-      });
-      it('runs remaining validations when optional field is not blank', function(){
-        var model = this.subject({anOptionalNumber: 'abc'});
-        expect(model.validate()).to.equal(false);
-        expect(model.get('errors').errorsFor('anOptionalNumber').mapBy('message')[0][0]).to.equal(Messages.numericalityMessage);
-        expect(model.get('errors').errorsFor('anOptionalNumber').mapBy('message')[1][0]).to.equal(Messages.numericalityOnlyIntegerMessage);
-      });
-		  it('validates the presence of the attributes set on `validations.presence`', function() {
-	      var model = this.subject(),
+      it('validates the presence of the attributes set on `validations.presence`', function() {
+        var model = this.subject(),
             errorAs = model.validations.name.presence.errorAs;
         delete model.validations.name.presence.errorAs;
-	      expect(model.validate()).to.equal(false);
-	      expect(model.get('errors').errorsFor('email').mapBy('message')[0][0]).to.equal(Messages.presenceMessage);
-	      expect(model.get('errors').errorsFor('name').mapBy('message')[0][0]).to.equal(Messages.presenceMessage);
+        expect(model.validate()).to.equal(false);
+        expect(model.get('errors').errorsFor('email').mapBy('message')[0][0]).to.equal(Messages.presenceMessage);
+        expect(model.get('errors').errorsFor('name').mapBy('message')[0][0]).to.equal(Messages.presenceMessage);
         model.validations.name.presence['errorAs'] = errorAs;
-		  });
+      });
+
+      it('validates the presence of the attributes set on `validations.presence` even whe is a relation', function() {
+        var model = this.subject();
+        expect(model.validate()).to.equal(false);
+        expect(model.get('errors').errorsFor('asyncModel').mapBy('message')[0][0]).to.equal(Messages.presenceMessage);
+      });
 
       it('validates the format of the attributes set on `validations.format`', function() {
         var model = this.subject({legacyCode: 3123123});
@@ -492,12 +500,17 @@ describe('ModelValidatorMixin', function() {
 			describe('when data is corrected after validation', function() {
 
 			  it('it clean the errors', function() {
-		      var model = this.subject({email:'adsfasdf$',name:'Jose Rene',lotteryNumber:124,alibabaNumber:33,legacyCode:'abc', acceptConditions: 1, password: 'k$1hkjGd', favoriteColor: 'FFFFFF', socialSecurity: 12312});
+		      var model = this.subject({email:'adsfasdf$',name:'Jose Rene',lotteryNumber:124,alibabaNumber:33,legacyCode:'abc', acceptConditions: 1, password: 'k$1hkjGd', favoriteColor: 'FFFFFF', socialSecurity: 12312}),
+              store = model.get('store');
+
 		      Ember.run(function() {
 		      	expect(model.validate()).to.equal(false);
+            var asyncModel = store.createRecord('async-model');
             model.set('password','k$1hkjGd');
             model.set('passwordConfirmation','k$1hkjGd');
 		      	model.set('email','rene@higuita.com');
+            model.set('asyncModel',asyncModel);
+
 		      	expect(model.validate()).to.equal(true);
 
 		      });
@@ -528,8 +541,9 @@ describe('ModelValidatorMixin', function() {
           Ember.run(function() {
             model.set('password','k$1hkjGd');
             model.set('passwordConfirmation','k$1hkjGd');
+            model.set('email','rene@higuita.com');
             expect(model.validate()).to.equal(false);
-            expect(model.validate({except:['email']})).to.equal(true);
+            expect(model.validate({except:['asyncModel']})).to.equal(true);
           });
         });
 

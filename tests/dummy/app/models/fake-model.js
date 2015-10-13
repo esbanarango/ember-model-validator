@@ -34,11 +34,15 @@ export default DS.Model.extend(Validator,{
   myBlog: DS.attr('string', {defaultValue: 'http://esbanarango.com'}),
   otherFakes: DS.hasMany('other-model'),
   otherFake: DS.belongsTo('other-model'),
+  asyncModel: DS.belongsTo('async-model',{async: true}),
   thing: DS.attr(''),
   otherCustomValidation: DS.attr('number', { defaultValue:  12345 }),
   otherCustomValidationBadMessageFunction: DS.attr('number', { defaultValue:  12345 }),
 
   validations: {
+    asyncModel: {
+      presence: true
+    },
     name: {
       presence: { errorAs:'profile.name' },
       inclusion: { in: ['Jose Rene', 'Aristi Gol', 'Armani'], message: 'Solo verde a morir' }

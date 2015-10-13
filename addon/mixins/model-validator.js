@@ -72,7 +72,12 @@ export default Ember.Mixin.create({
 		}
   },
   _validatePresence: function(property, validation) {
-    if (Ember.isBlank(this.get(property))){
+    var propertyValue = this.get(property);
+    // If the property is an async relationship.
+    if(this._modelRelations() && !Ember.isBlank(this._modelRelations()[property])){
+      propertyValue = this.get(`${property}.content`);
+    }
+    if(Ember.isBlank(propertyValue)){
       this.set('isValidNow',false);
       this._addToErrors(property, validation.presence, Messages.presenceMessage);
     }
@@ -352,5 +357,12 @@ export default Ember.Mixin.create({
   },
   _isString: function(str){
     return Ember.isEqual(Ember.typeOf(str), 'string');
+  },
+  _modelRelations: function() {
+    if(this.get('_relationships')){
+      return this.get('_relationships');
+    }else{
+      return this.get('_internalModel._relationships.initializedRelationships');
+    }
   }
 });
