@@ -7,14 +7,10 @@ export default Ember.Mixin.create({
   isValidNow: true,
   addErrors: true,
 
-  validate: function(options) {
-    var store = this.get('store'),
+  validate(options={}) {
+    let store = this.get('store'),
     		errors = null,
     		validations = this.get('validations');
-
-    if (options == null) {
-      options = {};
-    }
 
   	// Clean all the current errors
     this.get('errors').clear();
@@ -33,8 +29,8 @@ export default Ember.Mixin.create({
 		for (var property in validations) {
 			for (var validation in validations[property]) {
         if (this._exceptOrOnly(property,options)) {
-          var validationName = Ember.String.capitalize(validation);
-          if (Ember.get(validations[property], validation + '.allowBlank') && Ember.isBlank(this.get(property))) {
+          let validationName = Ember.String.capitalize(validation);
+          if (Ember.get(validations[property], `${validation}.allowBlank`) && Ember.isBlank(this.get(property))) {
             continue;
           }
           this[`_validate${validationName}`](property, validations[property]);
@@ -46,9 +42,9 @@ export default Ember.Mixin.create({
     if (!this.get('isValidNow')) {
       // It may be invalid because of its relations
       if(Object.keys(errors).length !== 0){
-        var stateToTransition = this.get('isNew') ? 'created.uncommitted' : 'updated.uncommitted';
+        let stateToTransition = this.get('isNew') ? 'created.uncommitted' : 'updated.uncommitted';
         this.transitionTo(stateToTransition);
-				var recordModel = this.adapterDidInvalidate ? this : this._internalModel;
+				let recordModel = this.adapterDidInvalidate ? this : this._internalModel;
         store.recordWasInvalid(recordModel, errors);
       }
       return false;
@@ -61,9 +57,9 @@ export default Ember.Mixin.create({
   _validateCustom: function(property, validation){
 		validation = Ember.isArray(validation.custom) ? validation.custom : [validation.custom];
 		for (var i = 0; i < validation.length; i++) {
-	    var customValidator = this._getCustomValidator(validation[i]);
+	    let customValidator = this._getCustomValidator(validation[i]);
 	    if (customValidator) {
-	      var passedCustomValidation = customValidator(property, this.get(property), this);
+	      let passedCustomValidation = customValidator(property, this.get(property), this);
 	      if (!passedCustomValidation) {
 	        this.set('isValidNow', false);
 	        this._addToErrors(property, validation[i], Messages.customValidationMessage);
@@ -72,7 +68,7 @@ export default Ember.Mixin.create({
 		}
   },
   _validatePresence: function(property, validation) {
-    var propertyValue = this.get(property);
+    let propertyValue = this.get(property);
     // If the property is an async relationship.
     if(this._modelRelations() && !Ember.isBlank(this._modelRelations()[property])){
       propertyValue = this.get(`${property}.content`);
@@ -89,7 +85,7 @@ export default Ember.Mixin.create({
     }
   },
   _validateAcceptance: function(property,validation){
-    var propertyValue = this.get(property),
+    let propertyValue = this.get(property),
         accept =  validation.acceptance.accept || [1,'1', true];
     if(!Ember.A(accept).contains(propertyValue)){
       this.set('isValidNow',false);
@@ -97,7 +93,7 @@ export default Ember.Mixin.create({
     }
   },
   _validateFormat: function(property, validation) {
-    var withRegexp = validation.format.with;
+    let withRegexp = validation.format.with;
     if (!this.get(property) || String(this.get(property)).match(withRegexp) === null){
       this.set('isValidNow',false);
       this._addToErrors(property, validation.format, Messages.formatMessage);
@@ -110,28 +106,28 @@ export default Ember.Mixin.create({
     }
   },
   _validateZipCode: function(property, validation) {
-    var propertyValue = this.get(property);
+    let propertyValue = this.get(property);
     if (!propertyValue || String(propertyValue).match(/^\b\d{5}(-\d{4})?\b$/i) === null){
       this.set('isValidNow',false);
       this._addToErrors(property, validation.zipCode, Messages.zipCodeMessage);
     }
   },
   _validateColor: function(property, validation) {
-    var propertyValue = this.get(property);
+    let propertyValue = this.get(property);
     if (!propertyValue || String(propertyValue).match(/([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/i) === null){
       this.set('isValidNow',false);
       this._addToErrors(property, validation.color, Messages.colorMessage);
     }
   },
   _validateURL: function(property, validation) {
-    var propertyValue = this.get(property);
+    let propertyValue = this.get(property);
     if (!propertyValue || String(propertyValue).match(/^((http|https):\/\/(\w+:{0,1}\w*@)?(\S+)|)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?$/) === null){
       this.set('isValidNow',false);
       this._addToErrors(property, validation.URL, Messages.URLMessage);
     }
   },
   _validateSubdomain: function(property, validation) {
-    var propertyValue = this.get(property),
+    let propertyValue = this.get(property),
         reserved = validation.subdomain.reserved || [];
     if (!propertyValue || String(propertyValue).match(/^[a-z\d]+([-_][a-z\d]+)*$/i) === null || reserved.indexOf(propertyValue) !== -1){
       this.set('isValidNow',false);
@@ -139,7 +135,7 @@ export default Ember.Mixin.create({
     }
   },
   _validateNumericality: function(property, validation) {
-    var propertyValue = this.get(property);
+    let propertyValue = this.get(property);
     if(!this._isNumber(this.get(property))){
       this.set('isValidNow',false);
       this._addToErrors(property, validation.numericality, Messages.numericalityMessage);
@@ -210,7 +206,7 @@ export default Ember.Mixin.create({
     }
   },
   _validateMatch: function(property, validation) {
-    var matching = validation.match.attr || validation.match,
+    let matching = validation.match.attr || validation.match,
         propertyValue = this.get(property),
         matchingValue = this.get(matching);
     if (propertyValue !== matchingValue) {
@@ -220,7 +216,7 @@ export default Ember.Mixin.create({
   },
   // Length Validator
   _validateLength: function(property, validation) {
-    var propertyValue = this.get(property),
+    let propertyValue = this.get(property),
         stringLength = !propertyValue ? 0 : String(propertyValue).length,
         validationType = Ember.typeOf(validation.length);
     if(validationType === 'number') {
@@ -244,7 +240,7 @@ export default Ember.Mixin.create({
     }
   },
   _rangeLength:function(stringLength, property, validation) {
-    var minimum = validation.length.minimum || -1,
+    let minimum = validation.length.minimum || -1,
         maximum = validation.length.maximum || Infinity;
     if(stringLength < minimum){
       this.set('isValidNow',false);
@@ -255,12 +251,11 @@ export default Ember.Mixin.create({
     }
   },
   _validateRelations: function(property, validation) {
-    var  _this = this;
     if(validation.relations.indexOf("hasMany") !== -1) {
       if(this.get(property)){
-        this.get(property).forEach(function(objRelation) {
+        this.get(property).forEach((objRelation) => {
           if(!objRelation.validate()){
-            _this.set('isValidNow',false);
+            this.set('isValidNow',false);
           }
         });
       }
@@ -271,8 +266,8 @@ export default Ember.Mixin.create({
     }
   },
 	_validateMustContainCapital: function(property, validation) {
-		var notContainCapital = String(this.get(property)).match(/(?=.*[A-Z])/) === null;
-		var message = validation.mustContainCapital.message || Messages.mustContainCapitalMessage;
+		let notContainCapital = String(this.get(property)).match(/(?=.*[A-Z])/) === null,
+		    message = validation.mustContainCapital.message || Messages.mustContainCapitalMessage;
 
 		if (validation.mustContainCapital && notContainCapital) {
 			this.set('isValidNow', false);
@@ -280,8 +275,8 @@ export default Ember.Mixin.create({
 		}
 	},
 	_validateMustContainLower: function(property, validation) {
-		var containsLower = String(this.get(property)).match(/(?=.*[a-z])/) !== null;
-		var message = validation.mustContainLower.message || Messages.mustContainLowerMessage;
+		let containsLower = String(this.get(property)).match(/(?=.*[a-z])/) !== null,
+		    message = validation.mustContainLower.message || Messages.mustContainLowerMessage;
 
 		if (validation.mustContainLower && !containsLower) {
 			this.set('isValidNow', false);
@@ -289,8 +284,8 @@ export default Ember.Mixin.create({
 		}
 	},
 	_validateMustContainNumber: function(property, validation) {
-		var containsNumber = String(this.get(property)).match(/(?=.*[0-9])/) !== null;
-		var message = validation.mustContainNumber.message || Messages.mustContainNumberMessage;
+		let containsNumber = String(this.get(property)).match(/(?=.*[0-9])/) !== null,
+		    message = validation.mustContainNumber.message || Messages.mustContainNumberMessage;
 
 		if (validation.mustContainNumber && !containsNumber) {
 			this.set('isValidNow', false);
@@ -298,10 +293,10 @@ export default Ember.Mixin.create({
 		}
 	},
 	_validateMustContainSpecial: function(property, validation) {
-		var regexString = validation.mustContainSpecial.acceptableChars || '-+_!@#$%^&*.,?()';
-		var regex = new RegExp(`(?=.*[${regexString}])`);
-		var containsSpecial = String(this.get(property)).match(regex) !== null;
-		var message = validation.mustContainSpecial.message || Messages.mustContainSpecialMessage;
+		let regexString = validation.mustContainSpecial.acceptableChars || '-+_!@#$%^&*.,?()',
+		    regex = new RegExp(`(?=.*[${regexString}])`),
+		    containsSpecial = String(this.get(property)).match(regex) !== null,
+		    message = validation.mustContainSpecial.message || Messages.mustContainSpecialMessage;
 
 		if (validation.mustContainSpecial && !containsSpecial) {
 			this.set('isValidNow', false);
@@ -311,13 +306,13 @@ export default Ember.Mixin.create({
 
   /**** Helper methods ****/
   _exceptOrOnly: function(property, options) {
-    var validateThis = true;
+    let validateThis = true;
     if(options.hasOwnProperty('except') && options.except.indexOf(property) !== -1){ validateThis = false; }
     if(options.hasOwnProperty('only') && options.only.indexOf(property) === -1){ validateThis = false; }
     return validateThis;
   },
   _getCustomValidator: function(validation){
-    var customValidator = validation;
+    let customValidator = validation;
     if (Ember.typeOf(validation) === 'object' && validation.hasOwnProperty('validation')) {
       customValidator = validation.validation;
     }
@@ -326,7 +321,7 @@ export default Ember.Mixin.create({
   _getCustomMessage: function(validationObj,defaultMessage, property) {
     if (Ember.typeOf(validationObj) === 'object' && validationObj.hasOwnProperty('message')) {
       if( this._isFunction(validationObj.message )){
-        var msg = validationObj.message.call(property, this.get(property), this);
+        let msg = validationObj.message.call(property, this.get(property), this);
         return this._isString( msg ) ? msg : defaultMessage;
       }else{
         return validationObj.message;
@@ -336,7 +331,7 @@ export default Ember.Mixin.create({
     }
   },
   _addToErrors: function(property, validation, defaultMessage) {
-    var errors = this.get('validationErrors'),
+    let errors = this.get('validationErrors'),
         message = this._getCustomMessage(validation, defaultMessage, property),
         errorAs =  validation.errorAs || property;
     if (!Ember.isArray(errors[errorAs])) {errors[errorAs] = [];}
