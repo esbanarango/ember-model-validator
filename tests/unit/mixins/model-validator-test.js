@@ -8,6 +8,7 @@ import {
 import Ember from 'ember';
 import ModelValidatorMixin from '../../../mixins/model-validator';
 import Messages from 'ember-model-validator/messages';
+import PostalCodesRegex from 'ember-model-validator/postal-codes-regex';
 
 describe('ModelValidatorMixin', function() {
   // Replace this with your real tests.
@@ -84,10 +85,20 @@ describe('ModelValidatorMixin', function() {
         expect(model.get('errors').errorsFor('login').mapBy('message')[0][0]).to.equal(Messages.absenceMessage);
       });
 
-      it('validates the absence of the attributes set on `validations.absence`', function() {
-        var model = this.subject({postalCode: 'dfasdfsad'});
+      it('validates the zip code being invalid in the US', function() {
+        var model = this.subject({postalCodeUS: 'dfasdfsad'});
         expect(model.validate()).to.equal(false);
         expect(model.get('errors').errorsFor('postalCode').mapBy('message')[0][0]).to.equal(Messages.zipCodeMessage);
+      });
+
+      it('validates postal codes from outside US - UK', function() {
+        var model = this.subject({postalCodeUK: 'KY16 8BP'});
+        expect(model.validate()).to.equal(true);
+      });
+
+      it('validates postal codes from outside US - CA', function() {
+        var model = this.subject({postalCodeCA: 'T2A2V8'});
+        expect(model.validate()).to.equal(true);
       });
 
       it('validates the truthyness of the user custom validation function on `validations.custom`', function(){

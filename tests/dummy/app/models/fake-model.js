@@ -29,7 +29,9 @@ export default DS.Model.extend(Validator,{
   nsaNumber: DS.attr('number', {defaultValue: 1234}),
   chuncaluchoNumber: DS.attr('number', {defaultValue: 1234567891}),
   hugeName: DS.attr('string', {defaultValue: 12345}),
-  postalCode:  DS.attr('string', {defaultValue: '09011'}),
+  postalCodeUS:  DS.attr('string', {defaultValue: '09011'}),
+  postalCodeUK:  DS.attr('string', {defaultValue: 'KY16 8BP'}),
+  postalCodeCA:  DS.attr('string', {defaultValue: 'T2A2V8'}),
   mySubdomain: DS.attr('string', {defaultValue: 'fake_subdomain'}),
   myBlog: DS.attr('string', {defaultValue: 'http://esbanarango.com'}),
   otherFakes: DS.hasMany('other-model'),
@@ -158,8 +160,14 @@ export default DS.Model.extend(Validator,{
     acceptConditions: {
       acceptance: true
     },
-    postalCode:{
+    postalCodeUS:{
       zipCode: true
+    },
+    postalCodeUK:{
+      zipCode: {countryCode: 'UK'}
+    },
+    postalCodeCA:{
+      zipCode: {countryCode: 'CA'}
     },
     otherFakes:{
       relations: ['hasMany']
