@@ -165,6 +165,7 @@ export default DS.Model.extend(Validator,{
       relations: ['hasMany']
     },
     otherFake:{
+      presence: true,
       relations: ['belongsTo']
     },
     otherCustomValidation: {

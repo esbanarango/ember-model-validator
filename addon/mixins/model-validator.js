@@ -71,7 +71,9 @@ export default Ember.Mixin.create({
     let propertyValue = this.get(property);
     // If the property is an async relationship.
     if(this._modelRelations() && !Ember.isBlank(this._modelRelations()[property])){
-      propertyValue = this.get(`${property}.content`);
+      if(this._modelRelations()[property]['isAsync']){
+        propertyValue = this.get(`${property}.content`);
+      }
     }
     if(Ember.isBlank(propertyValue)){
       this.set('isValidNow',false);
