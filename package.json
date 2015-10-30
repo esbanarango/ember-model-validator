@@ -32,8 +32,6 @@
     "ember-cli-uglify": "1.0.1",
     "ember-cli-release": "0.2.3",
     "ember-data": "1.13.12",
-    "ember-disable-prototype-extensions": "^1.0.0",
-    "ember-disable-proxy-controllers": "^1.0.0",
     "ember-export-application-global": "^1.0.2",
     "ember-try": "0.0.6"
   },
