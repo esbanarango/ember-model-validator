@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import Messages from 'ember-model-validator/messages';
+import Messages from 'ember-model-validator/messages/en';
 
 export default Ember.Mixin.create({
 

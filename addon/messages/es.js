@@ -1,0 +1,33 @@
+export default {
+  presenceMessage: "no puede estar en blanco",
+  absenceMessage: 'debe estar en blanco',
+  inclusionMessage: 'no está incluido en la lista',
+  exclusionMessage: 'está reservado',
+  // Numericality
+  numericalityMessage: 'no es un número',
+  numericalityOnlyIntegerMessage: 'debe ser un entero',
+  numericalityGreaterThanMessage: 'debe ser mayor que %@',
+  numericalityGreaterThanOrEqualToMessage: 'debe ser mayor o igual que %@',
+  numericalityEqualToMessage: 'debe ser igual a %@',
+  numericalityLessThanMessage: 'debe ser menor que %@',
+  numericalityLessThanOrEqualToMessage: 'debe ser menor o igual que %@',
+  numericalityOddMessage: 'debe ser un número impar',
+  numericalityEvenMessage: 'debe ser un número par',
+
+  mailMessage: 'no es un correo electrónico válido',
+  formatMessage: 'es inválido',
+  colorMessage: 'debe ser un hexadecimal válido',
+  subdomainMessage: 'debe ser un subdominio válido',
+  acceptanceMessage: 'debe ser aceptado',
+  zipCodeMessage: 'no es un código postal válido',
+  URLMessage: 'debe ser una url válida',
+  wrongLengthMessage: "longitud errónea (debe ser de %@ caracteres)",
+  tooShortMessage: "es demasiado corto (mínimo %@ caracteres)",
+  tooLongMessage: "es demasiado largo (máximo %@ caracteres)",
+  mustContainNumberMessage: 'debe incluir un número',
+  mustContainSpecialMessage: 'debe incluir uno de estos caracteres especiales: %@',
+  mustContainLowerMessage: 'debe incluir un carácter en minúscula',
+  mustContainCapitalMessage: 'debe incluir un carácter en mayúscula',
+  customValidationMessage: 'es inválido',
+  matchMessage: 'debe coincidir con %@'
+};

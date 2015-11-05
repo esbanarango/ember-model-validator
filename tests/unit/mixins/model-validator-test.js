@@ -7,7 +7,7 @@ import {
 } from 'mocha';
 import Ember from 'ember';
 import ModelValidatorMixin from '../../../mixins/model-validator';
-import Messages from 'ember-model-validator/messages';
+import Messages from 'ember-model-validator/messages/en';
 
 describe('ModelValidatorMixin', function() {
   // Replace this with your real tests.
