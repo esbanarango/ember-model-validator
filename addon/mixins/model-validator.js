@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import Messages from 'ember-model-validator/messages/en';
+import PostalCodesRegex from 'ember-model-validator/postal-codes-regex';
 
 export default Ember.Mixin.create({
 
@@ -108,11 +109,23 @@ export default Ember.Mixin.create({
     }
   },
   _validateZipCode: function(property, validation) {
-    let propertyValue = this.get(property);
-    if (!propertyValue || String(propertyValue).match(/^\b\d{5}(-\d{4})?\b$/i) === null){
-      this.set('isValidNow',false);
-      this._addToErrors(property, validation.zipCode, Messages.zipCodeMessage);
+    const DEFAULT_COUNTRY_CODE = 'US'; 
+    let propertyValue = this.get(property);    
+    
+    let countryCode = DEFAULT_COUNTRY_CODE;
+    if(validation.zipCode.hasOwnProperty('countryCode')){
+      countryCode = validation.zipCode.countryCode;
     }
+    
+    let postalCodeRegexp = PostalCodesRegex[countryCode];  
+    if(typeof postalCodeRegexp === 'undefined'){
+      postalCodeRegexp = PostalCodesRegex[DEFAULT_COUNTRY_CODE];
+    }     
+
+    if (!propertyValue || String(propertyValue).match(postalCodeRegexp) === null){
+        this.set('isValidNow',false);
+        this._addToErrors(property, validation.zipCode, Messages.zipCodeMessage);
+    }    
   },
   _validateColor: function(property, validation) {
     let propertyValue = this.get(property);

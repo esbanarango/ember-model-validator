@@ -129,12 +129,24 @@ Validates the proper format of the email.
 ````
 
 ### ZipCode
-The value must be a correct zipcode. Regexp used `/^\b\d{5}(-\d{4})?\b$/i`.
+The value must be a correct zipcode. The `countryCode` is optional and defaults to 'US'.
+
+Countries supported and regular expressions used can be found in [postal-codes-regex.js](addon/postal-codes-regex.js)
+##### Options
+  - `countryCode` _option_. The code of the country for which the postal code will be validated.
 
 ````js
   validations: {
     postalCode:{
+    // If no countryCode is specified, 'US' is used as default
       zipCode: true
+    }
+  }
+````
+````js
+  validations: {
+    postalCodeUK:{
+      zipCode: {countryCode: 'UK'}
     }
   }
 ````
