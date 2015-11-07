@@ -623,6 +623,14 @@ export default Ember.Route.extend(
 );
 ````
 
+## Donating
+Support this project and [others by esbanarango][gratipay-esbanarango] via [gratipay][gratipay-esbanarango].
+
+[![Support via Gratipay][gratipay]][gratipay-esbanarango]
+
+[gratipay]: https://cdn.rawgit.com/gratipay/gratipay-badge/2.3.0/dist/gratipay.png
+[gratipay-esbanarango]: https://gratipay.com/esbanarango/
+
 ## Running Tests
 
 * `ember test`

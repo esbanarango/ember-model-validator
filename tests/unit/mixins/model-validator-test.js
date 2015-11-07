@@ -7,7 +7,7 @@ import {
 } from 'mocha';
 import Ember from 'ember';
 import ModelValidatorMixin from '../../../mixins/model-validator';
-import Messages from 'ember-model-validator/messages';
+import Messages from 'ember-model-validator/messages/en';
 import PostalCodesRegex from 'ember-model-validator/postal-codes-regex';
 
 describe('ModelValidatorMixin', function() {
@@ -44,23 +44,30 @@ describe('ModelValidatorMixin', function() {
           expect(model.get('errors').errorsFor('anOptionalNumber').mapBy('message')[1][0]).to.equal(Messages.numericalityOnlyIntegerMessage);
         });
       });
+      describe('Presence validator', function() {
+        it('validates the presence of the attributes set on `validations.presence`', function() {
+          var model = this.subject(),
+              errorAs = model.validations.name.presence.errorAs;
+          delete model.validations.name.presence.errorAs;
+          expect(model.validate()).to.equal(false);
+          expect(model.get('errors').errorsFor('email').mapBy('message')[0][0]).to.equal(Messages.presenceMessage);
+          expect(model.get('errors').errorsFor('name').mapBy('message')[0][0]).to.equal(Messages.presenceMessage);
+          model.validations.name.presence['errorAs'] = errorAs;
+        });
+        describe('When is a relation', function() {
+          it('validates the presence of the attributes set on `validations.presence` for Async relations', function() {
+            var model = this.subject();
+            expect(model.validate()).to.equal(false);
+            expect(model.get('errors').errorsFor('asyncModel').mapBy('message')[0][0]).to.equal(Messages.presenceMessage);
+          });
 
-      it('validates the presence of the attributes set on `validations.presence`', function() {
-        var model = this.subject(),
-            errorAs = model.validations.name.presence.errorAs;
-        delete model.validations.name.presence.errorAs;
-        expect(model.validate()).to.equal(false);
-        expect(model.get('errors').errorsFor('email').mapBy('message')[0][0]).to.equal(Messages.presenceMessage);
-        expect(model.get('errors').errorsFor('name').mapBy('message')[0][0]).to.equal(Messages.presenceMessage);
-        model.validations.name.presence['errorAs'] = errorAs;
+          it('validates the presence of the attributes set on `validations.presence` for embedded relations', function() {
+            var model = this.subject();
+            expect(model.validate()).to.equal(false);
+            expect(model.get('errors').errorsFor('otherFake').mapBy('message')[0][0]).to.equal(Messages.presenceMessage);
+          });
+        });
       });
-
-      it('validates the presence of the attributes set on `validations.presence` even whe is a relation', function() {
-        var model = this.subject();
-        expect(model.validate()).to.equal(false);
-        expect(model.get('errors').errorsFor('asyncModel').mapBy('message')[0][0]).to.equal(Messages.presenceMessage);
-      });
-
       it('validates the format of the attributes set on `validations.format`', function() {
         var model = this.subject({legacyCode: 3123123});
         expect(model.validate()).to.equal(false);
@@ -527,13 +534,13 @@ describe('ModelValidatorMixin', function() {
 		      Ember.run(function() {
 		      	expect(model.validate()).to.equal(false);
             var asyncModel = store.createRecord('async-model');
+            var otherFake = store.createRecord('other-model',{name:'aaa',email:'aaa@aa.com'});
             model.set('password','k$1hkjGd');
             model.set('passwordConfirmation','k$1hkjGd');
 		      	model.set('email','rene@higuita.com');
             model.set('asyncModel',asyncModel);
-
+            model.set('otherFake',otherFake);
 		      	expect(model.validate()).to.equal(true);
-
 		      });
 			  });
 
@@ -564,7 +571,7 @@ describe('ModelValidatorMixin', function() {
             model.set('passwordConfirmation','k$1hkjGd');
             model.set('email','rene@higuita.com');
             expect(model.validate()).to.equal(false);
-            expect(model.validate({except:['asyncModel']})).to.equal(true);
+            expect(model.validate({except:['asyncModel','otherFake']})).to.equal(true);
           });
         });
 
