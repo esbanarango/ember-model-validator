@@ -84,22 +84,32 @@ describe('ModelValidatorMixin', function() {
         expect(model.validate()).to.equal(false);
         expect(model.get('errors').errorsFor('login').mapBy('message')[0][0]).to.equal(Messages.absenceMessage);
       });
+      
+      describe('Postalcode validation', function() {
+        it('validates the zip code being invalid in the US', function() {
+          var model = this.subject({postalCodeUS: 'dfasdfsad'});
+          expect(model.validate()).to.equal(false);
+          expect(model.get('errors').errorsFor('postalCodeUS').mapBy('message')[0][0]).to.equal(Messages.zipCodeMessage);
+        });
 
-      it('validates the zip code being invalid in the US', function() {
-        var model = this.subject({postalCodeUS: 'dfasdfsad'});
-        expect(model.validate()).to.equal(false);
-        expect(model.get('errors').errorsFor('postalCode').mapBy('message')[0][0]).to.equal(Messages.zipCodeMessage);
-      });
+        it('validates postal codes from outside US - UK', function() {
+          var model = this.subject({postalCodeUK: '09011'});
+          expect(model.validate()).to.equal(false);
+          expect(model.get('errors').errorsFor('postalCodeUK').mapBy('message')[0][0]).to.equal(Messages.zipCodeMessage);
+        });
 
-      it('validates postal codes from outside US - UK', function() {
-        var model = this.subject({postalCodeUK: 'KY16 8BP'});
-        expect(model.validate()).to.equal(true);
-      });
+        it('validates postal codes from outside US - CA', function() {
+          var model = this.subject({postalCodeCA: '09011'});
+          expect(model.validate()).to.equal(false);
+          expect(model.get('errors').errorsFor('postalCodeCA').mapBy('message')[0][0]).to.equal(Messages.zipCodeMessage);
+        });
 
-      it('validates postal codes from outside US - CA', function() {
-        var model = this.subject({postalCodeCA: 'T2A2V8'});
-        expect(model.validate()).to.equal(true);
-      });
+        it('validates that non-existing country codes default to US behavior', function() {
+          var model = this.subject({postalCodeZZ: 'dfasdfsad'});
+          expect(model.validate()).to.equal(false);
+          expect(model.get('errors').errorsFor('postalCodeZZ').mapBy('message')[0][0]).to.equal(Messages.zipCodeMessage);
+        });
+      });      
 
       it('validates the truthyness of the user custom validation function on `validations.custom`', function(){
         var model = this.subject({password: 12345});

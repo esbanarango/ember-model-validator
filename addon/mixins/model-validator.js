@@ -107,16 +107,20 @@ export default Ember.Mixin.create({
     }
   },
   _validateZipCode: function(property, validation) {
+    const DEFAULT_COUNTRY_CODE = 'US'; 
     let propertyValue = this.get(property);    
-    let countryCode = 'US';
-    if(validation.zipCode.hasOwnProperty('countryCode')){
-      countryCode = this.get(validation.zipCode.countryCode);
-    }
-    let postalCodeRegexp = PostalCodesRegex[countryCode];
     
-    if(typeof postalCodeRegexp === undefined){
-      // TODO: Handle error, invalid Country Code
-    } else if (!propertyValue || String(propertyValue).match(postalCodeRegexp) === null){
+    let countryCode = DEFAULT_COUNTRY_CODE;
+    if(validation.zipCode.hasOwnProperty('countryCode')){
+      countryCode = validation.zipCode.countryCode;
+    }
+    
+    let postalCodeRegexp = PostalCodesRegex[countryCode];  
+    if(typeof postalCodeRegexp === 'undefined'){
+      postalCodeRegexp = PostalCodesRegex[DEFAULT_COUNTRY_CODE];
+    }     
+
+    if (!propertyValue || String(propertyValue).match(postalCodeRegexp) === null){
         this.set('isValidNow',false);
         this._addToErrors(property, validation.zipCode, Messages.zipCodeMessage);
     }    

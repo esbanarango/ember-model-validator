@@ -32,6 +32,7 @@ export default DS.Model.extend(Validator,{
   postalCodeUS:  DS.attr('string', {defaultValue: '09011'}),
   postalCodeUK:  DS.attr('string', {defaultValue: 'KY16 8BP'}),
   postalCodeCA:  DS.attr('string', {defaultValue: 'T2A2V8'}),
+  postalCodeZZ:  DS.attr('string', {defaultValue: '09011'}),
   mySubdomain: DS.attr('string', {defaultValue: 'fake_subdomain'}),
   myBlog: DS.attr('string', {defaultValue: 'http://esbanarango.com'}),
   otherFakes: DS.hasMany('other-model'),
@@ -168,6 +169,9 @@ export default DS.Model.extend(Validator,{
     },
     postalCodeCA:{
       zipCode: {countryCode: 'CA'}
+    },
+    postalCodeZZ:{
+      zipCode: {countryCode: 'ZZ'}
     },
     otherFakes:{
       relations: ['hasMany']
