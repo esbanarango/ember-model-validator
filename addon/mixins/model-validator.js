@@ -109,23 +109,34 @@ export default Ember.Mixin.create({
     }
   },
   _validateZipCode: function(property, validation) {
-    const DEFAULT_COUNTRY_CODE = 'US'; 
-    let propertyValue = this.get(property);    
-    
+    const DEFAULT_COUNTRY_CODE = 'US';
+    let propertyValue = this.get(property);
+
     let countryCode = DEFAULT_COUNTRY_CODE;
     if(validation.zipCode.hasOwnProperty('countryCode')){
       countryCode = validation.zipCode.countryCode;
     }
-    
-    let postalCodeRegexp = PostalCodesRegex[countryCode];  
-    if(typeof postalCodeRegexp === 'undefined'){
-      postalCodeRegexp = PostalCodesRegex[DEFAULT_COUNTRY_CODE];
-    }     
-
-    if (!propertyValue || String(propertyValue).match(postalCodeRegexp) === null){
-        this.set('isValidNow',false);
-        this._addToErrors(property, validation.zipCode, Messages.zipCodeMessage);
-    }    
+    if (Ember.isArray(countryCode)) {
+      countryCode.forEach(function(code) {
+        let postalCodeRegexp = PostalCodesRegex[code];
+        if(typeof postalCodeRegexp === 'undefined'){
+          postalCodeRegexp = PostalCodesRegex[DEFAULT_COUNTRY_CODE];
+        }
+        if (!propertyValue || String(propertyValue).match(postalCodeRegexp) === null){
+            this.set('isValidNow',false);
+            this._addToErrors(property, validation.zipCode, Messages.zipCodeMessage);
+        }
+      });
+    }else{
+      let postalCodeRegexp = PostalCodesRegex[countryCode];
+      if(typeof postalCodeRegexp === 'undefined'){
+        postalCodeRegexp = PostalCodesRegex[DEFAULT_COUNTRY_CODE];
+      }
+      if (!propertyValue || String(propertyValue).match(postalCodeRegexp) === null){
+          this.set('isValidNow',false);
+          this._addToErrors(property, validation.zipCode, Messages.zipCodeMessage);
+      }
+    }
   },
   _validateColor: function(property, validation) {
     let propertyValue = this.get(property);
