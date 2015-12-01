@@ -41,6 +41,10 @@ export default DS.Model.extend(Validator,{
   thing: DS.attr(''),
   otherCustomValidation: DS.attr('number', { defaultValue:  12345 }),
   otherCustomValidationBadMessageFunction: DS.attr('number', { defaultValue:  12345 }),
+  date: DS.attr('date', {defaultValue: new Date()}),
+  stringDate: DS.attr('string', {defaultValue: '2015-01-01'}),
+  dateBefore2015: DS.attr('date', {defaultValue: new Date(2014, 7, 1)}),
+  dateAfter2014: DS.attr('date', {defaultValue: new Date(2015, 5, 3)}),
 
   validations: {
     asyncModel: {
@@ -198,6 +202,22 @@ export default DS.Model.extend(Validator,{
         message: function(key, value, _this){
           return 12345;
         }
+      }
+    },
+    date: {
+      date: true
+    },
+    stringDate: {
+      date: true
+    },
+    dateBefore2015: {
+      date: {
+        before: new Date(2015, 1, 1)
+      }
+    },
+    dateAfter2014: {
+      date: {
+        after: new Date(2014, 12, 31)
       }
     }
   }

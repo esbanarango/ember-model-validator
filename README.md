@@ -29,6 +29,7 @@ Install __Ember-model-validator__ is easy as:
 - [Inclusion](#inclusion)
 - [Exclusion](#exclusion)
 - [Numericality](#numericality)
+- [Date](#date)
 - [Match](#match)
 - [Password*](#password)
 - [CustomValidation](#custom)
@@ -243,6 +244,25 @@ The value has to have only numeric values.
   validations: {
     lotteryNumber:{
       numericality: true
+    }
+  }
+````
+
+### Date
+The value must be a `Date` object or a string that produces a valid date when passed to the `Date` constructor.
+
+##### Options
+  - `before` _option_. The value must be before the supplied date.
+  - `after` _option_. The value must be after the supplied date.
+
+
+````js
+  validations: {
+    birthDate: {
+      before: new Date()
+    },
+    signupDate: {
+      after: '2015-01-01'
     }
   }
 ````

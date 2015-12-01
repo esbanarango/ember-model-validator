@@ -91,7 +91,7 @@ describe('ModelValidatorMixin', function() {
         expect(model.validate()).to.equal(false);
         expect(model.get('errors').errorsFor('login').mapBy('message')[0][0]).to.equal(Messages.absenceMessage);
       });
-      
+
       describe('Postalcode validation', function() {
         it('validates the zip code being invalid in the US', function() {
           var model = this.subject({postalCodeUS: 'dfasdfsad'});
@@ -116,7 +116,7 @@ describe('ModelValidatorMixin', function() {
           expect(model.validate()).to.equal(false);
           expect(model.get('errors').errorsFor('postalCodeZZ').mapBy('message')[0][0]).to.equal(Messages.zipCodeMessage);
         });
-      });      
+      });
 
       it('validates the truthyness of the user custom validation function on `validations.custom`', function(){
         var model = this.subject({password: 12345});
@@ -262,6 +262,37 @@ describe('ModelValidatorMixin', function() {
               expect(model.validate({only:['anEvenNumber']})).to.equal(false);
               expect(model.get('errors').errorsFor('anEvenNumber').mapBy('message')[0][0]).to.equal(Messages.numericalityEvenMessage);
             });
+          });
+        });
+      });
+
+      describe('Date Validator', function(){
+        it('validates a date object', function(){
+          var model = this.subject({date: new Date('a')});
+          Ember.run(function(){
+            expect(model.validate({only: ['date']})).to.equal(false);
+            expect(model.get('errors').errorsFor('date').mapBy('message')[0][0]).to.equal(Messages.dateMessage);
+          });
+        });
+        it('validates a date string', function(){
+          var model = this.subject({stringDate: '2015-13-1'});
+          Ember.run(function(){
+            expect(model.validate({only: ['stringDate']})).to.equal(false);
+            expect(model.get('errors').errorsFor('stringDate').mapBy('message')[0][0]).to.equal(Messages.dateMessage);
+          });
+        });
+        it('validates that the date is `before` the specified value', function(){
+          var model = this.subject({dateBefore2015: '2015-10-31'});
+          Ember.run(function(){
+            expect(model.validate({only: ['dateBefore2015']})).to.equal(false);
+            expect(model.get('errors').errorsFor('dateBefore2015').mapBy('message')[0][0]).to.equal(Ember.String.fmt(Messages.dateBeforeMessage, new Date(2015, 1, 1)));
+          });
+        });
+        it('validates that the date is `after` the specified value', function(){
+          var model = this.subject({dateAfter2014: '2015-01-01'});
+          Ember.run(function(){
+            expect(model.validate({only: ['dateAfter2014']})).to.equal(false);
+            expect(model.get('errors').errorsFor('dateAfter2014').mapBy('message')[0][0]).to.equal(Ember.String.fmt(Messages.dateAfterMessage, new Date(2014, 12, 31)));
           });
         });
       });

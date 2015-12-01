@@ -160,6 +160,26 @@ export default Ember.Mixin.create({
       this._addToErrors(property, validation.subdomain, Messages.subdomainMessage);
     }
   },
+  _validateDate: function(property, validation) {
+    let propertyValue = new Date(this.get(property));
+    if (isNaN(propertyValue.getTime())) {
+      this.set('isValidNow', false);
+      this._addToErrors(property, validation.date, Messages.dateMessage);
+      return;
+    }
+    if (validation.date.hasOwnProperty('before') && validation.date.before) {
+      if (propertyValue.getTime() >= new Date(validation.date.before).getTime()) {
+        this.set('isValidNow', false);
+        this._addToErrors(property, validation.date, Ember.String.fmt(Messages.dateBeforeMessage, new Date(validation.date.before)));
+      }
+    }
+    if (validation.date.hasOwnProperty('after') && validation.date.after) {
+      if (propertyValue.getTime() <= new Date(validation.date.after).getTime()) {
+        this.set('isValidNow', false);
+        this._addToErrors(property, validation.date, Ember.String.fmt(Messages.dateAfterMessage, new Date(validation.date.after)));
+      }
+    }
+  },
   _validateNumericality: function(property, validation) {
     let propertyValue = this.get(property);
     if(!this._isNumber(this.get(property))){

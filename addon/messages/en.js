@@ -3,7 +3,7 @@ export default {
   absenceMessage: 'must be blank',
   inclusionMessage: 'is not included in the list',
   exclusionMessage: 'is reserved',
-  
+
   // Numericality
   numericalityMessage: 'is not a number',
   numericalityOnlyIntegerMessage: 'must be an integer',
@@ -30,5 +30,9 @@ export default {
   mustContainLowerMessage: 'must include a lower case character',
   mustContainCapitalMessage: 'must include an upper case character',
   customValidationMessage: 'is invalid',
-  matchMessage: 'must match %@'
+  matchMessage: 'must match %@',
+
+  dateMessage: 'is not a valid date',
+  dateBeforeMessage: 'must be before %@',
+  dateAfterMessage: 'must be after %@',
 };
