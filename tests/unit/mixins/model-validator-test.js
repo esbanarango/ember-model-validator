@@ -18,18 +18,18 @@ describe('ModelValidatorMixin', function() {
     expect(subject).to.be.ok;
   });
 
-	describeModel('fake-model','Fake model with simple validations',
-	  {
-	    // Specify the other units that are required for this test.
-	      needs: ['model:other-model', 'model:async-model']
-	  },
-	  function() {
-	    // Replace this with your real tests.
-	    it('exists', function() {
-	      var model = this.subject();
-	      // var store = this.store();
-	      expect(model).to.be.ok;
-	    });
+  describeModel('fake-model','Fake model with simple validations',
+    {
+      // Specify the other units that are required for this test.
+      needs: ['model:other-model', 'model:async-model']
+    },
+    function() {
+      // Replace this with your real tests.
+      it('exists', function() {
+        var model = this.subject();
+        // var store = this.store();
+        expect(model).to.be.ok;
+      });
 
       describe('allowBlank option', function() {
         it('skips other validations when optional field is blank', function(){
@@ -130,11 +130,11 @@ describe('ModelValidatorMixin', function() {
         expect( model.get('errors').errorsFor('thing').mapBy('message')[0][0] ).to.equal(Messages.customValidationMessage);
       });
 
-		  it('validates the email format of the attributes set on `validations.email`', function() {
-	      var model = this.subject({email:'adsfasdf$'});
-	      expect(model.validate()).to.equal(false);
-	      expect(model.get('errors').errorsFor('email').mapBy('message')[0][0]).to.equal(Messages.mailMessage);
-		  });
+      it('validates the email format of the attributes set on `validations.email`', function() {
+        var model = this.subject({email:'adsfasdf$'});
+        expect(model.validate()).to.equal(false);
+        expect(model.get('errors').errorsFor('email').mapBy('message')[0][0]).to.equal(Messages.mailMessage);
+      });
 
       it('validates the url format of the attributes set on `validations.url`', function() {
         var model = this.subject({myBlog:'//www.hola.com'});
@@ -151,11 +151,11 @@ describe('ModelValidatorMixin', function() {
         model.validations.favoritColor.color['message'] = message;
       });
 
-		  it('validates the numericality of the attributes set on `validations.numericality`', function() {
-	      var model = this.subject({lotteryNumber:'adsfasdf$'});
-	      expect(model.validate()).to.equal(false);
-	      expect(model.get('errors').errorsFor('lotteryNumber').mapBy('message')[0][0]).to.equal(Messages.numericalityMessage);
-		  });
+      it('validates the numericality of the attributes set on `validations.numericality`', function() {
+        var model = this.subject({lotteryNumber:'adsfasdf$'});
+        expect(model.validate()).to.equal(false);
+        expect(model.get('errors').errorsFor('lotteryNumber').mapBy('message')[0][0]).to.equal(Messages.numericalityMessage);
+      });
 
       it('validates the subdomain format of the attributes set on `validations.subdomain`', function() {
         var model = this.subject({mySubdomain:'with space'}),
@@ -341,9 +341,7 @@ describe('ModelValidatorMixin', function() {
               });
             });
           });
-
         });
-
       });
 
       // Length validation testing is handled above
@@ -556,26 +554,24 @@ describe('ModelValidatorMixin', function() {
 
       });
 
-			describe('when data is corrected after validation', function() {
+      describe('when data is corrected after validation', function() {
 
-			  it('it clean the errors', function() {
-		      var model = this.subject({email:'adsfasdf$',name:'Jose Rene',lotteryNumber:124,alibabaNumber:33,legacyCode:'abc', acceptConditions: 1, password: 'k$1hkjGd', favoriteColor: 'FFFFFF', socialSecurity: 12312}),
+        it('it clean the errors', function() {
+          var model = this.subject({email:'adsfasdf$',name:'Jose Rene',lotteryNumber:124,alibabaNumber:33,legacyCode:'abc', acceptConditions: 1, password: 'k$1hkjGd', favoriteColor: 'FFFFFF', socialSecurity: 12312}),
               store = model.get('store');
-
-		      Ember.run(function() {
-		      	expect(model.validate()).to.equal(false);
+          Ember.run(function() {
+            expect(model.validate()).to.equal(false);
             var asyncModel = store.createRecord('async-model');
             var otherFake = store.createRecord('other-model',{name:'aaa',email:'aaa@aa.com'});
             model.set('password','k$1hkjGd');
             model.set('passwordConfirmation','k$1hkjGd');
-		      	model.set('email','rene@higuita.com');
+            model.set('email','rene@higuita.com');
             model.set('asyncModel',asyncModel);
             model.set('otherFake',otherFake);
-		      	expect(model.validate()).to.equal(true);
-		      });
-			  });
-
-			});
+            expect(model.validate()).to.equal(true);
+          });
+        });
+      });
 
       describe('when `addErrors` is passed to `validate`', function() {
 
@@ -590,7 +586,6 @@ describe('ModelValidatorMixin', function() {
             expect(model.get('errors').errorsFor('email').mapBy('message').length).to.equal(1);
           });
         });
-
       });
 
       describe('when `except` is passed to `validate`', function() {
@@ -605,7 +600,6 @@ describe('ModelValidatorMixin', function() {
             expect(model.validate({except:['asyncModel','otherFake']})).to.equal(true);
           });
         });
-
       });
 
       describe('when `only` is passed to `validate`', function() {
@@ -619,8 +613,6 @@ describe('ModelValidatorMixin', function() {
           });
         });
       });
-	  }
-	);
-
-
+    }
+  );
 });
