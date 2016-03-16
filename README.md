@@ -114,6 +114,14 @@ Speficy the lengths that are allowed.
         minimum: 3,
         maximum: 5
       }
+    },
+    smallName:{
+      length: {
+        maximum: {
+          value: 3,
+          message: 'should be smaller'
+        }
+      }
     }
   }
 ````

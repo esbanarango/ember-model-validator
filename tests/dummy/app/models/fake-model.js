@@ -28,6 +28,7 @@ export default DS.Model.extend(Validator,{
   socialSecurity: DS.attr('number', {defaultValue: 12345}),
   nsaNumber: DS.attr('number', {defaultValue: 1234}),
   chuncaluchoNumber: DS.attr('number', {defaultValue: 1234567891}),
+  theMinimunmTwoNumber: DS.attr('number', {defaultValue: 3223}),
   hugeName: DS.attr('string', {defaultValue: 12345}),
   postalCodeUS:  DS.attr('string', {defaultValue: '09011'}),
   postalCodeUK:  DS.attr('string', {defaultValue: 'KY16 8BP'}),
@@ -68,6 +69,14 @@ export default DS.Model.extend(Validator,{
     },
     chuncaluchoNumber: {
       length: { is: 10, message: 'this is not the length of a chuncalucho' }
+    },
+    theMinimunmTwoNumber:{
+      length: {
+        minimum: {
+          value: 2,
+          message: 'please it has to be minimum 2 come on man!!'
+        }
+      }
     },
     hugeName:{
       length: {

@@ -285,14 +285,26 @@ export default Ember.Mixin.create({
     }
   },
   _rangeLength(stringLength, property, validation) {
-    let minimum = validation.length.minimum || -1,
-        maximum = validation.length.maximum || Infinity;
+    let minimum = -1,
+        maximum = Infinity;
+    // Maximum and Minimum can be objects
+    if(Ember.typeOf(validation.length.minimum) === 'number'){
+      minimum = validation.length.minimum;
+    }else if(Ember.typeOf(validation.length.minimum) === 'object' && validation.length.minimum.hasOwnProperty('value')){
+      minimum = validation.length.minimum.value;
+    }
+    if(Ember.typeOf(validation.length.maximum) === 'number'){
+      maximum = validation.length.maximum;
+    }else if(Ember.typeOf(validation.length.maximum) === 'object' && validation.length.maximum.hasOwnProperty('value')){
+      maximum = validation.length.maximum.value;
+    }
+
     if(stringLength < minimum){
       this.set('isValidNow',false);
-      this._addToErrors(property, validation.length, Ember.String.fmt(Messages.tooShortMessage,minimum));
+      this._addToErrors(property, validation.length.minimum, Ember.String.fmt(Messages.tooShortMessage,minimum));
     }else if (stringLength > maximum) {
       this.set('isValidNow',false);
-      this._addToErrors(property, validation.length, Ember.String.fmt(Messages.tooLongMessage,maximum));
+      this._addToErrors(property, validation.length.maximum, Ember.String.fmt(Messages.tooLongMessage,maximum));
     }
   },
   _validateRelations(property, validation) {
@@ -374,7 +386,7 @@ export default Ember.Mixin.create({
   _addToErrors(property, validation, defaultMessage) {
     let errors = this.get('validationErrors'),
         message = this._getCustomMessage(validation, defaultMessage, property),
-        errorAs =  validation.errorAs || property;
+        errorAs = Ember.typeOf(validation) === 'object' ? (validation.errorAs || property) : property;
     if (!Ember.isArray(errors[errorAs])) {errors[errorAs] = [];}
     if(this.get('addErrors')){errors[errorAs].push([message]);}
   },

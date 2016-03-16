@@ -319,6 +319,16 @@ describe('ModelValidatorMixin', function() {
             });
           });
 
+          describe('when `message` is set for `minimum` or `maximum` option', function() {
+            it('validates the length of the attributes set on `validations.length`', function() {
+              var model = this.subject({theMinimunmTwoNumber:'1'});
+              Ember.run(function() {
+                expect(model.validate({only:['theMinimunmTwoNumber']})).to.equal(false);
+                expect(model.get('errors').errorsFor('theMinimunmTwoNumber').mapBy('message')[0][0]).to.equal('please it has to be minimum 2 come on man!!');
+              });
+            });
+          });
+
         });
 
         describe('range Length', function() {
