@@ -309,15 +309,15 @@ export default Ember.Mixin.create({
   },
   _validateRelations(property, validation) {
     if(validation.relations.indexOf("hasMany") !== -1) {
-      if(this.get(property)){
-        this.get(property).forEach((objRelation) => {
+      if(this.get(`${property}.content`)){
+        this.get(`${property}.content`).forEach((objRelation) => {
           if(!objRelation.validate()){
             this.set('isValidNow',false);
           }
         });
       }
     }else if(validation.relations.indexOf("belongsTo") !== -1){
-      if(this.get(property) && !this.get(property).validate()){
+      if(this.get(`${property}.content`) && !this.get(`${property}.content`).validate()){
         this.set('isValidNow',false);
       }
     }

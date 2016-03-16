@@ -2,8 +2,6 @@
   "predef": [
     "document",
     "window",
-    "Ember",
-    "mocha",
     "location",
     "setTimeout",
     "$",
