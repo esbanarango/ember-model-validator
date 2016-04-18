@@ -267,10 +267,14 @@ The value must be a `Date` object or a string that produces a valid date when pa
 ````js
   validations: {
     birthDate: {
-      before: new Date()
+      date: {
+        before: new Date()
+      }
     },
     signupDate: {
-      after: '2015-01-01'
+      date: {
+        after: '2015-01-01'
+      }
     }
   }
 ````
