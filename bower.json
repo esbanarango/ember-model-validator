@@ -4,6 +4,9 @@
     "ember": "~2.4.1",
     "ember-cli-shims": "0.1.0",
     "ember-cli-test-loader": "0.2.2",
-    "ember-mocha": "0.8.11"
+    "ember-mocha": "0.8.11",
+    "font-awesome": "~4.5.0",
+    "prism": "^1.4.1",
+    "bootstrap": "^3.3.6"
   }
 }

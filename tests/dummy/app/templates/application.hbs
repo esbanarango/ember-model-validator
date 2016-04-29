@@ -1,3 +1,40 @@
-<h2 id="title">Welcome to Ember</h2>
+<nav class="navbar navbar-default remodal-bg">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
 
-{{outlet}}
+      {{#link-to 'index' class="navbar-brand"}}
+        <img src="ember-logo.png" alt="Ember Logo">
+        <span>Model Validator</span>
+      {{/link-to}}
+    </div>
+
+    <div class="collapse navbar-collapse" id="navbar">
+      <ul class="nav navbar-nav">
+        <li>
+
+        </li>
+        <li>
+
+        </li>
+      </ul>
+
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+          <a href="https://github.com/esbanarango/ember-model-validator" target="_blank">
+            {{fa-icon 'github'}}
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="main">
+  {{outlet}}
+</div>
