@@ -102,7 +102,7 @@ export default Ember.Mixin.create({
     }
   },
   _validateEmail(property, validation) {
-    if (!this.get(property) || String(this.get(property)).match(/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i) === null){
+    if (!this.get(property) || String(this.get(property)).match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/) === null){
       this.set('isValidNow',false);
       this._addToErrors(property, validation.email, Messages.mailMessage);
     }

@@ -618,7 +618,7 @@ describe('ModelValidatorMixin', function() {
           var model = this.subject({email:'adsfasdf$',name:'Jose Rene',lotteryNumber:124,alibabaNumber:33,legacyCode:'abc'});
           Ember.run(function() {
             expect(model.validate()).to.equal(false);
-            model.set('email','rene@higuita.com');
+            model.set('email','user.name+1@gmail.com');
             expect(model.validate({only:['email']})).to.equal(true);
           });
         });
