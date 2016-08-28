@@ -3,17 +3,17 @@
     <div class="introduction">
 
       <h1 class="ui header">
-        Presence
+        Acceptance
 
         <div class="sub header">
-          Validates that the specified attributes are not empty.
+          This is typically used when the user needs to agree to your application's terms of service, confirm that some text is read, or any similar concept.
         </div>
       </h1>
 
       <div class="ui hidden divider"></div>
 
       <p>
-        A value is not present if it is empty or a whitespace string. It uses <a href="http://emberjs.com/api/#method_isBlank" target="_blank">Ember.isBlank</a> method. This can be also used on <strong>async belongsTo</strong> relations.
+        These values: <code class="ui label">['1', 1, true]</code> are the acceptable values. But you can specify yours with the accept option.
       </p>
 
     </div>
@@ -23,19 +23,23 @@
 
 <div class="ui main container">
   <p>
+    <p>
+      The <code class="ui label">accept</code> option receives either a string or an array of acceptable values.
+    </p>
+
     {{#ui-annotation showing=true type="javascript"}}
 validations: {
-  name: {
-    presence: true
+  agree: {
+    acceptance: true // { accept: 'yes' } | { accept: 1 } | { accept: [1,'sisas'] }
   }
 }
     {{/ui-annotation}}
   </p>
 
-  {{config-options defaultMessage=messages.presenceMessage}}
+  {{config-options defaultMessage=messages.acceptanceMessage}}
 
   {{#ui-example
-    header="Form Input Example"
+    header="Examples"
     subHeader="A form with some required inputs"
     as |showing setCopyCode|}}
 
@@ -44,22 +48,15 @@ validations: {
         <div class="column">
 
           {{#object-form for=model classNames="segment"}}
-            {{#form-field for='fullName' label="Full Name" required=true}}
-              {{input value=model.fullName placeholder="Full Name"}}
-            {{/form-field}}
-            <div class="fields">
-              <div class="field">
-                {{#form-field for='fruit' label="Favorite Fruit" required=true}}
-                  {{input value=model.fruit placeholder="Favorite Fruit"}}
-                {{/form-field}}
-              </div>
-              <div class="field">
-                {{#form-field for='color' label="Favorite Color" }}
-                  {{input value=model.color placeholder="Favorite Color"}}
-                {{/form-field}}
-              </div>
-            </div>
 
+            <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+            consequat.</p>
+
+            {{#form-field for='agree' label="Understood?" required=true}}
+              {{ui-checkbox class="toggle" label="Agree!" checked=model.agree onChange=(action (mut model.agree))}}
+            {{/form-field}}
             <div class="actions">
               <div class="ui input submit">
                 <button class="ui button primary" {{action 'validate'}}>Validate</button>
@@ -81,20 +78,16 @@ validations: {
 import DS from 'ember-data';
 import Validator from '../mixins/model-validator';
 
-export default DS.Model.extend(Validator, {
-  fullName: DS.attr('string'),
-  fruit: DS.attr('string'),
-  color: DS.attr('string'),
+export default DS.Model.extend(Validator,{
+  agree: DS.attr('boolean'),
 
   validations: {
-    fullName:{
-      presence: true
+    agree: {
+      acceptance: true
     },
-    fruit:{
-      presence: true
-    }
   }
 });
+
     {{/ui-annotation}}
 
   {{/ui-example}}

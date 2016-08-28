@@ -10,6 +10,7 @@ Router.map(function() {
   this.route('usage');
   this.route('validators', function() {
     this.route('presence');
+    this.route('acceptance');
   });
 });
 
