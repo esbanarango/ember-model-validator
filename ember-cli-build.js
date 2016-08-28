@@ -21,8 +21,8 @@ module.exports = function(defaults) {
     behave. You most likely want to be modifying `./index.js` or app's build file
   */
 
-  app.import('bower_components/bootstrap/dist/css/bootstrap.css');
-  app.import('bower_components/bootstrap/dist/js/bootstrap.js');
+  app.import('bower_components/semantic-ui/dist/semantic.css');
+  app.import('bower_components/semantic-ui/dist/semantic.js');
 
   return app.toTree();
 };
