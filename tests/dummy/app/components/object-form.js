@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   tagName: 'form',
-  classNames: 'form-content object-form',
+  classNames: 'ui form equal width',
   attributeBindings: ['onsubmit'],
 
   submit(e) {

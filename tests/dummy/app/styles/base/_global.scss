@@ -1,3 +1,16 @@
 .inverted.sidebar.menu.left.overlay{
 	margin-top: 10px !important;
 }
+
+.error{
+  .help-block{
+    display: block;
+    margin-bottom: .5em;
+    font-size: .9285em;
+    color: #d95c5c;
+    opacity: .6;
+    padding-left: 5px;
+  }
+}
+
+.hidden{ display: none;}

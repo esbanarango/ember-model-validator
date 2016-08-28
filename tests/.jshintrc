@@ -1,5 +1,6 @@
 {
   "predef": [
+    "Prism",
     "document",
     "window",
     "location",

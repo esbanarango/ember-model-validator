@@ -1,5 +1,5 @@
-import Ember from 'ember';
+import BaseContoller from './base';
 
-export default Ember.Controller.extend({
-
+export default BaseContoller.extend({
+  modelName: 'for-presence'
 });

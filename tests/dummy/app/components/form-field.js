@@ -2,8 +2,8 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   tagName: 'div',
-  classNames: 'form-field',
-  classNameBindings: ['hasError:error', 'fieldClass', 'for'],
+  classNames: 'ui field',
+  classNameBindings: ['hasError:error', 'fieldClass', 'for', 'required'],
 
   object: Ember.computed.alias('parentView.for'),
 

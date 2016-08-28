@@ -342,7 +342,7 @@ blockquote .author {
    Code Samples
 -----------------*/
 
-#example .segment pre {
+#example .segment pre:not(.code-block) {
   background-color: transparent;
   margin: 0em;
   padding: 0em;

@@ -1,0 +1,23 @@
+<a class="ui {{ if valid 'teal' 'red'}} right ribbon label">{{validText}}</a>
+<div><strong>Json representation:</strong></div>
+<pre class="code-block">
+  <code class="language-javascript"></code>
+</pre>
+
+<div class="hidden for-code">
+  {
+    modelName: '{{modelName}}',
+    {{#if valid}}
+    errors: []
+    {{else}}
+    errors: [
+    {{#each errors as |error|}}
+      {
+        attribute: "{{error.attribute}}",
+        message: "{{error.message.firstObject}}",
+      },
+    {{/each}}
+    ]
+    {{/if}}
+  }
+</div>
