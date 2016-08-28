@@ -1,40 +1,17 @@
-<nav class="navbar navbar-default remodal-bg">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-
-      {{#link-to 'index' class="navbar-brand"}}
-        <img src="ember-logo.png" alt="Ember Logo">
-        <span>Model Validator</span>
-      {{/link-to}}
-    </div>
-
-    <div class="collapse navbar-collapse" id="navbar">
-      <ul class="nav navbar-nav">
-        <li>
-
-        </li>
-        <li>
-
-        </li>
-      </ul>
-
-      <ul class="nav navbar-nav navbar-right">
-        <li>
-          <a href="https://github.com/esbanarango/ember-model-validator" target="_blank">
-            {{fa-icon 'github'}}
-          </a>
-        </li>
-      </ul>
+<div class="full height">
+  <div class="toc">
+    <div class="ui vertical inverted sidebar menu left overlay visible">
+      <div class="item">
+        {{#link-to 'index' class='ui logo icon image'}}
+          <img src="{{rootURL}}/ember-logo.png" alt="Ember Logo">
+        {{/link-to}}
+        <a href="/"><b>MODEL VALIDATOR</b></a>
+      </div>
+      {{partial "menu"}}
     </div>
   </div>
-</nav>
 
-<div class="main">
-  {{outlet}}
+  <div class="article">
+    {{outlet}}
+  </div>
 </div>

@@ -6,7 +6,7 @@
 This README outlines the details of collaborating on this Ember addon.
 
 ## Purpose
-This Ember cli addon borns from the necessity of having some sort of similar validation support like we have on Rails with _Active Record Validations_.
+This Ember cli addon is born from the necessity of having some sort of similar validation support like we have on Rails with _Active Record Validations_.
 
 ## Installation
 
