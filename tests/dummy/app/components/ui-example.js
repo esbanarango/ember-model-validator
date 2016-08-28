@@ -2,7 +2,7 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  showing: false,
+  showing: true,
 
   actions: {
     toggle() {
