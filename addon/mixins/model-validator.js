@@ -6,14 +6,16 @@ export default Ember.Mixin.create({
   validationErrors: {},
   isValidNow: true,
   addErrors: true,
-
+  clearErrors() {
+    this._internalModel.clearErrorMessages();
+  },
   validate(options={}) {
     let store = this.get('store'),
         errors = null,
         validations = this.get('validations');
 
     // Clean all the current errors
-    this.get('errors').clear();
+    this.clearErrors();
     this.set('validationErrors', {});
     this.set('isValidNow', true);
     errors = this.get('validationErrors');
