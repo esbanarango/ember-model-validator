@@ -12,11 +12,17 @@
     <i class="{{icon}} icon"></i>
   </div>
 {{else}}
-  <div class="ui input">
+  <div class="ui input {{ if pre 'right labeled'}}">
+    {{#if pre}}
+      <div class="ui label">{{pre}}</div>
+    {{/if}}
     {{#if hasBlock}}
       {{yield}}
     {{else}}
       {{input type=type value=value}}
+    {{/if}}
+    {{#if post}}
+      <div class="ui basic label">{{post}}</div>
     {{/if}}
   </div>
 {{/if}}

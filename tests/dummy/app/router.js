@@ -17,6 +17,7 @@ Router.map(function() {
     this.route('email');
     this.route('zipcode');
     this.route('hexcolor');
+    this.route('subdomain');
   });
 });
 
