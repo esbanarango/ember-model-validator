@@ -428,7 +428,6 @@ export default Ember.Mixin.create({
     }
   },
   _formatMessage(message, context = {}){
-    let regex = new RegExp(`/\{(\w+)\}/g`);
-    return message.replace(regex, (s, attr) => context[attr]);
+    return message.replace(/\{(\w+)\}/, (s, attr) => context[attr]);
   }
 });

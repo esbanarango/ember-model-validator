@@ -9,8 +9,12 @@ import Ember from 'ember';
 import ModelValidatorMixin from '../../../mixins/model-validator';
 import Messages from 'ember-model-validator/messages/en';
 import PostalCodesRegex from 'ember-model-validator/postal-codes-regex';
+import MessageFormater from '../../helpers/message-formater';
+
+var formater = MessageFormater.create();
 
 describe('ModelValidatorMixin', function() {
+
   // Replace this with your real tests.
   it('works', function() {
     var ValidatorObject = Ember.Object.extend(ModelValidatorMixin);
@@ -83,7 +87,8 @@ describe('ModelValidatorMixin', function() {
       it('validates the matching of the attributes set on `validations.password`', function() {
         var model = this.subject({password: 'k$1hkjGd', passwordConfirmation: 'uuuu'});
         expect(model.validate()).to.equal(false);
-        expect(model.get('errors').errorsFor('password').mapBy('message')[0][0]).to.equal(Ember.String.fmt(Messages.matchMessage,model._unCamelCase('passwordConfirmation')));
+        let context = {match: model._unCamelCase('passwordConfirmation')};
+        expect(model.get('errors').errorsFor('password').mapBy('message')[0][0]).to.equal(formater.formatMessage(Messages.matchMessage,context));
       });
 
       it('validates the absence of the attributes set on `validations.absence`', function() {
@@ -200,7 +205,8 @@ describe('ModelValidatorMixin', function() {
             var model = this.subject({anIntegerGreaterThan4:2});
             Ember.run(function() {
               expect(model.validate({only:['anIntegerGreaterThan4']})).to.equal(false);
-              expect(model.get('errors').errorsFor('anIntegerGreaterThan4').mapBy('message')[0][0]).to.equal(Ember.String.fmt(Messages.numericalityGreaterThanMessage,4));
+              let context = {count: 4};
+              expect(model.get('errors').errorsFor('anIntegerGreaterThan4').mapBy('message')[0][0]).to.equal(formater.formatMessage(Messages.numericalityGreaterThanMessage, context));
             });
           });
         });
@@ -210,7 +216,8 @@ describe('ModelValidatorMixin', function() {
             var model = this.subject({anIntegerGreaterThanOrEqual7:2});
             Ember.run(function() {
               expect(model.validate({only:['anIntegerGreaterThanOrEqual7']})).to.equal(false);
-              expect(model.get('errors').errorsFor('anIntegerGreaterThanOrEqual7').mapBy('message')[0][0]).to.equal(Ember.String.fmt(Messages.numericalityGreaterThanOrEqualToMessage,7));
+              let context = {count: 7};
+              expect(model.get('errors').errorsFor('anIntegerGreaterThanOrEqual7').mapBy('message')[0][0]).to.equal(formater.formatMessage(Messages.numericalityGreaterThanOrEqualToMessage, context));
             });
           });
         });
@@ -220,7 +227,8 @@ describe('ModelValidatorMixin', function() {
             var model = this.subject({aTenNumber:2});
             Ember.run(function() {
               expect(model.validate({only:['aTenNumber']})).to.equal(false);
-              expect(model.get('errors').errorsFor('aTenNumber').mapBy('message')[0][0]).to.equal(Ember.String.fmt(Messages.numericalityEqualToMessage,10));
+              let context = {count: 10};
+              expect(model.get('errors').errorsFor('aTenNumber').mapBy('message')[0][0]).to.equal(formater.formatMessage(Messages.numericalityEqualToMessage, context));
             });
           });
         });
@@ -230,7 +238,8 @@ describe('ModelValidatorMixin', function() {
             var model = this.subject({anIntegerLessThan4:5});
             Ember.run(function() {
               expect(model.validate({only:['anIntegerLessThan4']})).to.equal(false);
-              expect(model.get('errors').errorsFor('anIntegerLessThan4').mapBy('message')[0][0]).to.equal(Ember.String.fmt(Messages.numericalityLessThanMessage,4));
+              let context = {count: 4};
+              expect(model.get('errors').errorsFor('anIntegerLessThan4').mapBy('message')[0][0]).to.equal(formater.formatMessage(Messages.numericalityLessThanMessage, context));
             });
           });
         });
@@ -240,7 +249,8 @@ describe('ModelValidatorMixin', function() {
             var model = this.subject({anIntegerLessThanOrEqual6:8});
             Ember.run(function() {
               expect(model.validate({only:['anIntegerLessThanOrEqual6']})).to.equal(false);
-              expect(model.get('errors').errorsFor('anIntegerLessThanOrEqual6').mapBy('message')[0][0]).to.equal(Ember.String.fmt(Messages.numericalityLessThanOrEqualToMessage,6));
+              let context = {count: 6};
+              expect(model.get('errors').errorsFor('anIntegerLessThanOrEqual6').mapBy('message')[0][0]).to.equal(formater.formatMessage(Messages.numericalityLessThanOrEqualToMessage, context));
             });
           });
         });
@@ -285,14 +295,16 @@ describe('ModelValidatorMixin', function() {
           var model = this.subject({dateBefore2015: '2015-10-31'});
           Ember.run(function(){
             expect(model.validate({only: ['dateBefore2015']})).to.equal(false);
-            expect(model.get('errors').errorsFor('dateBefore2015').mapBy('message')[0][0]).to.equal(Ember.String.fmt(Messages.dateBeforeMessage, new Date(2015, 1, 1)));
+            let context = {date: new Date(2015, 1, 1)};
+            expect(model.get('errors').errorsFor('dateBefore2015').mapBy('message')[0][0]).to.equal(formater.formatMessage(Messages.dateBeforeMessage, context));
           });
         });
         it('validates that the date is `after` the specified value', function(){
           var model = this.subject({dateAfter2014: '2015-01-01'});
           Ember.run(function(){
             expect(model.validate({only: ['dateAfter2014']})).to.equal(false);
-            expect(model.get('errors').errorsFor('dateAfter2014').mapBy('message')[0][0]).to.equal(Ember.String.fmt(Messages.dateAfterMessage, new Date(2014, 12, 31)));
+            let context = {date: new Date(2014, 12, 31)};
+            expect(model.get('errors').errorsFor('dateAfter2014').mapBy('message')[0][0]).to.equal(formater.formatMessage(Messages.dateAfterMessage, context));
           });
         });
       });
@@ -304,7 +316,8 @@ describe('ModelValidatorMixin', function() {
               var model = this.subject({socialSecurity:123});
               Ember.run(function() {
                 expect(model.validate({only:['socialSecurity']})).to.equal(false);
-                expect(model.get('errors').errorsFor('socialSecurity').mapBy('message')[0][0]).to.equal(Ember.String.fmt(Messages.wrongLengthMessage,5));
+                let context = {count: 5};
+                expect(model.get('errors').errorsFor('socialSecurity').mapBy('message')[0][0]).to.equal(formater.formatMessage(Messages.wrongLengthMessage, context));
               });
             });
           });
@@ -337,7 +350,8 @@ describe('ModelValidatorMixin', function() {
               var model = this.subject({nsaNumber:12});
               Ember.run(function() {
                 expect(model.validate({only:['nsaNumber']})).to.equal(false);
-                expect(model.get('errors').errorsFor('nsaNumber').mapBy('message')[0][0]).to.equal(Ember.String.fmt(Messages.tooShortMessage,3));
+                let context = {count: 3};
+                expect(model.get('errors').errorsFor('nsaNumber').mapBy('message')[0][0]).to.equal(formater.formatMessage(Messages.tooShortMessage, context));
               });
             });
           });
@@ -347,7 +361,8 @@ describe('ModelValidatorMixin', function() {
               var model = this.subject({hugeName:123456});
               Ember.run(function() {
                 expect(model.validate({only:['hugeName']})).to.equal(false);
-                expect(model.get('errors').errorsFor('hugeName').mapBy('message')[0][0]).to.equal(Ember.String.fmt(Messages.tooLongMessage,5));
+                let context = {count: 5};
+                expect(model.get('errors').errorsFor('hugeName').mapBy('message')[0][0]).to.equal(formater.formatMessage(Messages.tooLongMessage, context));
               });
             });
           });
