@@ -17,7 +17,6 @@ export default Ember.Controller.extend({
     validate() {
       let model = this.get('model');
       model.validate();
-      console.log(model.get('errors.content'));
     },
     reset() {
       let model = this.get('model');

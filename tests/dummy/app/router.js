@@ -14,6 +14,7 @@ Router.map(function() {
     this.route('absence');
     this.route('format');
     this.route('length');
+    this.route('email');
   });
 });
 

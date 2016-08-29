@@ -2,19 +2,24 @@
   <label class={{labelClass}}>{{label}}</label>
 {{/if}}
 
-<div class="input-wrapper">
-
-	{{#if hasBlock}}
-	  {{yield}}
-	{{else}}
-	  {{input type=type value=value}}
-	{{/if}}
-
-	{{#if icon}}
-		<i class="icon {{icon}}"></i>
-	{{/if}}
-
-</div>
+{{#if icon}}
+  <div class="ui left icon input">
+    {{#if hasBlock}}
+      {{yield}}
+    {{else}}
+      {{input type=type value=value}}
+    {{/if}}
+    <i class="{{icon}} icon"></i>
+  </div>
+{{else}}
+  <div class="ui input">
+    {{#if hasBlock}}
+      {{yield}}
+    {{else}}
+      {{input type=type value=value}}
+    {{/if}}
+  </div>
+{{/if}}
 
 {{#if errors.length}}
   <span class="help-block">
