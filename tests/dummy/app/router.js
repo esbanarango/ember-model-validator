@@ -13,6 +13,7 @@ Router.map(function() {
     this.route('acceptance');
     this.route('absence');
     this.route('format');
+    this.route('length');
   });
 });
 
