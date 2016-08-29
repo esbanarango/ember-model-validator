@@ -50,7 +50,18 @@ validations: {
             <div class="fields">
               <div class="field">
                 {{#form-field for='fruit' label="Favorite Fruit" required=true}}
-                  {{input value=model.fruit placeholder="Favorite Fruit"}}
+                  {{#ui-dropdown class="selection" selected=model.fruit onChange=(action (mut model.fruit))}}
+                    <div class="default text">Fruit</div>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                      <div class="item"></div>
+                      {{#each fruits as |fruit|}}
+                        <div class="item" data-value={{fruit}}>
+                          {{fruit}}
+                        </div>
+                      {{/each}}
+                    </div>
+                  {{/ui-dropdown}}
                 {{/form-field}}
               </div>
               <div class="field">
