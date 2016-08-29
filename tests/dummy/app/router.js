@@ -11,6 +11,7 @@ Router.map(function() {
   this.route('validators', function() {
     this.route('presence');
     this.route('acceptance');
+    this.route('absence');
   });
 });
 

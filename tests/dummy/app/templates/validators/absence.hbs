@@ -1,0 +1,82 @@
+<div class="ui masthead vertical segment">
+  <div class="ui container">
+    <div class="introduction">
+
+      <h1 class="ui header">
+        Absence
+
+        <div class="sub header">
+          Validates that the specified attributes are absent. It uses the <a href="http://emberjs.com/api/#method_isPresent">Ember.isPresent</a> method to check if the value is not either nil or a blank string, that is, a string that is either empty or consists of whitespace.
+        </div>
+      </h1>
+
+      <div class="ui hidden divider"></div>
+
+    </div>
+
+  </div>
+</div>
+
+<div class="ui main container">
+  <p>
+    {{#ui-annotation showing=true type="javascript"}}
+validations: {
+  login: {
+    absence: true
+  }
+}
+    {{/ui-annotation}}
+  </p>
+
+  {{config-options allowBlank=false defaultMessage=messages.absenceMessage}}
+
+  {{#ui-example
+    header="Examples"
+    subHeader="A form with some required inputs"
+    as |showing setCopyCode|}}
+
+    {{#ui-html showing=showing}}
+      <div class="ui two column grid">
+        <div class="column">
+
+          {{#object-form for=model classNames="segment"}}
+
+            <p> This is a "read-only" input, we will generate a super secure token for you.</p>
+
+            {{#form-field for='autoGenerate' label="Auto Generate Token"}}
+              {{input value=model.autoGenerate placeholder="Auto Generate Token"}}
+            {{/form-field}}
+            <div class="actions">
+              <div class="ui input submit">
+                <button class="ui button primary" {{action 'validate'}}>Validate</button>
+                <button class="ui button reset" {{action 'reset'}}>Reset</button>
+              </div>
+            </div>
+          {{/object-form}}
+
+        </div>
+        <div class="column">
+          <div class="ui segment">
+            {{model-errors-to-json errors=model.errors modelName=modelName}}
+          </div>
+        </div>
+      </div>
+    {{/ui-html}}
+
+    {{#ui-annotation showing=showing type="javascript" setCopyCode=setCopyCode}}
+import DS from 'ember-data';
+import Validator from '../../mixins/model-validator';
+
+export default DS.Model.extend(Validator,{
+  autoGenerate: DS.attr('string'),
+
+  validations: {
+    autoGenerate: {
+      absence: true
+    }
+  }
+});
+    {{/ui-annotation}}
+
+  {{/ui-example}}
+</div>
