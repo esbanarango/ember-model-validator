@@ -6,11 +6,11 @@ export default {
   // Numericality
   numericalityMessage: "n'est pas un nombre",
   numericalityOnlyIntegerMessage: 'doit être un nombre entier',
-  numericalityGreaterThanMessage: 'doit être supérieur à %@',
-  numericalityGreaterThanOrEqualToMessage: 'doit être supérieur ou égal à %@',
-  numericalityEqualToMessage: 'doit être égal à %@',
-  numericalityLessThanMessage: 'doit être inférieur à %@',
-  numericalityLessThanOrEqualToMessage: 'doit être inférieur ou égal à %@',
+  numericalityGreaterThanMessage: 'doit être supérieur à {count}',
+  numericalityGreaterThanOrEqualToMessage: 'doit être supérieur ou égal à {count}',
+  numericalityEqualToMessage: 'doit être égal à {count}',
+  numericalityLessThanMessage: 'doit être inférieur à {count}',
+  numericalityLessThanOrEqualToMessage: 'doit être inférieur ou égal à {count}',
   numericalityOddMessage: 'doit être impair',
   numericalityEvenMessage: 'doit être pair',
 
@@ -21,13 +21,17 @@ export default {
   acceptanceMessage: 'doit être accepté(e)',
   zipCodeMessage: "n'est pas un code postal valide",
   URLMessage: 'doit être une URL valide',
-  wrongLengthMessage: "ne fait pas la bonne longueur (doit comporter %@ caractères)",
-  tooShortMessage: "est trop court (au moins %@ caractères)",
-  tooLongMessage: "est trop long (pas plus de %@ caractères)",
+  wrongLengthMessage: "ne fait pas la bonne longueur (doit comporter {count} caractères)",
+  tooShortMessage: "est trop court (au moins {count} caractères)",
+  tooLongMessage: "est trop long (pas plus de {count} caractères)",
   mustContainNumberMessage: 'doit inclure un nombre',
-  mustContainSpecialMessage: "doit inclure l'un de ces caractères spéciaux: %@",
+  mustContainSpecialMessage: "doit inclure l'un de ces caractères spéciaux: {characters}",
   mustContainLowerMessage: 'doit comporter un caractère minuscule',
   mustContainCapitalMessage: 'doit comporter un caractère majuscule',
   customValidationMessage: "n'est pas valide",
-  matchMessage: 'doit correspondre avec %@'
+  matchMessage: 'doit correspondre avec {match}',
+
+  dateMessage: 'is not a valid date',
+  dateBeforeMessage: 'must be before {date}',
+  dateAfterMessage: 'must be after {date}'
 };

@@ -171,13 +171,15 @@ export default Ember.Mixin.create({
     if (validation.date.hasOwnProperty('before') && validation.date.before) {
       if (propertyValue.getTime() >= new Date(validation.date.before).getTime()) {
         this.set('isValidNow', false);
-        this._addToErrors(property, validation.date, Ember.String.fmt(Messages.dateBeforeMessage, new Date(validation.date.before)));
+        let context = {date: new Date(validation.date.before)};
+        this._addToErrors(property, validation.date, this._formatMessage(Messages.dateBeforeMessage, context));
       }
     }
     if (validation.date.hasOwnProperty('after') && validation.date.after) {
       if (propertyValue.getTime() <= new Date(validation.date.after).getTime()) {
         this.set('isValidNow', false);
-        this._addToErrors(property, validation.date, Ember.String.fmt(Messages.dateAfterMessage, new Date(validation.date.after)));
+        let context = {date: new Date(validation.date.after)};
+        this._addToErrors(property, validation.date, this._formatMessage(Messages.dateAfterMessage, context));
       }
     }
   },
@@ -208,31 +210,36 @@ export default Ember.Mixin.create({
     if(validation.numericality.hasOwnProperty('greaterThan') && this._isNumber(validation.numericality.greaterThan)){
       if(propertyValue <= validation.numericality.greaterThan){
         this.set('isValidNow',false);
-        this._addToErrors(property, validation.numericality, Ember.String.fmt(Messages.numericalityGreaterThanMessage,validation.numericality.greaterThan));
+        let context = {count: validation.numericality.greaterThan};
+        this._addToErrors(property, validation.numericality, this._formatMessage(Messages.numericalityGreaterThanMessage, context));
       }
     }
     if(validation.numericality.hasOwnProperty('greaterThanOrEqualTo') && this._isNumber(validation.numericality.greaterThanOrEqualTo)){
       if(propertyValue < validation.numericality.greaterThanOrEqualTo){
         this.set('isValidNow',false);
-        this._addToErrors(property, validation.numericality, Ember.String.fmt(Messages.numericalityGreaterThanOrEqualToMessage,validation.numericality.greaterThanOrEqualTo));
+        let context = {count: validation.numericality.greaterThanOrEqualTo};
+        this._addToErrors(property, validation.numericality, this._formatMessage(Messages.numericalityGreaterThanOrEqualToMessage, context));
       }
     }
     if(validation.numericality.hasOwnProperty('equalTo') && this._isNumber(validation.numericality.equalTo)){
       if(propertyValue !== validation.numericality.equalTo){
         this.set('isValidNow',false);
-        this._addToErrors(property, validation.numericality, Ember.String.fmt(Messages.numericalityEqualToMessage,validation.numericality.equalTo));
+        let context = {count: validation.numericality.equalTo};
+        this._addToErrors(property, validation.numericality, this._formatMessage(Messages.numericalityEqualToMessage, context));
       }
     }
     if(validation.numericality.hasOwnProperty('lessThan') && this._isNumber(validation.numericality.lessThan)){
       if(propertyValue >= validation.numericality.lessThan){
         this.set('isValidNow',false);
-        this._addToErrors(property, validation.numericality, Ember.String.fmt(Messages.numericalityLessThanMessage,validation.numericality.lessThan));
+        let context = {count: validation.numericality.lessThan};
+        this._addToErrors(property, validation.numericality, this._formatMessage(Messages.numericalityLessThanMessage, context));
       }
     }
     if(validation.numericality.hasOwnProperty('lessThanOrEqualTo') && this._isNumber(validation.numericality.lessThanOrEqualTo)){
       if(propertyValue > validation.numericality.lessThanOrEqualTo){
         this.set('isValidNow',false);
-        this._addToErrors(property, validation.numericality, Ember.String.fmt(Messages.numericalityLessThanOrEqualToMessage,validation.numericality.lessThanOrEqualTo));
+        let context = {count: validation.numericality.lessThanOrEqualTo};
+        this._addToErrors(property, validation.numericality, this._formatMessage(Messages.numericalityLessThanOrEqualToMessage, context));
       }
     }
   },
@@ -258,7 +265,8 @@ export default Ember.Mixin.create({
         matchingValue = this.get(matching);
     if (propertyValue !== matchingValue) {
       this.set('isValidNow',false);
-      this._addToErrors(property, validation.match, Ember.String.fmt(Messages.matchMessage,this._unCamelCase(matching)));
+      let context = {match: this._unCamelCase(matching)};
+      this._addToErrors(property, validation.match, this._formatMessage(Messages.matchMessage, context));
     }
   },
   // Length Validator
@@ -283,7 +291,8 @@ export default Ember.Mixin.create({
   _exactLength(stringLength, property, validation) {
     if(stringLength !== validation.length.is){
       this.set('isValidNow',false);
-      this._addToErrors(property, validation.length, Ember.String.fmt(Messages.wrongLengthMessage,validation.length.is));
+      let context = {count: validation.length.is};
+      this._addToErrors(property, validation.length, this._formatMessage(Messages.wrongLengthMessage, context));
     }
   },
   _rangeLength(stringLength, property, validation) {
@@ -303,10 +312,12 @@ export default Ember.Mixin.create({
 
     if(stringLength < minimum){
       this.set('isValidNow',false);
-      this._addToErrors(property, validation.length.minimum, Ember.String.fmt(Messages.tooShortMessage,minimum));
+      let context = {count: minimum};
+      this._addToErrors(property, validation.length.minimum, this._formatMessage(Messages.tooShortMessage, context));
     }else if (stringLength > maximum) {
       this.set('isValidNow',false);
-      this._addToErrors(property, validation.length.maximum, Ember.String.fmt(Messages.tooLongMessage,maximum));
+      let context = {count: maximum};
+      this._addToErrors(property, validation.length.maximum, this._formatMessage(Messages.tooLongMessage, context));
     }
   },
   _validateRelations(property, validation) {
@@ -355,7 +366,8 @@ export default Ember.Mixin.create({
         message = validation.mustContainSpecial.message || Messages.mustContainSpecialMessage;
     if (validation.mustContainSpecial && !containsSpecial) {
       this.set('isValidNow', false);
-      this._addToErrors(property, validation, Ember.String.fmt(message, regexString));
+      let context = {characters: regexString};
+      this._addToErrors(property, validation, this._formatMessage(message, context));
     }
   },
 
@@ -414,5 +426,9 @@ export default Ember.Mixin.create({
     }else{
       return this.get('_internalModel._relationships.initializedRelationships');
     }
+  },
+  _formatMessage(message, context = {}){
+    let regex = new RegExp(`/\{(\w+)\}/g`);
+    return message.replace(regex, (s, attr) => context[attr]);
   }
 });
