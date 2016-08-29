@@ -9,7 +9,8 @@
   "scripts": {
     "build": "ember build",
     "start": "ember server",
-    "test": "ember try:each"
+    "test": "ember try:each",
+    "deploy-gh-page": "ember github-pages:commit --message \"Deploy gh-pages from commit $(git rev-parse HEAD)\"; git push; git checkout -"
   },
   "repository": "https://github.com/esbanarango/ember-model-validator",
   "demoURL": "http://esbanarango.github.io/ember-model-validator",
