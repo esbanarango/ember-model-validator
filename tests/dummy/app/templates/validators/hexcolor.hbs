@@ -1,0 +1,87 @@
+<div class="ui masthead vertical segment">
+  <div class="ui container">
+    <div class="introduction">
+
+      <h1 class="ui header">
+        Hex Color
+
+        <div class="sub header">
+          Validates that the specified attributes are a correct Hexadecimal color.
+        </div>
+      </h1>
+
+      <div class="ui hidden divider"></div>
+
+    </div>
+
+  </div>
+</div>
+
+<div class="ui main container">
+  <p>
+    {{#ui-annotation showing=true type="javascript"}}
+validations: {
+  favoritColor:{
+    color: true
+  }
+}
+    {{/ui-annotation}}
+  </p>
+
+  {{config-options defaultMessage=messages.presenceMessage}}
+
+  {{#ui-example
+    header="Examples"
+    as |showing setCopyCode|}}
+
+    {{#ui-html showing=showing}}
+      <div class="ui two column grid">
+        <div class="column">
+
+          {{#object-form for=model classNames="segment"}}
+            <div class="fields">
+              <div class="field">
+                {{#form-field for='favoriteColor' label="Favorite Color" icon="paint brush"}}
+                  {{input value=model.favoriteColor placeholder="Favorite Color"}}
+                {{/form-field}}
+              </div>
+              <div class="field">
+                <canvas id="canvas-color" width="200" height="100">
+                </canvas>
+              </div>
+            </div>
+
+            <div class="actions">
+              <div class="ui input submit">
+                <button class="ui button primary" {{action 'validate'}}>Validate</button>
+                <button class="ui button reset" {{action 'reset'}}>Reset</button>
+              </div>
+            </div>
+          {{/object-form}}
+
+        </div>
+        <div class="column">
+          <div class="ui segment">
+            {{model-errors-to-json errors=model.errors modelName=modelName}}
+          </div>
+        </div>
+      </div>
+    {{/ui-html}}
+
+    {{#ui-annotation showing=showing type="javascript" setCopyCode=setCopyCode}}
+import DS from 'ember-data';
+import Validator from '../mixins/model-validator';
+
+export default DS.Model.extend(Validator,{
+  favoriteColor: DS.attr('string'),
+
+  validations: {
+    favoriteColor:{
+      color: true
+    }
+  }
+});
+    {{/ui-annotation}}
+
+  {{/ui-example}}
+</div>

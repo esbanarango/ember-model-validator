@@ -16,6 +16,7 @@ Router.map(function() {
     this.route('length');
     this.route('email');
     this.route('zipcode');
+    this.route('hexcolor');
   });
 });
 

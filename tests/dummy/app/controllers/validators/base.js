@@ -6,6 +6,7 @@ export default Ember.Controller.extend({
   store: Ember.inject.service(),
 
   messages: Messages,
+  modelValid: true,
 
   init: function () {
     this._super();
@@ -16,7 +17,11 @@ export default Ember.Controller.extend({
   actions:{
     validate() {
       let model = this.get('model');
-      model.validate();
+      if(model.validate()){
+        this.set('modelValid', true);
+      }else{
+        this.set('modelValid', false);
+      }
     },
     reset() {
       let model = this.get('model');
