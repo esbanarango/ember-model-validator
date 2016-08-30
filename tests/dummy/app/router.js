@@ -19,6 +19,8 @@ Router.map(function() {
     this.route('hexcolor');
     this.route('subdomain');
     this.route('url');
+    this.route('inclusion');
+    this.route('exclusion');
   });
 });
 
