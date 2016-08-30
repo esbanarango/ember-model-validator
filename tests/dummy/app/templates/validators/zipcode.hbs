@@ -48,7 +48,7 @@
     {{/ui-annotation}}
   </p>
 
-  {{config-options defaultMessage=messages.wrongLengthMessage}}
+  {{config-options defaultMessage=messages.zipCodeMessage}}
 
   {{#ui-example
     header="Examples"
@@ -102,7 +102,7 @@
 
     {{#ui-annotation showing=showing type="javascript" setCopyCode=setCopyCode}}
 import DS from 'ember-data';
-import Validator from '../../mixins/model-validator';
+import Validator from '../mixins/model-validator';
 
 export default DS.Model.extend(Validator,{
   postalCode: DS.attr('string'),

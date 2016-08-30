@@ -21,6 +21,7 @@ Router.map(function() {
     this.route('url');
     this.route('inclusion');
     this.route('exclusion');
+    this.route('match');
   });
 });
 
