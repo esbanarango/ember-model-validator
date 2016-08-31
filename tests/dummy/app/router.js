@@ -22,6 +22,8 @@ Router.map(function() {
     this.route('inclusion');
     this.route('exclusion');
     this.route('match');
+    this.route('date');
+
   });
 });
 
