@@ -1,0 +1,159 @@
+<div class="ui masthead vertical segment">
+  <div class="ui container">
+    <div class="introduction">
+
+      <h1 class="ui header">
+        Custom
+
+        <div class="sub header">
+          Validates the attributes' values by definying a custom callback function to validate the model's value.
+        </div>
+      </h1>
+
+      <div class="ui hidden divider"></div>
+
+      <p>
+        The function must return either true (or a truthy value) to pass the validation or return false (or falsy value) to fail the validation.
+      </p>
+
+    </div>
+
+  </div>
+</div>
+
+<div class="ui main container">
+  <p>
+    <h3>Function Elements</h3>
+    <ul>
+      <li><code class="ui label">key</code>. Attribute's name.</li>
+      <li><code class="ui label">value</code>. Attribute's value </li>
+      <li><code class="ui label">model</code> Current model.</li>
+    </ul>
+
+    {{#ui-annotation showing=true type="javascript"}}
+  validations: {
+    lotteryNumber: {
+      custom: function(key, value, model){
+        return model.get('accountBalance') > 1 ? true : false;
+      }
+    }
+  }
+    {{/ui-annotation}}
+    <br/>
+    <p>
+      this has the same action as above except will use a custom message instead of the default.
+    </p>
+    {{#ui-annotation showing=true type="javascript"}}
+  validations: {
+    lotteryNumber: {
+      custom: {
+        validation: function(key, value, model){
+          return model.get('accountBalance') > 1 ? true : false;
+        },
+        message: 'You can\'t win off of good looks and charm.'
+      }
+    }
+  }
+    {{/ui-annotation}}
+    <br/>
+    <p>
+      to have multiple custom validation functions on the same property, give 'custom' an array of either of the two syntax above.
+    </p>
+    {{#ui-annotation showing=true type="javascript"}}
+  validations: {
+    lotteryNumber: {
+      custom: [
+        {
+          validation: function(key, value, model){
+            return model.get('accountBalance') > 1 ? true : false;
+          },
+          message: 'You can\'t win off of good looks and charm.'
+        },
+        {
+          validation: function(key, value, model){
+            return model.get('accountBalance') > 1 ? true : false;
+          },
+          message: 'You can\'t win off of good looks and charm.'
+        }
+      ]
+    }
+  }
+    {{/ui-annotation}}
+  </p>
+
+  {{config-options defaultMessage=messages.customValidationMessage}}
+
+  {{#ui-example
+    header="Examples"
+    as |showing setCopyCode|}}
+
+    {{#ui-html showing=showing}}
+      <div class="ui two column grid">
+        <div class="column">
+
+          {{#object-form for=model classNames="segment"}}
+            <div class="fields">
+              <div class="seven wide field">
+                {{#form-field for='favoriteColor' label="Favorite Color" required=true}}
+                  {{#ui-dropdown class="selection" selected=model.favoriteColor onChange=(action (mut model.favoriteColor))}}
+                    <div class="default text">Color</div>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                      <div class="item"></div>
+                      {{#each colors as |color|}}
+                        <div class="item" data-value={{color}}>
+                          {{color}}
+                        </div>
+                      {{/each}}
+                    </div>
+                  {{/ui-dropdown}}
+                {{/form-field}}
+              </div>
+              <div class="nine wide field">
+                {{#form-field for='lotteryNumber' label="Lottery Number" required=true}}
+                  {{input value=model.lotteryNumber placeholder="Lottery Number"}}
+                {{/form-field}}
+              </div>
+            </div>
+            <div class="actions">
+              <div class="ui input submit">
+                <button class="ui button primary" {{action 'validate'}}>Validate</button>
+                <button class="ui button reset" {{action 'reset'}}>Reset</button>
+              </div>
+            </div>
+          {{/object-form}}
+
+        </div>
+        <div class="column">
+          <div class="ui segment">
+            {{model-errors-to-json errors=model.errors modelName=modelName}}
+          </div>
+        </div>
+      </div>
+    {{/ui-html}}
+
+    {{#ui-annotation showing=showing type="javascript" setCopyCode=setCopyCode}}
+import DS from 'ember-data';
+import Validator from '../mixins/model-validator';
+
+export default DS.Model.extend(Validator,{
+  lotteryNumber: DS.attr('number'),
+  favoriteColor:  DS.attr('string'),
+
+  validations: {
+    lotteryNumber: {
+      custom: {
+        validation: function(key, value, _this){
+          var favColor = _this.get('favoriteColor');
+          return !!favColor;
+        },
+        message: 'must have a favorite color to play the lotto, duh'
+      }
+    },
+  }
+});
+
+    {{/ui-annotation}}
+
+  {{/ui-example}}
+</div>
