@@ -91,7 +91,7 @@ export default Ember.Mixin.create({
   _validateAcceptance(property, validation) {
     let propertyValue = this.get(property),
         accept =  validation.acceptance.accept || [1,'1', true];
-    if(!Ember.A(accept).includes(propertyValue)){
+    if(!this._includes(Ember.A(accept),propertyValue)){
       this.set('isValidNow',false);
       this._addToErrors(property, validation.acceptance, Messages.acceptanceMessage);
     }
@@ -404,6 +404,8 @@ export default Ember.Mixin.create({
     if (!Ember.isArray(errors[errorAs])) {errors[errorAs] = [];}
     if(this.get('addErrors')){errors[errorAs].push([message]);}
   },
+
+  // Specific funcs
   _isNumber(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
   },
@@ -419,6 +421,14 @@ export default Ember.Mixin.create({
   },
   _isString(str) {
     return Ember.isEqual(Ember.typeOf(str), 'string');
+  },
+  _includes(enums, value) {
+    if(enums.includes){
+      return enums.includes(value);
+    }else{
+      // Support old ember versions
+      return enums.contains(value);
+    }
   },
   _modelRelations() {
     if(this.get('_relationships')){
