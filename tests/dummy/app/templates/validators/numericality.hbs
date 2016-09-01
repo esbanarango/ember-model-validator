@@ -1,0 +1,189 @@
+<div class="ui masthead vertical segment">
+  <div class="ui container">
+    <div class="introduction">
+
+      <h1 class="ui header">
+        Numericality
+
+        <div class="sub header">
+          Validates the attributes' values by testing whether it is specifc numeric.
+        </div>
+      </h1>
+
+      <div class="ui hidden divider"></div>
+
+    </div>
+
+  </div>
+</div>
+
+<div class="ui main container">
+  <p>
+    <h3>Specific Options</h3>
+    <ul>
+      <li><code class="ui label">onlyInteger</code>. The value must be an integer.</li>
+      <li><code class="ui label">greaterThan</code>. The value must be greater than the supplied value.</li>
+      <li><code class="ui label">greaterThanOrEqualTo</code>. The value must be greater or equal to the supplied value.</li>
+      <li><code class="ui label">equalTo</code>. The value must be equal to the supplied value.</li>
+      <li><code class="ui label">lessThan</code>. The value must be less than the supplied value.</li>
+      <li><code class="ui label">lessThanOrEqualTo</code>. The value must be less or equal to the supplied value.</li>
+      <li><code class="ui label">odd</code>. The value must be odd.</li>
+      <li><code class="ui label">even</code>. The value must be even.</li>
+    </ul>
+
+    {{#ui-annotation showing=true type="javascript"}}
+validations: {
+  anInteger:{
+    numericality: {onlyInteger: true }
+  },
+  anIntegerLessThan4:{
+    numericality: {lessThan: 4}
+  },
+  anIntegerGreaterThan4:{
+    numericality: {greaterThan: 4}
+  },
+  anIntegerGreaterThanOrEqual7:{
+    numericality: {greaterThanOrEqualTo: 7}
+  },
+  anIntegerLessThanOrEqual6:{
+    numericality: {lessThanOrEqualTo: 6}
+  },
+  aTenNumber:{
+    numericality: {equalTo: 10}
+  },
+  anOddNumber:{
+    numericality: {odd: true}
+  },
+  anEvenNumber:{
+    numericality: {even: true}
+  },
+  anOptionalNumber:{
+    numericality: {onlyInteger: true, allowBlank: true}
+  }
+}
+    {{/ui-annotation}}
+  </p>
+
+  {{config-options defaultMessage=messages.wrongLengthMessage}}
+
+  {{#ui-example
+    header="Examples"
+    as |showing setCopyCode|}}
+
+    {{#ui-html showing=showing}}
+      <div class="ui two column grid">
+        <div class="column">
+          <h4>The Numericality Party</h4>
+          {{#object-form for=model classNames="segment"}}
+
+            <div class="four fields">
+              <div class="field">
+                {{#form-field for='anInteger' label="An integer" required=true}}
+                  {{input value=model.anInteger placeholder="An integer"}}
+                {{/form-field}}
+              </div>
+              <div class="field">
+                {{#form-field for='anIntegerLessThan4' label="Less than 4" required=true}}
+                  {{input value=model.anIntegerLessThan4 placeholder="Less than 4"}}
+                {{/form-field}}
+              </div>
+              <div class="field">
+                {{#form-field for='anIntegerGreaterThan4' label="Greater than 4" required=true}}
+                  {{input value=model.anIntegerGreaterThan4 placeholder="Greater than 4"}}
+                {{/form-field}}
+              </div>
+              <div class="field">
+                {{#form-field for='aTenNumber' label="A ten" required=true}}
+                  {{input value=model.aTenNumber placeholder="A ten"}}
+                {{/form-field}}
+              </div>
+            </div>
+
+            <div class="three fields">
+              <div class="field">
+                {{#form-field for='anOddNumber' label="Odd Number" required=true}}
+                  {{input value=model.anOddNumber placeholder="Odd Number"}}
+                {{/form-field}}
+              </div>
+              <div class="field">
+                {{#form-field for='anEvenNumber' label="Even Number" required=true}}
+                  {{input value=model.anEvenNumber placeholder="Even Number"}}
+                {{/form-field}}
+              </div>
+              <div class="field">
+                {{#form-field for='anOptionalNumber' label="Optional Number" required=true}}
+                  {{input value=model.anOptionalNumber placeholder="Optional Number"}}
+                {{/form-field}}
+              </div>
+            </div>
+            <div class="two fields">
+              <div class="field">
+                {{#form-field for='anIntegerGreaterThanOrEqual7' label="Greater than or equal 7" required=true}}
+                  {{input value=model.anIntegerGreaterThanOrEqual7 placeholder="Greater than or equal 7"}}
+                {{/form-field}}
+              </div>
+              <div class="field">
+                {{#form-field for='anIntegerLessThanOrEqual6' label="Less than or equal 6" required=true}}
+                  {{input value=model.anIntegerLessThanOrEqual6 placeholder="Less than or equal 6"}}
+                {{/form-field}}
+              </div>
+            </div>
+            <div class="actions">
+              <div class="ui input submit">
+                <button class="ui button primary" {{action 'validate'}}>Validate</button>
+                <button class="ui button reset" {{action 'reset'}}>Reset</button>
+              </div>
+            </div>
+          {{/object-form}}
+
+        </div>
+        <div class="column">
+          <div class="ui segment">
+            {{model-errors-to-json errors=model.errors modelName=modelName}}
+          </div>
+        </div>
+      </div>
+    {{/ui-html}}
+
+    {{#ui-annotation showing=showing type="javascript" setCopyCode=setCopyCode}}
+import DS from 'ember-data';
+import Validator from '../mixins/model-validator';
+
+export default DS.Model.extend(Validator,{
+  socialSecurity: DS.attr('string'),
+  nsaNumber: DS.attr('string'),
+  chuncaluchoNumber: DS.attr('string'),
+  hugeName: DS.attr('string'),
+  smallName: DS.attr('string'),
+
+  validations: {
+    socialSecurity: {
+      length: 5
+    },
+    nsaNumber: {
+      length: [3, 5]
+    },
+    chuncaluchoNumber: {
+      length: { is: 10, message: 'this is not the length of a chuncalucho' }
+    },
+    hugeName:{
+      length: {
+        minimum: 3,
+        maximum: 5
+      }
+    },
+    smallName:{
+      length: {
+        minimum: 1,
+        maximum: {
+          value: 2,
+          message: 'should be smaller'
+        }
+      }
+    }
+  }
+});
+    {{/ui-annotation}}
+
+  {{/ui-example}}
+</div>

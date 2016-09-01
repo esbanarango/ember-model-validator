@@ -23,7 +23,7 @@ Router.map(function() {
     this.route('exclusion');
     this.route('match');
     this.route('date');
-
+    this.route('numericality');
   });
 });
 
