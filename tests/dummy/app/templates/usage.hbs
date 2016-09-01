@@ -20,7 +20,7 @@
     </p>
 
     <p>
-      By including Ember-model-validator's mixin into your model, this will have a <code class="ui label">validate</code> function available, it is a synchronous function which returns either <i>true</i> or <i>false</i>.
+      By including Ember-model-validator's mixin into your model, you will get a <code class="ui label">validate</code> function available. it is a synchronous function which returns either <i>true</i> or <i>false</i>.
     </p>
 
     {{#code-block language='javascript'}}
@@ -30,6 +30,8 @@ if(myModel.validate()){
   console.log(myModel.get('errors'));
 }
     {{/code-block}}
+
+    <p>You will also have a <code class="ui label">clearErrors</code> function available. Which will clear the errors of your model.</p>
 
     <h2 class="ui header">
       Customising

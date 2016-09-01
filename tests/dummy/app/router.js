@@ -25,6 +25,7 @@ Router.map(function() {
     this.route('date');
     this.route('numericality');
     this.route('custom');
+    this.route('relations');
   });
 });
 
