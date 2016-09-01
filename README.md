@@ -1,5 +1,7 @@
 # Ember-model-validator
-[![Build Status](https://travis-ci.org/esbanarango/ember-model-validator.svg?branch=master)](https://travis-ci.org/esbanarango/ember-model-validator) [![npm version](https://badge.fury.io/js/ember-model-validator.svg)](http://badge.fury.io/js/ember-model-validator) [![Ember Observer Score](http://emberobserver.com/badges/ember-model-validator.svg)](http://emberobserver.com/addons/ember-model-validator)[![Dependencies up to date](https://david-dm.org/esbanarango/ember-model-validator.svg)](https://david-dm.org/esbanarango/ember-model-validator)
+[![Build Status](https://travis-ci.org/esbanarango/ember-model-validator.svg?branch=master)](https://travis-ci.org/esbanarango/ember-model-validator) [![npm version](https://badge.fury.io/js/ember-model-validator.svg)](http://badge.fury.io/js/ember-model-validator) [![Ember Observer Score](http://emberobserver.com/badges/ember-model-validator.svg)](http://emberobserver.com/addons/ember-model-validator) [![Dependencies up to date](https://david-dm.org/esbanarango/ember-model-validator.svg)](https://david-dm.org/esbanarango/ember-model-validator)
+
+####[Live demo & Documentation](http://esbanarango.github.io/ember-model-validator/)
 
 [`ember-cli`](http://www.ember-cli.com/) package, which adds validation support to your Ember-Data models.
 
