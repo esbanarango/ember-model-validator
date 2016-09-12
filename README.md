@@ -1,7 +1,7 @@
 # Ember-model-validator
 [![Build Status](https://travis-ci.org/esbanarango/ember-model-validator.svg?branch=master)](https://travis-ci.org/esbanarango/ember-model-validator) [![npm version](https://badge.fury.io/js/ember-model-validator.svg)](http://badge.fury.io/js/ember-model-validator) [![Ember Observer Score](http://emberobserver.com/badges/ember-model-validator.svg)](http://emberobserver.com/addons/ember-model-validator) [![Dependencies up to date](https://david-dm.org/esbanarango/ember-model-validator.svg)](https://david-dm.org/esbanarango/ember-model-validator)
 
-####[Live demo & Documentation](http://esbanarango.github.io/ember-model-validator/)
+### [Live demo & Documentation](http://esbanarango.github.io/ember-model-validator/)
 
 [`ember-cli`](http://www.ember-cli.com/) package, which adds validation support to your Ember-Data models.
 
@@ -44,6 +44,7 @@ All validators accept the following options
   - `message` _option_. Overwrites the default message, it can be a String or a [function](#using-function-to-generate-custom-message) that returns a string.
   - `errorAs` _option_. Sets the _key_ name to be used when adding errors (default to property name).
   - `allowBlank` _option_. If set to `true` and the value is blank as defined by [Ember.isBlank](http://emberjs.com/api/#method_isBlank), all other validations for the field are skipped.
+  - `if` _option_. Validates **only** when this function returns true. `function(key,value, _this){...}`.
 
 ### Presence
 A value is not present if it is empty or a whitespace string. It uses [Ember.isBlank](http://emberjs.com/api/#method_isBlank) method. This can be also used on __async__ `belongsTo` relations.
@@ -442,43 +443,60 @@ myModel.validate({addErrors:false});
 import DS from 'ember-data';
 import Validator from '../mixins/model-validator';
 
-export default DS.Model.extend(Validator,{
+const {
+  hasMany,
+  belongsTo,
+  Model,
+  attr
+} = DS;
 
-  name: DS.attr('string'),
-  login: DS.attr('string'),
-  secondName: DS.attr('string'),
-  email: DS.attr('string'),
-  password: DS.attr('string'),
-  passwordConfirmation: DS.attr('string'),
-  bussinessEmail: DS.attr('string', {defaultValue: 'donJoseRene@higuita.com'}),
-  favoritColor: DS.attr('string', {defaultValue: '423abb'}),
-  legacyCode: DS.attr('string'),
-  mainstreamCode: DS.attr('string', {defaultValue: 'hiphopBachatudo'}),
-  lotteryNumber: DS.attr('number'),
-  alibabaNumber: DS.attr('number'),
-  anInteger: DS.attr('number', {defaultValue: 111}),
-  anIntegerGreaterThan4: DS.attr('number', {defaultValue: 5}),
-  anIntegerLessThan4: DS.attr('number', {defaultValue: 3}),
-  anIntegerGreaterThanOrEqual7: DS.attr('number', {defaultValue: 7}),
-  anIntegerLessThanOrEqual6: DS.attr('number', {defaultValue: 6}),
-  aTenNumber: DS.attr('number', {defaultValue: 10}),
-  anOddNumber: DS.attr('number', {defaultValue: 3}),
-  anEvenNumber: DS.attr('number', {defaultValue: 2}),
-  anOptionalNumber: DS.attr('number', {defaultValue: null}),
-  acceptConditions: DS.attr('boolean', {defaultValue: true}),
-  socialSecurity: DS.attr('number', {defaultValue: 12345}),
-  nsaNumber: DS.attr('number', {defaultValue: 1234}),
-  chuncaluchoNumber: DS.attr('number', {defaultValue: 1234567891}),
-  hugeName: DS.attr('string', {defaultValue: 12345}),
-  postalCode:  DS.attr('string', {defaultValue: '09011'}),
-  mySubdomain: DS.attr('string', {defaultValue: 'fake_subdomain'}),
-  myBlog: DS.attr('string', {defaultValue: 'http://esbanarango.com'}),
-  otherFakes: DS.hasMany('other-model'),
-  otherFake: DS.belongsTo('other-model'),
-  asyncModel: DS.belongsTo('async-model',{async: true}),
-  thing: DS.attr(''),
-  otherCustomValidation: DS.attr('number', { defaultValue:  12345 }),
-  otherCustomValidationBadMessageFunction: DS.attr('number', { defaultValue:  12345 }),
+export default Model.extend(Validator,{
+
+  name: attr('string'),
+  login: attr('string'),
+  secondName: attr('string'),
+  email: attr('string'),
+  password: attr('string'),
+  passwordConfirmation: attr('string'),
+  bussinessEmail: attr('string', {defaultValue: 'donJoseRene@higuita.com'}),
+  favoritColor: attr('string', {defaultValue: '423abb'}),
+  legacyCode: attr('string'),
+  mainstreamCode: attr('string', {defaultValue: 'hiphopBachatudo'}),
+  lotteryNumber: attr('number'),
+  alibabaNumber: attr('number'),
+  anInteger: attr('number', {defaultValue: 111}),
+  anIntegerGreaterThan4: attr('number', {defaultValue: 5}),
+  anIntegerLessThan4: attr('number', {defaultValue: 3}),
+  anIntegerGreaterThanOrEqual7: attr('number', {defaultValue: 7}),
+  anIntegerLessThanOrEqual6: attr('number', {defaultValue: 6}),
+  aTenNumber: attr('number', {defaultValue: 10}),
+  anOddNumber: attr('number', {defaultValue: 3}),
+  anEvenNumber: attr('number', {defaultValue: 2}),
+  anOptionalNumber: attr('number', {defaultValue: null}),
+  acceptConditions: attr('boolean', {defaultValue: true}),
+  socialSecurity: attr('number', {defaultValue: 12345}),
+  nsaNumber: attr('number', {defaultValue: 1234}),
+  chuncaluchoNumber: attr('number', {defaultValue: 1234567891}),
+  theMinimunmTwoNumber: attr('number', {defaultValue: 3223}),
+  hugeName: attr('string', {defaultValue: 12345}),
+  postalCodeUS:  attr('string', {defaultValue: '09011'}),
+  postalCodeUK:  attr('string', {defaultValue: 'KY16 8BP'}),
+  postalCodeCA:  attr('string', {defaultValue: 'T2A2V8'}),
+  postalCodeZZ:  attr('string', {defaultValue: '09011'}),
+  mySubdomain: attr('string', {defaultValue: 'fake_subdomain'}),
+  myBlog: attr('string', {defaultValue: 'http://esbanarango.com'}),
+  otherFakes: hasMany('other-model'),
+  otherFake: belongsTo('other-model'),
+  asyncModel: belongsTo('async-model',{async: true}),
+  thing: attr(''),
+  otherCustomValidation: attr('number', { defaultValue:  12345 }),
+  otherCustomValidationBadMessageFunction: attr('number', { defaultValue:  12345 }),
+  date: attr('date', {defaultValue() { return new Date(); }}),
+  stringDate: attr('string', {defaultValue: '2015-01-01'}),
+  dateBefore2015: attr('date', {defaultValue() { return new Date(2014, 7, 1); }}),
+  dateAfter2014: attr('date', {defaultValue() { return new Date(2015, 5, 3); }}),
+  images: attr(''),
+  condType: attr('string'),
 
   validations: {
     asyncModel: {
@@ -487,6 +505,13 @@ export default DS.Model.extend(Validator,{
     name: {
       presence: { errorAs:'profile.name' },
       inclusion: { in: ['Jose Rene', 'Aristi Gol', 'Armani'], message: 'Solo verde a morir' }
+    },
+    images: {
+      presence: {
+        if: function(key, value, _this) {
+          return 'gallery' === _this.get('condType');
+        }
+      }
     },
     login: {
       absence: true
@@ -502,6 +527,14 @@ export default DS.Model.extend(Validator,{
     },
     chuncaluchoNumber: {
       length: { is: 10, message: 'this is not the length of a chuncalucho' }
+    },
+    theMinimunmTwoNumber:{
+      length: {
+        minimum: {
+          value: 2,
+          message: 'please it has to be minimum 2 come on man!!'
+        }
+      }
     },
     hugeName:{
       length: {
@@ -599,13 +632,23 @@ export default DS.Model.extend(Validator,{
     acceptConditions: {
       acceptance: true
     },
-    postalCode:{
+    postalCodeUS:{
       zipCode: true
+    },
+    postalCodeUK:{
+      zipCode: {countryCode: 'UK'}
+    },
+    postalCodeCA:{
+      zipCode: {countryCode: 'CA'}
+    },
+    postalCodeZZ:{
+      zipCode: {countryCode: 'ZZ'}
     },
     otherFakes:{
       relations: ['hasMany']
     },
     otherFake:{
+      presence: true,
       relations: ['belongsTo']
     },
     otherCustomValidation: {
@@ -627,11 +670,26 @@ export default DS.Model.extend(Validator,{
           return 12345;
         }
       }
+    },
+    date: {
+      date: true
+    },
+    stringDate: {
+      date: true
+    },
+    dateBefore2015: {
+      date: {
+        before: new Date(2015, 1, 1)
+      }
+    },
+    dateAfter2014: {
+      date: {
+        after: new Date(2014, 12, 31)
+      }
     }
   }
 
 });
-
 `````
 After setting the validations on your model you will be able to:
 
