@@ -39,8 +39,8 @@ if(myModel.validate()){
 
     <h4>Validate Options</h4>
     <ul>
-      <li><code class="ui label">only</code>. Specify the attributes you want to validate.</li>
-      <li><code class="ui label">except</code>. Prevent certain attribute to be validated.</li>
+      <li><code class="ui label">only</code> Specify the attributes you want to validate.</li>
+      <li><code class="ui label">except</code> Prevent certain attribute to be validated.</li>
       <li><code class="ui label">addErrors</code> (Default <strong>true</strong>). Only return <i>true</i> or <i>false</i> but do not add any errors to the model.</li>
     </ul>
 
@@ -62,6 +62,34 @@ myModel.validate({addErrors:false});
 
   </div>
 
+  <h3 class="ui header">
+    Conditional Validators
+  </h3>
+  <p>
+    You can pass an<code class="ui label">if</code> option to any validator. This will make the validation to <strong>only</strong> run when the function passed returns true. <code class="ui label">function(key,value, _this){...}</code>
+  </p>
+
+  {{#code-block language='javascript'}}
+import DS from 'ember-data';
+import Validator from '../mixins/model-validator';
+
+export default DS.Model.extend(Validator,{
+
+  images: DS.attr(''),
+  type: DS.attr('string'),
+
+  validations: {
+    images: {
+      presence: {
+        if: function(key, value, _this) {
+          return 'gallery' === _this.get('type');
+        }
+      }
+    }
+  }
+
+});
+    {{/code-block}}
 
   <h3 class="ui header">
     Using function to generate custom message

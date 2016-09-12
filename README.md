@@ -44,7 +44,7 @@ All validators accept the following options
   - `message` _option_. Overwrites the default message, it can be a String or a [function](#using-function-to-generate-custom-message) that returns a string.
   - `errorAs` _option_. Sets the _key_ name to be used when adding errors (default to property name).
   - `allowBlank` _option_. If set to `true` and the value is blank as defined by [Ember.isBlank](http://emberjs.com/api/#method_isBlank), all other validations for the field are skipped.
-  - `if` _option_. Validates **only** when this function returns true. `function(key,value, _this){...}`.
+  - `if` _option_. Validates **only** when the function passed returns true. `function(key,value, _this){...}`.
 
 ### Presence
 A value is not present if it is empty or a whitespace string. It uses [Ember.isBlank](http://emberjs.com/api/#method_isBlank) method. This can be also used on __async__ `belongsTo` relations.
