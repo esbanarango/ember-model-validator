@@ -32,7 +32,13 @@ export default Ember.Mixin.create({
       for (var validation in validations[property]) {
         if (this._exceptOrOnly(property,options)) {
           let validationName = Ember.String.capitalize(validation);
+          // allowBlank option
           if (Ember.get(validations[property], `${validation}.allowBlank`) && Ember.isBlank(this.get(property))) {
+            continue;
+          }
+          // conditional functions
+          let conditionalFunction = Ember.get(validations[property], `${validation}.if`);
+          if (conditionalFunction && !conditionalFunction(property, this.get(property), this)) {
             continue;
           }
           this[`_validate${validationName}`](property, validations[property]);

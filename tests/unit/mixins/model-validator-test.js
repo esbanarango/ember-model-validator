@@ -48,6 +48,18 @@ describe('ModelValidatorMixin', function() {
           expect(model.get('errors').errorsFor('anOptionalNumber').mapBy('message')[1][0]).to.equal(Messages.numericalityOnlyIntegerMessage);
         });
       });
+      describe('conditional option', function() {
+        it('validates only if `if function` returns true', function(){
+          var model = this.subject({condType: 'gallery'});
+          model.validate();
+          expect(model.get('errors').errorsFor('images').mapBy('message')[0][0]).to.equal(Messages.presenceMessage);
+        });
+        it('skips validation if `if function` returns false', function(){
+          var model = this.subject({condType: 'chancuncha'});
+          model.validate();
+          expect(model.get('errors').errorsFor('images').length).to.equal(0);
+        });
+      });
       describe('Presence validator', function() {
         it('validates the presence of the attributes set on `validations.presence`', function() {
           var model = this.subject(),
@@ -591,6 +603,7 @@ describe('ModelValidatorMixin', function() {
             model.set('password','k$1hkjGd');
             model.set('passwordConfirmation','k$1hkjGd');
             model.set('email','rene@higuita.com');
+            model.set('images','las images');
             model.set('asyncModel',asyncModel);
             model.set('otherFake',otherFake);
             expect(model.validate()).to.equal(true);
@@ -621,6 +634,7 @@ describe('ModelValidatorMixin', function() {
             model.set('password','k$1hkjGd');
             model.set('passwordConfirmation','k$1hkjGd');
             model.set('email','rene@higuita.com');
+            model.set('images','las images');
             expect(model.validate()).to.equal(false);
             expect(model.validate({except:['asyncModel','otherFake']})).to.equal(true);
           });

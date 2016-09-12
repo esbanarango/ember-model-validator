@@ -53,6 +53,8 @@ export default Model.extend(Validator,{
   stringDate: attr('string', {defaultValue: '2015-01-01'}),
   dateBefore2015: attr('date', {defaultValue() { return new Date(2014, 7, 1); }}),
   dateAfter2014: attr('date', {defaultValue() { return new Date(2015, 5, 3); }}),
+  images: attr(''),
+  condType: attr('string'),
 
   validations: {
     asyncModel: {
@@ -61,6 +63,13 @@ export default Model.extend(Validator,{
     name: {
       presence: { errorAs:'profile.name' },
       inclusion: { in: ['Jose Rene', 'Aristi Gol', 'Armani'], message: 'Solo verde a morir' }
+    },
+    images: {
+      presence: {
+        if: function(key, value, _this) {
+          return 'gallery' === _this.get('condType');
+        }
+      }
     },
     login: {
       absence: true
