@@ -41,7 +41,7 @@ Install __Ember-model-validator__ is easy as:
 ##### Common options
 
 All validators accept the following options
-  - `message` _option_. Overwrites the default message, it can be a String or a [function](#using-function-to-generate-custom-message) that returns a string.
+  - `message` _option_. Overwrites the default message, it can be a String (with a `{value}` in it for value interpolation) or a [function](#using-function-to-generate-custom-message) that returns a string.
   - `errorAs` _option_. Sets the _key_ name to be used when adding errors (default to property name).
   - `allowBlank` _option_. If set to `true` and the value is blank as defined by [Ember.isBlank](http://emberjs.com/api/#method_isBlank), all other validations for the field are skipped.
   - `if` _option_. Validates **only** when the function passed returns true. `function(key,value, _this){...}`.
@@ -478,6 +478,7 @@ export default Model.extend(Validator,{
   nsaNumber: attr('number', {defaultValue: 1234}),
   chuncaluchoNumber: attr('number', {defaultValue: 1234567891}),
   theMinimunmTwoNumber: attr('number', {defaultValue: 3223}),
+  theMinimunmInterpolatedTenNumber: attr('number', {defaultValue: 3223222222}),
   hugeName: attr('string', {defaultValue: 12345}),
   postalCodeUS:  attr('string', {defaultValue: '09011'}),
   postalCodeUK:  attr('string', {defaultValue: 'KY16 8BP'}),
@@ -533,6 +534,14 @@ export default Model.extend(Validator,{
         minimum: {
           value: 2,
           message: 'please it has to be minimum 2 come on man!!'
+        }
+      }
+    },
+    theMinimunmInterpolatedTenNumber:{
+      length: {
+        minimum: {
+          value: 10,
+          message: 'eeeche {value}'
         }
       }
     },
@@ -688,7 +697,6 @@ export default Model.extend(Validator,{
       }
     }
   }
-
 });
 `````
 After setting the validations on your model you will be able to:
