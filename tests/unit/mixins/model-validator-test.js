@@ -60,6 +60,16 @@ describe('ModelValidatorMixin', function() {
           expect(model.get('errors').errorsFor('images').length).to.equal(0);
         });
       });
+      describe('message with interpolated values', function() {
+        it('interpolates the value whitn the message', function() {
+          var model = this.subject({theMinimunmInterpolatedTenNumber:'1'});
+          Ember.run(function() {
+            expect(model.validate({only:['theMinimunmInterpolatedTenNumber']})).to.equal(false);
+            expect(model.get('errors').errorsFor('theMinimunmInterpolatedTenNumber').mapBy('message')[0][0]).to.equal('eeeche 10');
+          });
+        });
+
+      });
       describe('Presence validator', function() {
         it('validates the presence of the attributes set on `validations.presence`', function() {
           var model = this.subject(),

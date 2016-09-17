@@ -36,6 +36,7 @@ export default Model.extend(Validator,{
   nsaNumber: attr('number', {defaultValue: 1234}),
   chuncaluchoNumber: attr('number', {defaultValue: 1234567891}),
   theMinimunmTwoNumber: attr('number', {defaultValue: 3223}),
+  theMinimunmInterpolatedTenNumber: attr('number', {defaultValue: 3223222222}),
   hugeName: attr('string', {defaultValue: 12345}),
   postalCodeUS:  attr('string', {defaultValue: '09011'}),
   postalCodeUK:  attr('string', {defaultValue: 'KY16 8BP'}),
@@ -91,6 +92,14 @@ export default Model.extend(Validator,{
         minimum: {
           value: 2,
           message: 'please it has to be minimum 2 come on man!!'
+        }
+      }
+    },
+    theMinimunmInterpolatedTenNumber:{
+      length: {
+        minimum: {
+          value: 10,
+          message: 'eeeche {value}'
         }
       }
     },

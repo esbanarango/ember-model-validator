@@ -178,6 +178,7 @@ export default Ember.Mixin.create({
       if (propertyValue.getTime() >= new Date(validation.date.before).getTime()) {
         this.set('isValidNow', false);
         let context = {date: new Date(validation.date.before)};
+        validation.date.interpolatedValue = validation.date.before;
         this._addToErrors(property, validation.date, this._formatMessage(Messages.dateBeforeMessage, context));
       }
     }
@@ -185,6 +186,7 @@ export default Ember.Mixin.create({
       if (propertyValue.getTime() <= new Date(validation.date.after).getTime()) {
         this.set('isValidNow', false);
         let context = {date: new Date(validation.date.after)};
+        validation.date.interpolatedValue = validation.date.after;
         this._addToErrors(property, validation.date, this._formatMessage(Messages.dateAfterMessage, context));
       }
     }
@@ -217,6 +219,7 @@ export default Ember.Mixin.create({
       if(propertyValue <= validation.numericality.greaterThan){
         this.set('isValidNow',false);
         let context = {count: validation.numericality.greaterThan};
+        validation.numericality.interpolatedValue = validation.numericality.greaterThan;
         this._addToErrors(property, validation.numericality, this._formatMessage(Messages.numericalityGreaterThanMessage, context));
       }
     }
@@ -224,6 +227,7 @@ export default Ember.Mixin.create({
       if(propertyValue < validation.numericality.greaterThanOrEqualTo){
         this.set('isValidNow',false);
         let context = {count: validation.numericality.greaterThanOrEqualTo};
+        validation.numericality.interpolatedValue = validation.numericality.greaterThanOrEqualTo;
         this._addToErrors(property, validation.numericality, this._formatMessage(Messages.numericalityGreaterThanOrEqualToMessage, context));
       }
     }
@@ -231,6 +235,7 @@ export default Ember.Mixin.create({
       if(propertyValue !== validation.numericality.equalTo){
         this.set('isValidNow',false);
         let context = {count: validation.numericality.equalTo};
+        validation.numericality.interpolatedValue = validation.numericality.equalTo;
         this._addToErrors(property, validation.numericality, this._formatMessage(Messages.numericalityEqualToMessage, context));
       }
     }
@@ -238,6 +243,7 @@ export default Ember.Mixin.create({
       if(propertyValue >= validation.numericality.lessThan){
         this.set('isValidNow',false);
         let context = {count: validation.numericality.lessThan};
+        validation.numericality.interpolatedValue = validation.numericality.lessThan;
         this._addToErrors(property, validation.numericality, this._formatMessage(Messages.numericalityLessThanMessage, context));
       }
     }
@@ -245,6 +251,7 @@ export default Ember.Mixin.create({
       if(propertyValue > validation.numericality.lessThanOrEqualTo){
         this.set('isValidNow',false);
         let context = {count: validation.numericality.lessThanOrEqualTo};
+        validation.numericality.interpolatedValue = validation.numericality.lessThanOrEqualTo;
         this._addToErrors(property, validation.numericality, this._formatMessage(Messages.numericalityLessThanOrEqualToMessage, context));
       }
     }
@@ -271,7 +278,11 @@ export default Ember.Mixin.create({
         matchingValue = this.get(matching);
     if (propertyValue !== matchingValue) {
       this.set('isValidNow',false);
-      let context = {match: this._unCamelCase(matching)};
+      let matchingUnCamelCase = this._unCamelCase(matching);
+      let context = {match: matchingUnCamelCase};
+      if(Ember.typeOf(validation.match) === 'object'){
+        validation.match.interpolatedValue = matchingUnCamelCase;
+      }
       this._addToErrors(property, validation.match, this._formatMessage(Messages.matchMessage, context));
     }
   },
@@ -298,6 +309,7 @@ export default Ember.Mixin.create({
     if(stringLength !== validation.length.is){
       this.set('isValidNow',false);
       let context = {count: validation.length.is};
+      validation.length.interpolatedValue = validation.length.is;
       this._addToErrors(property, validation.length, this._formatMessage(Messages.wrongLengthMessage, context));
     }
   },
@@ -319,10 +331,16 @@ export default Ember.Mixin.create({
     if(stringLength < minimum){
       this.set('isValidNow',false);
       let context = {count: minimum};
+      if(Ember.typeOf(validation.length.minimum) === 'object'){
+        validation.length.minimum.interpolatedValue = minimum;
+      }
       this._addToErrors(property, validation.length.minimum, this._formatMessage(Messages.tooShortMessage, context));
     }else if (stringLength > maximum) {
       this.set('isValidNow',false);
       let context = {count: maximum};
+      if(Ember.typeOf(validation.length.maximum) === 'object'){
+        validation.length.maximum.interpolatedValue = maximum;
+      }
       this._addToErrors(property, validation.length.maximum, this._formatMessage(Messages.tooLongMessage, context));
     }
   },
@@ -397,7 +415,8 @@ export default Ember.Mixin.create({
         let msg = validationObj.message.call(property, this.get(property), this);
         return this._isString( msg ) ? msg : defaultMessage;
       }else{
-        return validationObj.message;
+        let context = {value: validationObj.interpolatedValue};
+        return this._formatMessage(validationObj.message, context);
       }
     }else{
       return defaultMessage;
