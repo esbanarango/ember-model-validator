@@ -81,7 +81,7 @@ Validates that the specified attributes are absent. It uses [Ember.isPresent](ht
 ````
 
 ### Format
-Speficy a Regexp to validate with. It uses the [match()](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/String/match) method from String.
+Specify a Regex to validate with. It uses the [match()](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/String/match) method from String.
 
 ````js
   validations: {
@@ -92,7 +92,7 @@ Speficy a Regexp to validate with. It uses the [match()](https://developer.mozil
 ````
 
 ### Length
-Speficy the lengths that are allowed.
+Specify the lengths that are allowed.
 
 ##### Options
   - A `number`. The exact length of the value allowed (Alias for `is`).
@@ -168,7 +168,7 @@ The value must be a correct Hexadecimal color.
 
 ````js
   validations: {
-    favoritColor:{
+    favoriteColor: {
       color: true
     }
   }
@@ -219,7 +219,7 @@ The value can't be included in a given set.
 ````
 
 ### Match
-Speficy the attribute to match with.
+Specify the attribute to match with.
 
 ##### Options
   - A `string`. The name of the attribute to match with  (Alias for `attr`).
@@ -428,7 +428,7 @@ You can also pass an _option_ hash for excluding or forcing certain attributes t
 myModel.validate({except:['name', 'cellphone']});
 
 //Using `only`
-myModel.validate({only:['favoritColor', 'mainstreamCode']});
+myModel.validate({only:['favoriteColor', 'mainstreamCode']});
 
 //Using `addErrors`
 myModel.validate({addErrors:false});
@@ -459,7 +459,7 @@ export default Model.extend(Validator,{
   password: attr('string'),
   passwordConfirmation: attr('string'),
   bussinessEmail: attr('string', {defaultValue: 'donJoseRene@higuita.com'}),
-  favoritColor: attr('string', {defaultValue: '423abb'}),
+  favoriteColor: attr('string', {defaultValue: '423abb'}),
   legacyCode: attr('string'),
   mainstreamCode: attr('string', {defaultValue: 'hiphopBachatudo'}),
   lotteryNumber: attr('number'),
@@ -555,7 +555,7 @@ export default Model.extend(Validator,{
       presence: { message: 'sup dude, where\'s da email' },
       email: { message: 'Be professional ma men' }
     },
-    favoritColor:{
+    favoriteColor:{
       color: { message: 'not a hex color' }
     },
     email: {
@@ -698,7 +698,7 @@ export default Model.extend(Validator,{
     }
   }
 });
-`````
+````
 After setting the validations on your model you will be able to:
 
 ````js

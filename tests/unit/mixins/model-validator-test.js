@@ -170,12 +170,12 @@ describe('ModelValidatorMixin', function() {
       });
 
       it('validates the color format of the attributes set on `validations.color`', function() {
-        var model = this.subject({favoritColor:'000XXX'}),
-            message = model.validations.favoritColor.color.message;
-        delete model.validations.favoritColor.color.message;
+        var model = this.subject({favoriteColor:'000XXX'}),
+            message = model.validations.favoriteColor.color.message;
+        delete model.validations.favoriteColor.color.message;
         expect(model.validate()).to.equal(false);
-        expect(model.get('errors').errorsFor('favoritColor').mapBy('message')[0][0]).to.equal(Messages.colorMessage);
-        model.validations.favoritColor.color['message'] = message;
+        expect(model.get('errors').errorsFor('favoriteColor').mapBy('message')[0][0]).to.equal(Messages.colorMessage);
+        model.validations.favoriteColor.color['message'] = message;
       });
 
       it('validates the numericality of the attributes set on `validations.numericality`', function() {
@@ -508,10 +508,10 @@ describe('ModelValidatorMixin', function() {
         });
 
         it('validates the color format of the attributes set on `validations.color` and use the correct message', function() {
-          var model = this.subject({favoritColor:'adsfasdf$'});
+          var model = this.subject({favoriteColor:'adsfasdf$'});
           Ember.run(function() {
             expect(model.validate()).to.equal(false);
-            expect(model.get('errors').errorsFor('favoritColor').mapBy('message')[0][0]).to.equal(model.validations.favoritColor.color.message);
+            expect(model.get('errors').errorsFor('favoriteColor').mapBy('message')[0][0]).to.equal(model.validations.favoriteColor.color.message);
           });
         });
 
