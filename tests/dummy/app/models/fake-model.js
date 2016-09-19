@@ -17,7 +17,7 @@ export default Model.extend(Validator,{
   password: attr('string'),
   passwordConfirmation: attr('string'),
   bussinessEmail: attr('string', {defaultValue: 'donJoseRene@higuita.com'}),
-  favoritColor: attr('string', {defaultValue: '423abb'}),
+  favoriteColor: attr('string', {defaultValue: '423abb'}),
   legacyCode: attr('string'),
   mainstreamCode: attr('string', {defaultValue: 'hiphopBachatudo'}),
   lotteryNumber: attr('number'),
@@ -113,7 +113,7 @@ export default Model.extend(Validator,{
       presence: { message: 'sup dude, where\'s da email' },
       email: { message: 'Be professional ma men' }
     },
-    favoritColor:{
+    favoriteColor:{
       color: { message: 'not a hex color' }
     },
     email: {
