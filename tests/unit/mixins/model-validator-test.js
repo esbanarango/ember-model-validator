@@ -492,7 +492,7 @@ describe('ModelValidatorMixin', function() {
         });
 
         it('validates the truthyness of user func for `validations.custom` and use the correct message', function() {
-          var model = this.subject({lotteryNumber: 777});
+          var model = this.subject({lotteryNumber: 777, favoriteColor: null});
           Ember.run(function() {
             expect(model.validate()).to.equal(false);
             expect(model.get('errors').errorsFor('lotteryNumber').mapBy('message')[0][0]).to.equal(model.validations.lotteryNumber.custom.message);
