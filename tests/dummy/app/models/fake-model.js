@@ -224,7 +224,7 @@ export default Model.extend(Validator,{
           return value.toString().length === 5 ? true : false;
         },
         message: function(key,value, _this){
-          return key + " must have exactly 5 digits";
+          return `${key} must have exactly 5 digits, value ${value} does not`;
         }
       }
     },
