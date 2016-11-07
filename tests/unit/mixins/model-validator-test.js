@@ -571,7 +571,7 @@ describe('ModelValidatorMixin', function() {
               Ember.run(function() {
                 expect(model.validate()).to.equal(false);
                 expect(model.get('errors').errorsFor('otherCustomValidation').mapBy('message')[0][0]).to
-                  .equal(model.validations.otherCustomValidation.custom.message.call('otherCustomValidation', model.get('otherCustomValidation'), model));
+                  .equal(`otherCustomValidation must have exactly 5 digits, value ${model.get('otherCustomValidation')} does not`);
               });
             });
           });

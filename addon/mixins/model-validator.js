@@ -412,7 +412,7 @@ export default Ember.Mixin.create({
   _getCustomMessage(validationObj, defaultMessage, property) {
     if (Ember.typeOf(validationObj) === 'object' && validationObj.hasOwnProperty('message')) {
       if(this._isFunction(validationObj.message)){
-        let msg = validationObj.message.call(property, this.get(property), this);
+        let msg = validationObj.message.call(this, property, this.get(property), this);
         return this._isString( msg ) ? msg : defaultMessage;
       }else{
         let context = {value: validationObj.interpolatedValue};
