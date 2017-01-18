@@ -10,8 +10,7 @@ export default Ember.Mixin.create({
     this._internalModel.clearErrorMessages();
   },
   validate(options={}) {
-    let store = this.get('store'),
-        errors = null,
+    let errors = null,
         validations = this.get('validations');
 
     // Clean all the current errors
@@ -50,15 +49,20 @@ export default Ember.Mixin.create({
     if (!this.get('isValidNow')) {
       // It may be invalid because of its relations
       if(Object.keys(errors).length !== 0){
-        let stateToTransition = this.get('isNew') ? 'created.uncommitted' : 'updated.uncommitted';
-        this.transitionTo(stateToTransition);
-        let recordModel = this.adapterDidInvalidate ? this : this._internalModel;
-        store.recordWasInvalid(recordModel, errors);
+        this.pushErrors(errors);
       }
       return false;
     }else{
       return true;
     }
+  },
+  
+  pushErrors(errors){
+    let store = this.get('store');
+    let stateToTransition = this.get('isNew') ? 'created.uncommitted' : 'updated.uncommitted';
+    this.transitionTo(stateToTransition);
+    let recordModel = this.adapterDidInvalidate ? this : this._internalModel;
+    store.recordWasInvalid(recordModel, errors);
   },
 
   /**** Validators ****/
