@@ -735,6 +735,26 @@ export default Ember.Route.extend(
 );
 ````
 
+
+## Or Usage in non Model(Controller, Componente, Object ...) Example
+
+
+````js
+import Ember from 'ember';
+import Validator from '../mixins/object-validator';
+
+
+export default Ember.Component.extend(Validator,{
+  test: 'ABC',
+
+  validations:{
+    test:{
+      presence: true
+    }
+  }
+});
+```
+
 ## Donating
 Support this project and [others by esbanarango][gratipay-esbanarango] via [gratipay][gratipay-esbanarango].
 
