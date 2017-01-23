@@ -755,6 +755,25 @@ export default Ember.Component.extend(Validator,{
 });
 ```
 
+
+## I18n
+
+Set `defaultLocale` in your config enviroment a language, for now it's possible use 'en', 'fr', 'es' or 'pt-br', default is 'en';
+
+
+````js
+//config/environment.js
+...
+  ENV:{
+    ...
+    APP:{
+      defaultLocale: 'pt-br'
+    }
+    ...
+  }
+...
+```
+
 ## Donating
 Support this project and [others by esbanarango][gratipay-esbanarango] via [gratipay][gratipay-esbanarango].
 
