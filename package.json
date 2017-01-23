@@ -42,6 +42,7 @@
     "ember-data": "^2.7.0",
     "ember-export-application-global": "^1.0.5",
     "ember-font-awesome": "2.2.0",
+    "ember-getowner-polyfill": "1.1.1",
     "ember-load-initializers": "^0.5.1",
     "ember-pikaday": "2.1.0",
     "ember-prism": "0.0.7",
