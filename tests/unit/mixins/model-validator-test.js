@@ -17,7 +17,9 @@ describe('ModelValidatorMixin', function() {
 
   // Replace this with your real tests.
   it('works', function() {
-    var ValidatorObject = Ember.Object.extend(ModelValidatorMixin);
+    var ValidatorObject = Ember.Object.extend(ModelValidatorMixin, {
+      locale: 'en'
+    });
     var subject = ValidatorObject.create();
     expect(subject).to.be.ok;
   });
