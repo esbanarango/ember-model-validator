@@ -4,7 +4,7 @@
 module.exports = function(/* environment, appConfig */) {
   return {
     APP: {
-      defaultLocale: 'en'
+      validatorDefaultLocale: 'en'
     }
   };
 };

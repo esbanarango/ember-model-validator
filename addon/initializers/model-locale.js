@@ -1,7 +1,7 @@
 export function initialize() {
   let application = arguments[1] || arguments[0];
-  let defaultLocale = application.get('defaultLocale');
-  application.register('validator:locale', defaultLocale, { instantiate: false });
+  let validatorDefaultLocale = application.get('validatorDefaultLocale');
+  application.register('validator:locale', validatorDefaultLocale, { instantiate: false });
 }
 
 export default {
