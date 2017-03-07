@@ -15,6 +15,5 @@ export default Ember.Mixin.create(Validation, {
       this.get('errors').add(attribute, messages);
     }
   },
-
   _modelRelations() {}
 });
