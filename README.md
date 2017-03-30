@@ -784,7 +784,7 @@ Support this project and [others by esbanarango][gratipay-esbanarango] via [grat
 
 ## Running Tests
 
-* `npm test` (Runs `ember try:testall` to test the addon against multiple Ember versions)
+* `npm test` (Runs `ember try:each` to test your addon against multiple Ember versions)
 * `ember test`
 * `ember test --server`
 
@@ -792,4 +792,4 @@ Support this project and [others by esbanarango][gratipay-esbanarango] via [grat
 
 * `ember build`
 
-For more information on using ember-cli, visit [http://www.ember-cli.com/](http://www.ember-cli.com/).
+For more information on using ember-cli, visit [https://ember-cli.com/](https://ember-cli.com/).

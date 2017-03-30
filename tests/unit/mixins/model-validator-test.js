@@ -8,7 +8,6 @@ import {
 import Ember from 'ember';
 import ModelValidatorMixin from '../../../mixins/model-validator';
 import Messages from 'ember-model-validator/messages/en';
-import PostalCodesRegex from 'ember-model-validator/postal-codes-regex';
 import MessageFormater from '../../helpers/message-formater';
 
 var formater = MessageFormater.create();
@@ -459,8 +458,7 @@ describe('ModelValidatorMixin', function() {
         describe('`belongsTo` relations', function() {
           it('validates the relations specified on `validations.relations`', function() {
             var model = this.subject({email:'thiisagoo@email.con',name:'Jose Rene Higuita'}),
-                store = model.get('store'),
-                otherFakes = null;
+                store = model.get('store');
 
             Ember.run(function() {
               model.set('otherFake',store.createRecord('other-model'));

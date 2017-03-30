@@ -1,12 +1,9 @@
 {
   "name": "ember-model-validator",
   "dependencies": {
-    "ember": "~2.10.0",
-    "ember-cli-shims": "0.1.1",
-    "ember-mocha": "0.8.11",
-    "font-awesome": "~4.6.0",
-    "highlightjs": "^9.4.0",
-    "semantic-ui": "^2.2.4",
+    "ember-mocha": "0.11.0",
+    "highlightjs": "^9.10.0",
+    "semantic-ui": "^2.2.10",
     "prism": "^1.5.1",
     "pikaday": "^1.4.0"
   }

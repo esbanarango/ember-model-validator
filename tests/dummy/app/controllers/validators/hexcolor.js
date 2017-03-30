@@ -10,7 +10,6 @@ export default BaseContoller.extend({
       let canvas = document.getElementById('canvas-color'),
           ctx = canvas.getContext('2d');
       if(modelValid){
-        console.log(`#${this.get('model.favoriteColor')}`);
         ctx.fillStyle = `#${this.get('model.favoriteColor')}`;
         ctx.font = '45px Arial';
         ctx.fillText('Ember',35,60);

@@ -133,12 +133,12 @@ export default Model.extend(Validator,{
     thing: {
       custom: [
         {
-          validation: function(key, value, _this){
+          validation: function(key, value){
             return (value !== 'blahblahblahblahbthishouldneverfaillahblahblah');
           }
         },
         {
-          validation: function(key, value, _this){
+          validation: function(key, value){
             return (value !== 'fail');
           }
         }
@@ -223,7 +223,7 @@ export default Model.extend(Validator,{
         validation: function(key, value){
           return value.toString().length === 5 ? true : false;
         },
-        message: function(key,value, _this){
+        message: function(key,value){
           return `${key} must have exactly 5 digits, value ${value} does not`;
         }
       }
@@ -233,7 +233,7 @@ export default Model.extend(Validator,{
         validation: function(key, value){
           return value.toString().length === 5 ? true : false;
         },
-        message: function(key, value, _this){
+        message: function(){
           return 12345;
         }
       }

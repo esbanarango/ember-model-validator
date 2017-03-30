@@ -1,6 +1,5 @@
 /* jshint expr:true */
 import { expect } from 'chai';
-import { describeModel } from 'ember-mocha';
 import {
   describe,
   it
@@ -11,7 +10,7 @@ import Messages from 'ember-model-validator/messages/pt-br';
 
 describe('ObjectValidatorMixin', function() {
   it('Validator on Simple Object', function() {
-    var ValidatorObject = Ember.Object.extend(ObjectValidatorMixin, {  
+    var ValidatorObject = Ember.Object.extend(ObjectValidatorMixin, {
       name: null,
 
       locale: 'pt-br',
