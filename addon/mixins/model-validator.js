@@ -80,12 +80,14 @@ export default Ember.Mixin.create({
     }
   },
   
-  pushErrors(errors){
-    let store = this.get('store');
-    let stateToTransition = this.get('isNew') ? 'created.uncommitted' : 'updated.uncommitted';
-    this.transitionTo(stateToTransition);
-    let recordModel = this.adapterDidInvalidate ? this : this._internalModel;
-    store.recordWasInvalid(recordModel, errors);
+  pushErrors(errors) {
+    if(!this.get('isDeleted')){
+      var store = this.get('store');
+      var stateToTransition = this.get('isNew') ? 'created.uncommitted' : 'updated.uncommitted';
+      this.transitionTo(stateToTransition);
+      var recordModel = this.adapterDidInvalidate ? this : this._internalModel;
+      store.recordWasInvalid(recordModel, errors);
+    }
   },
 
   /**** Validators ****/
