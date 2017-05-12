@@ -753,8 +753,7 @@ export default Ember.Component.extend(Validator,{
     }
   }
 });
-```
-
+````
 
 ## I18n
 
@@ -772,7 +771,7 @@ Set `validatorDefaultLocale` in your config enviroment a language, for now it's 
     ...
   }
 ...
-```
+````
 
 ## Donating
 Support this project and [others by esbanarango][gratipay-esbanarango] via [gratipay][gratipay-esbanarango].
