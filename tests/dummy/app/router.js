@@ -8,6 +8,7 @@ const Router = Ember.Router.extend({
 
 Router.map(function() {
   this.route('usage');
+  this.route('i18n');
   this.route('validators', function() {
     this.route('presence');
     this.route('acceptance');
