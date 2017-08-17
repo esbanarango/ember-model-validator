@@ -645,6 +645,7 @@ describe('ModelValidatorMixin', function() {
             model.set('passwordConfirmation','k$1hkjGd');
             model.set('email','rene@higuita.com');
             model.set('images','las images');
+            model.set('mainstreamCode','');
             expect(model.validate()).to.equal(false);
             expect(model.validate({except:['asyncModel','otherFake']})).to.equal(true);
           });
