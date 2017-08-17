@@ -131,7 +131,7 @@ export default Ember.Mixin.create({
   },
   _validateFormat(property, validation) {
     let withRegexp = validation.format.with;
-    if (!this.get(property) || String(this.get(property)).match(withRegexp) === null){
+    if (this.get(property) && String(this.get(property)).match(withRegexp) === null){
       this.set('isValidNow',false);
       this._addToErrors(property, validation.format, this.get('messages').formatMessage);
     }
