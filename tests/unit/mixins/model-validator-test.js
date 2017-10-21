@@ -14,7 +14,6 @@ var formater = MessageFormater.create();
 
 describe('ModelValidatorMixin', function() {
 
-  // Replace this with your real tests.
   it('works', function() {
     var ValidatorObject = Ember.Object.extend(ModelValidatorMixin, {
       locale: 'en'
@@ -25,14 +24,11 @@ describe('ModelValidatorMixin', function() {
 
   describeModel('fake-model','Fake model with simple validations',
     {
-      // Specify the other units that are required for this test.
       needs: ['model:other-model', 'model:async-model']
     },
     function() {
-      // Replace this with your real tests.
       it('exists', function() {
         var model = this.subject();
-        // var store = this.store();
         expect(model).to.be.ok;
       });
 
