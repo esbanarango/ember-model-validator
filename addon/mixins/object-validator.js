@@ -1,8 +1,8 @@
-import Ember from 'ember';
+import Mixin from '@ember/object/mixin';
 import DS from 'ember-data';
 import Validation from 'ember-model-validator/mixins/model-validator';
 
-export default Ember.Mixin.create(Validation, {
+export default Mixin.create(Validation, {
   errors: DS.Errors.create(),
 
   clearErrors() {

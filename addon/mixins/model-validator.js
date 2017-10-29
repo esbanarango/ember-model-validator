@@ -1,4 +1,11 @@
-import Ember from 'ember';
+import Mixin from '@ember/object/mixin';
+import { computed, get, set } from '@ember/object';
+import { getOwner } from '@ember/application';
+import { on } from '@ember/object/evented';
+import { capitalize } from '@ember/string';
+import { isEmpty, isBlank, isPresent, typeOf, isEqual } from '@ember/utils';
+import { A, isArray } from '@ember/array';
+
 import PostalCodesRegex from 'ember-model-validator/postal-codes-regex';
 
 import MessagesEn from '../messages/en';
@@ -13,19 +20,19 @@ const Messages = {
   'pt-br': MessagesPtbr
 };
 
-export default Ember.Mixin.create({
+export default Mixin.create({
   validationErrors: {},
   isValidNow: true,
   addErrors: true,
   messages: {},
 
-  locale: Ember.computed(function(){
-    return Ember.getOwner(this).lookup('validator:locale');
+  locale: computed(function(){
+    return getOwner(this).lookup('validator:locale');
   }),
 
-  _initMessage: Ember.on('init', function() {
-    let locale = this.get('locale') || 'en';
-    this.set('messages', Messages[locale]);
+  _initMessage: on('init', function() {
+    let locale = get(this, 'locale') || 'en';
+    set(this, 'messages', Messages[locale]);
   }),
 
   clearErrors() {
@@ -34,33 +41,33 @@ export default Ember.Mixin.create({
 
   validate(options={}) {
     let errors = null,
-        validations = this.get('validations');
+        validations = get(this, 'validations');
 
     // Clean all the current errors
     this.clearErrors();
-    this.set('validationErrors', {});
-    this.set('isValidNow', true);
-    errors = this.get('validationErrors');
+    set(this, 'validationErrors', {});
+    set(this, 'isValidNow', true);
+    errors = get(this, 'validationErrors');
 
     // Validate but not set errors
     if(options.hasOwnProperty('addErrors')){
-      this.set('addErrors', options['addErrors']);
+      set(this, 'addErrors', options['addErrors']);
     }else{
-      this.set('addErrors', true);
+      set(this, 'addErrors', true);
     }
 
     // Call validators defined on each property
     for (var property in validations) {
       for (var validation in validations[property]) {
         if (this._exceptOrOnly(property,options)) {
-          let validationName = Ember.String.capitalize(validation);
+          let validationName = capitalize(validation);
           // allowBlank option
-          if (Ember.get(validations[property], `${validation}.allowBlank`) && Ember.isEmpty(this.get(property))) {
+          if (get(validations[property], `${validation}.allowBlank`) && isEmpty(get(this, property))) {
             continue;
           }
           // conditional functions
-          let conditionalFunction = Ember.get(validations[property], `${validation}.if`);
-          if (conditionalFunction && !conditionalFunction(property, this.get(property), this)) {
+          let conditionalFunction = get(validations[property], `${validation}.if`);
+          if (conditionalFunction && !conditionalFunction(property, get(this, property), this)) {
             continue;
           }
           this[`_validate${validationName}`](property, validations[property]);
@@ -69,7 +76,7 @@ export default Ember.Mixin.create({
     }
 
     // Check if it's valid or not
-    if (!this.get('isValidNow')) {
+    if (!get(this, 'isValidNow')) {
       // It may be invalid because of its relations
       if(Object.keys(errors).length !== 0){
         this.pushErrors(errors);
@@ -81,8 +88,8 @@ export default Ember.Mixin.create({
   },
 
   pushErrors(errors){
-    let store = this.get('store');
-    let stateToTransition = this.get('isNew') ? 'created.uncommitted' : 'updated.uncommitted';
+    let store = get(this, 'store');
+    let stateToTransition = get(this, 'isNew') ? 'created.uncommitted' : 'updated.uncommitted';
     this.transitionTo(stateToTransition);
     let recordModel = this.adapterDidInvalidate ? this : this._internalModel;
     store.recordWasInvalid(recordModel, errors);
@@ -90,75 +97,75 @@ export default Ember.Mixin.create({
 
   /**** Validators ****/
   _validateCustom(property, validation) {
-    validation = Ember.isArray(validation.custom) ? validation.custom : [validation.custom];
+    validation = isArray(validation.custom) ? validation.custom : [validation.custom];
     for (var i = 0; i < validation.length; i++) {
       let customValidator = this._getCustomValidator(validation[i]);
       if (customValidator) {
-        let passedCustomValidation = customValidator(property, this.get(property), this);
+        let passedCustomValidation = customValidator(property, get(this, property), this);
         if (!passedCustomValidation) {
-          this.set('isValidNow', false);
-          this._addToErrors(property, validation[i], this.get('messages').customValidationMessage);
+          set(this, 'isValidNow', false);
+          this._addToErrors(property, validation[i], get(this, 'messages').customValidationMessage);
         }
       }
     }
   },
   _validatePresence(property, validation) {
-    let propertyValue = this.get(property);
+    let propertyValue = get(this, property);
     // If the property is an async relationship.
-    if(this._modelRelations() && !Ember.isBlank(this._modelRelations()[property])){
+    if(this._modelRelations() && !isBlank(this._modelRelations()[property])){
       if(this._modelRelations()[property]['isAsync']){
-        propertyValue = this.get(`${property}.content`);
+        propertyValue = get(this, `${property}.content`);
       }
     }
-    if(Ember.isBlank(propertyValue)){
-      this.set('isValidNow',false);
-      this._addToErrors(property, validation.presence, this.get('messages').presenceMessage);
+    if(isBlank(propertyValue)){
+      set(this, 'isValidNow',false);
+      this._addToErrors(property, validation.presence, get(this, 'messages').presenceMessage);
     }
   },
   _validateAbsence(property, validation) {
-    if (Ember.isPresent(this.get(property))){
-      this.set('isValidNow',false);
-      this._addToErrors(property, validation.absence, this.get('messages').absenceMessage);
+    if (isPresent(get(this, property))){
+      set(this, 'isValidNow',false);
+      this._addToErrors(property, validation.absence, get(this, 'messages').absenceMessage);
     }
   },
   _validateAcceptance(property, validation) {
-    let propertyValue = this.get(property),
+    let propertyValue = get(this, property),
         accept =  validation.acceptance.accept || [1,'1', true];
-    if(!this._includes(Ember.A(accept),propertyValue)){
-      this.set('isValidNow',false);
-      this._addToErrors(property, validation.acceptance, this.get('messages').acceptanceMessage);
+    if(!this._includes(A(accept),propertyValue)){
+      set(this, 'isValidNow',false);
+      this._addToErrors(property, validation.acceptance, get(this, 'messages').acceptanceMessage);
     }
   },
   _validateFormat(property, validation) {
     let withRegexp = validation.format.with;
-    if (this.get(property) && String(this.get(property)).match(withRegexp) === null){
-      this.set('isValidNow',false);
-      this._addToErrors(property, validation.format, this.get('messages').formatMessage);
+    if (get(this, property) && String(get(this, property)).match(withRegexp) === null){
+      set(this, 'isValidNow',false);
+      this._addToErrors(property, validation.format, get(this, 'messages').formatMessage);
     }
   },
   _validateEmail(property, validation) {
-    if (!this.get(property) || String(this.get(property)).match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/) === null){
-      this.set('isValidNow',false);
-      this._addToErrors(property, validation.email, this.get('messages').mailMessage);
+    if (!get(this, property) || String(get(this, property)).match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/) === null){
+      set(this, 'isValidNow',false);
+      this._addToErrors(property, validation.email, get(this, 'messages').mailMessage);
     }
   },
   _validateZipCode(property, validation) {
     const DEFAULT_COUNTRY_CODE = 'US';
-    let propertyValue = this.get(property);
+    let propertyValue = get(this, property);
 
     let countryCode = DEFAULT_COUNTRY_CODE;
     if(validation.zipCode.hasOwnProperty('countryCode')){
       countryCode = validation.zipCode.countryCode;
     }
-    if (Ember.isArray(countryCode)) {
+    if (isArray(countryCode)) {
       countryCode.forEach(function(code) {
         let postalCodeRegexp = PostalCodesRegex[code];
         if(typeof postalCodeRegexp === 'undefined'){
           postalCodeRegexp = PostalCodesRegex[DEFAULT_COUNTRY_CODE];
         }
         if (!propertyValue || String(propertyValue).match(postalCodeRegexp) === null){
-          this.set('isValidNow',false);
-          this._addToErrors(property, validation.zipCode, this.get('messages').zipCodeMessage);
+          set(this, 'isValidNow',false);
+          this._addToErrors(property, validation.zipCode, get(this, 'messages').zipCodeMessage);
         }
       });
     }else{
@@ -167,157 +174,157 @@ export default Ember.Mixin.create({
         postalCodeRegexp = PostalCodesRegex[DEFAULT_COUNTRY_CODE];
       }
       if (!propertyValue || String(propertyValue).match(postalCodeRegexp) === null){
-        this.set('isValidNow',false);
-        this._addToErrors(property, validation.zipCode, this.get('messages').zipCodeMessage);
+        set(this, 'isValidNow',false);
+        this._addToErrors(property, validation.zipCode, get(this, 'messages').zipCodeMessage);
       }
     }
   },
   _validateColor(property, validation) {
-    let propertyValue = this.get(property);
+    let propertyValue = get(this, property);
     if (!propertyValue || String(propertyValue).match(/([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/i) === null){
-      this.set('isValidNow',false);
-      this._addToErrors(property, validation.color, this.get('messages').colorMessage);
+      set(this, 'isValidNow',false);
+      this._addToErrors(property, validation.color, get(this, 'messages').colorMessage);
     }
   },
   _validateURL(property, validation) {
-    let propertyValue = this.get(property);
+    let propertyValue = get(this, property);
     if (!propertyValue || String(propertyValue).match(/^((http|https):\/\/(\w+:{0,1}\w*@)?(\S+)|)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?$/) === null){
-      this.set('isValidNow',false);
-      this._addToErrors(property, validation.URL, this.get('messages').URLMessage);
+      set(this, 'isValidNow',false);
+      this._addToErrors(property, validation.URL, get(this, 'messages').URLMessage);
     }
   },
   _validateSubdomain(property, validation) {
-    let propertyValue = this.get(property),
+    let propertyValue = get(this, property),
         reserved = validation.subdomain.reserved || [];
     if (!propertyValue || String(propertyValue).match(/^[a-z\d]+([-_][a-z\d]+)*$/i) === null || reserved.indexOf(propertyValue) !== -1){
-      this.set('isValidNow',false);
-      this._addToErrors(property, validation.subdomain, this.get('messages').subdomainMessage);
+      set(this, 'isValidNow',false);
+      this._addToErrors(property, validation.subdomain, get(this, 'messages').subdomainMessage);
     }
   },
   _validateDate(property, validation) {
-    let propertyValue = new Date(this.get(property));
+    let propertyValue = new Date(get(this, property));
     if (isNaN(propertyValue.getTime())) {
-      this.set('isValidNow', false);
-      this._addToErrors(property, validation.date, this.get('messages').dateMessage);
+      set(this, 'isValidNow', false);
+      this._addToErrors(property, validation.date, get(this, 'messages').dateMessage);
       return;
     }
     if (validation.date.hasOwnProperty('before') && validation.date.before) {
       if (propertyValue.getTime() >= new Date(validation.date.before).getTime()) {
-        this.set('isValidNow', false);
+        set(this, 'isValidNow', false);
         let context = {date: new Date(validation.date.before)};
         validation.date.interpolatedValue = validation.date.before;
-        this._addToErrors(property, validation.date, this._formatMessage(this.get('messages').dateBeforeMessage, context));
+        this._addToErrors(property, validation.date, this._formatMessage(get(this, 'messages').dateBeforeMessage, context));
       }
     }
     if (validation.date.hasOwnProperty('after') && validation.date.after) {
       if (propertyValue.getTime() <= new Date(validation.date.after).getTime()) {
-        this.set('isValidNow', false);
+        set(this, 'isValidNow', false);
         let context = {date: new Date(validation.date.after)};
         validation.date.interpolatedValue = validation.date.after;
-        this._addToErrors(property, validation.date, this._formatMessage(this.get('messages').dateAfterMessage, context));
+        this._addToErrors(property, validation.date, this._formatMessage(get(this, 'messages').dateAfterMessage, context));
       }
     }
   },
   _validateNumericality(property, validation) {
-    let propertyValue = this.get(property);
-    if(!this._isNumber(this.get(property))){
-      this.set('isValidNow',false);
-      this._addToErrors(property, validation.numericality, this.get('messages').numericalityMessage);
+    let propertyValue = get(this, property);
+    if(!this._isNumber(get(this, property))){
+      set(this, 'isValidNow',false);
+      this._addToErrors(property, validation.numericality, get(this, 'messages').numericalityMessage);
     }
     if(validation.numericality.hasOwnProperty('onlyInteger') && validation.numericality.onlyInteger){
       if(!(/^[+\-]?\d+$/.test(propertyValue))){
-        this.set('isValidNow',false);
-        this._addToErrors(property, validation.numericality, this.get('messages').numericalityOnlyIntegerMessage);
+        set(this, 'isValidNow',false);
+        this._addToErrors(property, validation.numericality, get(this, 'messages').numericalityOnlyIntegerMessage);
       }
     }
     if(validation.numericality.hasOwnProperty('even') && validation.numericality.even){
       if(propertyValue % 2 !== 0){
-        this.set('isValidNow',false);
-        this._addToErrors(property, validation.numericality, this.get('messages').numericalityEvenMessage);
+        set(this, 'isValidNow',false);
+        this._addToErrors(property, validation.numericality, get(this, 'messages').numericalityEvenMessage);
       }
     }
     if(validation.numericality.hasOwnProperty('odd') && validation.numericality.odd){
       if(propertyValue % 2 === 0){
-        this.set('isValidNow',false);
-        this._addToErrors(property, validation.numericality, this.get('messages').numericalityOddMessage);
+        set(this, 'isValidNow',false);
+        this._addToErrors(property, validation.numericality, get(this, 'messages').numericalityOddMessage);
       }
     }
     if(validation.numericality.hasOwnProperty('greaterThan') && this._isNumber(validation.numericality.greaterThan)){
       if(propertyValue <= validation.numericality.greaterThan){
-        this.set('isValidNow',false);
+        set(this, 'isValidNow',false);
         let context = {count: validation.numericality.greaterThan};
         validation.numericality.interpolatedValue = validation.numericality.greaterThan;
-        this._addToErrors(property, validation.numericality, this._formatMessage(this.get('messages').numericalityGreaterThanMessage, context));
+        this._addToErrors(property, validation.numericality, this._formatMessage(get(this, 'messages').numericalityGreaterThanMessage, context));
       }
     }
     if(validation.numericality.hasOwnProperty('greaterThanOrEqualTo') && this._isNumber(validation.numericality.greaterThanOrEqualTo)){
       if(propertyValue < validation.numericality.greaterThanOrEqualTo){
-        this.set('isValidNow',false);
+        set(this, 'isValidNow',false);
         let context = {count: validation.numericality.greaterThanOrEqualTo};
         validation.numericality.interpolatedValue = validation.numericality.greaterThanOrEqualTo;
-        this._addToErrors(property, validation.numericality, this._formatMessage(this.get('messages').numericalityGreaterThanOrEqualToMessage, context));
+        this._addToErrors(property, validation.numericality, this._formatMessage(get(this, 'messages').numericalityGreaterThanOrEqualToMessage, context));
       }
     }
     if(validation.numericality.hasOwnProperty('equalTo') && this._isNumber(validation.numericality.equalTo)){
       if(propertyValue !== validation.numericality.equalTo){
-        this.set('isValidNow',false);
+        set(this, 'isValidNow',false);
         let context = {count: validation.numericality.equalTo};
         validation.numericality.interpolatedValue = validation.numericality.equalTo;
-        this._addToErrors(property, validation.numericality, this._formatMessage(this.get('messages').numericalityEqualToMessage, context));
+        this._addToErrors(property, validation.numericality, this._formatMessage(get(this, 'messages').numericalityEqualToMessage, context));
       }
     }
     if(validation.numericality.hasOwnProperty('lessThan') && this._isNumber(validation.numericality.lessThan)){
       if(propertyValue >= validation.numericality.lessThan){
-        this.set('isValidNow',false);
+        set(this, 'isValidNow',false);
         let context = {count: validation.numericality.lessThan};
         validation.numericality.interpolatedValue = validation.numericality.lessThan;
-        this._addToErrors(property, validation.numericality, this._formatMessage(this.get('messages').numericalityLessThanMessage, context));
+        this._addToErrors(property, validation.numericality, this._formatMessage(get(this, 'messages').numericalityLessThanMessage, context));
       }
     }
     if(validation.numericality.hasOwnProperty('lessThanOrEqualTo') && this._isNumber(validation.numericality.lessThanOrEqualTo)){
       if(propertyValue > validation.numericality.lessThanOrEqualTo){
-        this.set('isValidNow',false);
+        set(this, 'isValidNow',false);
         let context = {count: validation.numericality.lessThanOrEqualTo};
         validation.numericality.interpolatedValue = validation.numericality.lessThanOrEqualTo;
-        this._addToErrors(property, validation.numericality, this._formatMessage(this.get('messages').numericalityLessThanOrEqualToMessage, context));
+        this._addToErrors(property, validation.numericality, this._formatMessage(get(this, 'messages').numericalityLessThanOrEqualToMessage, context));
       }
     }
   },
   _validateExclusion(property, validation) {
     if(validation.exclusion.hasOwnProperty('in')) {
-      if(validation.exclusion.in.indexOf(this.get(property)) !== -1){
-        this.set('isValidNow',false);
-        this._addToErrors(property, validation.exclusion, this.get('messages').exclusionMessage);
+      if(validation.exclusion.in.indexOf(get(this, property)) !== -1){
+        set(this, 'isValidNow',false);
+        this._addToErrors(property, validation.exclusion, get(this, 'messages').exclusionMessage);
       }
     }
   },
   _validateInclusion(property, validation) {
     if(validation.inclusion.hasOwnProperty('in')) {
-      if(validation.inclusion.in.indexOf(this.get(property)) === -1){
-        this.set('isValidNow',false);
-        this._addToErrors(property, validation.inclusion, this.get('messages').inclusionMessage);
+      if(validation.inclusion.in.indexOf(get(this, property)) === -1){
+        set(this, 'isValidNow',false);
+        this._addToErrors(property, validation.inclusion, get(this, 'messages').inclusionMessage);
       }
     }
   },
   _validateMatch(property, validation) {
     let matching = validation.match.attr || validation.match,
-        propertyValue = this.get(property),
-        matchingValue = this.get(matching);
+        propertyValue = get(this, property),
+        matchingValue = get(this, matching);
     if (propertyValue !== matchingValue) {
-      this.set('isValidNow',false);
+      set(this, 'isValidNow',false);
       let matchingUnCamelCase = this._unCamelCase(matching);
       let context = {match: matchingUnCamelCase};
-      if(Ember.typeOf(validation.match) === 'object'){
+      if(typeOf(validation.match) === 'object'){
         validation.match.interpolatedValue = matchingUnCamelCase;
       }
-      this._addToErrors(property, validation.match, this._formatMessage(this.get('messages').matchMessage, context));
+      this._addToErrors(property, validation.match, this._formatMessage(get(this, 'messages').matchMessage, context));
     }
   },
   // Length Validator
   _validateLength(property, validation) {
-    let propertyValue = this.get(property),
+    let propertyValue = get(this, property),
         stringLength = !propertyValue ? 0 : String(propertyValue).length,
-        validationType = Ember.typeOf(validation.length);
+        validationType = typeOf(validation.length);
     if(validationType === 'number') {
       validation.length = {is: validation.length};
       this._exactLength(stringLength, property, validation);
@@ -334,89 +341,89 @@ export default Ember.Mixin.create({
   },
   _exactLength(stringLength, property, validation) {
     if(stringLength !== validation.length.is){
-      this.set('isValidNow',false);
+      set(this, 'isValidNow',false);
       let context = {count: validation.length.is};
       validation.length.interpolatedValue = validation.length.is;
-      this._addToErrors(property, validation.length, this._formatMessage(this.get('messages').wrongLengthMessage, context));
+      this._addToErrors(property, validation.length, this._formatMessage(get(this, 'messages').wrongLengthMessage, context));
     }
   },
   _rangeLength(stringLength, property, validation) {
     let minimum = -1,
         maximum = Infinity;
     // Maximum and Minimum can be objects
-    if(Ember.typeOf(validation.length.minimum) === 'number'){
+    if(typeOf(validation.length.minimum) === 'number'){
       minimum = validation.length.minimum;
-    }else if(Ember.typeOf(validation.length.minimum) === 'object' && validation.length.minimum.hasOwnProperty('value')){
+    }else if(typeOf(validation.length.minimum) === 'object' && validation.length.minimum.hasOwnProperty('value')){
       minimum = validation.length.minimum.value;
     }
-    if(Ember.typeOf(validation.length.maximum) === 'number'){
+    if(typeOf(validation.length.maximum) === 'number'){
       maximum = validation.length.maximum;
-    }else if(Ember.typeOf(validation.length.maximum) === 'object' && validation.length.maximum.hasOwnProperty('value')){
+    }else if(typeOf(validation.length.maximum) === 'object' && validation.length.maximum.hasOwnProperty('value')){
       maximum = validation.length.maximum.value;
     }
 
     if(stringLength < minimum){
-      this.set('isValidNow',false);
+      set(this, 'isValidNow',false);
       let context = {count: minimum};
-      if(Ember.typeOf(validation.length.minimum) === 'object'){
+      if(typeOf(validation.length.minimum) === 'object'){
         validation.length.minimum.interpolatedValue = minimum;
       }
-      this._addToErrors(property, validation.length.minimum, this._formatMessage(this.get('messages').tooShortMessage, context));
+      this._addToErrors(property, validation.length.minimum, this._formatMessage(get(this, 'messages').tooShortMessage, context));
     }else if (stringLength > maximum) {
-      this.set('isValidNow',false);
+      set(this, 'isValidNow',false);
       let context = {count: maximum};
-      if(Ember.typeOf(validation.length.maximum) === 'object'){
+      if(typeOf(validation.length.maximum) === 'object'){
         validation.length.maximum.interpolatedValue = maximum;
       }
-      this._addToErrors(property, validation.length.maximum, this._formatMessage(this.get('messages').tooLongMessage, context));
+      this._addToErrors(property, validation.length.maximum, this._formatMessage(get(this, 'messages').tooLongMessage, context));
     }
   },
   _validateRelations(property, validation) {
     if(validation.relations.indexOf("hasMany") !== -1) {
-      if(this.get(`${property}.content`)){
-        this.get(`${property}.content`).forEach((objRelation) => {
+      if(get(this, `${property}.content`)){
+        get(this, `${property}.content`).forEach((objRelation) => {
           if(!objRelation.validate()){
-            this.set('isValidNow',false);
+            set(this, 'isValidNow',false);
           }
         });
       }
     }else if(validation.relations.indexOf("belongsTo") !== -1){
-      if(this.get(`${property}.content`) && !this.get(`${property}.content`).validate()){
-        this.set('isValidNow',false);
+      if(get(this, `${property}.content`) && !get(this, `${property}.content`).validate()){
+        set(this, 'isValidNow',false);
       }
     }
   },
   _validateMustContainCapital(property, validation) {
-    let notContainCapital = String(this.get(property)).match(/(?=.*[A-Z])/) === null,
-        message = validation.mustContainCapital.message || this.get('messages').mustContainCapitalMessage;
+    let notContainCapital = String(get(this, property)).match(/(?=.*[A-Z])/) === null,
+        message = validation.mustContainCapital.message || get(this, 'messages').mustContainCapitalMessage;
     if (validation.mustContainCapital && notContainCapital) {
-      this.set('isValidNow', false);
+      set(this, 'isValidNow', false);
       this._addToErrors(property, validation, message);
     }
   },
   _validateMustContainLower(property, validation) {
-    let containsLower = String(this.get(property)).match(/(?=.*[a-z])/) !== null,
-        message = validation.mustContainLower.message || this.get('messages').mustContainLowerMessage;
+    let containsLower = String(get(this, property)).match(/(?=.*[a-z])/) !== null,
+        message = validation.mustContainLower.message || get(this, 'messages').mustContainLowerMessage;
     if (validation.mustContainLower && !containsLower) {
-      this.set('isValidNow', false);
+      set(this, 'isValidNow', false);
       this._addToErrors(property, validation, message);
     }
   },
   _validateMustContainNumber(property, validation) {
-    let containsNumber = String(this.get(property)).match(/(?=.*[0-9])/) !== null,
-        message = validation.mustContainNumber.message || this.get('messages').mustContainNumberMessage;
+    let containsNumber = String(get(this, property)).match(/(?=.*[0-9])/) !== null,
+        message = validation.mustContainNumber.message || get(this, 'messages').mustContainNumberMessage;
     if (validation.mustContainNumber && !containsNumber) {
-      this.set('isValidNow', false);
+      set(this, 'isValidNow', false);
       this._addToErrors(property, validation, message);
     }
   },
   _validateMustContainSpecial(property, validation) {
     let regexString = validation.mustContainSpecial.acceptableChars || '-+_!@#$%^&*.,?()',
         regex = new RegExp(`(?=.*[${regexString}])`),
-        containsSpecial = String(this.get(property)).match(regex) !== null,
-        message = validation.mustContainSpecial.message || this.get('messages').mustContainSpecialMessage;
+        containsSpecial = String(get(this, property)).match(regex) !== null,
+        message = validation.mustContainSpecial.message || get(this, 'messages').mustContainSpecialMessage;
     if (validation.mustContainSpecial && !containsSpecial) {
-      this.set('isValidNow', false);
+      set(this, 'isValidNow', false);
       let context = {characters: regexString};
       this._addToErrors(property, validation, this._formatMessage(message, context));
     }
@@ -431,15 +438,15 @@ export default Ember.Mixin.create({
   },
   _getCustomValidator(validation) {
     let customValidator = validation;
-    if (Ember.typeOf(validation) === 'object' && validation.hasOwnProperty('validation')) {
+    if (typeOf(validation) === 'object' && validation.hasOwnProperty('validation')) {
       customValidator = validation.validation;
     }
     return this._isFunction(customValidator) ? customValidator : false;
   },
   _getCustomMessage(validationObj, defaultMessage, property) {
-    if (Ember.typeOf(validationObj) === 'object' && validationObj.hasOwnProperty('message')) {
+    if (typeOf(validationObj) === 'object' && validationObj.hasOwnProperty('message')) {
       if(this._isFunction(validationObj.message)){
-        let msg = validationObj.message.call(this, property, this.get(property), this);
+        let msg = validationObj.message.call(this, property, get(this, property), this);
         return this._isString( msg ) ? msg : defaultMessage;
       }else{
         let context = {value: validationObj.interpolatedValue};
@@ -450,11 +457,11 @@ export default Ember.Mixin.create({
     }
   },
   _addToErrors(property, validation, defaultMessage) {
-    let errors = this.get('validationErrors'),
+    let errors = get(this, 'validationErrors'),
         message = this._getCustomMessage(validation, defaultMessage, property),
-        errorAs = Ember.typeOf(validation) === 'object' ? (validation.errorAs || property) : property;
-    if (!Ember.isArray(errors[errorAs])) {errors[errorAs] = [];}
-    if(this.get('addErrors')){errors[errorAs].push([message]);}
+        errorAs = typeOf(validation) === 'object' ? (validation.errorAs || property) : property;
+    if (!isArray(errors[errorAs])) {errors[errorAs] = [];}
+    if(get(this, 'addErrors')){errors[errorAs].push([message]);}
   },
 
   // Specific funcs
@@ -466,13 +473,13 @@ export default Ember.Mixin.create({
     // insert a space before all caps
     .replace(/([A-Z])/g, ' $1')
     // uppercase the first character
-    .replace(/^./, function(str){ return Ember.String.capitalize(str); });
+    .replace(/^./, function(str){ return capitalize(str); });
   },
   _isFunction(func) {
-    return Ember.isEqual(Ember.typeOf(func),'function');
+    return isEqual(typeOf(func),'function');
   },
   _isString(str) {
-    return Ember.isEqual(Ember.typeOf(str), 'string');
+    return isEqual(typeOf(str), 'string');
   },
   _includes(enums, value) {
     if(enums.includes){
@@ -483,10 +490,10 @@ export default Ember.Mixin.create({
     }
   },
   _modelRelations() {
-    if(this.get('_relationships')){
-      return this.get('_relationships');
+    if(get(this, '_relationships')){
+      return get(this, '_relationships');
     }else{
-      return this.get('_internalModel._relationships.initializedRelationships');
+      return get(this, '_internalModel._relationships.initializedRelationships');
     }
   },
   _formatMessage(message, context = {}){

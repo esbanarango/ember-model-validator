@@ -23,7 +23,7 @@
     "test": "ember try:each"
   },
   "dependencies": {
-    "ember-cli-babel": "6.1.0"
+    "ember-cli-babel": "6.6.0"
   },
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.5",
@@ -51,7 +51,7 @@
     "ember-pikaday": "2.1.0",
     "ember-prism": "0.0.8",
     "ember-resolver": "^2.0.3",
-    "ember-source": "2.14.1",
+    "ember-source": "2.15.0",
     "loader.js": "^4.2.3",
     "semantic-ui-ember": "2.0.1"
   },
