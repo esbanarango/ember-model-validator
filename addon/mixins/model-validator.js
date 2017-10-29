@@ -55,7 +55,6 @@ export default Mixin.create({
     }else{
       set(this, 'addErrors', true);
     }
-
     // Call validators defined on each property
     for (var property in validations) {
       for (var validation in validations[property]) {
@@ -78,7 +77,7 @@ export default Mixin.create({
     // Check if it's valid or not
     if (!get(this, 'isValidNow')) {
       // It may be invalid because of its relations
-      if(Object.keys(errors).length !== 0){
+      if(get(this,'addErrors') && Object.keys(errors).length !== 0){
         this.pushErrors(errors);
       }
       return false;
