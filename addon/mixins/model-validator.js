@@ -57,8 +57,8 @@ export default Mixin.create({
     }
 
     // Call validators defined on each property
-    for (var property in validations) {
-      for (var validation in validations[property]) {
+    for (let property in validations) {
+      for (let validation in validations[property]) {
         if (this._exceptOrOnly(property,options)) {
           let validationName = capitalize(validation);
           // allowBlank option
@@ -98,7 +98,7 @@ export default Mixin.create({
   /**** Validators ****/
   _validateCustom(property, validation) {
     validation = isArray(validation.custom) ? validation.custom : [validation.custom];
-    for (var i = 0; i < validation.length; i++) {
+    for (let i = 0; i < validation.length; i++) {
       let customValidator = this._getCustomValidator(validation[i]);
       if (customValidator) {
         let passedCustomValidation = customValidator(property, get(this, property), this);
