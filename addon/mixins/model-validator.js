@@ -9,12 +9,14 @@ import { A, isArray } from '@ember/array';
 import PostalCodesRegex from 'ember-model-validator/postal-codes-regex';
 
 import MessagesEn from '../messages/en';
+import MessagesAr from '../messages/ar';
 import MessagesFr from '../messages/fr';
 import MessagesEs from '../messages/es';
 import MessagesPtbr from '../messages/pt-br';
 
 const Messages = {
   'en': MessagesEn,
+  'ar': MessagesAr,
   'fr': MessagesFr,
   'es': MessagesEs,
   'pt-br': MessagesPtbr
