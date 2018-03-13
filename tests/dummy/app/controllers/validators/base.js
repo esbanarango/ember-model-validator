@@ -1,9 +1,10 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import Controller from '@ember/controller';
 import Messages from 'ember-model-validator/messages/en';
 
-export default Ember.Controller.extend({
+export default Controller.extend({
   // Services
-  store: Ember.inject.service(),
+  store: service(),
 
   messages: Messages,
   modelValid: true,

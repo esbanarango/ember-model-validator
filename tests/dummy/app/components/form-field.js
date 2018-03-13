@@ -1,13 +1,16 @@
-import Ember from 'ember';
+import { A } from '@ember/array';
+import { computed } from '@ember/object';
+import { alias } from '@ember/object/computed';
+import Component from '@ember/component';
 
-export default Ember.Component.extend({
+export default Component.extend({
   tagName: 'div',
   classNames: 'ui field',
   classNameBindings: ['hasError:error', 'fieldClass', 'for', 'required'],
 
-  object: Ember.computed.alias('parentView.for'),
+  object: alias('parentView.for'),
 
-  fieldClass: Ember.computed('group', {
+  fieldClass: computed('group', {
     get() {
       var isGroup = this.get('group'),
         fieldClass =  isGroup ? 'fields' : 'field';
@@ -16,7 +19,7 @@ export default Ember.Component.extend({
     }
   }),
 
-  hasError: Ember.computed('object.errors.[]', {
+  hasError: computed('object.errors.[]', {
     get() {
       var _ref = this.get('object.errors');
 
@@ -24,10 +27,10 @@ export default Ember.Component.extend({
     }
   }),
 
-  errors: Ember.computed('object.errors.[]', {
+  errors: computed('object.errors.[]', {
     get() {
       if (!this.get('object.errors')) {
-        return Ember.A();
+        return A();
       }
 
       return this.get('object.errors').errorsFor(this.get('for')).mapBy('message')[0];

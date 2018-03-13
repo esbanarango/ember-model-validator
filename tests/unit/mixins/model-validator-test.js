@@ -1,11 +1,13 @@
 /* jshint expr:true */
+import { run } from '@ember/runloop';
+
+import EmberObject from '@ember/object';
 import { expect } from 'chai';
 import { describeModel } from 'ember-mocha';
 import {
   describe,
   it
 } from 'mocha';
-import Ember from 'ember';
 import ModelValidatorMixin from '../../../mixins/model-validator';
 import Messages from 'ember-model-validator/messages/en';
 import MessageFormater from '../../helpers/message-formater';
@@ -16,7 +18,7 @@ describe('ModelValidatorMixin', function() {
 
   // Replace this with your real tests.
   it('works', function() {
-    var ValidatorObject = Ember.Object.extend(ModelValidatorMixin, {
+    var ValidatorObject = EmberObject.extend(ModelValidatorMixin, {
       locale: 'en'
     });
     var subject = ValidatorObject.create();
@@ -64,7 +66,7 @@ describe('ModelValidatorMixin', function() {
       describe('message with interpolated values', function() {
         it('interpolates the value whitn the message', function() {
           var model = this.subject({theMinimunmInterpolatedTenNumber:'1'});
-          Ember.run(function() {
+          run(function() {
             expect(model.validate({only:['theMinimunmInterpolatedTenNumber']})).to.equal(false);
             expect(model.get('errors').errorsFor('theMinimunmInterpolatedTenNumber').mapBy('message')[0][0]).to.equal('eeeche 10');
           });
@@ -216,7 +218,7 @@ describe('ModelValidatorMixin', function() {
         describe('`onlyInteger` option', function() {
           it('validates the number for only being an integer', function() {
             var model = this.subject({anInteger:1.3});
-            Ember.run(function() {
+            run(function() {
               expect(model.validate({only:['anInteger']})).to.equal(false);
               expect(model.get('errors').errorsFor('anInteger').mapBy('message')[0][0]).to.equal(Messages.numericalityOnlyIntegerMessage);
             });
@@ -226,7 +228,7 @@ describe('ModelValidatorMixin', function() {
         describe('`greaterThan` option', function() {
           it('validates that the number is `greater than` the specified value', function() {
             var model = this.subject({anIntegerGreaterThan4:2});
-            Ember.run(function() {
+            run(function() {
               expect(model.validate({only:['anIntegerGreaterThan4']})).to.equal(false);
               let context = {count: 4};
               expect(model.get('errors').errorsFor('anIntegerGreaterThan4').mapBy('message')[0][0]).to.equal(formater.formatMessage(Messages.numericalityGreaterThanMessage, context));
@@ -237,7 +239,7 @@ describe('ModelValidatorMixin', function() {
         describe('`greaterThanOrEqualTo` option', function() {
           it('validates that the number is `greater than or equal` to the specified value', function() {
             var model = this.subject({anIntegerGreaterThanOrEqual7:2});
-            Ember.run(function() {
+            run(function() {
               expect(model.validate({only:['anIntegerGreaterThanOrEqual7']})).to.equal(false);
               let context = {count: 7};
               expect(model.get('errors').errorsFor('anIntegerGreaterThanOrEqual7').mapBy('message')[0][0]).to.equal(formater.formatMessage(Messages.numericalityGreaterThanOrEqualToMessage, context));
@@ -248,7 +250,7 @@ describe('ModelValidatorMixin', function() {
         describe('`equalTo` option', function() {
           it('validates that the number is `greater than or equal` to the specified value', function() {
             var model = this.subject({aTenNumber:2});
-            Ember.run(function() {
+            run(function() {
               expect(model.validate({only:['aTenNumber']})).to.equal(false);
               let context = {count: 10};
               expect(model.get('errors').errorsFor('aTenNumber').mapBy('message')[0][0]).to.equal(formater.formatMessage(Messages.numericalityEqualToMessage, context));
@@ -259,7 +261,7 @@ describe('ModelValidatorMixin', function() {
         describe('`lessThan` option', function() {
           it('validates that the number is `less than` the specified value', function() {
             var model = this.subject({anIntegerLessThan4:5});
-            Ember.run(function() {
+            run(function() {
               expect(model.validate({only:['anIntegerLessThan4']})).to.equal(false);
               let context = {count: 4};
               expect(model.get('errors').errorsFor('anIntegerLessThan4').mapBy('message')[0][0]).to.equal(formater.formatMessage(Messages.numericalityLessThanMessage, context));
@@ -270,7 +272,7 @@ describe('ModelValidatorMixin', function() {
         describe('`lessThanOrEqualTo` option', function() {
           it('validates that the number is `less than or equal` to the specified value', function() {
             var model = this.subject({anIntegerLessThanOrEqual6:8});
-            Ember.run(function() {
+            run(function() {
               expect(model.validate({only:['anIntegerLessThanOrEqual6']})).to.equal(false);
               let context = {count: 6};
               expect(model.get('errors').errorsFor('anIntegerLessThanOrEqual6').mapBy('message')[0][0]).to.equal(formater.formatMessage(Messages.numericalityLessThanOrEqualToMessage, context));
@@ -281,7 +283,7 @@ describe('ModelValidatorMixin', function() {
         describe('`odd` option', function() {
           it('validates that the number is `odd`', function() {
             var model = this.subject({anOddNumber:2});
-            Ember.run(function() {
+            run(function() {
               expect(model.validate({only:['anOddNumber']})).to.equal(false);
               expect(model.get('errors').errorsFor('anOddNumber').mapBy('message')[0][0]).to.equal(Messages.numericalityOddMessage);
             });
@@ -291,7 +293,7 @@ describe('ModelValidatorMixin', function() {
         describe('`even` option', function() {
           it('validates that the number is `even`', function() {
             var model = this.subject({anEvenNumber:3});
-            Ember.run(function() {
+            run(function() {
               expect(model.validate({only:['anEvenNumber']})).to.equal(false);
               expect(model.get('errors').errorsFor('anEvenNumber').mapBy('message')[0][0]).to.equal(Messages.numericalityEvenMessage);
             });
@@ -302,21 +304,21 @@ describe('ModelValidatorMixin', function() {
       describe('Date Validator', function(){
         it('validates a date object', function(){
           var model = this.subject({date: new Date('a')});
-          Ember.run(function(){
+          run(function(){
             expect(model.validate({only: ['date']})).to.equal(false);
             expect(model.get('errors').errorsFor('date').mapBy('message')[0][0]).to.equal(Messages.dateMessage);
           });
         });
         it('validates a date string', function(){
           var model = this.subject({stringDate: '2015-13-1'});
-          Ember.run(function(){
+          run(function(){
             expect(model.validate({only: ['stringDate']})).to.equal(false);
             expect(model.get('errors').errorsFor('stringDate').mapBy('message')[0][0]).to.equal(Messages.dateMessage);
           });
         });
         it('validates that the date is `before` the specified value', function(){
           var model = this.subject({dateBefore2015: '2015-10-31'});
-          Ember.run(function(){
+          run(function(){
             expect(model.validate({only: ['dateBefore2015']})).to.equal(false);
             let context = {date: new Date(2015, 1, 1)};
             expect(model.get('errors').errorsFor('dateBefore2015').mapBy('message')[0][0]).to.equal(formater.formatMessage(Messages.dateBeforeMessage, context));
@@ -324,7 +326,7 @@ describe('ModelValidatorMixin', function() {
         });
         it('validates that the date is `after` the specified value', function(){
           var model = this.subject({dateAfter2014: '2015-01-01'});
-          Ember.run(function(){
+          run(function(){
             expect(model.validate({only: ['dateAfter2014']})).to.equal(false);
             let context = {date: new Date(2014, 12, 31)};
             expect(model.get('errors').errorsFor('dateAfter2014').mapBy('message')[0][0]).to.equal(formater.formatMessage(Messages.dateAfterMessage, context));
@@ -337,7 +339,7 @@ describe('ModelValidatorMixin', function() {
           describe('when is set to a number', function() {
             it('validates the length of the attributes set on `validations.length`', function() {
               var model = this.subject({socialSecurity:123});
-              Ember.run(function() {
+              run(function() {
                 expect(model.validate({only:['socialSecurity']})).to.equal(false);
                 let context = {count: 5};
                 expect(model.get('errors').errorsFor('socialSecurity').mapBy('message')[0][0]).to.equal(formater.formatMessage(Messages.wrongLengthMessage, context));
@@ -348,7 +350,7 @@ describe('ModelValidatorMixin', function() {
           describe('when `is` is used to set the number', function() {
             it('validates the length of the attributes set on `validations.length`', function() {
               var model = this.subject({chuncaluchoNumber:123});
-              Ember.run(function() {
+              run(function() {
                 expect(model.validate({only:['chuncaluchoNumber']})).to.equal(false);
                 expect(model.get('errors').errorsFor('chuncaluchoNumber').mapBy('message')[0][0]).to.equal('this is not the length of a chuncalucho');
               });
@@ -358,7 +360,7 @@ describe('ModelValidatorMixin', function() {
           describe('when `message` is set for `minimum` or `maximum` option', function() {
             it('validates the length of the attributes set on `validations.length`', function() {
               var model = this.subject({theMinimunmTwoNumber:'1'});
-              Ember.run(function() {
+              run(function() {
                 expect(model.validate({only:['theMinimunmTwoNumber']})).to.equal(false);
                 expect(model.get('errors').errorsFor('theMinimunmTwoNumber').mapBy('message')[0][0]).to.equal('please it has to be minimum 2 come on man!!');
               });
@@ -371,7 +373,7 @@ describe('ModelValidatorMixin', function() {
           describe('when is set to an array', function() {
             it('validates the length of the attributes set on `validations.length`', function() {
               var model = this.subject({nsaNumber:12});
-              Ember.run(function() {
+              run(function() {
                 expect(model.validate({only:['nsaNumber']})).to.equal(false);
                 let context = {count: 3};
                 expect(model.get('errors').errorsFor('nsaNumber').mapBy('message')[0][0]).to.equal(formater.formatMessage(Messages.tooShortMessage, context));
@@ -382,7 +384,7 @@ describe('ModelValidatorMixin', function() {
           describe('when is set using `minimum` and `maximum` keys', function() {
             it('validates the length of the attributes set on `validations.length`', function() {
               var model = this.subject({hugeName:123456});
-              Ember.run(function() {
+              run(function() {
                 expect(model.validate({only:['hugeName']})).to.equal(false);
                 let context = {count: 5};
                 expect(model.get('errors').errorsFor('hugeName').mapBy('message')[0][0]).to.equal(formater.formatMessage(Messages.tooLongMessage, context));
@@ -396,7 +398,7 @@ describe('ModelValidatorMixin', function() {
       describe('Password validations', function() {
         it('accepts a string that meets all validation requirements', function() {
           var model = this.subject({ password: 'k$1hkjGd', passwordConfirmation: 'k$1hkjGd' });
-          Ember.run(function() {
+          run(function() {
             expect(model.validate({only:['password']})).to.equal(true);
           });
         });
@@ -404,7 +406,7 @@ describe('ModelValidatorMixin', function() {
         describe('capital character validation', function() {
           it('rejects a string that does not contain a capital character', function() {
             var model = this.subject({ password: 'k$1hkjgd' });
-            Ember.run(function() {
+            run(function() {
               expect(model.validate({ only:['password'] })).to.equal(false);
             });
           });
@@ -413,7 +415,7 @@ describe('ModelValidatorMixin', function() {
         describe('lower case character validation', function() {
           it('rejects a string that does not contain a lower case character', function() {
             var model = this.subject({ password: 'k$1hkjgd' });
-            Ember.run(function() {
+            run(function() {
               expect(model.validate({ only:['password'] })).to.equal(false);
             });
           });
@@ -422,7 +424,7 @@ describe('ModelValidatorMixin', function() {
         describe('special character validation', function() {
           it('rejects a string that does not contain a special character', function() {
             var model = this.subject({ password: 'kW1hkjgd' });
-            Ember.run(function() {
+            run(function() {
               expect(model.validate({ only:['password'] })).to.equal(false);
             });
           });
@@ -431,7 +433,7 @@ describe('ModelValidatorMixin', function() {
         describe('number validation', function() {
           it('rejects a string that does not contain a number', function() {
             var model = this.subject({ password: 'k$Whkjgd' });
-            Ember.run(function() {
+            run(function() {
               expect(model.validate({ only:['password'] })).to.equal(false);
             });
           });
@@ -445,7 +447,7 @@ describe('ModelValidatorMixin', function() {
                 store = model.get('store'),
                 otherFakes = null;
 
-            Ember.run(function() {
+            run(function() {
               otherFakes = model.get('otherFakes');
 
               otherFakes.pushObject(store.createRecord('other-model'));
@@ -460,7 +462,7 @@ describe('ModelValidatorMixin', function() {
             var model = this.subject({email:'thiisagoo@email.con',name:'Jose Rene Higuita'}),
                 store = model.get('store');
 
-            Ember.run(function() {
+            run(function() {
               model.set('otherFake',store.createRecord('other-model'));
               expect(model.validate({only:['otherFake']})).to.equal(false);
               expect(model.get('otherFake.errors').errorsFor('name').mapBy('message')[0][0]).to.equal(Messages.presenceMessage);
@@ -474,7 +476,7 @@ describe('ModelValidatorMixin', function() {
 
         it('returns false when the attribute value is not in the list of acceptable values', function(){
           var model = this.subject({ acceptConditions: 10});
-          Ember.run(function(){
+          run(function(){
             expect(model.validate({only:['acceptConditions']})).to.equal(false);
           });
         });
@@ -485,7 +487,7 @@ describe('ModelValidatorMixin', function() {
 
         it('validates the presence of the attributes set on `validations.presence` and use the correct message', function() {
           var model = this.subject({bussinessEmail:''});
-          Ember.run(function() {
+          run(function() {
             expect(model.validate()).to.equal(false);
             expect(model.get('errors').errorsFor('bussinessEmail').mapBy('message')[0][0]).to.equal(model.validations.bussinessEmail.presence.message);
           });
@@ -493,7 +495,7 @@ describe('ModelValidatorMixin', function() {
 
         it('validates the truthyness of user func for `validations.custom` and use the correct message', function() {
           var model = this.subject({lotteryNumber: 777, favoriteColor: null});
-          Ember.run(function() {
+          run(function() {
             expect(model.validate()).to.equal(false);
             expect(model.get('errors').errorsFor('lotteryNumber').mapBy('message')[0][0]).to.equal(model.validations.lotteryNumber.custom.message);
           });
@@ -501,7 +503,7 @@ describe('ModelValidatorMixin', function() {
 
         it('validates the email format of the attributes set on `validations.email` and use the correct message', function() {
           var model = this.subject({bussinessEmail:'adsfasdf$'});
-          Ember.run(function() {
+          run(function() {
             expect(model.validate()).to.equal(false);
             expect(model.get('errors').errorsFor('bussinessEmail').mapBy('message')[0][0]).to.equal(model.validations.bussinessEmail.email.message);
           });
@@ -509,7 +511,7 @@ describe('ModelValidatorMixin', function() {
 
         it('validates the color format of the attributes set on `validations.color` and use the correct message', function() {
           var model = this.subject({favoriteColor:'adsfasdf$'});
-          Ember.run(function() {
+          run(function() {
             expect(model.validate()).to.equal(false);
             expect(model.get('errors').errorsFor('favoriteColor').mapBy('message')[0][0]).to.equal(model.validations.favoriteColor.color.message);
           });
@@ -517,7 +519,7 @@ describe('ModelValidatorMixin', function() {
 
         it('validates the subdomain format of the attributes set on `validations.subdomain` and use the correct message', function() {
           var model = this.subject({mySubdomain:'with space'});
-          Ember.run(function() {
+          run(function() {
             expect(model.validate()).to.equal(false);
             expect(model.get('errors').errorsFor('mySubdomain').mapBy('message')[0][0]).to.equal(model.validations.mySubdomain.subdomain.message);
           });
@@ -525,7 +527,7 @@ describe('ModelValidatorMixin', function() {
 
         it('validates the subdomain reserved words of the attributes set on `validations.subdomain` and use the correct message', function() {
           var model = this.subject({mySubdomain:'admin'});
-          Ember.run(function() {
+          run(function() {
             expect(model.validate()).to.equal(false);
             expect(model.get('errors').errorsFor('mySubdomain').mapBy('message')[0][0]).to.equal(model.validations.mySubdomain.subdomain.message);
           });
@@ -533,7 +535,7 @@ describe('ModelValidatorMixin', function() {
 
         it('validates the format of the attributes set on `validations.format` and use the correct message', function() {
           var model = this.subject({mainstreamCode: 3123123});
-          Ember.run(function() {
+          run(function() {
             expect(model.validate()).to.equal(false);
             expect(model.get('errors').errorsFor('mainstreamCode').mapBy('message')[0][0]).to.equal(model.validations.mainstreamCode.format.message);
           });
@@ -541,7 +543,7 @@ describe('ModelValidatorMixin', function() {
 
         it('validates the inclusion of the attributes set on `validations.inclusion` and use the correct message', function() {
           var model = this.subject({name:'adsfasdf$'});
-          Ember.run(function() {
+          run(function() {
             expect(model.validate()).to.equal(false);
             expect(model.get('errors').errorsFor('name').mapBy('message')[0][0]).to.equal(model.validations.name.inclusion.message);
           });
@@ -549,7 +551,7 @@ describe('ModelValidatorMixin', function() {
 
         it('validates the exclusion of the attributes set on `validations.exclusion` and use the correct message', function() {
           var model = this.subject({secondName:'Wilder Medina'});
-          Ember.run(function() {
+          run(function() {
             expect(model.validate()).to.equal(false);
             expect(model.get('errors').errorsFor('secondName').mapBy('message')[0][0]).to.equal(model.validations.secondName.exclusion.message);
           });
@@ -557,7 +559,7 @@ describe('ModelValidatorMixin', function() {
 
         it('validates the numericality of the attributes set on `validations.numericality`', function() {
           var model = this.subject({alibabaNumber:'adsfasdf$'});
-          Ember.run(function() {
+          run(function() {
             expect(model.validate()).to.equal(false);
             expect(model.get('errors').errorsFor('alibabaNumber').mapBy('message')[0][0]).to.equal(model.validations.alibabaNumber.numericality.message);
           });
@@ -568,7 +570,7 @@ describe('ModelValidatorMixin', function() {
           describe('and function returns a string',function(){
             it('set error message using the function return', function(){
               var model = this.subject({otherCustomValidation: 123456 });
-              Ember.run(function() {
+              run(function() {
                 expect(model.validate()).to.equal(false);
                 expect(model.get('errors').errorsFor('otherCustomValidation').mapBy('message')[0][0]).to
                   .equal(`otherCustomValidation must have exactly 5 digits, value ${model.get('otherCustomValidation')} does not`);
@@ -579,7 +581,7 @@ describe('ModelValidatorMixin', function() {
           describe('and function does not return a string', function() {
             it('set error message to default message', function(){
               var model = this.subject({otherCustomValidationBadMessageFunction: 123456 });
-              Ember.run(function() {
+              run(function() {
                 expect(model.validate()).to.equal(false);
                 expect(model.get('errors').errorsFor('otherCustomValidationBadMessageFunction').mapBy('message')[0][0]).to.equal(Messages.customValidationMessage);
               });
@@ -593,7 +595,7 @@ describe('ModelValidatorMixin', function() {
         it('validates the presence of the attributes set on `validations.presence` and add errors to `errorAs`', function() {
           var model = this.subject(),
               errorAs = model.validations.name.presence.errorAs;
-          Ember.run(function() {
+          run(function() {
             expect(model.validate()).to.equal(false);
             expect(model.get('errors').errorsFor(errorAs).mapBy('message')[0][0]).to.equal(Messages.presenceMessage);
           });
@@ -606,7 +608,7 @@ describe('ModelValidatorMixin', function() {
         it('it clean the errors', function() {
           var model = this.subject({email:'adsfasdf$',name:'Jose Rene',lotteryNumber:124,alibabaNumber:33,legacyCode:'abc', acceptConditions: 1, password: 'k$1hkjGd', favoriteColor: 'FFFFFF', socialSecurity: 12312}),
               store = model.get('store');
-          Ember.run(function() {
+          run(function() {
             expect(model.validate()).to.equal(false);
             var asyncModel = store.createRecord('async-model');
             var otherFake = store.createRecord('other-model',{name:'aaa',email:'aaa@aa.com'});
@@ -625,7 +627,7 @@ describe('ModelValidatorMixin', function() {
 
         it('it validates all the attributes but does not add errors', function() {
           var model = this.subject({email:'adsfasdf$',name:'Jose Rene',lotteryNumber:124,alibabaNumber:33,legacyCode:'abc', acceptConditions: 1, password: 'k$1hkjGd', favoriteColor: 'FFFFFF', socialSecurity: 12312});
-          Ember.run(function() {
+          run(function() {
             model.set('password','k$1hkjGd');
             model.set('passwordConfirmation','k$1hkjGd');
             expect(model.validate({addErrors: false})).to.equal(false);
@@ -640,7 +642,7 @@ describe('ModelValidatorMixin', function() {
 
         it('it validates all the attributes except the ones specifed', function() {
           var model = this.subject({email:'adsfasdf$',name:'Jose Rene',lotteryNumber:124,alibabaNumber:33,legacyCode:'abc', acceptConditions: 1, password: 'k$1hkjGd', favoriteColor: 'FFFFFF', socialSecurity: 12312});
-          Ember.run(function() {
+          run(function() {
             model.set('password','k$1hkjGd');
             model.set('passwordConfirmation','k$1hkjGd');
             model.set('email','rene@higuita.com');
@@ -656,7 +658,7 @@ describe('ModelValidatorMixin', function() {
 
         it('it validates only the attributes specifed', function() {
           var model = this.subject({email:'adsfasdf$',name:'Jose Rene',lotteryNumber:124,alibabaNumber:33,legacyCode:'abc'});
-          Ember.run(function() {
+          run(function() {
             expect(model.validate()).to.equal(false);
             model.set('email','user.name+1@gmail.com');
             expect(model.validate({only:['email']})).to.equal(true);

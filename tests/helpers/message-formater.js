@@ -1,10 +1,6 @@
-import Ember from 'ember';
+import EmberObject, { get } from '@ember/object';
 
-const {
-  get
-} = Ember;
-
-export default Ember.Object.extend({
+export default EmberObject.extend({
   _regex: /\{(\w+)\}/g,
 
   formatMessage(message, context = {}) {

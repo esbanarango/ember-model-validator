@@ -1,14 +1,11 @@
 /* global Prism*/
-import Ember from 'ember';
+import Component from '@ember/component';
 
-const {
-  observer,
-  computed,
-  computed: { equal },
-  run
-} = Ember;
+import { computed, observer } from '@ember/object';
+import { equal } from '@ember/object/computed';
+import { run } from '@ember/runloop';
 
-export default Ember.Component.extend({
+export default Component.extend({
   valid: equal('errors.length', 0),
 
   init: function () {

@@ -1,16 +1,16 @@
 /* jshint expr:true */
+import EmberObject from '@ember/object';
 import { expect } from 'chai';
 import {
   describe,
   it
 } from 'mocha';
-import Ember from 'ember';
 import ObjectValidatorMixin from 'ember-model-validator/mixins/object-validator';
 import Messages from 'ember-model-validator/messages/pt-br';
 
 describe('ObjectValidatorMixin', function() {
   it('Validator on Simple Object', function() {
-    var ValidatorObject = Ember.Object.extend(ObjectValidatorMixin, {
+    var ValidatorObject = EmberObject.extend(ObjectValidatorMixin, {
       name: null,
 
       locale: 'pt-br',

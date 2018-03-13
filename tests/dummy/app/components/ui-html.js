@@ -1,8 +1,9 @@
-import Ember from 'ember';
+import { later } from '@ember/runloop';
+import Component from '@ember/component';
 
 const copyMessage = "Copy Code";
 
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: ['html'],
   classNameBindings: ['showing:ui', 'showing:top', 'showing:attached', 'showing:segment'],
 
@@ -11,11 +12,11 @@ export default Ember.Component.extend({
   actions: {
     copied() {
       this.set('copyMessage', 'Copied to Clipboard');
-      Ember.run.later(this, () => this.set('copyMessage', copyMessage), 1000);
+      later(this, () => this.set('copyMessage', copyMessage), 1000);
     },
     copyError() {
       this.set('copyMessage', 'There was an error copying to Clipboard');
-      Ember.run.later(this, () => this.set('copyMessage', copyMessage), 1000);
+      later(this, () => this.set('copyMessage', copyMessage), 1000);
     }
   }
 
