@@ -808,15 +808,6 @@ Set `validatorDefaultLocale` in your config enviroment a language, for now it's 
 ...
 ```
 
-## Donating
-
-Support this project and [others by esbanarango][gratipay-esbanarango] via [gratipay][gratipay-esbanarango].
-
-[![Support via Gratipay][gratipay]][gratipay-esbanarango]
-
-[gratipay]: https://cdn.rawgit.com/gratipay/gratipay-badge/2.3.0/dist/gratipay.png
-[gratipay-esbanarango]: https://gratipay.com/esbanarango/
-
 ## Running Tests
 
 * `npm test` (Runs `ember try:each` to test your addon against multiple Ember versions)
@@ -824,6 +815,7 @@ Support this project and [others by esbanarango][gratipay-esbanarango] via [grat
 * `ember test --server`
 
 ## Support on Beerpay
+
 Hey dude! Help me out for a couple of :beers:!
 
-[![Beerpay](https://beerpay.io/esbanarango/ember-model-validator/badge.svg?style=beer-square)](https://beerpay.io/esbanarango/ember-model-validator)  [![Beerpay](https://beerpay.io/esbanarango/ember-model-validator/make-wish.svg?style=flat-square)](https://beerpay.io/esbanarango/ember-model-validator?focus=wish)
+[![Beerpay](https://beerpay.io/esbanarango/ember-model-validator/badge.svg?style=beer-square)](https://beerpay.io/esbanarango/ember-model-validator) [![Beerpay](https://beerpay.io/esbanarango/ember-model-validator/make-wish.svg?style=flat-square)](https://beerpay.io/esbanarango/ember-model-validator?focus=wish)
