@@ -12,13 +12,15 @@ describe('ObjectValidatorMixin', function() {
   it('Validator on Simple Object', function() {
     var ValidatorObject = EmberObject.extend(ObjectValidatorMixin, {
       name: null,
-
       locale: 'pt-br',
 
-      validations: {
-        name: {
-          presence: true
-        }
+      init() {
+        this._super(...arguments);
+        this.validations = {
+          name: {
+            presence: true
+          }
+        };
       }
     });
     var subject = ValidatorObject.create({name: ''});

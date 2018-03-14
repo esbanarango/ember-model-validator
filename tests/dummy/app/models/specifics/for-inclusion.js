@@ -1,12 +1,16 @@
-import DS from 'ember-data';
+import Model from 'ember-data/model';
+import attr from 'ember-data/attr';
 import Validator from '../../mixins/model-validator';
 
-export default DS.Model.extend(Validator,{
-  playerName: DS.attr('string'),
+export default Model.extend(Validator, {
+  playerName: attr('string'),
 
-  validations: {
-    playerName: {
-      inclusion: { in: ['Jose Rene', 'Aristi Gol', 'Armani'] }
-    }
+  init() {
+    this._super(...arguments);
+    this.validations = {
+      playerName: {
+        inclusion: { in: ['Jose Rene', 'Aristi Gol', 'Armani'] }
+      }
+    };
   }
 });

@@ -1,12 +1,16 @@
-import DS from 'ember-data';
+import Model from 'ember-data/model';
+import attr from 'ember-data/attr';
 import Validator from '../../mixins/model-validator';
 
-export default DS.Model.extend(Validator,{
-  companySubdomain: DS.attr('string'),
+export default Model.extend(Validator,{
+  companySubdomain: attr('string'),
 
-  validations: {
-    companySubdomain:{
-      subdomain:{ reserved:['admin','blog'] }
-    }
+  init() {
+    this._super(...arguments);
+    this.validations = {
+      companySubdomain:{
+        subdomain:{ reserved:['admin','blog'] }
+      }
+    };
   }
 });

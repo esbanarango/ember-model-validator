@@ -1,12 +1,16 @@
-import DS from 'ember-data';
+import Model from 'ember-data/model';
+import attr from 'ember-data/attr';
 import Validator from '../../mixins/model-validator';
 
-export default DS.Model.extend(Validator,{
-  postalCode: DS.attr('string'),
+export default Model.extend(Validator, {
+  postalCode: attr('string'),
 
-  validations: {
-    postalCode:{
-      zipCode: true
-    }
+  init() {
+    this._super(...arguments);
+    this.validations = {
+      postalCode: {
+        zipCode: true
+      }
+    };
   }
 });

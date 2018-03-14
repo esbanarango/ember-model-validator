@@ -1,23 +1,27 @@
-import DS from 'ember-data';
+import Model from 'ember-data/model';
+import attr from 'ember-data/attr';
 import Validator from '../../mixins/model-validator';
 
-export default DS.Model.extend(Validator,{
-  email: DS.attr('boolean'),
-  confirmationEmail: DS.attr('boolean'),
-  password: DS.attr('boolean'),
-  passwordConfirmation: DS.attr('boolean'),
+export default Model.extend(Validator, {
+  email: attr('boolean'),
+  confirmationEmail: attr('boolean'),
+  password: attr('boolean'),
+  passwordConfirmation: attr('boolean'),
 
-  validations: {
-    email:{
-      match: 'confirmationEmail',
-      presence: true
-    },
-    password:{
-      match: {
-        attr: 'passwordConfirmation',
-        message: 'sup, it is not the same!'
+  init() {
+    this._super(...arguments);
+    this.validations = {
+      email: {
+        match: 'confirmationEmail',
+        presence: true
       },
-      presence: true
-    }
+      password: {
+        match: {
+          attr: 'passwordConfirmation',
+          message: 'sup, it is not the same!'
+        },
+        presence: true
+      }
+    };
   }
 });

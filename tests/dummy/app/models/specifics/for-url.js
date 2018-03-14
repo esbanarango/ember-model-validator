@@ -1,12 +1,16 @@
-import DS from 'ember-data';
+import Model from 'ember-data/model';
+import attr from 'ember-data/attr';
 import Validator from '../../mixins/model-validator';
 
-export default DS.Model.extend(Validator,{
-  blogUrl: DS.attr('string'),
+export default Model.extend(Validator,{
+  blogUrl: attr('string'),
 
-  validations: {
-    blogUrl: {
-      URL: true
-    }
+  init() {
+    this._super(...arguments);
+    this.validations = {
+      blogUrl: {
+        URL: true
+      }
+    };
   }
 });

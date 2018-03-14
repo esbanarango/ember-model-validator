@@ -1,12 +1,16 @@
-import DS from 'ember-data';
+import Model from 'ember-data/model';
+import attr from 'ember-data/attr';
 import Validator from '../../mixins/model-validator';
 
-export default DS.Model.extend(Validator,{
-  autoGenerate: DS.attr('string'),
+export default Model.extend(Validator, {
+  autoGenerate: attr('string'),
 
-  validations: {
-    autoGenerate: {
-      absence: true
-    }
+  init() {
+    this._super(...arguments);
+    this.validations = {
+      autoGenerate: {
+        absence: true
+      }
+    };
   }
 });

@@ -6,13 +6,13 @@ export default Controller.extend({
   // Services
   store: service(),
 
-  messages: Messages,
   modelValid: true,
 
   init: function () {
     this._super();
     let model = this.get('store').createRecord(`specifics.${this.get('modelName')}`);
     this.set('model', model);
+    this.messages = Messages;
   },
 
   actions:{

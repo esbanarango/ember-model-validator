@@ -1,12 +1,16 @@
-import DS from 'ember-data';
+import Model from 'ember-data/model';
+import attr from 'ember-data/attr';
 import Validator from '../../mixins/model-validator';
 
-export default DS.Model.extend(Validator,{
-  favoriteColor: DS.attr('string'),
+export default Model.extend(Validator, {
+  favoriteColor: attr('string'),
 
-  validations: {
-    favoriteColor: {
-      color: true
-    }
+  init() {
+    this._super(...arguments);
+    this.validations = {
+      favoriteColor: {
+        color: true
+      }
+    };
   }
 });

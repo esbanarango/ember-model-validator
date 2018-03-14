@@ -1,18 +1,21 @@
-import DS from 'ember-data';
+import Model from 'ember-data/model';
+import attr from 'ember-data/attr';
 import Validator from '../../mixins/model-validator';
 
-export default DS.Model.extend(Validator,{
-  fullName: DS.attr('string'),
-  fruit: DS.attr('string'),
-  color: DS.attr('string'),
+export default Model.extend(Validator, {
+  fullName: attr('string'),
+  fruit: attr('string'),
+  color: attr('string'),
 
-  validations: {
-    fullName:{
-      presence: true
-    },
-    fruit:{
-      presence: true
-    }
+  init() {
+    this._super(...arguments);
+    this.validations = {
+      fullName: {
+        presence: true
+      },
+      fruit: {
+        presence: true
+      }
+    };
   }
-
 });

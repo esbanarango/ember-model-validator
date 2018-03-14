@@ -1,21 +1,21 @@
-import DS from 'ember-data';
+import Model from 'ember-data/model';
+import attr from 'ember-data/attr';
+import { belongsTo } from 'ember-data/relationships';
 import Validator from '../../mixins/model-validator';
 
-const {
-  belongsTo,
-  attr
-} = DS;
-
-export default DS.Model.extend(Validator,{
+export default Model.extend(Validator, {
   relationYeah: belongsTo('specifics.for-presence'),
   happyWithMyRelation: attr('boolean'),
 
-  validations: {
-    happyWithMyRelation: {
-      acceptance: true
-    },
-    relationYeah:{
-      relations: ['belongsTo']
-    }
+  init() {
+    this._super(...arguments);
+    this.validations = {
+      happyWithMyRelation: {
+        acceptance: true
+      },
+      relationYeah: {
+        relations: ['belongsTo']
+      }
+    };
   }
 });
