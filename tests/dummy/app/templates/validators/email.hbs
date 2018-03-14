@@ -1,19 +1,14 @@
 <div class="ui masthead vertical segment">
   <div class="ui container">
     <div class="introduction">
-
       <h1 class="ui header">
         Email
-
         <div class="sub header">
           Validates that the specified attribute is a well formatted email address.
         </div>
       </h1>
-
       <div class="ui hidden divider"></div>
-
     </div>
-
   </div>
 </div>
 
@@ -27,9 +22,7 @@ validations: {
 }
     {{/ui-annotation}}
   </p>
-
   {{config-options defaultMessage=messages.presenceMessage}}
-
   {{#ui-example
     header="Examples"
     as |showing setCopyCode|}}
@@ -61,11 +54,12 @@ validations: {
     {{/ui-html}}
 
     {{#ui-annotation showing=showing type="javascript" setCopyCode=setCopyCode}}
-import DS from 'ember-data';
+import Model from 'ember-data/model';
+import attr from 'ember-data/attr';
 import Validator from '../mixins/model-validator';
 
-export default DS.Model.extend(Validator,{
-  emailAddress: DS.attr('string'),
+export default Model.extend(Validator, {
+  emailAddress: attr('string'),
 
   validations: {
     emailAddress: {
@@ -74,6 +68,5 @@ export default DS.Model.extend(Validator,{
   }
 });
     {{/ui-annotation}}
-
   {{/ui-example}}
 </div>

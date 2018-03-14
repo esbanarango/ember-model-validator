@@ -1,19 +1,14 @@
 <div class="ui masthead vertical segment">
   <div class="ui container">
     <div class="introduction">
-
       <h1 class="ui header">
         Length
-
         <div class="sub header">
           Validates the length of the attributes' values. It provides a variety of options, so you can specify length constraints in different ways.
         </div>
       </h1>
-
       <div class="ui hidden divider"></div>
-
     </div>
-
   </div>
 </div>
 
@@ -39,13 +34,13 @@
     chuncaluchoNumber: {
       length: { is: 10, message: 'this is not the length of a chuncalucho' }
     },
-    hugeName:{
+    hugeName: {
       length: {
         minimum: 3,
         maximum: 5
       }
     },
-    smallName:{
+    smallName: {
       length: {
         minimum: 1,
         maximum: {
@@ -108,15 +103,16 @@
     {{/ui-html}}
 
     {{#ui-annotation showing=showing type="javascript" setCopyCode=setCopyCode}}
-import DS from 'ember-data';
+import Model from 'ember-data/model';
+import attr from 'ember-data/attr';
 import Validator from '../mixins/model-validator';
 
-export default DS.Model.extend(Validator,{
-  socialSecurity: DS.attr('string'),
-  nsaNumber: DS.attr('string'),
-  chuncaluchoNumber: DS.attr('string'),
-  hugeName: DS.attr('string'),
-  smallName: DS.attr('string'),
+export default Model.extend(Validator, {
+  chuncaluchoNumber: attr('string'),
+  socialSecurity: attr('string'),
+  nsaNumber: attr('string'),
+  hugeName: attr('string'),
+  smallName: attr('string'),
 
   validations: {
     socialSecurity: {
@@ -128,13 +124,13 @@ export default DS.Model.extend(Validator,{
     chuncaluchoNumber: {
       length: { is: 10, message: 'this is not the length of a chuncalucho' }
     },
-    hugeName:{
+    hugeName: {
       length: {
         minimum: 3,
         maximum: 5
       }
     },
-    smallName:{
+    smallName: {
       length: {
         minimum: 1,
         maximum: {

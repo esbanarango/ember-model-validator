@@ -1,19 +1,14 @@
 <div class="ui masthead vertical segment">
   <div class="ui container">
     <div class="introduction">
-
       <h1 class="ui header">
         Date
-
         <div class="sub header">
           Validates that the attributes' values are before the specified date or after it.
         </div>
       </h1>
-
       <div class="ui hidden divider"></div>
-
     </div>
-
   </div>
 </div>
 
@@ -26,23 +21,21 @@
     </ul>
 
     {{#ui-annotation showing=true type="javascript"}}
-  validations: {
-    birthdate: {
-      date: {
-        before: new Date()
-      }
-    },
-    graduationDate: {
-      date: {
-        after: '2015-01-01'
-      }
+validations: {
+  birthdate: {
+    date: {
+      before: new Date()
+    }
+  },
+  graduationDate: {
+    date: {
+      after: '2015-01-01'
     }
   }
+}
     {{/ui-annotation}}
   </p>
-
   {{config-options defaultMessage=messages.wrongLengthMessage}}
-
   {{#ui-example
     header="Examples"
     as |showing setCopyCode|}}
@@ -50,7 +43,6 @@
     {{#ui-html showing=showing}}
       <div class="ui two column grid">
         <div class="column">
-
           {{#object-form for=model classNames="segment"}}
             <div class="disabled  field">
               <label>Academic degree</label>
@@ -85,7 +77,6 @@
               </div>
             </div>
           {{/object-form}}
-
         </div>
         <div class="column">
           <div class="ui segment">
@@ -96,12 +87,13 @@
     {{/ui-html}}
 
     {{#ui-annotation showing=showing type="javascript" setCopyCode=setCopyCode}}
-import DS from 'ember-data';
+import Model from 'ember-data/model';
+import attr from 'ember-data/attr';
 import Validator from '../mixins/model-validator';
 
-export default DS.Model.extend(Validator,{
-  birthdate: DS.attr('date'),
-  graduationDate: DS.attr('date'),
+export default Model.extend(Validator, {
+  birthdate: attr('date'),
+  graduationDate: attr('date'),
 
   validations: {
     birthdate: {
@@ -117,6 +109,5 @@ export default DS.Model.extend(Validator,{
   }
 });
     {{/ui-annotation}}
-
   {{/ui-example}}
 </div>

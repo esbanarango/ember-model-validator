@@ -1,23 +1,17 @@
 <div class="ui masthead vertical segment">
   <div class="ui container">
     <div class="introduction">
-
       <h1 class="ui header">
         Relations
-
         <div class="sub header">
           This validator will run the <strong>validate()</strong> function for the specific relation. If it's a <code class="ui label">DS.hasMany</code> relation then it will loop through all objects.
         </div>
       </h1>
-
       <div class="ui hidden divider"></div>
-
       <p>
-        The relations have to be embedded or the <a href="http://emberjs.com/api/data/classes/DS.EmbeddedRecordsMixin.html"><code class="ui label">embedded</code></a> has to be already resolved.
+        The relations have to be embedded or the <a href="https://emberjs.com/api/ember-data/release/classes/DS.EmbeddedRecordsMixin"><code class="ui label">embedded</code></a> has to be already resolved.
       </p>
-
     </div>
-
   </div>
 </div>
 
@@ -26,10 +20,10 @@
 
     {{#ui-annotation showing=true type="javascript"}}
 validations: {
-  myHasManyRelation:{
+  myHasManyRelation: {
     relations: ['hasMany']
   },
-  myBelongsToRelation:{
+  myBelongsToRelation: {
     relations: ['belongsTo']
   }
 }
@@ -104,15 +98,12 @@ validations: {
     {{/ui-html}}
 
     {{#ui-annotation showing=showing type="javascript" setCopyCode=setCopyCode}}
-import DS from 'ember-data';
+import Model from 'ember-data/model';
+import attr from 'ember-data/attr';
+import { belongsTo } from 'ember-data/relationships';
 import Validator from '../mixins/model-validator';
 
-const {
-  belongsTo,
-  attr
-} = DS;
-
-export default DS.Model.extend(Validator,{
+export default Model.extend(Validator, {
   relationYeah: belongsTo('another-model'),
   happyWithMyRelation: attr('boolean'),
 
@@ -120,12 +111,11 @@ export default DS.Model.extend(Validator,{
     happyWithMyRelation: {
       acceptance: true
     },
-    relationYeah:{
+    relationYeah: {
       relations: ['belongsTo']
     }
   }
 });
-
     {{/ui-annotation}}
 
   {{/ui-example}}

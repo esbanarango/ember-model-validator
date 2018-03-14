@@ -1,23 +1,17 @@
 <div class="ui masthead vertical segment">
   <div class="ui container">
     <div class="introduction">
-
       <h1 class="ui header">
         ZIP Code
-
         <div class="sub header">
           Validates the attributes' values by testing whether they match a valid zipcode
         </div>
       </h1>
-
       <div class="ui hidden divider"></div>
-
       <p>
         Countries supported and regular expressions used can be found in <a href="https://github.com/esbanarango/ember-model-validator/blob/master/addon/postal-codes-regex.js">postal-codes-regex.js</a>
       </p>
-
     </div>
-
   </div>
 </div>
 
@@ -29,22 +23,21 @@
     </ul>
 
     {{#ui-annotation showing=true type="javascript"}}
-  validations: {
-    postalCode:{
-    // If no countryCode is specified, 'US' is used as default
-      zipCode: true
-    }
+validations: {
+  postalCode: {
+  // If no countryCode is specified, 'US' is used as default
+    zipCode: true
   }
+}
     {{/ui-annotation}}
-
     <br/>
 
     {{#ui-annotation showing=true type="javascript"}}
-  validations: {
-    postalCodeUK:{
-      zipCode: {countryCode: 'UK'}
-    }
+validations: {
+  postalCodeUK: {
+    zipCode: { countryCode: 'UK' }
   }
+}
     {{/ui-annotation}}
   </p>
 
@@ -101,19 +94,19 @@
     {{/ui-html}}
 
     {{#ui-annotation showing=showing type="javascript" setCopyCode=setCopyCode}}
-import DS from 'ember-data';
+import Model from 'ember-data/model';
+import attr from 'ember-data/attr';
 import Validator from '../mixins/model-validator';
 
-export default DS.Model.extend(Validator,{
-  postalCode: DS.attr('string'),
+export default Model.extend(Validator, {
+  postalCode: attr('string'),
 
   validations: {
-    postalCode:{
+    postalCode: {
       zipCode: true
     }
   }
 });
     {{/ui-annotation}}
-
   {{/ui-example}}
 </div>

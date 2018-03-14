@@ -1,19 +1,14 @@
 <div class="ui masthead vertical segment">
   <div class="ui container">
     <div class="introduction">
-
       <h1 class="ui header">
         Format
-
         <div class="sub header">
           Validates the attributes' values by testing whether they match a given regular expression, which is specified using the <code class="ui label">with:</code> option.
         </div>
       </h1>
-
       <div class="ui hidden divider"></div>
-
     </div>
-
   </div>
 </div>
 
@@ -25,7 +20,7 @@
 
     {{#ui-annotation showing=true type="javascript"}}
 validations: {
-  secretLettersCode:{
+  secretLettersCode: {
     format: { with: /^[a-zA-Z]+$/ }
   }
 }
@@ -67,23 +62,23 @@ validations: {
     {{/ui-html}}
 
     {{#ui-annotation showing=showing type="javascript" setCopyCode=setCopyCode}}
-import DS from 'ember-data';
+import Model from 'ember-data/model';
+import attr from 'ember-data/attr';
 import Validator from '../mixins/model-validator';
 
-export default DS.Model.extend(Validator,{
-  secretLettersCode: DS.attr('string'),
-  secretNumericCode: DS.attr('string'),
+export default Model.extend(Validator, {
+  secretLettersCode: attr('string'),
+  secretNumericCode: attr('string'),
 
   validations: {
     secretLettersCode: {
       format: { with: /^[a-zA-Z]+$/, message: 'Only letters pls' }
     },
-    secretNumericCode:{
+    secretNumericCode: {
       format: { with: /^[0-9]+$/, message: 'Only numbers pls' }
-    },
+    }
   }
 });
     {{/ui-annotation}}
-
   {{/ui-example}}
 </div>

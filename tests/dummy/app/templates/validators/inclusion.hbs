@@ -1,19 +1,14 @@
 <div class="ui masthead vertical segment">
   <div class="ui container">
     <div class="introduction">
-
       <h1 class="ui header">
         Inclusion
-
         <div class="sub header">
           Validates that the attributes' values are included in a given array.
         </div>
       </h1>
-
       <div class="ui hidden divider"></div>
-
     </div>
-
   </div>
 </div>
 
@@ -25,11 +20,11 @@
     </ul>
 
     {{#ui-annotation showing=true type="javascript"}}
-  validations: {
-    playerName: {
-      inclusion: { in: ['Jose Rene', 'Aristi Gol', 'Armani'] }
-    }
+validations: {
+  playerName: {
+    inclusion: { in: ['Jose Rene', 'Aristi Gol', 'Armani'] }
   }
+}
     {{/ui-annotation}}
   </p>
 
@@ -79,11 +74,12 @@
     {{/ui-html}}
 
     {{#ui-annotation showing=showing type="javascript" setCopyCode=setCopyCode}}
-import DS from 'ember-data';
+import Model from 'ember-data/model';
+import attr from 'ember-data/attr';
 import Validator from '../mixins/model-validator';
 
-export default DS.Model.extend(Validator,{
-  playerName: DS.attr('string'),
+export default Model.extend(Validator, {
+  playerName: attr('string'),
 
   validations: {
     playerName: {
@@ -92,6 +88,5 @@ export default DS.Model.extend(Validator,{
   }
 });
     {{/ui-annotation}}
-
   {{/ui-example}}
 </div>

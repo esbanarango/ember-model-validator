@@ -1,30 +1,25 @@
 <div class="ui masthead vertical segment">
   <div class="ui container">
     <div class="introduction">
-
       <h1 class="ui header">
         URL
-
         <div class="sub header">
           Validates the attributes' values is a well formatted URL.
         </div>
       </h1>
-
       <div class="ui hidden divider"></div>
-
     </div>
-
   </div>
 </div>
 
 <div class="ui main container">
   <p>
     {{#ui-annotation showing=true type="javascript"}}
-  validations: {
-    myBlog: {
-      URL: true
-    }
+validations: {
+  myBlog: {
+    URL: true
   }
+}
     {{/ui-annotation}}
   </p>
 
@@ -83,11 +78,12 @@
     {{/ui-html}}
 
     {{#ui-annotation showing=showing type="javascript" setCopyCode=setCopyCode}}
-import DS from 'ember-data';
+import Model from 'ember-data/model';
+import attr from 'ember-data/attr';
 import Validator from '../../mixins/model-validator';
 
-export default DS.Model.extend(Validator,{
-  blogUrl: DS.attr('string'),
+export default Model.extend(Validator, {
+  blogUrl: attr('string'),
 
   validations: {
     blogUrl: {
@@ -96,6 +92,5 @@ export default DS.Model.extend(Validator,{
   }
 });
     {{/ui-annotation}}
-
   {{/ui-example}}
 </div>
