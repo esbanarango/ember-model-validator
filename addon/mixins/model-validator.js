@@ -3,7 +3,13 @@ import { computed, get, set } from '@ember/object';
 import { getOwner } from '@ember/application';
 import { on } from '@ember/object/evented';
 import { capitalize } from '@ember/string';
-import { isEmpty, isBlank, isPresent, typeOf, isEqual } from '@ember/utils';
+import {
+  isEmpty,
+  isBlank,
+  isPresent,
+  typeOf,
+  isEqual
+} from '@ember/utils';
 import { A, isArray } from '@ember/array';
 
 import PostalCodesRegex from 'ember-model-validator/postal-codes-regex';
@@ -190,7 +196,7 @@ export default Mixin.create({
   },
   _validateURL(property, validation) {
     let propertyValue = get(this, property);
-    if (!propertyValue || String(propertyValue).match(/^((http|https):\/\/(\w+:{0,1}\w*@)?(\S+)|)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?$/) === null){
+    if (!propertyValue || String(propertyValue).match(/^((http|https):\/\/(\w+:{0,1}\w*@)?(\S+)|)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-/]))?$/) === null){
       set(this, 'isValidNow',false);
       this._addToErrors(property, validation.URL, get(this, 'messages').URLMessage);
     }
@@ -234,7 +240,7 @@ export default Mixin.create({
       this._addToErrors(property, validation.numericality, get(this, 'messages').numericalityMessage);
     }
     if(validation.numericality.hasOwnProperty('onlyInteger') && validation.numericality.onlyInteger){
-      if(!(/^[+\-]?\d+$/.test(propertyValue))){
+      if(!(/^[+-]?\d+$/.test(propertyValue))){
         set(this, 'isValidNow',false);
         this._addToErrors(property, validation.numericality, get(this, 'messages').numericalityOnlyIntegerMessage);
       }

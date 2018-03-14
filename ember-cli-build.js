@@ -18,9 +18,6 @@ module.exports = function(defaults) {
     behave. You most likely want to be modifying `./index.js` or app's build file
   */
 
-  app.import('bower_components/semantic-ui/dist/semantic.css');
-  app.import('bower_components/semantic-ui/dist/semantic.js');
-
   // Import Highlight.js
   app.import(app.bowerDirectory + "/highlightjs/highlight.pack.min.js");
 
