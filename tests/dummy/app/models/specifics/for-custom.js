@@ -15,7 +15,7 @@ export default Model.extend(Validator, {
             var favColor = _this.get('favoriteColor');
             return !!favColor;
           },
-          message: 'must have a favorite color to play the lotto, duh'
+          message: '🤦‍♂️ must have a favorite color to play the lotto, duh'
         }
       }
     };
