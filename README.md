@@ -822,3 +822,8 @@ Support this project and [others by esbanarango][gratipay-esbanarango] via [grat
 * `npm test` (Runs `ember try:each` to test your addon against multiple Ember versions)
 * `ember test`
 * `ember test --server`
+
+## Support on Beerpay
+Hey dude! Help me out for a couple of :beers:!
+
+[![Beerpay](https://beerpay.io/esbanarango/ember-model-validator/badge.svg?style=beer-square)](https://beerpay.io/esbanarango/ember-model-validator)  [![Beerpay](https://beerpay.io/esbanarango/ember-model-validator/make-wish.svg?style=flat-square)](https://beerpay.io/esbanarango/ember-model-validator?focus=wish)
