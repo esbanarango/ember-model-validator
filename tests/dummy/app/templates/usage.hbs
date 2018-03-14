@@ -14,7 +14,6 @@
   </h2>
 
   <div class="no example">
-
     <p>
       <strong>Ember-model-validator</strong> provides a mixin to be included in your models for adding validation support. This mixin can be imported from your app's namespace (e.g. ../mixins/model-validator in your models).
     </p>
@@ -24,9 +23,9 @@
     </p>
 
     {{#code-block language='javascript'}}
-if(myModel.validate()){
+if (myModel.validate()) {
   // ...
-}else{
+} else {
   console.log(myModel.get('errors'));
 }
     {{/code-block}}
@@ -50,13 +49,13 @@ if(myModel.validate()){
 
     {{#code-block language='javascript'}}
 //Using `except`
-myModel.validate({except:['name', 'cellphone']});
+myModel.validate({ except: ['name', 'cellphone'] });
 
 //Using `only`
-myModel.validate({only:['favoriteColor', 'mainstreamCode']});
+myModel.validate({ only: ['favoriteColor', 'mainstreamCode'] });
 
 //Using `addErrors`
-myModel.validate({addErrors:false});
+myModel.validate({ addErrors: false });
 // This will validate the model but won't add any errors.
     {{/code-block}}
 
@@ -70,13 +69,13 @@ myModel.validate({addErrors:false});
   </p>
 
   {{#code-block language='javascript'}}
-import DS from 'ember-data';
+import Model from 'ember-data/model';
+import attr from 'ember-data/attr';
 import Validator from '../mixins/model-validator';
 
-export default DS.Model.extend(Validator,{
-
-  images: DS.attr(''),
-  type: DS.attr('string'),
+export default Model.extend(Validator, {
+  images: attr(''),
+  type: attr('string'),
 
   validations: {
     images: {
@@ -87,7 +86,6 @@ export default DS.Model.extend(Validator,{
       }
     }
   }
-
 });
     {{/code-block}}
 
@@ -107,26 +105,25 @@ export default DS.Model.extend(Validator,{
   <p><strong>Note:</strong> If the function doesn't return a string the default message is going to be used.</p>
 
     {{#code-block language='javascript'}}
-import DS from 'ember-data';
+import Model from 'ember-data/model';
+import attr from 'ember-data/attr';
 import Validator from '../mixins/model-validator';
 
-export default DS.Model.extend(Validator,{
-
-  otherCustomAttribute: DS.attr('number', { defaultValue:  12345 }),
+export default Model.extend(Validator, {
+  otherCustomAttribute: attr('number', { defaultValue: 12345 }),
 
   validations: {
     otherCustomAttribute: {
       custom: {
-        validation: function(key, value){
+        validation: function(key, value) {
           return value.toString().length === 5 ? true : false;
         },
-        message: function(key,value, _this){
-          return key + " must have exactly 5 digits";
+        message: function(key, value, _this) {
+          return key + ' must have exactly 5 digits';
         }
       }
     }
   }
-
 });
     {{/code-block}}
 
@@ -139,21 +136,21 @@ export default DS.Model.extend(Validator,{
   <div class="no example">
 
     {{#code-block language='javascript'}}
-import DS from 'ember-data';
+import Model from 'ember-data/model';
+import attr from 'ember-data/attr';
 import Validator from '../mixins/model-validator';
 
-export default DS.Model.extend(Validator,{
-
-  name: DS.attr('string'),
-  login: DS.attr('string'),
-  secondName: DS.attr('string'),
-  email: DS.attr('string'),
-  password: DS.attr('string'),
-  passwordConfirmation: DS.attr('string'),
+export default Model.extend(Validator, {
+  name: attr('string'),
+  login: attr('string'),
+  secondName: attr('string'),
+  email: attr('string'),
+  password: attr('string'),
+  passwordConfirmation: attr('string'),
 
   validations: {
     name: {
-      presence: { errorAs:'profile.name' },
+      presence: { errorAs: 'profile.name' },
       inclusion: { in: ['Jose Rene', 'Aristi Gol', 'Armani'], message: 'Solo verde a morir' }
     },
     login: {
@@ -167,7 +164,7 @@ export default DS.Model.extend(Validator,{
       email: true
     },
     password: {
-      custom: function(key, value, _this){
+      custom: function(key, value, _this) {
         return String(value) === String(_this.get('socialSecurity')) ? false : true;
       },
       match: 'passwordConfirmation',
@@ -177,42 +174,39 @@ export default DS.Model.extend(Validator,{
       mustContainSpecial: true
     }
   }
-
 });
     {{/code-block}}
 
     <p>After setting the validations on your model you will be able to:</p>
 
     {{#code-block language='javascript'}}
-import Ember from 'ember';
+import Route from '@ember/routing/route';
 
-export default Ember.Route.extend(
-  {
-    actions: {
-      saveFakeModel: function() {
-        let fakeModel = this.get('model');
+export default Route.extend({
+  actions: {
+    saveFakeModel: function() {
+      let fakeModel = this.get('model');
 
-        if(fakeModel.validate()){
-          fakeModel.save().then(
-            // Success
-            () => {
-              // Alert success
-              console.log('ooooh yeah we just saved the FakeModel...');
-            },
-            // Error handling
-            (error) => {
-              // Alert failure
-              console.log('There was a problem saving the FakeModel...');
-              console.log(error);
-            }
-          );
-        }else{
-          fakeModel.get('errors');
-        }
+      if (fakeModel.validate()) {
+        fakeModel.save().then(
+          // Success
+          () => {
+            // Alert success
+            console.log('ooooh yeah we just saved the FakeModel...');
+          },
+          // Error handling
+          error => {
+            // Alert failure
+            console.log('There was a problem saving the FakeModel...');
+            console.log(error);
+          }
+        );
+      } else {
+        fakeModel.get('errors'); // []
       }
     }
   }
-);
+});
     {{/code-block}}
   </div>
 </div>

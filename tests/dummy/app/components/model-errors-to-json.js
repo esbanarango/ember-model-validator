@@ -8,21 +8,25 @@ import { run } from '@ember/runloop';
 export default Component.extend({
   valid: equal('errors.length', 0),
 
-  init: function () {
+  init: function() {
     this._super();
     run.scheduleOnce('afterRender', this, this._highlight);
   },
 
   validText: computed('valid', function() {
-    return (this.get('valid') ? 'No Errors' : 'With Errors');
+    return this.get('valid') ? 'No Errors' : 'With Errors';
   }),
 
-  errorsAdded: observer('errors.length',function() {
+  errorsAdded: observer('errors.length', function() {
     run.next(this, this._highlight);
   }),
 
   _highlight() {
-    this.$('code').html(this.$('.for-code').html().trim());
+    this.$('code').html(
+      this.$('.for-code')
+        .html()
+        .trim()
+    );
     Prism.highlightElement(this.$('code')[0]);
   }
 });

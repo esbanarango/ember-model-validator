@@ -13,7 +13,7 @@ export default Component.extend({
   fieldClass: computed('group', {
     get() {
       var isGroup = this.get('group'),
-        fieldClass =  isGroup ? 'fields' : 'field';
+        fieldClass = isGroup ? 'fields' : 'field';
 
       return fieldClass;
     }
@@ -32,8 +32,9 @@ export default Component.extend({
       if (!this.get('object.errors')) {
         return A();
       }
-
-      return this.get('object.errors').errorsFor(this.get('for')).mapBy('message')[0];
+      return this.get('object.errors')
+        .errorsFor(this.get('for'))
+        .mapBy('message')[0];
     }
   })
 });
