@@ -4,7 +4,7 @@
 
 ### [Live demo & Documentation](http://esbanarango.github.io/ember-model-validator/)
 
-[`Ember addon`](https://www.emberaddons.com/), which adds validation support to your _Ember Data_ models on an explicit and easy way, without a bunch a validations files around or complicated structure.
+Add validations to your _Ember Data_ models on an explicit and easy way, without a bunch a validations files around or complicated structure.
 
 This README outlines the details of collaborating on this Ember addon.
 
