@@ -1,6 +1,6 @@
 # Ember-model-validator
 
-![Download count all time](https://img.shields.io/npm/dt/ember-model-validator.svg) [![Build Status](https://travis-ci.org/esbanarango/ember-model-validator.svg?branch=master)](https://travis-ci.org/esbanarango/ember-model-validator) [![npm version](https://badge.fury.io/js/ember-model-validator.svg)](http://badge.fury.io/js/ember-model-validator) [![Ember Observer Score](http://emberobserver.com/badges/ember-model-validator.svg)](http://emberobserver.com/addons/ember-model-validator) [![Dependencies up to date](https://david-dm.org/esbanarango/ember-model-validator.svg)](https://david-dm.org/esbanarango/ember-model-validator)
+![Download count all time](https://img.shields.io/npm/dt/ember-model-validator.svg) [![Build Status](https://travis-ci.org/esbanarango/ember-model-validator.svg?branch=master)](https://travis-ci.org/esbanarango/ember-model-validator) [![npm version](https://badge.fury.io/js/ember-model-validator.svg)](http://badge.fury.io/js/ember-model-validator) [![Ember Observer Score](http://emberobserver.com/badges/ember-model-validator.svg)](http://emberobserver.com/addons/ember-model-validator) [![Dependencies up to date](https://david-dm.org/esbanarango/ember-model-validator.svg)](https://david-dm.org/esbanarango/ember-model-validator) [![Greenkeeper badge](https://badges.greenkeeper.io/esbanarango/ember-model-validator.svg)](https://greenkeeper.io/)
 
 ### [Live demo & Documentation](http://esbanarango.github.io/ember-model-validator/)
 
