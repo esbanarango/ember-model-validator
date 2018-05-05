@@ -10,7 +10,7 @@ This README outlines the details of collaborating on this Ember addon.
 
 ## Purpose
 
-This Ember addon was born from the necessity of having a validation support for models like Rails has with [_Active Record Validations_](http://guides.rubyonrails.org/active_record_validations.html).
+This Ember addon was born from the necessity of having a validation support for models similar to [_Active Record Validations_](http://guides.rubyonrails.org/active_record_validations.html) on the Ruby on Rails land.
 
 ## Installation
 
