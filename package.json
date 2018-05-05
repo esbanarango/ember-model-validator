@@ -52,7 +52,7 @@
     "ember-load-initializers": "^1.0.0",
     "ember-moment": "^7.6.0",
     "ember-pikaday": "esbanarango/ember-pikaday",
-    "ember-prism": "0.2.0",
+    "ember-prism": "0.3.0",
     "ember-resolver": "^4.0.0",
     "ember-source": "~2.18.0",
     "eslint-plugin-ember": "^5.0.0",
