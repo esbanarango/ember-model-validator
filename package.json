@@ -1,8 +1,14 @@
 {
   "name": "ember-model-validator",
-  "version": "3.0.0",
+  "version": "3.3.0",
   "description": "ember-cli package, which adds validation support to your Ember-Data models.",
-  "keywords": ["ember-addon", "validations", "ember-data", "validator", "validate"],
+  "keywords": [
+    "ember-addon",
+    "validations",
+    "ember-data",
+    "validator",
+    "validate"
+  ],
   "license": "MIT",
   "author": "Esteban Arango Medina",
   "directories": {
@@ -63,6 +69,11 @@
     "configPath": "tests/dummy/config"
   },
   "greenkeeper": {
-    "ignore": ["ember-source", "ember-data", "ember-cli", "semantic-ui-ember"]
+    "ignore": [
+      "ember-source",
+      "ember-data",
+      "ember-cli",
+      "semantic-ui-ember"
+    ]
   }
 }
