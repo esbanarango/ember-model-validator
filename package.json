@@ -48,7 +48,7 @@
     "ember-pikaday": "esbanarango/ember-pikaday",
     "ember-prism": "0.3.0",
     "ember-resolver": "^5.0.1",
-    "ember-source": "~2.18.0",
+    "ember-source": "~3.3.0",
     "eslint-plugin-ember": "^5.2.0",
     "eslint-plugin-node": "^7.0.1",
     "loader.js": "^4.7.0",
