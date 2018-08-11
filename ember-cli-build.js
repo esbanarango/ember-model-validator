@@ -7,7 +7,7 @@ module.exports = function(defaults) {
   let app = new EmberAddon(defaults, {
     'ember-prism': {
       theme: 'okaidia',
-      components: ['javascript', 'handlebars']
+      components: ['javascript', 'handlebars', 'markup-templating']
     }
   });
 
@@ -19,10 +19,10 @@ module.exports = function(defaults) {
   */
 
   // Import Highlight.js
-  app.import(app.bowerDirectory + "/highlightjs/highlight.pack.min.js");
+  app.import(app.bowerDirectory + '/highlightjs/highlight.pack.min.js');
 
-  app.import(app.bowerDirectory + "/highlightjs/styles/github-gist.css");
-  app.import(app.bowerDirectory + "/highlightjs/styles/hybrid.css");
+  app.import(app.bowerDirectory + '/highlightjs/styles/github-gist.css');
+  app.import(app.bowerDirectory + '/highlightjs/styles/hybrid.css');
 
   return app.toTree();
 };
