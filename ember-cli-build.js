@@ -1,6 +1,5 @@
 /* eslint-env node */
 'use strict';
-
 const EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
 
 module.exports = function(defaults) {
@@ -8,6 +7,9 @@ module.exports = function(defaults) {
     'ember-prism': {
       theme: 'okaidia',
       components: ['javascript', 'handlebars', 'markup-templating']
+    },
+    sassOptions: {
+      implementation: require('sass')
     }
   });
 

@@ -55,11 +55,12 @@
     "ember-prism": "0.3.0",
     "ember-resolver": "^5.0.1",
     "ember-source": "~3.3.0",
+    "ember-source-channel-url": "^1.0.1",
+    "ember-try": "^0.2.23",
     "eslint-plugin-ember": "^5.2.0",
     "eslint-plugin-node": "^7.0.1",
     "loader.js": "^4.7.0",
-    "ember-source-channel-url": "^1.0.1",
-    "ember-try": "^0.2.23",
+    "sass": "^1.13.4",
     "semantic-ui-ember": "^2.1.0"
   },
   "engines": {
