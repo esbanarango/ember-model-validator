@@ -3198,10 +3198,10 @@ ember-load-initializers@^1.1.0:
   dependencies:
     ember-cli-babel "^6.6.0"
 
-ember-macro-helpers@^0.17.0:
-  version "0.17.1"
-  resolved "https://registry.yarnpkg.com/ember-macro-helpers/-/ember-macro-helpers-0.17.1.tgz#34836e9158cc260ee1c540935371d11f52ec98d9"
-  integrity sha1-NINukVjMJg7hxUCTU3HRH1LsmNk=
+ember-macro-helpers@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/ember-macro-helpers/-/ember-macro-helpers-1.0.0.tgz#bdb875f5752814f3e0c886e2ed650f01cc302712"
+  integrity sha1-vbh19XUoFPPgyIbi7WUPAcwwJxI=
   dependencies:
     ember-cli-babel "^6.6.0"
     ember-cli-string-utils "^1.1.0"
@@ -3221,14 +3221,14 @@ ember-mocha@^0.13.0:
     ember-cli-test-loader "^2.2.0"
     mocha "^2.5.3"
 
-ember-moment@^7.7.0:
-  version "7.7.0"
-  resolved "https://registry.yarnpkg.com/ember-moment/-/ember-moment-7.7.0.tgz#febf7cc5bfc665c8f1d45fa24e5c7a5f5f91afa5"
-  integrity sha512-o+FLIOAiIWVs+q6OPE7+SzNTHIdmK6HaOJwiZsB0nIseHPASBTsf8s/qj936dVsgfNfsPnHKgbwbnbA6+vDNdA==
+ember-moment@^7.8.0:
+  version "7.8.0"
+  resolved "https://registry.yarnpkg.com/ember-moment/-/ember-moment-7.8.0.tgz#12f33f786b9b8b08d7ca46314b8a59d38cc39048"
+  integrity sha512-1dTJc59UaMSuQKsvA+8fFG1yrAnng47sR6WAB018YrbEB6cgdAYyB9EBS8cp2mSFzS9HevJdVGP4oNrPZ0VZEg==
   dependencies:
     ember-cli-babel "^6.7.2"
     ember-getowner-polyfill "^2.0.1"
-    ember-macro-helpers "^0.17.0"
+    ember-macro-helpers "^1.0.0"
 
 ember-pikaday@esbanarango/ember-pikaday:
   version "2.2.4"
