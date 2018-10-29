@@ -42,7 +42,7 @@
     "ember-disable-prototype-extensions": "^1.1.3",
     "ember-export-application-global": "^2.0.0",
     "ember-font-awesome": "4.0.0-rc.3",
-    "ember-load-initializers": "^1.1.0",
+    "ember-load-initializers": "^2.0.0",
     "ember-moment": "^7.8.0",
     "ember-pikaday": "esbanarango/ember-pikaday",
     "ember-prism": "0.3.0",
