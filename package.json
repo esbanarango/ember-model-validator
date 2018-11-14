@@ -50,7 +50,7 @@
     "ember-source": "~3.3.0",
     "ember-source-channel-url": "^1.0.1",
     "ember-try": "^1.0.0",
-    "eslint-plugin-ember": "^5.2.0",
+    "eslint-plugin-ember": "^6.0.0",
     "eslint-plugin-node": "^8.0.0",
     "loader.js": "^4.7.0",
     "sass": "^1.13.4",
