@@ -53,7 +53,7 @@
     "eslint-plugin-ember": "^5.2.0",
     "eslint-plugin-node": "^8.0.0",
     "loader.js": "^4.7.0",
-    "sass": "^1.13.4",
+    "sass": "^1.15.3",
     "semantic-ui-ember": "^2.1.0"
   },
   "engines": {
