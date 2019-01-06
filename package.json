@@ -45,7 +45,7 @@
     "ember-load-initializers": "^2.0.0",
     "ember-moment": "^7.8.0",
     "ember-pikaday": "esbanarango/ember-pikaday",
-    "ember-prism": "0.3.0",
+    "ember-prism": "0.4.0",
     "ember-resolver": "^5.0.1",
     "ember-source": "~3.3.0",
     "ember-source-channel-url": "^1.0.1",
