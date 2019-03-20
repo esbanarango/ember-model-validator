@@ -1,7 +1,7 @@
 ---
 language: node_js
 node_js:
-  - "8.11.3"
+  - '10.15.3'
 
 sudo: false
 dist: trusty
@@ -21,10 +21,12 @@ env:
     # as well as latest stable release (bonus points to beta/canary)
     - EMBER_TRY_SCENARIO=ember-lts-2.16
     - EMBER_TRY_SCENARIO=ember-lts-2.18
+    - EMBER_TRY_SCENARIO=ember-lts-3.4
     - EMBER_TRY_SCENARIO=ember-release
     - EMBER_TRY_SCENARIO=ember-beta
     - EMBER_TRY_SCENARIO=ember-canary
     - EMBER_TRY_SCENARIO=ember-default
+    - EMBER_TRY_SCENARIO=ember-default-with-jquery
 
 matrix:
   fast_finish: true
