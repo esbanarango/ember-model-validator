@@ -1,4 +1,4 @@
-# Ember-model-validator
+# Ember model validator
 
 ![Download count all time](https://img.shields.io/npm/dt/ember-model-validator.svg) [![Build Status](https://travis-ci.org/esbanarango/ember-model-validator.svg?branch=master)](https://travis-ci.org/esbanarango/ember-model-validator) [![npm version](https://badge.fury.io/js/ember-model-validator.svg)](http://badge.fury.io/js/ember-model-validator) [![Ember Observer Score](http://emberobserver.com/badges/ember-model-validator.svg)](http://emberobserver.com/addons/ember-model-validator) [![Greenkeeper badge](https://badges.greenkeeper.io/esbanarango/ember-model-validator.svg)](https://greenkeeper.io/)
 
@@ -20,35 +20,62 @@ Install **Ember-model-validator** is easy as:
 or
 `yarn add ember-model-validator --dev`
 
-## Validators
+## Compatibility
 
-* [Presence](#presence)
-* [Acceptance](#acceptance)
-* [Absence](#absence)
-* [Format](#format)
-* [Length](#length)
-* [Email](#email)
-* [Color](#hex-color)
-* [ZipCode](#zipcode)
-* [Subdomain](#subdomain)
-* [URL](#url)
-* [Inclusion](#inclusion)
-* [Exclusion](#exclusion)
-* [Numericality](#numericality)
-* [Date](#date)
-* [Match](#match)
-* [Password \*](#password)
-* [CustomValidation](#custom)
-* **_[Relations](#relations)_**
+- Ember.js v2.16 or above
+- Ember CLI v2.13 or above
+
+---
+
+- [Ember model validator](#ember-model-validator)
+    - [Live demo & Documentation](#live-demo--documentation)
+  - [Purpose](#purpose)
+  - [Installation](#installation)
+  - [Compatibility](#compatibility)
+  - [Validators](#validators)
+        - [Common options](#common-options)
+    - [Presence](#presence)
+    - [Acceptance](#acceptance)
+    - [Absence](#absence)
+    - [Format](#format)
+    - [Length](#length)
+        - [Options](#options)
+    - [Email](#email)
+    - [ZipCode](#zipcode)
+        - [Options](#options-1)
+    - [Hex Color](#hex-color)
+    - [Subdomain](#subdomain)
+    - [URL](#url)
+    - [Inclusion](#inclusion)
+    - [Exclusion](#exclusion)
+    - [Match](#match)
+        - [Options](#options-2)
+    - [Numericality](#numericality)
+        - [Options](#options-3)
+    - [Date](#date)
+        - [Options](#options-4)
+    - [Custom](#custom)
+    - [Password](#password)
+    - [Relations](#relations)
+    - [Using function to generate custom message](#using-function-to-generate-custom-message)
+        - [Example](#example)
+  - [Usage](#usage)
+    - [Usage Example](#usage-example)
+    - [Or Usage in non Model(Controller, Componente, Object ...) Example](#or-usage-in-non-modelcontroller-componente-object--example)
+  - [I18n](#i18n)
+  - [Running Tests](#running-tests)
+  - [Support on Beerpay](#support-on-beerpay)
+
+## Validators
 
 ##### Common options
 
 All validators accept the following options
 
-* `message` _option_. Overwrites the default message, it can be a String (with a `{value}` in it for value interpolation) or a [function](#using-function-to-generate-custom-message) that returns a string.
-* `errorAs` _option_. Sets the _key_ name to be used when adding errors (default to property name).
-* `allowBlank` _option_. If set to `true` and the value is blank as defined by [Ember.isBlank](https://emberjs.com/api/ember/3.0/functions/@ember%2Futils/isBlank), all other validations for the field are skipped.
-* `if` _option_. Validates **only** when the function passed returns true. `function(key,value, _this){...}`.
+- `message` _option_. Overwrites the default message, it can be a String (with a `{value}` in it for value interpolation) or a [function](#using-function-to-generate-custom-message) that returns a string.
+- `errorAs` _option_. Sets the _key_ name to be used when adding errors (default to property name).
+- `allowBlank` _option_. If set to `true` and the value is blank as defined by [Ember.isBlank](https://emberjs.com/api/ember/3.0/functions/@ember%2Futils/isBlank), all other validations for the field are skipped.
+- `if` _option_. Validates **only** when the function passed returns true. `function(key,value, _this){...}`.
 
 ### Presence
 
@@ -108,11 +135,11 @@ Specify the lengths that are allowed.
 
 ##### Options
 
-* A `number`. The exact length of the value allowed (Alias for `is`).
-* An `array`. Will expand to `minimum` and `maximum`. First element is the lower bound, second element is the upper bound.
-* `is` _option_. The exact length of the value allowed.
-* `minimum` _option_. The minimum length of the value allowed.
-* `maximum` _option_. The maximum length of the value allowed.
+- A `number`. The exact length of the value allowed (Alias for `is`).
+- An `array`. Will expand to `minimum` and `maximum`. First element is the lower bound, second element is the upper bound.
+- `is` _option_. The exact length of the value allowed.
+- `minimum` _option_. The minimum length of the value allowed.
+- `maximum` _option_. The maximum length of the value allowed.
 
 ```js
   validations: {
@@ -162,7 +189,7 @@ Countries supported and regular expressions used can be found in [postal-codes-r
 
 ##### Options
 
-* `countryCode` _option_. The code of the country for which the postal code will be validated.
+- `countryCode` _option_. The code of the country for which the postal code will be validated.
 
 ```js
 validations: {
@@ -251,8 +278,8 @@ Specify the attribute to match with.
 
 ##### Options
 
-* A `string`. The name of the attribute to match with (Alias for `attr`).
-* `attr` _option_. The name of the attribute to match with.
+- A `string`. The name of the attribute to match with (Alias for `attr`).
+- `attr` _option_. The name of the attribute to match with.
 
 ```js
   validations: {
@@ -274,14 +301,14 @@ The value has to have only numeric values.
 
 ##### Options
 
-* `onlyInteger` _option_. The value must be an integer.
-* `greaterThan` _option_. The value must be greater than the supplied value.
-* `greaterThanOrEqualTo` _option_. The value must be greater or equal to the supplied value.
-* `equalTo` _option_. The value must be equal to the supplied value.
-* `lessThan` _option_. The value must be less than the supplied value.
-* `lessThanOrEqualTo` _option_. The value must be less or equal to the supplied value.
-* `odd` _option_. The value must be odd.
-* `even` _option_. The value must be even.
+- `onlyInteger` _option_. The value must be an integer.
+- `greaterThan` _option_. The value must be greater than the supplied value.
+- `greaterThanOrEqualTo` _option_. The value must be greater or equal to the supplied value.
+- `equalTo` _option_. The value must be equal to the supplied value.
+- `lessThan` _option_. The value must be less than the supplied value.
+- `lessThanOrEqualTo` _option_. The value must be less or equal to the supplied value.
+- `odd` _option_. The value must be odd.
+- `even` _option_. The value must be even.
 
 ```js
 validations: {
@@ -297,8 +324,8 @@ The value must be a `Date` object or a string that produces a valid date when pa
 
 ##### Options
 
-* `before` _option_. The value must be before the supplied date.
-* `after` _option_. The value must be after the supplied date.
+- `before` _option_. The value must be before the supplied date.
+- `after` _option_. The value must be after the supplied date.
 
 ```js
   validations: {
@@ -371,11 +398,11 @@ validations: {
 
 A set of validators which are especially useful for validating passwords. Be aware that these all of these password-aimed validations will work standalone and carry the same [common options](#common-options) with the rest of the validations. They don't only work for passwords!
 
-* `mustContainCapital` (capital case character).
-* `mustContainLower` (lower case character).
-* `mustContainNumber`
-* `mustContainSpecial`
-* `length` (explained in-depth [above](#length)).
+- `mustContainCapital` (capital case character).
+- `mustContainLower` (lower case character).
+- `mustContainNumber`
+- `mustContainSpecial`
+- `length` (explained in-depth [above](#length)).
 
 ```js
 validations: {
@@ -419,8 +446,8 @@ This validator will run the `validate()` function for the specific relation. If 
 
 You can pass a function to generate a more specific error message. Some scenarios are:
 
-* When the message varies depending of the attribute value.
-* When you want to use model attributes in the message.
+- When the message varies depending of the attribute value.
+- When you want to use model attributes in the message.
 
 The message function receives the attribute name, the value of the attribute and the model itself.
 
@@ -460,18 +487,18 @@ By including **Ember-model-validator's** mixin into your model, this will have a
 You can also pass an _option_ hash for excluding or forcing certain attributes to be validated, and to prevent errors to be added.
 
 ```js
-//Using `except`
+// Using `except`
 myModel.validate({ except: ['name', 'cellphone'] });
 
-//Using `only`
+// Using `only`
 myModel.validate({ only: ['favoriteColor', 'mainstreamCode'] });
 
-//Using `addErrors`
+// Using `addErrors`
 myModel.validate({ addErrors: false });
-// This will validate the model but won't add any errors.
+// ^ This will validate the model but won't add any errors.
 ```
 
-## Usage Example
+### Usage Example
 
 ```js
 import Model from 'ember-data/model';
@@ -482,7 +509,7 @@ export default Model.extend(Validator, {
   fullName: attr('string'),
   fruit: attr('string'),
   favoriteColor: attr('string'),
-  
+
   validations = {
     fullName: {
       presence: true
@@ -492,7 +519,7 @@ export default Model.extend(Validator, {
     },
     favoriteColor: {
       color: true
-    }    
+    }
   }
 });
 ```
@@ -505,8 +532,7 @@ import Route from '@ember/routing/route';
 export default Route.extend({
   actions: {
     saveFakeModel: function() {
-      let _this = this,
-        fakeModel = this.get('model');
+      let fakeModel = this.get('model');
 
       if (fakeModel.validate()) {
         fakeModel.save().then(
@@ -531,7 +557,7 @@ export default Route.extend({
 });
 ```
 
-## Or Usage in non Model(Controller, Componente, Object ...) Example
+### Or Usage in non Model(Controller, Componente, Object ...) Example
 
 ```js
 import Component from '@ember/component';
@@ -567,12 +593,14 @@ Set `validatorDefaultLocale` in your config enviroment a language, for now it's 
 
 ## Running Tests
 
-* `npm test` (Runs `ember try:each` to test your addon against multiple Ember versions)
-* `ember test`
-* `ember test --server`
+- `npm test` (Runs `ember try:each` to test your addon against multiple Ember versions)
+- `ember test`
+- `ember test --server`
+
+See the [Contributing](CONTRIBUTING.md) guide for details.
 
 ## Support on Beerpay
 
-Hey dude! Help me out for a couple of :beers:!
+Hey people! Help me out for a couple of :beers:!
 
 [![Beerpay](https://beerpay.io/esbanarango/ember-model-validator/badge.svg?style=beer-square)](https://beerpay.io/esbanarango/ember-model-validator) [![Beerpay](https://beerpay.io/esbanarango/ember-model-validator/make-wish.svg?style=flat-square)](https://beerpay.io/esbanarango/ember-model-validator?focus=wish)
