@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-  name: 'ember-model-validator',
+  name: require('./package').name,
   included: function(app) {
     this._super.included.apply(this, arguments);
 
