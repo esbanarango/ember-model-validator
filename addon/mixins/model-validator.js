@@ -565,8 +565,10 @@ export default Mixin.create({
   _modelRelations() {
     if (get(this, '_relationships')) {
       return get(this, '_relationships');
-    } else {
+    } else if (get(this, '_internalModel._relationships')) {
       return get(this, '_internalModel._relationships.initializedRelationships');
+    } else {
+      return get(this, '_internalModel._recordData._relationships.initializedRelationships');
     }
   },
   _formatMessage(message, context = {}) {
