@@ -2,7 +2,13 @@
   "name": "ember-model-validator",
   "version": "3.4.0",
   "description": "ember-cli package, which adds validation support to your Ember-Data models.",
-  "keywords": ["ember-addon", "validations", "ember-data", "validator", "validate"],
+  "keywords": [
+    "ember-addon",
+    "validations",
+    "ember-data",
+    "validator",
+    "validate"
+  ],
   "license": "MIT",
   "author": "Esteban Arango Medina",
   "directories": {
@@ -13,56 +19,64 @@
   "demoURL": "http://esbanarango.github.io/ember-model-validator",
   "scripts": {
     "build": "ember build",
-    "lint:js": "eslint ./*.js addon addon-test-support app config lib server test-support tests",
+    "lint:hbs": "ember-template-lint .",
+    "lint:js": "eslint ./*.js addon app config tests",
     "start": "ember serve",
     "test": "ember try:each"
   },
   "dependencies": {
-    "ember-cli-babel": "^6.6.0"
+    "ember-cli-babel": "^7.6.0"
   },
   "devDependencies": {
+    "@ember/jquery": "0.6.0",
+    "@ember/optional-features": "^0.6.3",
     "broccoli-asset-rev": "^3.0.0",
-    "ember-cli": "~3.3.0",
+    "ember-cli": "~3.8.1",
     "ember-cli-chai": "0.5.0",
-    "ember-cli-clipboard": "0.9.0",
-    "ember-cli-dependency-checker": "^3.0.0",
-    "ember-cli-eslint": "^4.2.3",
+    "ember-cli-clipboard": "0.11.1",
+    "ember-cli-dependency-checker": "^3.1.0",
+    "ember-cli-eslint": "^5.0.0",
     "ember-cli-github-pages": "0.2.1",
-    "ember-cli-htmlbars": "^3.0.0",
-    "ember-cli-htmlbars-inline-precompile": "^2.0.0",
-    "ember-cli-inject-live-reload": "^1.8.2",
-    "ember-cli-mocha": "0.15.0",
-    "ember-cli-moment-shim": "^3.7.1",
+    "ember-cli-htmlbars": "^3.0.1",
+    "ember-cli-htmlbars-inline-precompile": "^2.1.0",
+    "ember-cli-inject-live-reload": "^2.0.1",
+    "ember-cli-moment-shim": "3.7.1",
     "ember-cli-sass": "9.0.1",
-    "ember-cli-shims": "^1.2.0",
-    "ember-cli-sri": "^2.1.0",
+    "ember-cli-sri": "^2.1.1",
+    "ember-cli-template-lint": "^1.0.0-beta.1",
     "ember-cli-uglify": "^2.1.0",
-    "ember-composable-helpers": "2.1.0",
-    "ember-data": "^3.3.0",
+    "ember-composable-helpers": "2.2.0",
+    "ember-data": "^3.8.0",
     "ember-disable-prototype-extensions": "^1.1.3",
     "ember-export-application-global": "^2.0.0",
     "ember-font-awesome": "4.0.0-rc.3",
     "ember-load-initializers": "^2.0.0",
-    "ember-moment": "^7.8.0",
+    "ember-mocha": "0.14.0",
+    "ember-moment": "^7.8.1",
     "ember-pikaday": "esbanarango/ember-pikaday",
     "ember-prism": "0.4.0",
-    "ember-resolver": "^5.0.1",
-    "ember-source": "~3.3.0",
-    "ember-source-channel-url": "^1.0.1",
+    "ember-qunit": "^3.4.1",
+    "ember-resolver": "^5.1.3",
+    "ember-source": "~3.8.0",
+    "ember-source-channel-url": "^1.1.0",
+    "ember-template-lint": "^1.1.0",
     "ember-try": "^1.0.0",
-    "eslint-plugin-ember": "^5.2.0",
+    "eslint-plugin-ember": "^6.3.0",
     "eslint-plugin-node": "^8.0.0",
     "loader.js": "^4.7.0",
     "sass": "^1.13.4",
-    "semantic-ui-ember": "^2.1.0"
+    "semantic-ui-ember": "^3.0.3"
   },
   "engines": {
-    "node": "6.* || 8.* || >= 10.*"
+    "node": "10.*"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"
   },
   "greenkeeper": {
-    "ignore": ["ember-source", "ember-data", "ember-cli", "semantic-ui-ember"]
+    "ignore": [
+      "ember-source",
+      "ember-data"
+    ]
   }
 }
