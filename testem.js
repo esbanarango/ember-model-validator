@@ -18,6 +18,5 @@ module.exports = {
         '--window-size=1440,900'
       ].filter(Boolean)
     }
-  },
-  reporter: 'dot'
+  }
 };

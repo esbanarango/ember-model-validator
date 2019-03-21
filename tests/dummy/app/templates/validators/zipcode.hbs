@@ -82,7 +82,7 @@ validations: {
         </div>
         <div class="column">
           <div class="ui segment">
-            <ModelErrorsToJson @errors={{model.errors}} @modelName={{modelName}}/>
+            {{model-errors-to-json errors=model.errors modelName=modelName}}
           </div>
         </div>
       </div>
