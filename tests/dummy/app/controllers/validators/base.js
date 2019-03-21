@@ -8,19 +8,19 @@ export default Controller.extend({
 
   modelValid: true,
 
-  init: function () {
+  init: function() {
     this._super();
     let model = this.get('store').createRecord(`specifics.${this.get('modelName')}`);
     this.set('model', model);
     this.messages = Messages;
   },
 
-  actions:{
+  actions: {
     validate() {
       let model = this.get('model');
-      if(model.validate()){
+      if (model.validate()) {
         this.set('modelValid', true);
-      }else{
+      } else {
         this.set('modelValid', false);
       }
     },

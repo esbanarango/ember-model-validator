@@ -1,7 +1,7 @@
 import { later } from '@ember/runloop';
 import Component from '@ember/component';
 
-const copyMessage = "Copy Code";
+const copyMessage = 'Copy Code';
 
 export default Component.extend({
   classNames: ['html'],
@@ -19,5 +19,4 @@ export default Component.extend({
       later(this, () => this.set('copyMessage', copyMessage), 1000);
     }
   }
-
 });

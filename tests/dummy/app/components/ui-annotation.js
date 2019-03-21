@@ -1,7 +1,7 @@
 import Component from '@ember/component';
 
 export default Component.extend({
-  type: "handlebars",
+  type: 'handlebars',
 
   classNames: ['annotation', 'transition'],
   classNameBindings: ['showing:visible:hidden']

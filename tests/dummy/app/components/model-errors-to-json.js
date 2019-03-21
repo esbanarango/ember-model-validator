@@ -14,9 +14,10 @@ export default Component.extend({
   },
 
   validText: computed('valid', function() {
-    return this.get('valid') ? 'No Errors' : 'With Errors';
+    return this.valid ? 'No Errors' : 'With Errors';
   }),
 
+  /* eslint-disable ember/no-observers */
   errorsAdded: observer('errors.length', function() {
     run.next(this, this._highlight);
   }),

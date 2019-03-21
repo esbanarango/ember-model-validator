@@ -5,6 +5,6 @@ export default BaseContoller.extend({
 
   init() {
     this._super(...arguments);
-    this.colors = ['Sarcoline','Coquelicot','Smaragdine','Mikado','Glaucous'];
+    this.colors = ['Sarcoline', 'Coquelicot', 'Smaragdine', 'Mikado', 'Glaucous'];
   }
 });

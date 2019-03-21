@@ -1,4 +1,3 @@
-
 import Component from '@ember/component';
 
 export default Component.extend({
@@ -12,5 +11,4 @@ export default Component.extend({
       this.$('[data-clipboard-text]').attr('data-clipboard-text', code);
     }
   }
-
 });
