@@ -21,18 +21,19 @@
     <p>
       Currently the languages supported are: <code class="ui label">en</code>, <code class="ui label">fr</code>, <code class="ui label">es</code>, <code class="ui label">pt-br</code>.
     </p>
-
-    {{#code-block language='javascript'}}
+    {{! template-lint-disable block-indentation }}
+    {{#code-block language="javascript"}}
 //config/environment.js
 ...
   ENV:{
     ...
     APP:{
-      validatorDefaultLocale: 'pt-br'
+      validatorDefaultLocale: "pt-br"
     }
     ...
   }
 ...
     {{/code-block}}
+    {{! template-lint-enable }}
   </div>
 </div>

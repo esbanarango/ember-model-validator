@@ -4,7 +4,7 @@
       <h1 class="ui header">
         Length
         <div class="sub header">
-          Validates the length of the attributes' values. It provides a variety of options, so you can specify length constraints in different ways.
+          Validates the length of the attribute's value. It provides a variety of options, so you can specify length constraints in different ways.
         </div>
       </h1>
       <div class="ui hidden divider"></div>
@@ -22,7 +22,7 @@
       <li><code class="ui label">minimum</code> <em>option</em>. The minimum length of the value allowed.</li>
       <li><code class="ui label">maximum</code> <em>option</em>. The maximum length of the value allowed.</li>
     </ul>
-
+    {{! template-lint-disable block-indentation }}
     {{#ui-annotation showing=true type="javascript"}}
   validations: {
     socialSecurity: {
@@ -32,7 +32,7 @@
       length: [3, 5]
     },
     chuncaluchoNumber: {
-      length: { is: 10, message: 'this is not the length of a chuncalucho' }
+      length: { is: 10, message: "this is not the length of a chuncalucho" }
     },
     hugeName: {
       length: {
@@ -45,12 +45,13 @@
         minimum: 1,
         maximum: {
           value: 2,
-          message: 'should be smaller'
+          message: "should be smaller"
         }
       }
     }
   }
     {{/ui-annotation}}
+    {{! template-lint-enable }}
   </p>
 
   {{config-options defaultMessage=messages.wrongLengthMessage}}
@@ -64,31 +65,31 @@
         <div class="column">
 
           {{#object-form for=model classNames="segment"}}
-            {{#form-field for='chuncaluchoNumber' label="Chuncalucho Number" required=true}}
+            {{#form-field for="chuncaluchoNumber" label="Chuncalucho Number" required=true}}
               {{input value=model.chuncaluchoNumber placeholder="Chuncalucho Number"}}
             {{/form-field}}
             <div class="fields">
               <div class="ten wide field">
-                {{#form-field for='hugeName' label="Huge name" required=true}}
+                {{#form-field for="hugeName" label="Huge name" required=true}}
                   {{input value=model.hugeName placeholder="Huge name"}}
                 {{/form-field}}
               </div>
               <div class="six wide field">
-                {{#form-field for='smallName' label="Small Name" required=true}}
+                {{#form-field for="smallName" label="Small Name" required=true}}
                   {{input value=model.smallName placeholder="Small Name"}}
                 {{/form-field}}
               </div>
             </div>
-            {{#form-field for='socialSecurity' label="Social Security" required=true}}
+            {{#form-field for="socialSecurity" label="Social Security" required=true}}
               {{input value=model.socialSecurity placeholder="Social Security"}}
             {{/form-field}}
-            {{#form-field for='nsaNumber' label="NSA Number" required=true}}
+            {{#form-field for="nsaNumber" label="NSA Number" required=true}}
               {{input value=model.nsaNumber placeholder="NSA Number"}}
             {{/form-field}}
             <div class="actions">
               <div class="ui input submit">
-                <button class="ui button primary" {{action 'validate'}}>Validate</button>
-                <button class="ui button reset" {{action 'reset'}}>Reset</button>
+                <button class="ui button primary" {{action "validate"}}>Validate</button>
+                <button class="ui button reset" {{action "reset"}}>Reset</button>
               </div>
             </div>
           {{/object-form}}
@@ -101,18 +102,18 @@
         </div>
       </div>
     {{/ui-html}}
-
+    {{! template-lint-disable block-indentation }}
     {{#ui-annotation showing=showing type="javascript" setCopyCode=setCopyCode}}
-import Model from 'ember-data/model';
-import attr from 'ember-data/attr';
-import Validator from '../mixins/model-validator';
+import Model from "ember-data/model";
+import attr from "ember-data/attr";
+import Validator from "../mixins/model-validator";
 
 export default Model.extend(Validator, {
-  chuncaluchoNumber: attr('string'),
-  socialSecurity: attr('string'),
-  nsaNumber: attr('string'),
-  hugeName: attr('string'),
-  smallName: attr('string'),
+  chuncaluchoNumber: attr("string"),
+  socialSecurity: attr("string"),
+  nsaNumber: attr("string"),
+  hugeName: attr("string"),
+  smallName: attr("string"),
 
   validations: {
     socialSecurity: {
@@ -122,7 +123,7 @@ export default Model.extend(Validator, {
       length: [3, 5]
     },
     chuncaluchoNumber: {
-      length: { is: 10, message: 'this is not the length of a chuncalucho' }
+      length: { is: 10, message: "this is not the length of a chuncalucho" }
     },
     hugeName: {
       length: {
@@ -135,13 +136,13 @@ export default Model.extend(Validator, {
         minimum: 1,
         maximum: {
           value: 2,
-          message: 'should be smaller'
+          message: "should be smaller"
         }
       }
     }
   }
 });
     {{/ui-annotation}}
-
+    {{! template-lint-enable }}
   {{/ui-example}}
 </div>

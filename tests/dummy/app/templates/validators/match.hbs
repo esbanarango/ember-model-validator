@@ -4,7 +4,7 @@
       <h1 class="ui header">
         Match
         <div class="sub header">
-          Validates the attributes' values by testing whether they match another attribute.
+          Validates the attribute's value by testing whether it matches another attribute.
         </div>
       </h1>
       <div class="ui hidden divider"></div>
@@ -19,20 +19,21 @@
       <li>A<code class="ui label">String</code>. The name of the attribute to match with (Alias for <code class="ui label">attr</code>).</li>
       <li><code class="ui label">attr</code>. Attribute to match (only needed when using custom message).</li>
     </ul>
-
+    {{! template-lint-disable block-indentation }}
     {{#ui-annotation showing=true type="javascript"}}
 validations: {
   email: {
-    match: 'confirmationEmail'
+    match: "confirmationEmail"
   },
   password: {
     match: {
-      attr: 'passwordConfirmation',
-      message: 'sup, it is not the same!'
+      attr: "passwordConfirmation",
+      message: "sup, it is not the same!"
     }
   }
 }
     {{/ui-annotation}}
+    {{! template-lint-enable }}
   </p>
 
   {{config-options defaultMessage=messages.matchMessage}}
@@ -48,32 +49,32 @@ validations: {
           {{#object-form for=model classNames="segment"}}
             <div class="fields">
               <div class="field">
-                {{#form-field for='email' label="Email" required=true icon='mail'}}
-                  {{input value=model.email placeholder="Email"}}
+                {{#form-field for="email" label="Email" required=true icon="mail"}}
+                  {{input value=model.email placeholder="Email" autocomplete="off"}}
                 {{/form-field}}
               </div>
               <div class="field">
-                {{#form-field for='confirmationEmail' label="Confirmation Email" required=true icon='mail'}}
+                {{#form-field for="confirmationEmail" label="Confirmation Email" required=true icon="mail"}}
                   {{input value=model.confirmationEmail placeholder="Confirmation Email"}}
                 {{/form-field}}
               </div>
             </div>
             <div class="fields">
               <div class="field">
-                {{#form-field for='password' label="Password" required=true icon='asterisk'}}
-                  {{input type='password' value=model.password placeholder="Password"}}
+                {{#form-field for="password" label="Password" required=true icon="asterisk"}}
+                  {{input type="password" value=model.password placeholder="Password" autocomplete="off"}}
                 {{/form-field}}
               </div>
               <div class="field">
-                {{#form-field for='passwordConfirmation' label="Password Confirmation" required=true icon='asterisk'}}
-                  {{input type='password' value=model.passwordConfirmation placeholder="Password Confirmation"}}
+                {{#form-field for="passwordConfirmation" label="Password Confirmation" required=true icon="asterisk"}}
+                  {{input type="password" value=model.passwordConfirmation placeholder="Password Confirmation"}}
                 {{/form-field}}
               </div>
             </div>
             <div class="actions">
               <div class="ui input submit">
-                <button class="ui button primary" {{action 'validate'}}>Validate</button>
-                <button class="ui button reset" {{action 'reset'}}>Reset</button>
+                <button class="ui button primary" {{action "validate"}}>Validate</button>
+                <button class="ui button reset" {{action "reset"}}>Reset</button>
               </div>
             </div>
           {{/object-form}}
@@ -86,29 +87,30 @@ validations: {
         </div>
       </div>
     {{/ui-html}}
-
+    {{! template-lint-disable block-indentation }}
     {{#ui-annotation showing=showing type="javascript" setCopyCode=setCopyCode}}
-import Model from 'ember-data/model';
-import attr from 'ember-data/attr';
-import Validator from '../mixins/model-validator';
+import Model from "ember-data/model";
+import attr from "ember-data/attr";
+import Validator from "../mixins/model-validator";
 
 export default Model.extend(Validator,{
-  confirmationEmail: attr('boolean'),
-  email: attr('boolean'),
-  password: attr('boolean'),
-  passwordConfirmation: attr('boolean'),
+  confirmationEmail: attr("boolean"),
+  email: attr("boolean"),
+  password: attr("boolean"),
+  passwordConfirmation: attr("boolean"),
 
   validations: {
     email:{
-      match: 'confirmationEmail'
+      match: "confirmationEmail"
     },
     password:{
       match: {
-        attr: 'passwordConfirmation',
-        message: 'sup, it is not the same!'
+        attr: "passwordConfirmation",
+        message: "sup, it is not the same!"
       }
     }
   }
     {{/ui-annotation}}
+    {{! template-lint-enable }}
   {{/ui-example}}
 </div>

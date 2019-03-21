@@ -4,7 +4,7 @@
       <h1 class="ui header">
         Subdomain
         <div class="sub header">
-          Validates the attributes' values is a well formatted subdomain.
+          Validates that the attribute's value is a well formatted subdomain.
         </div>
       </h1>
       <div class="ui hidden divider"></div>
@@ -18,14 +18,15 @@
     <ul>
       <li><code class="ui label">reserved</code>. Words that are not allowed.</li>
     </ul>
-
+    {{! template-lint-disable block-indentation }}
     {{#ui-annotation showing=true type="javascript"}}
 validations: {
   mySubdomain: {
-    subdomain: { reserved: ['admin', 'blog'] }
+    subdomain: { reserved: ["admin", "blog"] }
   }
 }
     {{/ui-annotation}}
+    {{! template-lint-enable }}
   </p>
 
   {{config-options defaultMessage=messages.wrongLengthMessage}}
@@ -52,7 +53,7 @@ validations: {
             </div>
             <div class="fields">
               <div class="ten wide field">
-                {{#form-field for='companySubdomain' label="Subdomain" required=true pre='http://' post='.ember.com'}}
+                {{#form-field for="companySubdomain" label="Subdomain" required=true pre="http://" post=".ember.com"}}
                   {{input value=model.companySubdomain placeholder="Subdomain"}}
                 {{/form-field}}
               </div>
@@ -65,8 +66,8 @@ validations: {
             </div>
             <div class="actions">
               <div class="ui input submit">
-                <button class="ui button primary" {{action 'validate'}}>Validate</button>
-                <button class="ui button reset" {{action 'reset'}}>Reset</button>
+                <button class="ui button primary" {{action "validate"}}>Validate</button>
+                <button class="ui button reset" {{action "reset"}}>Reset</button>
               </div>
             </div>
           {{/object-form}}
@@ -78,21 +79,22 @@ validations: {
         </div>
       </div>
     {{/ui-html}}
-
+    {{! template-lint-disable block-indentation }}
     {{#ui-annotation showing=showing type="javascript" setCopyCode=setCopyCode}}
-import Model from 'ember-data/model';
-import attr from 'ember-data/attr';
-import Validator from '../../mixins/model-validator';
+import Model from "ember-data/model";
+import attr from "ember-data/attr";
+import Validator from "../../mixins/model-validator";
 
 export default Model.extend(Validator, {
-  companySubdomain: attr('string'),
+  companySubdomain: attr("string"),
 
   validations: {
     companySubdomain: {
-      subdomain: { reserved: ['admin', 'blog'] }
+      subdomain: { reserved: ["admin", "blog"] }
     }
   }
 });
     {{/ui-annotation}}
+    {{! template-lint-enable }}
   {{/ui-example}}
 </div>

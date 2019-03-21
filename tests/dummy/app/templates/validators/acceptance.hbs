@@ -20,14 +20,15 @@
     <p>
       The <code class="ui label">accept</code> option receives either a string or an array of acceptable values.
     </p>
-
+    {{! template-lint-disable block-indentation }}
     {{#ui-annotation showing=true type="javascript"}}
 validations: {
   agree: {
-    acceptance: true // { accept: 'yes' } | { accept: 1 } | { accept: [1, 'sisas'] }
+    acceptance: true // { accept: "yes" } | { accept: 1 } | { accept: [1, "sisas"] }
   }
 }
     {{/ui-annotation}}
+    {{! template-lint-enable }}
   </p>
 
   {{config-options defaultMessage=messages.acceptanceMessage}}
@@ -43,22 +44,23 @@ validations: {
 
           {{#object-form for=model classNames="segment"}}
 
-            <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-            consequat.</p>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+              quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+              consequat.
+            </p>
 
-            {{#form-field for='agree' label="Understood?" required=true}}
+            {{#form-field for="agree" label="Understood?" required=true}}
               {{ui-checkbox class="toggle" label="Agree!" checked=model.agree onChange=(action (mut model.agree))}}
             {{/form-field}}
             <div class="actions">
               <div class="ui input submit">
-                <button class="ui button primary" {{action 'validate'}}>Validate</button>
-                <button class="ui button reset" {{action 'reset'}}>Reset</button>
+                <button class="ui button primary" {{action "validate"}}>Validate</button>
+                <button class="ui button reset" {{action "reset"}}>Reset</button>
               </div>
             </div>
           {{/object-form}}
-
         </div>
         <div class="column">
           <div class="ui segment">
@@ -67,14 +69,14 @@ validations: {
         </div>
       </div>
     {{/ui-html}}
-
+    {{! template-lint-disable block-indentation }}
     {{#ui-annotation showing=showing type="javascript" setCopyCode=setCopyCode}}
-import Model from 'ember-data/model';
-import attr from 'ember-data/attr';
-import Validator from '../mixins/model-validator';
+import Model from "ember-data/model";
+import attr from "ember-data/attr";
+import Validator from "../mixins/model-validator";
 
 export default Model.extend(Validator, {
-  agree: attr('boolean'),
+  agree: attr("boolean"),
 
   validations: {
     agree: {
@@ -83,5 +85,6 @@ export default Model.extend(Validator, {
   }
 });
     {{/ui-annotation}}
+    {{! template-lint-enable }}
   {{/ui-example}}
 </div>

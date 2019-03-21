@@ -4,7 +4,7 @@
       <h1 class="ui header">
         URL
         <div class="sub header">
-          Validates the attributes' values is a well formatted URL.
+          Validates if the attribute's value is a well formatted URL.
         </div>
       </h1>
       <div class="ui hidden divider"></div>
@@ -14,6 +14,7 @@
 
 <div class="ui main container">
   <p>
+    {{! template-lint-disable block-indentation }}
     {{#ui-annotation showing=true type="javascript"}}
 validations: {
   myBlog: {
@@ -21,12 +22,14 @@ validations: {
   }
 }
     {{/ui-annotation}}
+    {{! template-lint-enable }}
   </p>
 
   {{config-options defaultMessage=messages.wrongLengthMessage}}
 
   {{#ui-example
     header="Examples"
+    subHeader=" "
     as |showing setCopyCode|}}
 
     {{#ui-html showing=showing}}
@@ -50,7 +53,7 @@ validations: {
             </div>
             <div class="fields">
               <div class="eleven wide field">
-                {{#form-field for='blogUrl' label="Blog URL" required=true icon='tumblr square'}}
+                {{#form-field for="blogUrl" label="Blog URL" required=true icon="tumblr square"}}
                   {{input value=model.blogUrl placeholder="Blog URL"}}
                 {{/form-field}}
               </div>
@@ -63,8 +66,8 @@ validations: {
             </div>
             <div class="actions">
               <div class="ui input submit">
-                <button class="ui button primary" {{action 'validate'}}>Validate</button>
-                <button class="ui button reset" {{action 'reset'}}>Reset</button>
+                <button class="ui button primary" {{action "validate"}}>Validate</button>
+                <button class="ui button reset" {{action "reset"}}>Reset</button>
               </div>
             </div>
           {{/object-form}}
@@ -76,14 +79,14 @@ validations: {
         </div>
       </div>
     {{/ui-html}}
-
+    {{! template-lint-disable block-indentation }}
     {{#ui-annotation showing=showing type="javascript" setCopyCode=setCopyCode}}
-import Model from 'ember-data/model';
-import attr from 'ember-data/attr';
-import Validator from '../../mixins/model-validator';
+import Model from "ember-data/model";
+import attr from "ember-data/attr";
+import Validator from "../../mixins/model-validator";
 
 export default Model.extend(Validator, {
-  blogUrl: attr('string'),
+  blogUrl: attr("string"),
 
   validations: {
     blogUrl: {
@@ -92,5 +95,6 @@ export default Model.extend(Validator, {
   }
 });
     {{/ui-annotation}}
+    {{! template-lint-enable }}
   {{/ui-example}}
 </div>

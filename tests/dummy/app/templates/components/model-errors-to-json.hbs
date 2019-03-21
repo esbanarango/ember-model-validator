@@ -1,12 +1,12 @@
-<a class="ui {{ if valid 'teal' 'red'}} right ribbon label">{{validText}}</a>
+<a class="ui {{ if valid "teal" "red"}} right ribbon label">{{validText}}</a>
 <div><strong>Json representation:</strong></div>
 <pre class="code-block">
   <code class="language-javascript"></code>
 </pre>
-
+{{! template-lint-disable block-indentation }}
 <div class="hidden for-code">
   {
-    modelName: '{{modelName}}',
+    modelName: "{{modelName}}",
     {{#if valid}}
     errors: []
     {{else}}
@@ -21,3 +21,4 @@
     {{/if}}
   }
 </div>
+{{! template-lint-enable }}

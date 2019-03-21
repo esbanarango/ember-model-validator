@@ -1,17 +1,13 @@
 <div class="ui masthead minimum vertical segment">
   <div class="ui container">
     <div class="introduction">
-      <h1 class="ui header">
-        Ember Model Validator Usage
-      </h1>
+      <h1 class="ui header">Ember Model Validator Usage</h1>
     </div>
   </div>
 </div>
 
 <div class="ui main container">
-  <h2 class="ui header">
-    One Mixin to Validate Them All
-  </h2>
+  <h2 class="ui header">One Mixin to <i> Validate Them All</i></h2>
 
   <div class="no example">
     <p>
@@ -21,20 +17,18 @@
     <p>
       By including Ember-model-validator's mixin into your model, you will get a <code class="ui label">validate</code> function available. it is a synchronous function which returns either <i>true</i> or <i>false</i>.
     </p>
-
-    {{#code-block language='javascript'}}
+    {{! template-lint-disable block-indentation }}
+    {{#code-block language="javascript"}}
 if (myModel.validate()) {
   // ...
 } else {
-  console.log(myModel.get('errors'));
+  console.log(myModel.get("errors"));
 }
     {{/code-block}}
 
     <p>You will also have a <code class="ui label">clearErrors</code> function available. Which will clear the errors of your model.</p>
 
-    <h2 class="ui header">
-      Customising
-    </h2>
+    <h2 class="ui header">Customising</h2>
 
     <h4>Validate Options</h4>
     <ul>
@@ -46,52 +40,46 @@ if (myModel.validate()) {
     <p>
       You can pass an option hash for excluding or forcing certain attributes to be validated, and to prevent errors to be added.
     </p>
+    {{#code-block language="javascript"}}
+// Using `except`
+myModel.validate({ except: ["name", "cellphone"] });
 
-    {{#code-block language='javascript'}}
-//Using `except`
-myModel.validate({ except: ['name', 'cellphone'] });
+// Using `only`
+myModel.validate({ only: ["favoriteColor", "mainstreamCode"] });
 
-//Using `only`
-myModel.validate({ only: ['favoriteColor', 'mainstreamCode'] });
-
-//Using `addErrors`
+// Using `addErrors`
 myModel.validate({ addErrors: false });
 // This will validate the model but won't add any errors.
     {{/code-block}}
 
   </div>
 
-  <h3 class="ui header">
-    Conditional Validators
-  </h3>
+  <h3 class="ui header">Conditional Validators</h3>
   <p>
     You can pass an<code class="ui label">if</code> option to any validator. This will make the validation to <strong>only</strong> run when the function passed returns true. <code class="ui label">function(key,value, _this){...}</code>
   </p>
-
-  {{#code-block language='javascript'}}
-import Model from 'ember-data/model';
-import attr from 'ember-data/attr';
-import Validator from '../mixins/model-validator';
+  {{! template-lint-disable block-indentation }}
+  {{#code-block language="javascript"}}
+import Model from "ember-data/model";
+import attr from "ember-data/attr";
+import Validator from "../mixins/model-validator";
 
 export default Model.extend(Validator, {
-  images: attr(''),
-  type: attr('string'),
+  images: attr(""),
+  type: attr("string"),
 
   validations: {
     images: {
       presence: {
         if: function(key, value, _this) {
-          return 'gallery' === _this.get('type');
+          return "gallery" === _this.get("type");
         }
       }
     }
   }
 });
-    {{/code-block}}
-
-  <h3 class="ui header">
-    Using function to generate custom message
-  </h3>
+  {{/code-block}}
+  <h3 class="ui header">Using function to generate custom message</h3>
 
   <p>You can pass a function to generate a more specific error message. Some scenarios are:</p>
 
@@ -103,14 +91,13 @@ export default Model.extend(Validator, {
   <p>The message function receives the attribute name, the value of the attribute and the model itself.</p>
 
   <p><strong>Note:</strong> If the function doesn't return a string the default message is going to be used.</p>
-
-    {{#code-block language='javascript'}}
-import Model from 'ember-data/model';
-import attr from 'ember-data/attr';
-import Validator from '../mixins/model-validator';
+  {{#code-block language="javascript"}}
+import Model from "ember-data/model";
+import attr from "ember-data/attr";
+import Validator from "../mixins/model-validator";
 
 export default Model.extend(Validator, {
-  otherCustomAttribute: attr('number', { defaultValue: 12345 }),
+  otherCustomAttribute: attr("number", { defaultValue: 12345 }),
 
   validations: {
     otherCustomAttribute: {
@@ -119,45 +106,42 @@ export default Model.extend(Validator, {
           return value.toString().length === 5 ? true : false;
         },
         message: function(key, value, _this) {
-          return key + ' must have exactly 5 digits';
+          return key + " must have exactly 5 digits";
         }
       }
     }
   }
 });
-    {{/code-block}}
+  {{/code-block}}
 
   <div class="ui hidden divider"></div>
 
-  <h2 class="ui dividing header">
-    An Usage Example
-  </h2>
+  <h2 class="ui dividing header">An Usage Example</h2>
 
   <div class="no example">
-
-    {{#code-block language='javascript'}}
-import Model from 'ember-data/model';
-import attr from 'ember-data/attr';
-import Validator from '../mixins/model-validator';
+    {{#code-block language="javascript"}}
+import Model from "ember-data/model";
+import attr from "ember-data/attr";
+import Validator from "../mixins/model-validator";
 
 export default Model.extend(Validator, {
-  name: attr('string'),
-  login: attr('string'),
-  secondName: attr('string'),
-  email: attr('string'),
-  password: attr('string'),
-  passwordConfirmation: attr('string'),
+  name: attr("string"),
+  login: attr("string"),
+  secondName: attr("string"),
+  email: attr("string"),
+  password: attr("string"),
+  passwordConfirmation: attr("string"),
 
   validations: {
     name: {
-      presence: { errorAs: 'profile.name' },
-      inclusion: { in: ['Jose Rene', 'Aristi Gol', 'Armani'], message: 'Solo verde a morir' }
+      presence: { errorAs: "profile.name" },
+      inclusion: { in: ["Jose Rene", "Aristi Gol", "Armani"], message: "Solo verde a morir" }
     },
     login: {
       absence: true
     },
     secondName: {
-      exclusion: { in: ['Gionvany Hernandez', 'Wilder Medina'], message: 'Que iNrresponsabilidad' }
+      exclusion: { in: ["Gionvany Hernandez", "Wilder Medina"], message: "Que iNrresponsabilidad" }
     },
     email: {
       presence: true,
@@ -165,9 +149,9 @@ export default Model.extend(Validator, {
     },
     password: {
       custom: function(key, value, _this) {
-        return String(value) === String(_this.get('socialSecurity')) ? false : true;
+        return String(value) === String(_this.get("socialSecurity")) ? false : true;
       },
-      match: 'passwordConfirmation',
+      match: "passwordConfirmation",
       mustContainCapital: true,
       mustContainLower: true,
       mustContainNumber: true,
@@ -176,37 +160,36 @@ export default Model.extend(Validator, {
   }
 });
     {{/code-block}}
-
     <p>After setting the validations on your model you will be able to:</p>
-
-    {{#code-block language='javascript'}}
-import Route from '@ember/routing/route';
+    {{#code-block language="javascript"}}
+import Route from "@ember/routing/route";
 
 export default Route.extend({
   actions: {
     saveFakeModel: function() {
-      let fakeModel = this.get('model');
+      let fakeModel = this.get("model");
 
       if (fakeModel.validate()) {
         fakeModel.save().then(
           // Success
           () => {
             // Alert success
-            console.log('ooooh yeah we just saved the FakeModel...');
+            console.log("ooooh yeah we just saved the FakeModel...");
           },
           // Error handling
           error => {
             // Alert failure
-            console.log('There was a problem saving the FakeModel...');
+            console.log("There was a problem saving the FakeModel...");
             console.log(error);
           }
         );
       } else {
-        fakeModel.get('errors'); // []
+        fakeModel.get("errors"); // [...]
       }
     }
   }
 });
     {{/code-block}}
+    {{! template-lint-enable }}
   </div>
 </div>

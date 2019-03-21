@@ -9,7 +9,7 @@
       </h1>
       <div class="ui hidden divider"></div>
       <p>
-        A value is not present if it is empty or a whitespace string. It uses <a href="https://emberjs.com/api/ember/3.0/functions/@ember%2Futils/isBlank" target="_blank">Ember.isBlank</a> method. This can be also used on <strong>async belongsTo</strong> relations.
+        A value is not present if it is empty or a whitespace string. It uses <a href="https://emberjs.com/api/ember/3.0/functions/@ember%2Futils/isBlank" target="_blank" rel="noopener">Ember.isBlank</a> method. This can be also used on <strong>async belongsTo</strong> relations.
       </p>
     </div>
   </div>
@@ -17,6 +17,7 @@
 
 <div class="ui main container">
   <p>
+    {{! template-lint-disable block-indentation }}
     {{#ui-annotation showing=true type="javascript"}}
 validations: {
   name: {
@@ -24,6 +25,7 @@ validations: {
   }
 }
     {{/ui-annotation}}
+    {{! template-lint-enable }}
   </p>
   {{config-options defaultMessage=messages.presenceMessage}}
   {{#ui-example
@@ -36,12 +38,12 @@ validations: {
         <div class="column">
 
           {{#object-form for=model classNames="segment"}}
-            {{#form-field for='fullName' label="Full Name" required=true}}
+            {{#form-field for="fullName" label="Full Name" required=true}}
               {{input value=model.fullName placeholder="Full Name"}}
             {{/form-field}}
             <div class="fields">
               <div class="field">
-                {{#form-field for='fruit' label="Favorite Fruit" required=true}}
+                {{#form-field for="fruit" label="Favorite Fruit" required=true}}
                   {{#ui-dropdown class="selection" selected=model.fruit onChange=(action (mut model.fruit))}}
                     <div class="default text">Fruit</div>
                     <i class="dropdown icon"></i>
@@ -57,7 +59,7 @@ validations: {
                 {{/form-field}}
               </div>
               <div class="field">
-                {{#form-field for='color' label="Favorite Color" }}
+                {{#form-field for="color" label="Favorite Color" }}
                   {{input value=model.color placeholder="Favorite Color"}}
                 {{/form-field}}
               </div>
@@ -65,8 +67,8 @@ validations: {
 
             <div class="actions">
               <div class="ui input submit">
-                <button class="ui button primary" {{action 'validate'}}>Validate</button>
-                <button class="ui button reset" {{action 'reset'}}>Reset</button>
+                <button class="ui button primary" {{action "validate"}}>Validate</button>
+                <button class="ui button reset" {{action "reset"}}>Reset</button>
               </div>
             </div>
           {{/object-form}}
@@ -78,16 +80,16 @@ validations: {
         </div>
       </div>
     {{/ui-html}}
-
+    {{! template-lint-disable block-indentation }}
     {{#ui-annotation showing=showing type="javascript" setCopyCode=setCopyCode}}
-import Model from 'ember-data/model';
-import attr from 'ember-data/attr';
-import Validator from '../mixins/model-validator';
+import Model from "ember-data/model";
+import attr from "ember-data/attr";
+import Validator from "../mixins/model-validator";
 
 export default Model.extend(Validator, {
-  fullName: attr('string'),
-  fruit: attr('string'),
-  color: attr('string'),
+  fullName: attr("string"),
+  fruit: attr("string"),
+  color: attr("string"),
 
   validations: {
     fullName: {
@@ -99,5 +101,6 @@ export default Model.extend(Validator, {
   }
 });
     {{/ui-annotation}}
+    {{! template-lint-enable }}
   {{/ui-example}}
 </div>

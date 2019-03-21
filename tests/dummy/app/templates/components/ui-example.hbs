@@ -4,10 +4,10 @@
       {{header}}
     </h4>
   {{/if}}
-  <i class="icon code" {{action "toggle" "showing"}}></i>
+  <i class="icon code" {{action "toggle" "showing"}} role="button"></i>
   {{#if subHeader}}
     <p>{{subHeader}}</p>
   {{/if}}
 
-  {{yield showing (action 'setCopyCode')}}
+  {{yield showing (action "setCopyCode")}}
 </div>

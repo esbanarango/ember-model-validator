@@ -17,17 +17,18 @@
 
 <div class="ui main container">
   <p>
-
+    {{! template-lint-disable block-indentation }}
     {{#ui-annotation showing=true type="javascript"}}
 validations: {
   myHasManyRelation: {
-    relations: ['hasMany']
+    relations: ["hasMany"]
   },
   myBelongsToRelation: {
-    relations: ['belongsTo']
+    relations: ["belongsTo"]
   }
 }
     {{/ui-annotation}}
+    {{! template-lint-enable }}
   </p>
 
   {{config-options defaultMessage=messages.acceptanceMessage}}
@@ -42,12 +43,12 @@ validations: {
         <div class="column">
           <h5>Relation model</h5>
           {{#object-form for=modelRelation classNames="segment"}}
-            {{#form-field for='fullName' label="Full Name" required=true}}
+            {{#form-field for="fullName" label="Full Name" required=true}}
               {{input value=modelRelation.fullName placeholder="Full Name"}}
             {{/form-field}}
             <div class="fields">
               <div class="field">
-                {{#form-field for='fruit' label="Favorite Fruit" required=true}}
+                {{#form-field for="fruit" label="Favorite Fruit" required=true}}
                   {{#ui-dropdown class="selection" selected=modelRelation.fruit onChange=(action (mut modelRelation.fruit))}}
                     <div class="default text">Fruit</div>
                     <i class="dropdown icon"></i>
@@ -63,7 +64,7 @@ validations: {
                 {{/form-field}}
               </div>
               <div class="field">
-                {{#form-field for='color' label="Favorite Color" }}
+                {{#form-field for="color" label="Favorite Color" }}
                   {{input value=modelRelation.color placeholder="Favorite Color"}}
                 {{/form-field}}
               </div>
@@ -71,18 +72,19 @@ validations: {
           {{/object-form}}
           <h5>Main model</h5>
           {{#object-form for=model classNames="segment"}}
+            <p>
+              Duis aute irure dolor in reprehenderit in voluptate velit esse
+              cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+              proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </p>
 
-            <p>Duis aute irure dolor in reprehenderit in voluptate velit esse
-            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-            proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-
-            {{#form-field for='happyWithMyRelation' label="Are you happy?" required=true}}
+            {{#form-field for="happyWithMyRelation" label="Are you happy?" required=true}}
               {{ui-checkbox class="toggle" label="Yeah!" checked=model.happyWithMyRelation onChange=(action (mut model.happyWithMyRelation))}}
             {{/form-field}}
             <div class="actions">
               <div class="ui input submit">
-                <button class="ui button primary" {{action 'validate'}}>Validate</button>
-                <button class="ui button reset" {{action 'reset'}}>Reset</button>
+                <button class="ui button primary" {{action "validate"}}>Validate</button>
+                <button class="ui button reset" {{action "reset"}}>Reset</button>
               </div>
             </div>
           {{/object-form}}
@@ -90,33 +92,33 @@ validations: {
         </div>
         <div class="column">
           <div class="ui segment">
-            {{model-errors-to-json errors=modelRelation.errors modelName='for-presence'}}
+            {{model-errors-to-json errors=modelRelation.errors modelName="for-presence"}}
             {{model-errors-to-json errors=model.errors modelName=modelName}}
           </div>
         </div>
       </div>
     {{/ui-html}}
-
+    {{! template-lint-disable block-indentation }}
     {{#ui-annotation showing=showing type="javascript" setCopyCode=setCopyCode}}
-import Model from 'ember-data/model';
-import attr from 'ember-data/attr';
-import { belongsTo } from 'ember-data/relationships';
-import Validator from '../mixins/model-validator';
+import Model from "ember-data/model";
+import attr from "ember-data/attr";
+import { belongsTo } from "ember-data/relationships";
+import Validator from "../mixins/model-validator";
 
 export default Model.extend(Validator, {
-  relationYeah: belongsTo('another-model'),
-  happyWithMyRelation: attr('boolean'),
+  relationYeah: belongsTo("another-model"),
+  happyWithMyRelation: attr("boolean"),
 
   validations: {
     happyWithMyRelation: {
       acceptance: true
     },
     relationYeah: {
-      relations: ['belongsTo']
+      relations: ["belongsTo"]
     }
   }
 });
     {{/ui-annotation}}
-
+    {{! template-lint-enable }}
   {{/ui-example}}
 </div>

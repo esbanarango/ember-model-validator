@@ -4,7 +4,7 @@
       <h1 class="ui header">
         Hex Color
         <div class="sub header">
-          Validates that the specified attributes are a correct Hexadecimal color.
+          Validates that the specified attribute is a correct Hexadecimal color.
         </div>
       </h1>
       <div class="ui hidden divider"></div>
@@ -14,6 +14,7 @@
 
 <div class="ui main container">
   <p>
+    {{! template-lint-disable block-indentation }}
     {{#ui-annotation showing=true type="javascript"}}
 validations: {
   favoriteColor: {
@@ -21,6 +22,7 @@ validations: {
   }
 }
     {{/ui-annotation}}
+    {{! template-lint-enable }}
   </p>
   {{config-options defaultMessage=messages.presenceMessage}}
   {{#ui-example
@@ -34,7 +36,7 @@ validations: {
           {{#object-form for=model classNames="segment"}}
             <div class="fields">
               <div class="field">
-                {{#form-field for='favoriteColor' label="Favorite Color" icon="paint brush"}}
+                {{#form-field for="favoriteColor" label="Favorite Color" icon="paint brush"}}
                   {{input value=model.favoriteColor placeholder="Favorite Color"}}
                 {{/form-field}}
               </div>
@@ -46,8 +48,8 @@ validations: {
 
             <div class="actions">
               <div class="ui input submit">
-                <button class="ui button primary" {{action 'validate'}}>Validate</button>
-                <button class="ui button reset" {{action 'reset'}}>Reset</button>
+                <button class="ui button primary" {{action "validate"}}>Validate</button>
+                <button class="ui button reset" {{action "reset"}}>Reset</button>
               </div>
             </div>
           {{/object-form}}
@@ -60,14 +62,14 @@ validations: {
         </div>
       </div>
     {{/ui-html}}
-
+    {{! template-lint-disable block-indentation }}
     {{#ui-annotation showing=showing type="javascript" setCopyCode=setCopyCode}}
-import Model from 'ember-data/model';
-import attr from 'ember-data/attr';
-import Validator from '../mixins/model-validator';
+import Model from "ember-data/model";
+import attr from "ember-data/attr";
+import Validator from "../mixins/model-validator";
 
 export default Model.extend(Validator, {
-  favoriteColor: attr('string'),
+  favoriteColor: attr("string"),
 
   validations: {
     favoriteColor: {
@@ -76,5 +78,6 @@ export default Model.extend(Validator, {
   }
 });
     {{/ui-annotation}}
+    {{! template-lint-enable }}
   {{/ui-example}}
 </div>

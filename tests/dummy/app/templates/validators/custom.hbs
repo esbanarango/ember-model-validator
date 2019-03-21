@@ -4,7 +4,7 @@
       <h1 class="ui header">
         Custom
         <div class="sub header">
-          Validates the attributes' values by definying a custom callback function to validate the model's value.
+          Validates the attribute's value by definying a custom callback function to validate the model's value.
         </div>
       </h1>
       <div class="ui hidden divider"></div>
@@ -23,17 +23,17 @@
       <li><code class="ui label">value</code>. Attribute's value </li>
       <li><code class="ui label">model</code> Current model.</li>
     </ul>
-
+    {{! template-lint-disable block-indentation }}
     {{#ui-annotation showing=true type="javascript"}}
 validations: {
   lotteryNumber: {
     custom: function(key, value, model){
-      return model.get('accountBalance') > 1 ? true : false;
+      return model.get("accountBalance") > 1 ? true : false;
     }
   }
 }
     {{/ui-annotation}}
-    <br/>
+    <br>
     <p>
       this has the same action as above except will use a custom message instead of the default.
     </p>
@@ -42,14 +42,14 @@ validations: {
   lotteryNumber: {
     custom: {
       validation: function(key, value, model){
-        return model.get('accountBalance') > 1 ? true : false;
+        return model.get("accountBalance") > 1 ? true : false;
       },
-      message: 'You can\'t win off of good looks and charm.'
+      message: "You can't win off of good looks and charm."
     }
   }
 }
     {{/ui-annotation}}
-    <br/>
+    <br>
     <p>
       to have multiple custom validation functions on the same property, give 'custom' an array of either of the two syntax above.
     </p>
@@ -59,7 +59,7 @@ validations: {
     custom: [
       {
         validation: function(key, value, model) {
-          return model.get('accountBalance') > 1 ? true : false;
+          return model.get("accountBalance") > 1 ? true : false;
         },
         message: "You can't win off of good looks and charm."
       },
@@ -73,12 +73,14 @@ validations: {
   }
 }
     {{/ui-annotation}}
+    {{! template-lint-enable }}
   </p>
 
   {{config-options defaultMessage=messages.customValidationMessage}}
 
   {{#ui-example
     header="Examples"
+    subHeader=" "
     as |showing setCopyCode|}}
 
     {{#ui-html showing=showing}}
@@ -88,7 +90,7 @@ validations: {
           {{#object-form for=model classNames="segment"}}
             <div class="fields">
               <div class="seven wide field">
-                {{#form-field for='favoriteColor' label="Favorite Color" required=true}}
+                {{#form-field for="favoriteColor" label="Favorite Color" required=true}}
                   {{#ui-dropdown class="selection" selected=model.favoriteColor onChange=(action (mut model.favoriteColor))}}
                     <div class="default text">Color</div>
                     <i class="dropdown icon"></i>
@@ -104,15 +106,15 @@ validations: {
                 {{/form-field}}
               </div>
               <div class="nine wide field">
-                {{#form-field for='lotteryNumber' label="Lottery Number" required=true}}
+                {{#form-field for="lotteryNumber" label="Lottery Number" required=true}}
                   {{input value=model.lotteryNumber placeholder="Lottery Number"}}
                 {{/form-field}}
               </div>
             </div>
             <div class="actions">
               <div class="ui input submit">
-                <button class="ui button primary" {{action 'validate'}}>Validate</button>
-                <button class="ui button reset" {{action 'reset'}}>Reset</button>
+                <button class="ui button primary" {{action "validate"}}>Validate</button>
+                <button class="ui button reset" {{action "reset"}}>Reset</button>
               </div>
             </div>
           {{/object-form}}
@@ -125,29 +127,29 @@ validations: {
         </div>
       </div>
     {{/ui-html}}
-
+    {{! template-lint-disable block-indentation }}
     {{#ui-annotation showing=showing type="javascript" setCopyCode=setCopyCode}}
-import Model from 'ember-data/model';
-import attr from 'ember-data/attr';
-import Validator from '../mixins/model-validator';
+import Model from "ember-data/model";
+import attr from "ember-data/attr";
+import Validator from "../mixins/model-validator";
 
 export default Model.extend(Validator, {
-  lotteryNumber: attr('number'),
-  favoriteColor: attr('string'),
+  lotteryNumber: attr("number"),
+  favoriteColor: attr("string"),
 
   validations: {
     lotteryNumber: {
       custom: {
         validation: function(key, value, _this) {
-          var favColor = _this.get('favoriteColor');
+          var favColor = _this.get("favoriteColor");
           return !!favColor;
         },
-        message: '🤦‍♂️ must have a favorite color to play the lotto, duh'
+        message: "🤦‍♂️ must have a favorite color to play the lotto, duh"
       }
     }
   }
 });
     {{/ui-annotation}}
-
+    {{! template-lint-enable }}
   {{/ui-example}}
 </div>
