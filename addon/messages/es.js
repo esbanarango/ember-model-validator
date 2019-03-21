@@ -1,5 +1,5 @@
 export default {
-  presenceMessage: "no puede estar en blanco",
+  presenceMessage: 'no puede estar en blanco',
   absenceMessage: 'debe estar en blanco',
   inclusionMessage: 'no está incluido en la lista',
   exclusionMessage: 'está reservado',
@@ -21,9 +21,9 @@ export default {
   acceptanceMessage: 'debe ser aceptado',
   zipCodeMessage: 'no es un código postal válido',
   URLMessage: 'debe ser una url válida',
-  wrongLengthMessage: "longitud errónea (debe ser de {count} caracteres)",
-  tooShortMessage: "es demasiado corto (mínimo {count} caracteres)",
-  tooLongMessage: "es demasiado largo (máximo {count} caracteres)",
+  wrongLengthMessage: 'longitud errónea (debe ser de {count} caracteres)',
+  tooShortMessage: 'es demasiado corto (mínimo {count} caracteres)',
+  tooLongMessage: 'es demasiado largo (máximo {count} caracteres)',
   mustContainNumberMessage: 'debe incluir un número',
   mustContainSpecialMessage: 'debe incluir uno de estos caracteres especiales: {characters}',
   mustContainLowerMessage: 'debe incluir un carácter en minúscula',
@@ -33,5 +33,5 @@ export default {
 
   dateMessage: 'no es una fecha válida',
   dateBeforeMessage: 'debe ser antes de {date}',
-  dateAfterMessage: 'debe ser después de {date}',
+  dateAfterMessage: 'debe ser después de {date}'
 };

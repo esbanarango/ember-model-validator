@@ -1,5 +1,5 @@
 export default {
-  presenceMessage: 'can\'t be blank',
+  presenceMessage: "can't be blank",
   absenceMessage: 'must be blank',
   inclusionMessage: 'is not included in the list',
   exclusionMessage: 'is reserved',

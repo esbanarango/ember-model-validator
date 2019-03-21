@@ -9,8 +9,8 @@ export default Mixin.create(Validation, {
     this.set('errors', DS.Errors.create());
   },
 
-  pushErrors(errors){
-    for(let attribute in errors){
+  pushErrors(errors) {
+    for (let attribute in errors) {
       let messages = errors[attribute];
       this.get('errors').add(attribute, messages);
     }
