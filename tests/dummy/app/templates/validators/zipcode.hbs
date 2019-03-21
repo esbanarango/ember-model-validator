@@ -41,7 +41,7 @@ validations: {
     {{! template-lint-enable }}
   </p>
 
-  <ConfigOptions @defaultMessage={{messages.zipCodeMessage}}/>
+  {{config-options  defaultMessage=messages.zipCodeMessage}}
 
   {{#ui-example header="Examples" as |showing setCopyCode|}}
     {{#ui-html showing=showing}}
