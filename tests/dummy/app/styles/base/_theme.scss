@@ -3,7 +3,6 @@
  Many of the styles are copied from semantic-ui.com
 *******************************/
 
-
 /*--------------
      Page
 ---------------*/
@@ -24,7 +23,6 @@ p:first-child {
 p:last-child {
   margin-bottom: 0em;
 }
-
 
 /*--------------
      Code
@@ -51,7 +49,6 @@ pre {
   background-color: #FFFFFF;
   text-align: left;
 }*/
-
 
 /*rtl:ignore*/
 /*pre.console {
@@ -113,8 +110,8 @@ blockquote .author {
   margin: 0em;
   min-height: 185px;
   padding: 3em 0em;
-  background-color: #FFFFFF;
-  border-bottom: 1px solid #DDDDDD;
+  background-color: #ffffff;
+  border-bottom: 1px solid #dddddd;
   box-shadow: none;
 }
 
@@ -126,7 +123,7 @@ blockquote .author {
   display: block;
 }
 #example .masthead .introduction:after {
-  content: ".";
+  content: '.';
   display: block;
   height: 0;
   clear: both;
@@ -153,28 +150,26 @@ blockquote .author {
   padding-bottom: 0.785714em;
 }
 
-
 /*--------------
     Docs Icon
 ---------------*/
 
-
 /* Replace Code Icon */
 @font-face {
   font-family: 'Docs';
-  src:
-    url(data:application/x-font-ttf;charset=utf-8;base64,AAEAAAALAIAAAwAwT1MvMggi/LYAAAC8AAAAYGNtYXAaVcxXAAABHAAAAExnYXNwAAAAEAAAAWgAAAAIZ2x5Zl4DICgAAAFwAAAAeGhlYWQCOGXvAAAB6AAAADZoaGVhA6IB5gAAAiAAAAAkaG10eALAAAAAAAJEAAAAFGxvY2EAKABQAAACWAAAAAxtYXhwAAgAEAAAAmQAAAAgbmFtZVcZpu4AAAKEAAABRXBvc3QAAwAAAAADzAAAACAAAwIAAZAABQAAAUwBZgAAAEcBTAFmAAAA9QAZAIQAAAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAAAAAAAABAAADmAAHg/+D/4AHgACAAAAABAAAAAAAAAAAAAAAgAAAAAAACAAAAAwAAABQAAwABAAAAFAAEADgAAAAKAAgAAgACAAEAIOYA//3//wAAAAAAIOYA//3//wAB/+MaBAADAAEAAAAAAAAAAAAAAAEAAf//AA8AAQAAAAAAAAAAAAIAADc5AQAAAAABAAAAAAAAAAAAAgAANzkBAAAAAAEAAAAAAAAAAAACAAA3OQEAAAAAAgAAAEABwAGAAAYADQAAAQcXBxc3JyMHFzcnNycBMDBwcDCQkKCQkDBwcDABgDBwcDCgoKCgMHBwMAAAAQAAAAEAAH1wL6hfDzz1AAsCAAAAAADQrRK5AAAAANCtErkAAAAAAcABgAAAAAgAAgAAAAAAAAABAAAB4P/gAAACAAAAAAABwAABAAAAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAAAEAAAABwAAAAAAAAAAKABQAHgA8AAEAAAAFAA4AAgAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAOAK4AAQAAAAAAAQAOAAAAAQAAAAAAAgAOAEcAAQAAAAAAAwAOACQAAQAAAAAABAAOAFUAAQAAAAAABQAWAA4AAQAAAAAABgAHADIAAQAAAAAACgA0AGMAAwABBAkAAQAOAAAAAwABBAkAAgAOAEcAAwABBAkAAwAOACQAAwABBAkABAAOAFUAAwABBAkABQAWAA4AAwABBAkABgAOADkAAwABBAkACgA0AGMAaQBjAG8AbQBvAG8AbgBWAGUAcgBzAGkAbwBuACAAMQAuADAAaQBjAG8AbQBvAG8Abmljb21vb24AaQBjAG8AbQBvAG8AbgBSAGUAZwB1AGwAYQByAGkAYwBvAG0AbwBvAG4ARgBvAG4AdAAgAGcAZQBuAGUAcgBhAHQAZQBkACAAYgB5ACAASQBjAG8ATQBvAG8AbgAuAAAAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=) format('truetype'),
-    url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAAQ4AAsAAAAAA+wAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAABPUy8yAAABCAAAAGAAAABgCCL8tmNtYXAAAAFoAAAATAAAAEwaVcxXZ2FzcAAAAbQAAAAIAAAACAAAABBnbHlmAAABvAAAAHgAAAB4XgMgKGhlYWQAAAI0AAAANgAAADYCOGXvaGhlYQAAAmwAAAAkAAAAJAOiAeZobXR4AAACkAAAABQAAAAUAsAAAGxvY2EAAAKkAAAADAAAAAwAKABQbWF4cAAAArAAAAAgAAAAIAAIABBuYW1lAAAC0AAAAUUAAAFFVxmm7nBvc3QAAAQYAAAAIAAAACAAAwAAAAMCAAGQAAUAAAFMAWYAAABHAUwBZgAAAPUAGQCEAAAAAAAAAAAAAAAAAAAAARAAAAAAAAAAAAAAAAAAAAAAQAAA5gAB4P/g/+AB4AAgAAAAAQAAAAAAAAAAAAAAIAAAAAAAAgAAAAMAAAAUAAMAAQAAABQABAA4AAAACgAIAAIAAgABACDmAP/9//8AAAAAACDmAP/9//8AAf/jGgQAAwABAAAAAAAAAAAAAAABAAH//wAPAAEAAAAAAAAAAAACAAA3OQEAAAAAAQAAAAAAAAAAAAIAADc5AQAAAAABAAAAAAAAAAAAAgAANzkBAAAAAAIAAABAAcABgAAGAA0AAAEHFwcXNycjBxc3JzcnATAwcHAwkJCgkJAwcHAwAYAwcHAwoKCgoDBwcDAAAAEAAAABAAB9cC+oXw889QALAgAAAAAA0K0SuQAAAADQrRK5AAAAAAHAAYAAAAAIAAIAAAAAAAAAAQAAAeD/4AAAAgAAAAAAAcAAAQAAAAAAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAAABAAAAAcAAAAAAAAAACgAUAB4APAABAAAABQAOAAIAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAADgCuAAEAAAAAAAEADgAAAAEAAAAAAAIADgBHAAEAAAAAAAMADgAkAAEAAAAAAAQADgBVAAEAAAAAAAUAFgAOAAEAAAAAAAYABwAyAAEAAAAAAAoANABjAAMAAQQJAAEADgAAAAMAAQQJAAIADgBHAAMAAQQJAAMADgAkAAMAAQQJAAQADgBVAAMAAQQJAAUAFgAOAAMAAQQJAAYADgA5AAMAAQQJAAoANABjAGkAYwBvAG0AbwBvAG4AVgBlAHIAcwBpAG8AbgAgADEALgAwAGkAYwBvAG0AbwBvAG5pY29tb29uAGkAYwBvAG0AbwBvAG4AUgBlAGcAdQBsAGEAcgBpAGMAbwBtAG8AbwBuAEYAbwBuAHQAIABnAGUAbgBlAHIAYQB0AGUAZAAgAGIAeQAgAEkAYwBvAE0AbwBvAG4ALgAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA) format('woff');
+  src: url(data:application/x-font-ttf;charset=utf-8;base64,AAEAAAALAIAAAwAwT1MvMggi/LYAAAC8AAAAYGNtYXAaVcxXAAABHAAAAExnYXNwAAAAEAAAAWgAAAAIZ2x5Zl4DICgAAAFwAAAAeGhlYWQCOGXvAAAB6AAAADZoaGVhA6IB5gAAAiAAAAAkaG10eALAAAAAAAJEAAAAFGxvY2EAKABQAAACWAAAAAxtYXhwAAgAEAAAAmQAAAAgbmFtZVcZpu4AAAKEAAABRXBvc3QAAwAAAAADzAAAACAAAwIAAZAABQAAAUwBZgAAAEcBTAFmAAAA9QAZAIQAAAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAAAAAAAABAAADmAAHg/+D/4AHgACAAAAABAAAAAAAAAAAAAAAgAAAAAAACAAAAAwAAABQAAwABAAAAFAAEADgAAAAKAAgAAgACAAEAIOYA//3//wAAAAAAIOYA//3//wAB/+MaBAADAAEAAAAAAAAAAAAAAAEAAf//AA8AAQAAAAAAAAAAAAIAADc5AQAAAAABAAAAAAAAAAAAAgAANzkBAAAAAAEAAAAAAAAAAAACAAA3OQEAAAAAAgAAAEABwAGAAAYADQAAAQcXBxc3JyMHFzcnNycBMDBwcDCQkKCQkDBwcDABgDBwcDCgoKCgMHBwMAAAAQAAAAEAAH1wL6hfDzz1AAsCAAAAAADQrRK5AAAAANCtErkAAAAAAcABgAAAAAgAAgAAAAAAAAABAAAB4P/gAAACAAAAAAABwAABAAAAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAAAEAAAABwAAAAAAAAAAKABQAHgA8AAEAAAAFAA4AAgAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAOAK4AAQAAAAAAAQAOAAAAAQAAAAAAAgAOAEcAAQAAAAAAAwAOACQAAQAAAAAABAAOAFUAAQAAAAAABQAWAA4AAQAAAAAABgAHADIAAQAAAAAACgA0AGMAAwABBAkAAQAOAAAAAwABBAkAAgAOAEcAAwABBAkAAwAOACQAAwABBAkABAAOAFUAAwABBAkABQAWAA4AAwABBAkABgAOADkAAwABBAkACgA0AGMAaQBjAG8AbQBvAG8AbgBWAGUAcgBzAGkAbwBuACAAMQAuADAAaQBjAG8AbQBvAG8Abmljb21vb24AaQBjAG8AbQBvAG8AbgBSAGUAZwB1AGwAYQByAGkAYwBvAG0AbwBvAG4ARgBvAG4AdAAgAGcAZQBuAGUAcgBhAHQAZQBkACAAYgB5ACAASQBjAG8ATQBvAG8AbgAuAAAAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=)
+      format('truetype'),
+    url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAAQ4AAsAAAAAA+wAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAABPUy8yAAABCAAAAGAAAABgCCL8tmNtYXAAAAFoAAAATAAAAEwaVcxXZ2FzcAAAAbQAAAAIAAAACAAAABBnbHlmAAABvAAAAHgAAAB4XgMgKGhlYWQAAAI0AAAANgAAADYCOGXvaGhlYQAAAmwAAAAkAAAAJAOiAeZobXR4AAACkAAAABQAAAAUAsAAAGxvY2EAAAKkAAAADAAAAAwAKABQbWF4cAAAArAAAAAgAAAAIAAIABBuYW1lAAAC0AAAAUUAAAFFVxmm7nBvc3QAAAQYAAAAIAAAACAAAwAAAAMCAAGQAAUAAAFMAWYAAABHAUwBZgAAAPUAGQCEAAAAAAAAAAAAAAAAAAAAARAAAAAAAAAAAAAAAAAAAAAAQAAA5gAB4P/g/+AB4AAgAAAAAQAAAAAAAAAAAAAAIAAAAAAAAgAAAAMAAAAUAAMAAQAAABQABAA4AAAACgAIAAIAAgABACDmAP/9//8AAAAAACDmAP/9//8AAf/jGgQAAwABAAAAAAAAAAAAAAABAAH//wAPAAEAAAAAAAAAAAACAAA3OQEAAAAAAQAAAAAAAAAAAAIAADc5AQAAAAABAAAAAAAAAAAAAgAANzkBAAAAAAIAAABAAcABgAAGAA0AAAEHFwcXNycjBxc3JzcnATAwcHAwkJCgkJAwcHAwAYAwcHAwoKCgoDBwcDAAAAEAAAABAAB9cC+oXw889QALAgAAAAAA0K0SuQAAAADQrRK5AAAAAAHAAYAAAAAIAAIAAAAAAAAAAQAAAeD/4AAAAgAAAAAAAcAAAQAAAAAAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAAABAAAAAcAAAAAAAAAACgAUAB4APAABAAAABQAOAAIAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAADgCuAAEAAAAAAAEADgAAAAEAAAAAAAIADgBHAAEAAAAAAAMADgAkAAEAAAAAAAQADgBVAAEAAAAAAAUAFgAOAAEAAAAAAAYABwAyAAEAAAAAAAoANABjAAMAAQQJAAEADgAAAAMAAQQJAAIADgBHAAMAAQQJAAMADgAkAAMAAQQJAAQADgBVAAMAAQQJAAUAFgAOAAMAAQQJAAYADgA5AAMAAQQJAAoANABjAGkAYwBvAG0AbwBvAG4AVgBlAHIAcwBpAG8AbgAgADEALgAwAGkAYwBvAG0AbwBvAG5pY29tb29uAGkAYwBvAG0AbwBvAG4AUgBlAGcAdQBsAGEAcgBpAGMAbwBtAG8AbwBuAEYAbwBuAHQAIABnAGUAbgBlAHIAYQB0AGUAZAAgAGIAeQAgAEkAYwBvAE0AbwBvAG4ALgAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA)
+      format('woff');
   font-weight: normal;
   font-style: normal;
 }
 
 .docs.code.icon:before {
   font-family: 'Docs';
-  content: "\e600";
+  content: '\e600';
   vertical-align: top;
 }
-
 
 /*--------------
      Sidebar
@@ -192,28 +187,28 @@ blockquote .author {
   width: 100%;
 }
 
-#example{
+#example {
   .full.height {
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-flex-direction: row;
-        -ms-flex-direction: row;
-            flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
     height: 100%;
     width: 100%;
-    background-color: #FFFFFF;
+    background-color: #ffffff;
     /* page layout */
     & > .toc {
       position: relative;
       z-index: 1;
       background-color: #1b1c1d;
-      width: 250px;
+      width: 255px;
       -webkit-box-flex: 0;
       -webkit-flex: 0 0 auto;
-          -ms-flex: 0 0 auto;
-              flex: 0 0 auto;
+      -ms-flex: 0 0 auto;
+      flex: 0 0 auto;
 
       .ui.menu {
         border-radius: 0;
@@ -224,14 +219,13 @@ blockquote .author {
         overflow: hidden;
         will-change: transform;
       }
-
     }
   }
   .article {
     -webkit-box-flex: 1;
     -webkit-flex: 1 1 auto;
-        -ms-flex: 1 1 auto;
-            flex: 1 1 auto;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
     min-width: 0px;
   }
 }
@@ -270,7 +264,7 @@ blockquote .author {
 #example .main.container > p a,
 #example .main.container > .tab > p a,
 #example .main.container .example > .ignored a,
-#example .main.container .example > p a  {
+#example .main.container .example > p a {
   display: inline-block;
   position: relative;
   overflow: hidden;
@@ -297,7 +291,7 @@ blockquote .author {
   left: 0;
   width: 100%;
   height: 1px;
-  background-color: #4183C4;
+  background-color: #4183c4;
   content: '';
   -webkit-transition: all 0.2s;
   -webkit-backface-visibility: hidden;
@@ -327,8 +321,8 @@ blockquote .author {
 #example .main.container .example > .ignored a:focus:before,
 #example .main.container .example > p a:hover:before,
 #example .main.container .example > p a:focus:before,
-#example .main.container .code .value a:hover:before  {
-  background-color: #2C76BF;
+#example .main.container .code .value a:hover:before {
+  background-color: #2c76bf;
   -webkit-transform: scaleX(1);
   transform: scaleX(1);
 }
@@ -336,7 +330,6 @@ blockquote .author {
 #example .ui.ad {
   max-width: 100%;
 }
-
 
 /*----------------
    Code Samples
@@ -354,7 +347,7 @@ blockquote .author {
   font-weight: normal;
   transform: rotateZ(0deg);
   -ms-transform: none !important;
-  font-family:  'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
 }
 
 #example table .instructive.segment {
@@ -383,7 +376,6 @@ blockquote .author {
 #example .label + .code {
   margin-top: 1.5em;
 }
-
 
 /*----------------
      Examples
@@ -453,7 +445,7 @@ blockquote .author {
 }
 
 #example .inline.example > .segment > .sticky.fixed {
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 }
 #example .inline.example > .segment > .sticky.fixed + * {
   margin-top: 39px;
@@ -478,11 +470,11 @@ blockquote .author {
 }
 
 /* Examples Tab */
-#example .tab[data-tab*="examples"] .example > p,
+#example .tab[data-tab*='examples'] .example > p,
 #example .examples.tab .example > p {
   margin: 1em 0em;
 }
-#example .tab[data-tab*="examples"] .example .icon.code + p,
+#example .tab[data-tab*='examples'] .example .icon.code + p,
 #example .examples.tab .example .icon.code + p {
   padding: 0em;
 }
@@ -497,7 +489,6 @@ blockquote .author {
 #example .intro .example > p {
   color: rgba(0, 0, 0, 0.8);
 }
-
 
 #example .existing.segment:after,
 #example .instructive.segment:after {
@@ -529,7 +520,6 @@ blockquote .author {
   vertical-align: middle;
 }
 
-
 /* Requires Clear */
 #example .clearing.example {
   overflow: hidden;
@@ -558,13 +548,13 @@ blockquote .author {
 
 #example .main.container .examples > h2,
 #example .main.container > h2,
-#example .main.container > .tab > h2{
+#example .main.container > .tab > h2 {
   position: relative;
   margin: 3rem 0rem 1rem;
 }
 #example .main.container .examples > h3,
 #example .main.container > h3,
-#example .main.container > .tab > h3{
+#example .main.container > .tab > h3 {
   position: relative;
   margin: 3rem 0rem 2rem;
 }
@@ -611,7 +601,6 @@ blockquote .author {
   margin: 1em 0em 0.75em;
 }
 
-
 /*--------------
    Code Button
 ---------------*/
@@ -637,7 +626,7 @@ blockquote .author {
 
 #example .example i.code:before {
   font-family: 'Docs';
-  content: "\e600";
+  content: '\e600';
 }
 #example .example:hover i.code {
   opacity: 0.85;
@@ -666,7 +655,6 @@ blockquote .author {
   -webkit-overflow-scrolling: touch;
 }
 
-
 #example .transition.example .ui.button {
   margin-bottom: 0.5em;
 }
@@ -674,10 +662,7 @@ blockquote .author {
 /* HTML Wrapper */
 #example .example > .html {
   padding: 0em;
-  transition:
-    box-shadow 0.2s ease,
-    padding 0.2s ease
-  ;
+  transition: box-shadow 0.2s ease, padding 0.2s ease;
   box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);
 }
 #example .example > .html .copy-btn {
@@ -691,14 +676,14 @@ blockquote .author {
   -webkit-user-select: none;
   user-select: none;
   display: none;
-  background-color: #F8F8F8;
-  box-shadow: 0px 0px 0px 1px #DDDDDD;
+  background-color: #f8f8f8;
+  box-shadow: 0px 0px 0px 1px #dddddd;
 }
 #example .example > .html > .top.attached.label .copy {
   position: absolute;
   top: 9px;
   right: 8px;
-  color: #AAAAAA;
+  color: #aaaaaa;
 }
 #example .example > .html > .top.attached.label .copy:hover {
   color: #666666;
@@ -738,11 +723,9 @@ blockquote .author {
   height: 175px;
 }
 
-
 /*******************************
          Code Samples
 *******************************/
-
 
 /*code.code {
   display: block;
@@ -799,7 +782,6 @@ code .javadoc {
   color: #AAAAAA;
   font-style: italic;
 }*/
-
 
 /* Properties */
 /*code .tag,
@@ -920,7 +902,6 @@ code.code:hover .class.value b {
 }
 */
 
-
 /* Linked UI */
 /*code .tag .value a {
   position: relative;
@@ -944,8 +925,6 @@ code .tag .value a:hover b {
   background-color: transparent;
   color: inherit;
 }*/
-
-
 
 /*--------------
       Normal
@@ -1048,7 +1027,6 @@ code .chunk {
 
 /* Remove Overview from pages with Examples */
 @media only screen and (max-width: 1500px) {
-
   #example .fixed.column {
     right: auto;
     left: 100%;
@@ -1061,13 +1039,10 @@ code .chunk {
   #example .fixed.column + .examples .right.rail {
     display: none;
   }
-
 }
-
 
 /* Table Ad */
 @media only screen and (max-width: 1272px) {
-
   #example .masthead > .container {
     margin-right: 2em !important;
     max-width: none !important;
@@ -1089,7 +1064,6 @@ code .chunk {
 
 /* Squish Content (Just For Small Computers) */
 @media only screen and (max-width: 1272px) {
-
   /* Resize Main Container */
   #example .main.container {
     /*margin-right: 318px !important;*/
@@ -1109,10 +1083,9 @@ code .chunk {
   }
 
   #example .fixed.column {
-    width: 250px;
+    width: 255px;
     margin-left: 2.5em;
   }
-
 }
 
 /* Hide Top Bar */
@@ -1124,7 +1097,6 @@ code .chunk {
 
 /* Remove Fixed Sidebar /  Show Top Bar */
 @media only screen and (max-width: 1144px) {
-
   /* Hide Fixed Sidebar */
   #example .full.height > .toc {
     /*display: none;*/
@@ -1181,12 +1153,10 @@ code .chunk {
   #example .fixed.column .sticky {
     padding-top: 2em;
   }
-
 }
 
 /* Remove Rail */
 @media only screen and (max-width: 992px) {
-
   /* Remove Rail */
   #example .main.container > .right.rail,
   #example .main.container > .tab > .examples > .right.rail,
@@ -1215,13 +1185,9 @@ code .chunk {
   #example .masthead .advertisement {
     padding-right: 0em !important;
   }
-
-
 }
 
-
 @media only screen and (max-width: 820px) {
-
   /* Ad Takes Full Width */
   #example .masthead .introduction {
     display: block;
@@ -1238,11 +1204,9 @@ code .chunk {
     display: block;
     max-width: 300px;
   }
-
 }
 
 @media only screen and (max-width: 768px) {
-
   /* Hide Some Fixed Menu Content (Pagination, Search) */
   #example .fixed.menu > .container > .section.item {
     display: none;
@@ -1254,15 +1218,15 @@ code .chunk {
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
-  -webkit-flex-direction: column;
-      -ms-flex-direction: column;
-          flex-direction: column;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
   }
   body.pushable > .pusher > .full.height {
-  -webkit-box-flex: 1;
-  -webkit-flex: 1 0 auto;
-      -ms-flex: 1 0 auto;
-          flex: 1 0 auto;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1 0 auto;
+    -ms-flex: 1 0 auto;
+    flex: 1 0 auto;
   }
 
   /* Let Buttons Vertically Stack */
@@ -1293,15 +1257,14 @@ code .chunk {
 
 /* Small Phone */
 @media only screen and (max-width: 500px) {
-
   /* Stack Advert */
   #example .masthead .advertisement #carbonads > span {
     max-width: none;
   }
   #example .advertisement .carbon-wrap {
-  -webkit-flex-direction: column-reverse;
-      -ms-flex-direction: column-reverse;
-          flex-direction: column-reverse;
+    -webkit-flex-direction: column-reverse;
+    -ms-flex-direction: column-reverse;
+    flex-direction: column-reverse;
 
     text-align: center;
     align-items: center;
@@ -1309,5 +1272,4 @@ code .chunk {
   #example .carbon-poweredby {
     display: none;
   }
-
 }
