@@ -69,7 +69,7 @@
     "semantic-ui-ember": "^3.0.3"
   },
   "engines": {
-    "node": "10.*"
+    "node": "6.* || 8.* || >= 10.*"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"
