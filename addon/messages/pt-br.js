@@ -32,7 +32,7 @@ export default {
   customValidationMessage: 'está inválido',
   matchMessage: 'não corresponde ao formato {match}',
 
-  dateMessage: 'não é uma data inválida',
+  dateMessage: 'não é uma data válida',
   dateBeforeMessage: 'deve ser antes de {date}',
   dateAfterMessage: 'deve ser depois de {date}'
 };
