@@ -28,7 +28,7 @@
     "ember-cli-babel": "^7.6.0"
   },
   "devDependencies": {
-    "@ember/jquery": "0.6.0",
+    "@ember/jquery": "0.6.1",
     "@ember/optional-features": "^0.6.3",
     "broccoli-asset-rev": "^3.0.0",
     "ember-angle-bracket-invocation-polyfill": "^1.2.5",
