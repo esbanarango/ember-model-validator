@@ -4002,16 +4002,16 @@ ember-cli-chai@0.5.0:
     rollup-plugin-commonjs "^8.0.2"
     rollup-plugin-node-resolve "^3.0.0"
 
-ember-cli-clipboard@0.11.1:
-  version "0.11.1"
-  resolved "https://registry.yarnpkg.com/ember-cli-clipboard/-/ember-cli-clipboard-0.11.1.tgz#caa6aaae498f12922102555d6825ad81ad843d2a"
-  integrity sha512-LAsrFpaOV8mgyI4MLR6R2BJFbzW8ac3GZkTKmAH+V5LeyidK/Inr4yZpY5nff/jKlQFT6E4991Z9mzldfKJZcg==
+ember-cli-clipboard@0.12.0:
+  version "0.12.0"
+  resolved "https://registry.yarnpkg.com/ember-cli-clipboard/-/ember-cli-clipboard-0.12.0.tgz#b3209d4303c10258fb3307f3144eaa6445bac1e7"
+  integrity sha512-LIyuO1b8HvjFxhh5gTv655RTN691DE7vWNY7F0DvgngSQrU3b/Zzx7mvMx37/TOot/7Pt5eVFCTBbXYJAEjlgQ==
   dependencies:
     broccoli-funnel "^1.1.0"
     clipboard "^2.0.0"
-    ember-cli-babel "^7.1.2"
-    ember-cli-htmlbars "^2.0.2"
-    fastboot-transform "0.1.1"
+    ember-cli-babel "^7.7.3"
+    ember-cli-htmlbars "^3.0.1"
+    fastboot-transform "^0.1.3"
 
 ember-cli-dependency-checker@^3.1.0:
   version "3.1.0"
@@ -4514,6 +4514,15 @@ ember-getowner-polyfill@^2.2.0:
     ember-cli-version-checker "^2.1.0"
     ember-factory-for-polyfill "^1.3.1"
 
+ember-in-element-polyfill@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/ember-in-element-polyfill/-/ember-in-element-polyfill-0.2.0.tgz#3722b6488bd1609d7b501c3f208eff62ac3dbbef"
+  integrity sha512-cl7hWFhBcwbPbXOHjvupufwgQGRWnPNMXcJT9M/e07AbHVjbI7EnMqOfW1V2lJKsm6KQ1hT3frDcNQWZtS+6lQ==
+  dependencies:
+    debug "^3.1.0"
+    ember-cli-babel "^7.1.2"
+    ember-cli-version-checker "^2.1.0"
+
 ember-inflector@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/ember-inflector/-/ember-inflector-3.0.0.tgz#7e1ee8aaa0fa773ba0905d8b7c0786354d890ee1"
@@ -4570,14 +4579,15 @@ ember-pikaday@esbanarango/ember-pikaday:
     fastboot-transform "^0.1.1"
     pikaday "^1.5.1"
 
-ember-prism@0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/ember-prism/-/ember-prism-0.4.0.tgz#b1f02bed563345ead985ace900b7311a730a7149"
-  integrity sha512-5WfDBMs2sBAHalFnF+eZ247wBE+uYw4YW3jkRAGmAf/n7nt1yP3lPOwAEKeflxJWae5kunh77Wjk0ANhXwylxw==
+ember-prism@0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/ember-prism/-/ember-prism-0.5.0.tgz#d8d53f345aaa6890d8541456ba05121e5626d5d1"
+  integrity sha512-IvjrS5SA08lDAvjvivV2DiQQgDu/P2f69z2HYH2vzduQw4m7BYF/+xK57zcMQWresIckH/tgKKdnJLZHLAE0Xg==
   dependencies:
     ember-cli-babel "^7.1.2"
     ember-cli-htmlbars "^3.0.0"
     ember-cli-node-assets "^0.2.2"
+    ember-in-element-polyfill "^0.2.0"
     prismjs "^1.15.0"
 
 ember-promise-utils@^0.1.1:
@@ -5385,14 +5395,7 @@ fast-sourcemap-concat@^1.4.0:
     source-map-url "^0.3.0"
     sourcemap-validator "^1.1.0"
 
-fastboot-transform@0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/fastboot-transform/-/fastboot-transform-0.1.1.tgz#de55550d85644ec94cb11264c2ba883e3ea3b255"
-  integrity sha512-aY3wh4kFCYOZWZM88f2svB9OL8UNpqBtOQxV3hHxjeRncQUKLD81I2GXayIFaGEQiS8g34awXfq46WZv8uIHvQ==
-  dependencies:
-    broccoli-stew "^1.5.0"
-
-fastboot-transform@^0.1.1:
+fastboot-transform@^0.1.1, fastboot-transform@^0.1.3:
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/fastboot-transform/-/fastboot-transform-0.1.3.tgz#7dea0b117594afd8772baa6c9b0919644e7f7dcd"
   integrity sha512-6otygPIJw1ARp1jJb+6KVO56iKBjhO+5x59RSC9qiZTbZRrv+HZAuP00KD3s+nWMvcFDemtdkugki9DNFTTwCQ==
