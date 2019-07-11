@@ -26,15 +26,15 @@ export default Mixin.create({
   validationErrors: {},
   isValidNow: true,
   addErrors: true,
-  messages: {},
+  _validationMessages: {},
 
-  locale: computed(function() {
+  _locale: computed(function() {
     return getOwner(this).lookup('validator:locale');
   }),
 
   _initMessage: on('init', function() {
-    let locale = get(this, 'locale') || 'en';
-    set(this, 'messages', Messages[locale]);
+    let locale = get(this, '_locale') || 'en';
+    set(this, '_validationMessages', Messages[locale]);
   }),
 
   clearErrors() {
@@ -105,7 +105,7 @@ export default Mixin.create({
         let passedCustomValidation = customValidator(property, get(this, property), this);
         if (!passedCustomValidation) {
           set(this, 'isValidNow', false);
-          this._addToErrors(property, validation[i], get(this, 'messages').customValidationMessage);
+          this._addToErrors(property, validation[i], get(this, '_validationMessages').customValidationMessage);
         }
       }
     }
@@ -120,13 +120,13 @@ export default Mixin.create({
     }
     if (isBlank(propertyValue)) {
       set(this, 'isValidNow', false);
-      this._addToErrors(property, validation.presence, get(this, 'messages').presenceMessage);
+      this._addToErrors(property, validation.presence, get(this, '_validationMessages').presenceMessage);
     }
   },
   _validateAbsence(property, validation) {
     if (isPresent(get(this, property))) {
       set(this, 'isValidNow', false);
-      this._addToErrors(property, validation.absence, get(this, 'messages').absenceMessage);
+      this._addToErrors(property, validation.absence, get(this, '_validationMessages').absenceMessage);
     }
   },
   _validateAcceptance(property, validation) {
@@ -134,14 +134,14 @@ export default Mixin.create({
       accept = validation.acceptance.accept || [1, '1', true];
     if (!this._includes(A(accept), propertyValue)) {
       set(this, 'isValidNow', false);
-      this._addToErrors(property, validation.acceptance, get(this, 'messages').acceptanceMessage);
+      this._addToErrors(property, validation.acceptance, get(this, '_validationMessages').acceptanceMessage);
     }
   },
   _validateFormat(property, validation) {
     let withRegexp = validation.format.with;
     if (get(this, property) && String(get(this, property)).match(withRegexp) === null) {
       set(this, 'isValidNow', false);
-      this._addToErrors(property, validation.format, get(this, 'messages').formatMessage);
+      this._addToErrors(property, validation.format, get(this, '_validationMessages').formatMessage);
     }
   },
   _validateEmail(property, validation) {
@@ -152,7 +152,7 @@ export default Mixin.create({
       ) === null
     ) {
       set(this, 'isValidNow', false);
-      this._addToErrors(property, validation.email, get(this, 'messages').mailMessage);
+      this._addToErrors(property, validation.email, get(this, '_validationMessages').mailMessage);
     }
   },
   _validateZipCode(property, validation) {
@@ -171,7 +171,7 @@ export default Mixin.create({
         }
         if (!propertyValue || String(propertyValue).match(postalCodeRegexp) === null) {
           set(this, 'isValidNow', false);
-          this._addToErrors(property, validation.zipCode, get(this, 'messages').zipCodeMessage);
+          this._addToErrors(property, validation.zipCode, get(this, '_validationMessages').zipCodeMessage);
         }
       });
     } else {
@@ -181,7 +181,7 @@ export default Mixin.create({
       }
       if (!propertyValue || String(propertyValue).match(postalCodeRegexp) === null) {
         set(this, 'isValidNow', false);
-        this._addToErrors(property, validation.zipCode, get(this, 'messages').zipCodeMessage);
+        this._addToErrors(property, validation.zipCode, get(this, '_validationMessages').zipCodeMessage);
       }
     }
   },
@@ -189,7 +189,7 @@ export default Mixin.create({
     let propertyValue = get(this, property);
     if (!propertyValue || String(propertyValue).match(/([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/i) === null) {
       set(this, 'isValidNow', false);
-      this._addToErrors(property, validation.color, get(this, 'messages').colorMessage);
+      this._addToErrors(property, validation.color, get(this, '_validationMessages').colorMessage);
     }
   },
   _validateURL(property, validation) {
@@ -201,7 +201,7 @@ export default Mixin.create({
       ) === null
     ) {
       set(this, 'isValidNow', false);
-      this._addToErrors(property, validation.URL, get(this, 'messages').URLMessage);
+      this._addToErrors(property, validation.URL, get(this, '_validationMessages').URLMessage);
     }
   },
   _validateSubdomain(property, validation) {
@@ -213,14 +213,14 @@ export default Mixin.create({
       reserved.indexOf(propertyValue) !== -1
     ) {
       set(this, 'isValidNow', false);
-      this._addToErrors(property, validation.subdomain, get(this, 'messages').subdomainMessage);
+      this._addToErrors(property, validation.subdomain, get(this, '_validationMessages').subdomainMessage);
     }
   },
   _validateDate(property, validation) {
     let propertyValue = new Date(get(this, property));
     if (isNaN(propertyValue.getTime())) {
       set(this, 'isValidNow', false);
-      this._addToErrors(property, validation.date, get(this, 'messages').dateMessage);
+      this._addToErrors(property, validation.date, get(this, '_validationMessages').dateMessage);
       return;
     }
     if (validation.date.hasOwnProperty('before') && validation.date.before) {
@@ -231,7 +231,7 @@ export default Mixin.create({
         this._addToErrors(
           property,
           validation.date,
-          this._formatMessage(get(this, 'messages').dateBeforeMessage, context)
+          this._formatMessage(get(this, '_validationMessages').dateBeforeMessage, context)
         );
       }
     }
@@ -243,7 +243,7 @@ export default Mixin.create({
         this._addToErrors(
           property,
           validation.date,
-          this._formatMessage(get(this, 'messages').dateAfterMessage, context)
+          this._formatMessage(get(this, '_validationMessages').dateAfterMessage, context)
         );
       }
     }
@@ -252,24 +252,24 @@ export default Mixin.create({
     let propertyValue = get(this, property);
     if (!this._isNumber(get(this, property))) {
       set(this, 'isValidNow', false);
-      this._addToErrors(property, validation.numericality, get(this, 'messages').numericalityMessage);
+      this._addToErrors(property, validation.numericality, get(this, '_validationMessages').numericalityMessage);
     }
     if (validation.numericality.hasOwnProperty('onlyInteger') && validation.numericality.onlyInteger) {
       if (!/^[+-]?\d+$/.test(propertyValue)) {
         set(this, 'isValidNow', false);
-        this._addToErrors(property, validation.numericality, get(this, 'messages').numericalityOnlyIntegerMessage);
+        this._addToErrors(property, validation.numericality, get(this, '_validationMessages').numericalityOnlyIntegerMessage);
       }
     }
     if (validation.numericality.hasOwnProperty('even') && validation.numericality.even) {
       if (propertyValue % 2 !== 0) {
         set(this, 'isValidNow', false);
-        this._addToErrors(property, validation.numericality, get(this, 'messages').numericalityEvenMessage);
+        this._addToErrors(property, validation.numericality, get(this, '_validationMessages').numericalityEvenMessage);
       }
     }
     if (validation.numericality.hasOwnProperty('odd') && validation.numericality.odd) {
       if (propertyValue % 2 === 0) {
         set(this, 'isValidNow', false);
-        this._addToErrors(property, validation.numericality, get(this, 'messages').numericalityOddMessage);
+        this._addToErrors(property, validation.numericality, get(this, '_validationMessages').numericalityOddMessage);
       }
     }
     if (validation.numericality.hasOwnProperty('greaterThan') && this._isNumber(validation.numericality.greaterThan)) {
@@ -280,7 +280,7 @@ export default Mixin.create({
         this._addToErrors(
           property,
           validation.numericality,
-          this._formatMessage(get(this, 'messages').numericalityGreaterThanMessage, context)
+          this._formatMessage(get(this, '_validationMessages').numericalityGreaterThanMessage, context)
         );
       }
     }
@@ -295,7 +295,7 @@ export default Mixin.create({
         this._addToErrors(
           property,
           validation.numericality,
-          this._formatMessage(get(this, 'messages').numericalityGreaterThanOrEqualToMessage, context)
+          this._formatMessage(get(this, '_validationMessages').numericalityGreaterThanOrEqualToMessage, context)
         );
       }
     }
@@ -307,7 +307,7 @@ export default Mixin.create({
         this._addToErrors(
           property,
           validation.numericality,
-          this._formatMessage(get(this, 'messages').numericalityEqualToMessage, context)
+          this._formatMessage(get(this, '_validationMessages').numericalityEqualToMessage, context)
         );
       }
     }
@@ -319,7 +319,7 @@ export default Mixin.create({
         this._addToErrors(
           property,
           validation.numericality,
-          this._formatMessage(get(this, 'messages').numericalityLessThanMessage, context)
+          this._formatMessage(get(this, '_validationMessages').numericalityLessThanMessage, context)
         );
       }
     }
@@ -334,7 +334,7 @@ export default Mixin.create({
         this._addToErrors(
           property,
           validation.numericality,
-          this._formatMessage(get(this, 'messages').numericalityLessThanOrEqualToMessage, context)
+          this._formatMessage(get(this, '_validationMessages').numericalityLessThanOrEqualToMessage, context)
         );
       }
     }
@@ -343,7 +343,7 @@ export default Mixin.create({
     if (validation.exclusion.hasOwnProperty('in')) {
       if (validation.exclusion.in.indexOf(get(this, property)) !== -1) {
         set(this, 'isValidNow', false);
-        this._addToErrors(property, validation.exclusion, get(this, 'messages').exclusionMessage);
+        this._addToErrors(property, validation.exclusion, get(this, '_validationMessages').exclusionMessage);
       }
     }
   },
@@ -351,7 +351,7 @@ export default Mixin.create({
     if (validation.inclusion.hasOwnProperty('in')) {
       if (validation.inclusion.in.indexOf(get(this, property)) === -1) {
         set(this, 'isValidNow', false);
-        this._addToErrors(property, validation.inclusion, get(this, 'messages').inclusionMessage);
+        this._addToErrors(property, validation.inclusion, get(this, '_validationMessages').inclusionMessage);
       }
     }
   },
@@ -366,7 +366,7 @@ export default Mixin.create({
       if (typeOf(validation.match) === 'object') {
         validation.match.interpolatedValue = matchingUnCamelCase;
       }
-      this._addToErrors(property, validation.match, this._formatMessage(get(this, 'messages').matchMessage, context));
+      this._addToErrors(property, validation.match, this._formatMessage(get(this, '_validationMessages').matchMessage, context));
     }
   },
   // Length Validator
@@ -396,7 +396,7 @@ export default Mixin.create({
       this._addToErrors(
         property,
         validation.length,
-        this._formatMessage(get(this, 'messages').wrongLengthMessage, context)
+        this._formatMessage(get(this, '_validationMessages').wrongLengthMessage, context)
       );
     }
   },
@@ -424,7 +424,7 @@ export default Mixin.create({
       this._addToErrors(
         property,
         validation.length.minimum,
-        this._formatMessage(get(this, 'messages').tooShortMessage, context)
+        this._formatMessage(get(this, '_validationMessages').tooShortMessage, context)
       );
     } else if (stringLength > maximum) {
       set(this, 'isValidNow', false);
@@ -435,7 +435,7 @@ export default Mixin.create({
       this._addToErrors(
         property,
         validation.length.maximum,
-        this._formatMessage(get(this, 'messages').tooLongMessage, context)
+        this._formatMessage(get(this, '_validationMessages').tooLongMessage, context)
       );
     }
   },
@@ -456,7 +456,7 @@ export default Mixin.create({
   },
   _validateMustContainCapital(property, validation) {
     let notContainCapital = String(get(this, property)).match(/(?=.*[A-Z])/) === null,
-      message = validation.mustContainCapital.message || get(this, 'messages').mustContainCapitalMessage;
+      message = validation.mustContainCapital.message || get(this, '_validationMessages').mustContainCapitalMessage;
     if (validation.mustContainCapital && notContainCapital) {
       set(this, 'isValidNow', false);
       this._addToErrors(property, validation, message);
@@ -464,7 +464,7 @@ export default Mixin.create({
   },
   _validateMustContainLower(property, validation) {
     let containsLower = String(get(this, property)).match(/(?=.*[a-z])/) !== null,
-      message = validation.mustContainLower.message || get(this, 'messages').mustContainLowerMessage;
+      message = validation.mustContainLower.message || get(this, '_validationMessages').mustContainLowerMessage;
     if (validation.mustContainLower && !containsLower) {
       set(this, 'isValidNow', false);
       this._addToErrors(property, validation, message);
@@ -472,7 +472,7 @@ export default Mixin.create({
   },
   _validateMustContainNumber(property, validation) {
     let containsNumber = String(get(this, property)).match(/(?=.*[0-9])/) !== null,
-      message = validation.mustContainNumber.message || get(this, 'messages').mustContainNumberMessage;
+      message = validation.mustContainNumber.message || get(this, '_validationMessages').mustContainNumberMessage;
     if (validation.mustContainNumber && !containsNumber) {
       set(this, 'isValidNow', false);
       this._addToErrors(property, validation, message);
@@ -482,7 +482,7 @@ export default Mixin.create({
     let regexString = validation.mustContainSpecial.acceptableChars || '-+_!@#$%^&*.,?()',
       regex = new RegExp(`(?=.*[${regexString}])`),
       containsSpecial = String(get(this, property)).match(regex) !== null,
-      message = validation.mustContainSpecial.message || get(this, 'messages').mustContainSpecialMessage;
+      message = validation.mustContainSpecial.message || get(this, '_validationMessages').mustContainSpecialMessage;
     if (validation.mustContainSpecial && !containsSpecial) {
       set(this, 'isValidNow', false);
       let context = { characters: regexString };
