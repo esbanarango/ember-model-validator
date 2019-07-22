@@ -23,8 +23,7 @@ describe('ModelValidatorMixin', function() {
 
   describe('Fake model with simple validations', function() {
     setupModelTest('fake-model', {
-      // Specify the other units that are required for this test.
-      needs: ['model:other-model', 'model:async-model']
+      integration: true
     });
 
     // Replace this with your real tests.
