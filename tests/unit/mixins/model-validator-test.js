@@ -3,7 +3,7 @@ import { run } from '@ember/runloop';
 
 import EmberObject from '@ember/object';
 import { expect } from 'chai';
-import { setupModelTest } from 'ember-mocha';
+import { setupTest } from 'ember-mocha';
 import { describe, it } from 'mocha';
 import ModelValidatorMixin from '../../../mixins/model-validator';
 import Messages from 'ember-model-validator/messages/en';
@@ -22,25 +22,23 @@ describe('ModelValidatorMixin', function() {
   });
 
   describe('Fake model with simple validations', function() {
-    setupModelTest('fake-model', {
-      integration: true
-    });
+    setupTest();
 
     // Replace this with your real tests.
     it('exists', function() {
-      var model = this.subject();
+      var model = this.owner.lookup('service:store').createRecord('fake-model');
       // var store = this.store();
       expect(model).to.be.ok;
     });
 
     describe('allowBlank option', function() {
       it('skips other validations when optional field is blank', function() {
-        var model = this.subject({ anOptionalNumber: null });
+        var model = this.owner.lookup('service:store').createRecord('fake-model', { anOptionalNumber: null });
         model.validate();
         expect(model.get('errors').errorsFor('anOptionalNumber').length).to.equal(0);
       });
       it('runs remaining validations when optional field is not blank', function() {
-        var model = this.subject({ anOptionalNumber: 'abc' });
+        var model = this.owner.lookup('service:store').createRecord('fake-model', { anOptionalNumber: 'abc' });
         expect(model.validate()).to.equal(false);
         expect(
           model
@@ -58,7 +56,7 @@ describe('ModelValidatorMixin', function() {
     });
     describe('conditional option', function() {
       it('validates only if `if function` returns true', function() {
-        var model = this.subject({ condType: 'gallery' });
+        var model = this.owner.lookup('service:store').createRecord('fake-model', { condType: 'gallery' });
         model.validate();
         expect(
           model
@@ -68,14 +66,14 @@ describe('ModelValidatorMixin', function() {
         ).to.equal(Messages.presenceMessage);
       });
       it('skips validation if `if function` returns false', function() {
-        var model = this.subject({ condType: 'chancuncha' });
+        var model = this.owner.lookup('service:store').createRecord('fake-model', { condType: 'chancuncha' });
         model.validate();
         expect(model.get('errors').errorsFor('images').length).to.equal(0);
       });
     });
     describe('message with interpolated values', function() {
       it('interpolates the value whitn the message', function() {
-        var model = this.subject({ theMinimunmInterpolatedTenNumber: '1' });
+        var model = this.owner.lookup('service:store').createRecord('fake-model', { theMinimunmInterpolatedTenNumber: '1' });
         run(function() {
           expect(model.validate({ only: ['theMinimunmInterpolatedTenNumber'] })).to.equal(false);
           expect(
@@ -89,7 +87,7 @@ describe('ModelValidatorMixin', function() {
     });
     describe('Presence validator', function() {
       it('validates the presence of the attributes set on `validations.presence`', function() {
-        var model = this.subject(),
+        var model = this.owner.lookup('service:store').createRecord('fake-model'),
           errorAs = model.validations.name.presence.errorAs;
         delete model.validations.name.presence.errorAs;
         expect(model.validate()).to.equal(false);
@@ -109,7 +107,7 @@ describe('ModelValidatorMixin', function() {
       });
       describe('When is a relation', function() {
         it('validates the presence of the attributes set on `validations.presence` for Async relations', function() {
-          var model = this.subject();
+          var model = this.owner.lookup('service:store').createRecord('fake-model');
           expect(model.validate()).to.equal(false);
           expect(
             model
@@ -120,7 +118,7 @@ describe('ModelValidatorMixin', function() {
         });
 
         it('validates the presence of the attributes set on `validations.presence` for embedded relations', function() {
-          var model = this.subject();
+          var model = this.owner.lookup('service:store').createRecord('fake-model');
           expect(model.validate()).to.equal(false);
           expect(
             model
@@ -132,7 +130,7 @@ describe('ModelValidatorMixin', function() {
       });
     });
     it('validates the format of the attributes set on `validations.format`', function() {
-      var model = this.subject({ legacyCode: 3123123 });
+      var model = this.owner.lookup('service:store').createRecord('fake-model', { legacyCode: 3123123 });
       expect(model.validate()).to.equal(false);
       expect(
         model
@@ -143,7 +141,7 @@ describe('ModelValidatorMixin', function() {
     });
 
     it('validates the acceptance of the attributes set on `validations.acceptance`', function() {
-      var model = this.subject({ acceptConditions: 0 });
+      var model = this.owner.lookup('service:store').createRecord('fake-model', { acceptConditions: 0 });
       expect(model.validate()).to.equal(false);
       expect(
         model
@@ -154,7 +152,7 @@ describe('ModelValidatorMixin', function() {
     });
 
     it('validates the matching of the attributes set on `validations.password`', function() {
-      var model = this.subject({ password: 'k$1hkjGd', passwordConfirmation: 'uuuu' });
+      var model = this.owner.lookup('service:store').createRecord('fake-model', { password: 'k$1hkjGd', passwordConfirmation: 'uuuu' });
       expect(model.validate()).to.equal(false);
       let context = { match: model._unCamelCase('passwordConfirmation') };
       expect(
@@ -166,7 +164,7 @@ describe('ModelValidatorMixin', function() {
     });
 
     it('validates the absence of the attributes set on `validations.absence`', function() {
-      var model = this.subject({ login: 'asdasd' });
+      var model = this.owner.lookup('service:store').createRecord('fake-model', { login: 'asdasd' });
       expect(model.validate()).to.equal(false);
       expect(
         model
@@ -178,7 +176,7 @@ describe('ModelValidatorMixin', function() {
 
     describe('Postalcode validation', function() {
       it('validates the zip code being invalid in the US', function() {
-        var model = this.subject({ postalCodeUS: 'dfasdfsad' });
+        var model = this.owner.lookup('service:store').createRecord('fake-model', { postalCodeUS: 'dfasdfsad' });
         expect(model.validate()).to.equal(false);
         expect(
           model
@@ -189,7 +187,7 @@ describe('ModelValidatorMixin', function() {
       });
 
       it('validates postal codes from outside US - UK', function() {
-        var model = this.subject({ postalCodeUK: '09011' });
+        var model = this.owner.lookup('service:store').createRecord('fake-model', { postalCodeUK: '09011' });
         expect(model.validate()).to.equal(false);
         expect(
           model
@@ -200,7 +198,7 @@ describe('ModelValidatorMixin', function() {
       });
 
       it('validates postal codes from outside US - CA', function() {
-        var model = this.subject({ postalCodeCA: '09011' });
+        var model = this.owner.lookup('service:store').createRecord('fake-model', { postalCodeCA: '09011' });
         expect(model.validate()).to.equal(false);
         expect(
           model
@@ -211,7 +209,7 @@ describe('ModelValidatorMixin', function() {
       });
 
       it('validates that non-existing country codes default to US behavior', function() {
-        var model = this.subject({ postalCodeZZ: 'dfasdfsad' });
+        var model = this.owner.lookup('service:store').createRecord('fake-model', { postalCodeZZ: 'dfasdfsad' });
         expect(model.validate()).to.equal(false);
         expect(
           model
@@ -223,7 +221,7 @@ describe('ModelValidatorMixin', function() {
     });
 
     it('validates the truthyness of the user custom validation function on `validations.custom`', function() {
-      var model = this.subject({ password: 12345 });
+      var model = this.owner.lookup('service:store').createRecord('fake-model', { password: 12345 });
       expect(model.validate()).to.equal(false);
       expect(
         model
@@ -234,7 +232,7 @@ describe('ModelValidatorMixin', function() {
     });
 
     it('validates the an array of custom validations', function() {
-      var model = this.subject({ thing: 'fail' });
+      var model = this.owner.lookup('service:store').createRecord('fake-model', { thing: 'fail' });
       expect(model.validate()).to.equal(false);
       expect(
         model
@@ -245,7 +243,7 @@ describe('ModelValidatorMixin', function() {
     });
 
     it('validates the email format of the attributes set on `validations.email`', function() {
-      var model = this.subject({ email: 'adsfasdf$' });
+      var model = this.owner.lookup('service:store').createRecord('fake-model', { email: 'adsfasdf$' });
       expect(model.validate()).to.equal(false);
       expect(
         model
@@ -256,7 +254,7 @@ describe('ModelValidatorMixin', function() {
     });
 
     it('validates the url format of the attributes set on `validations.url`', function() {
-      var model = this.subject({ myBlog: '//www.hola.com' });
+      var model = this.owner.lookup('service:store').createRecord('fake-model', { myBlog: '//www.hola.com' });
       expect(model.validate()).to.equal(false);
       expect(
         model
@@ -267,7 +265,7 @@ describe('ModelValidatorMixin', function() {
     });
 
     it('validates the color format of the attributes set on `validations.color`', function() {
-      var model = this.subject({ favoriteColor: '000XXX' }),
+      var model = this.owner.lookup('service:store').createRecord('fake-model', { favoriteColor: '000XXX' }),
         message = model.validations.favoriteColor.color.message;
       delete model.validations.favoriteColor.color.message;
       expect(model.validate()).to.equal(false);
@@ -281,7 +279,7 @@ describe('ModelValidatorMixin', function() {
     });
 
     it('validates the numericality of the attributes set on `validations.numericality`', function() {
-      var model = this.subject({ lotteryNumber: 'adsfasdf$' });
+      var model = this.owner.lookup('service:store').createRecord('fake-model', { lotteryNumber: 'adsfasdf$' });
       expect(model.validate()).to.equal(false);
       expect(
         model
@@ -292,7 +290,7 @@ describe('ModelValidatorMixin', function() {
     });
 
     it('validates the subdomain format of the attributes set on `validations.subdomain`', function() {
-      var model = this.subject({ mySubdomain: 'with space' }),
+      var model = this.owner.lookup('service:store').createRecord('fake-model', { mySubdomain: 'with space' }),
         message = model.validations.mySubdomain.subdomain.message;
       delete model.validations.mySubdomain.subdomain.message;
       expect(model.validate()).to.equal(false);
@@ -306,7 +304,7 @@ describe('ModelValidatorMixin', function() {
     });
 
     it('validates the inclusion of the attributes set on `validations.inclusion`', function() {
-      var model = this.subject({ name: 'adsfasdf$' }),
+      var model = this.owner.lookup('service:store').createRecord('fake-model', { name: 'adsfasdf$' }),
         message = model.validations.name.inclusion.message;
       delete model.validations.name.inclusion.message;
       expect(model.validate()).to.equal(false);
@@ -320,7 +318,7 @@ describe('ModelValidatorMixin', function() {
     });
 
     it('validates the exclusion of the attributes set on `validations.exclusion`', function() {
-      var model = this.subject({ secondName: 'Wilder Medina' }),
+      var model = this.owner.lookup('service:store').createRecord('fake-model', { secondName: 'Wilder Medina' }),
         message = model.validations.secondName.exclusion.message;
       delete model.validations.secondName.exclusion.message;
       expect(model.validate()).to.equal(false);
@@ -336,7 +334,7 @@ describe('ModelValidatorMixin', function() {
     describe('Numericality validator', function() {
       describe('`onlyInteger` option', function() {
         it('validates the number for only being an integer', function() {
-          var model = this.subject({ anInteger: 1.3 });
+          var model = this.owner.lookup('service:store').createRecord('fake-model', { anInteger: 1.3 });
           run(function() {
             expect(model.validate({ only: ['anInteger'] })).to.equal(false);
             expect(
@@ -351,7 +349,7 @@ describe('ModelValidatorMixin', function() {
 
       describe('`greaterThan` option', function() {
         it('validates that the number is `greater than` the specified value', function() {
-          var model = this.subject({ anIntegerGreaterThan4: 2 });
+          var model = this.owner.lookup('service:store').createRecord('fake-model', { anIntegerGreaterThan4: 2 });
           run(function() {
             expect(model.validate({ only: ['anIntegerGreaterThan4'] })).to.equal(false);
             let context = { count: 4 };
@@ -367,7 +365,7 @@ describe('ModelValidatorMixin', function() {
 
       describe('`greaterThanOrEqualTo` option', function() {
         it('validates that the number is `greater than or equal` to the specified value', function() {
-          var model = this.subject({ anIntegerGreaterThanOrEqual7: 2 });
+          var model = this.owner.lookup('service:store').createRecord('fake-model', { anIntegerGreaterThanOrEqual7: 2 });
           run(function() {
             expect(model.validate({ only: ['anIntegerGreaterThanOrEqual7'] })).to.equal(false);
             let context = { count: 7 };
@@ -383,7 +381,7 @@ describe('ModelValidatorMixin', function() {
 
       describe('`equalTo` option', function() {
         it('validates that the number is `greater than or equal` to the specified value', function() {
-          var model = this.subject({ aTenNumber: 2 });
+          var model = this.owner.lookup('service:store').createRecord('fake-model', { aTenNumber: 2 });
           run(function() {
             expect(model.validate({ only: ['aTenNumber'] })).to.equal(false);
             let context = { count: 10 };
@@ -399,7 +397,7 @@ describe('ModelValidatorMixin', function() {
 
       describe('`lessThan` option', function() {
         it('validates that the number is `less than` the specified value', function() {
-          var model = this.subject({ anIntegerLessThan4: 5 });
+          var model = this.owner.lookup('service:store').createRecord('fake-model', { anIntegerLessThan4: 5 });
           run(function() {
             expect(model.validate({ only: ['anIntegerLessThan4'] })).to.equal(false);
             let context = { count: 4 };
@@ -415,7 +413,7 @@ describe('ModelValidatorMixin', function() {
 
       describe('`lessThanOrEqualTo` option', function() {
         it('validates that the number is `less than or equal` to the specified value', function() {
-          var model = this.subject({ anIntegerLessThanOrEqual6: 8 });
+          var model = this.owner.lookup('service:store').createRecord('fake-model', { anIntegerLessThanOrEqual6: 8 });
           run(function() {
             expect(model.validate({ only: ['anIntegerLessThanOrEqual6'] })).to.equal(false);
             let context = { count: 6 };
@@ -431,7 +429,7 @@ describe('ModelValidatorMixin', function() {
 
       describe('`odd` option', function() {
         it('validates that the number is `odd`', function() {
-          var model = this.subject({ anOddNumber: 2 });
+          var model = this.owner.lookup('service:store').createRecord('fake-model', { anOddNumber: 2 });
           run(function() {
             expect(model.validate({ only: ['anOddNumber'] })).to.equal(false);
             expect(
@@ -446,7 +444,7 @@ describe('ModelValidatorMixin', function() {
 
       describe('`even` option', function() {
         it('validates that the number is `even`', function() {
-          var model = this.subject({ anEvenNumber: 3 });
+          var model = this.owner.lookup('service:store').createRecord('fake-model', { anEvenNumber: 3 });
           run(function() {
             expect(model.validate({ only: ['anEvenNumber'] })).to.equal(false);
             expect(
@@ -462,7 +460,7 @@ describe('ModelValidatorMixin', function() {
 
     describe('Date Validator', function() {
       it('validates a date object', function() {
-        var model = this.subject({ date: new Date('a') });
+        var model = this.owner.lookup('service:store').createRecord('fake-model', { date: new Date('a') });
         run(function() {
           expect(model.validate({ only: ['date'] })).to.equal(false);
           expect(
@@ -474,7 +472,7 @@ describe('ModelValidatorMixin', function() {
         });
       });
       it('validates a date string', function() {
-        var model = this.subject({ stringDate: '2015-13-1' });
+        var model = this.owner.lookup('service:store').createRecord('fake-model', { stringDate: '2015-13-1' });
         run(function() {
           expect(model.validate({ only: ['stringDate'] })).to.equal(false);
           expect(
@@ -486,7 +484,7 @@ describe('ModelValidatorMixin', function() {
         });
       });
       it('validates that the date is `before` the specified value', function() {
-        var model = this.subject({ dateBefore2015: '2015-10-31' });
+        var model = this.owner.lookup('service:store').createRecord('fake-model', { dateBefore2015: '2015-10-31' });
         run(function() {
           expect(model.validate({ only: ['dateBefore2015'] })).to.equal(false);
           let context = { date: new Date(2015, 1, 1) };
@@ -499,7 +497,7 @@ describe('ModelValidatorMixin', function() {
         });
       });
       it('validates that the date is `after` the specified value', function() {
-        var model = this.subject({ dateAfter2014: '2015-01-01' });
+        var model = this.owner.lookup('service:store').createRecord('fake-model', { dateAfter2014: '2015-01-01' });
         run(function() {
           expect(model.validate({ only: ['dateAfter2014'] })).to.equal(false);
           let context = { date: new Date(2014, 12, 31) };
@@ -517,7 +515,7 @@ describe('ModelValidatorMixin', function() {
       describe('exact Length', function() {
         describe('when is set to a number', function() {
           it('validates the length of the attributes set on `validations.length`', function() {
-            var model = this.subject({ socialSecurity: 123 });
+            var model = this.owner.lookup('service:store').createRecord('fake-model', { socialSecurity: 123 });
             run(function() {
               expect(model.validate({ only: ['socialSecurity'] })).to.equal(false);
               let context = { count: 5 };
@@ -533,7 +531,7 @@ describe('ModelValidatorMixin', function() {
 
         describe('when `is` is used to set the number', function() {
           it('validates the length of the attributes set on `validations.length`', function() {
-            var model = this.subject({ chuncaluchoNumber: 123 });
+            var model = this.owner.lookup('service:store').createRecord('fake-model', { chuncaluchoNumber: 123 });
             run(function() {
               expect(model.validate({ only: ['chuncaluchoNumber'] })).to.equal(false);
               expect(
@@ -548,7 +546,7 @@ describe('ModelValidatorMixin', function() {
 
         describe('when `message` is set for `minimum` or `maximum` option', function() {
           it('validates the length of the attributes set on `validations.length`', function() {
-            var model = this.subject({ theMinimunmTwoNumber: '1' });
+            var model = this.owner.lookup('service:store').createRecord('fake-model', { theMinimunmTwoNumber: '1' });
             run(function() {
               expect(model.validate({ only: ['theMinimunmTwoNumber'] })).to.equal(false);
               expect(
@@ -565,7 +563,7 @@ describe('ModelValidatorMixin', function() {
       describe('range Length', function() {
         describe('when is set to an array', function() {
           it('validates the length of the attributes set on `validations.length`', function() {
-            var model = this.subject({ nsaNumber: 12 });
+            var model = this.owner.lookup('service:store').createRecord('fake-model', { nsaNumber: 12 });
             run(function() {
               expect(model.validate({ only: ['nsaNumber'] })).to.equal(false);
               let context = { count: 3 };
@@ -581,7 +579,7 @@ describe('ModelValidatorMixin', function() {
 
         describe('when is set using `minimum` and `maximum` keys', function() {
           it('validates the length of the attributes set on `validations.length`', function() {
-            var model = this.subject({ hugeName: 123456 });
+            var model = this.owner.lookup('service:store').createRecord('fake-model', { hugeName: 123456 });
             run(function() {
               expect(model.validate({ only: ['hugeName'] })).to.equal(false);
               let context = { count: 5 };
@@ -600,7 +598,7 @@ describe('ModelValidatorMixin', function() {
     // Length validation testing is handled above
     describe('Password validations', function() {
       it('accepts a string that meets all validation requirements', function() {
-        var model = this.subject({ password: 'k$1hkjGd', passwordConfirmation: 'k$1hkjGd' });
+        var model = this.owner.lookup('service:store').createRecord('fake-model', { password: 'k$1hkjGd', passwordConfirmation: 'k$1hkjGd' });
         run(function() {
           expect(model.validate({ only: ['password'] })).to.equal(true);
         });
@@ -608,7 +606,7 @@ describe('ModelValidatorMixin', function() {
 
       describe('capital character validation', function() {
         it('rejects a string that does not contain a capital character', function() {
-          var model = this.subject({ password: 'k$1hkjgd' });
+          var model = this.owner.lookup('service:store').createRecord('fake-model', { password: 'k$1hkjgd' });
           run(function() {
             expect(model.validate({ only: ['password'] })).to.equal(false);
           });
@@ -617,7 +615,7 @@ describe('ModelValidatorMixin', function() {
 
       describe('lower case character validation', function() {
         it('rejects a string that does not contain a lower case character', function() {
-          var model = this.subject({ password: 'k$1hkjgd' });
+          var model = this.owner.lookup('service:store').createRecord('fake-model', { password: 'k$1hkjgd' });
           run(function() {
             expect(model.validate({ only: ['password'] })).to.equal(false);
           });
@@ -626,7 +624,7 @@ describe('ModelValidatorMixin', function() {
 
       describe('special character validation', function() {
         it('rejects a string that does not contain a special character', function() {
-          var model = this.subject({ password: 'kW1hkjgd' });
+          var model = this.owner.lookup('service:store').createRecord('fake-model', { password: 'kW1hkjgd' });
           run(function() {
             expect(model.validate({ only: ['password'] })).to.equal(false);
           });
@@ -635,7 +633,7 @@ describe('ModelValidatorMixin', function() {
 
       describe('number validation', function() {
         it('rejects a string that does not contain a number', function() {
-          var model = this.subject({ password: 'k$Whkjgd' });
+          var model = this.owner.lookup('service:store').createRecord('fake-model', { password: 'k$Whkjgd' });
           run(function() {
             expect(model.validate({ only: ['password'] })).to.equal(false);
           });
@@ -646,7 +644,7 @@ describe('ModelValidatorMixin', function() {
     describe('Relations validations', function() {
       describe('`hasMany` relations', function() {
         it('validates the relations specified on `validations.relations`', function() {
-          var model = this.subject({ email: 'thiisagoo@email.con', name: 'Jose Rene Higuita' }),
+          var model = this.owner.lookup('service:store').createRecord('fake-model', { email: 'thiisagoo@email.con', name: 'Jose Rene Higuita' }),
             store = model.get('store'),
             otherFakes = null;
 
@@ -661,7 +659,7 @@ describe('ModelValidatorMixin', function() {
 
       describe('`belongsTo` relations', function() {
         it('validates the relations specified on `validations.relations`', function() {
-          var model = this.subject({ email: 'thiisagoo@email.con', name: 'Jose Rene Higuita' }),
+          var model = this.owner.lookup('service:store').createRecord('fake-model', { email: 'thiisagoo@email.con', name: 'Jose Rene Higuita' }),
             store = model.get('store');
 
           run(function() {
@@ -679,7 +677,7 @@ describe('ModelValidatorMixin', function() {
     });
     describe('Acceptance validator', function() {
       it('returns false when the attribute value is not in the list of acceptable values', function() {
-        var model = this.subject({ acceptConditions: 10 });
+        var model = this.owner.lookup('service:store').createRecord('fake-model', { acceptConditions: 10 });
         run(function() {
           expect(model.validate({ only: ['acceptConditions'] })).to.equal(false);
         });
@@ -688,7 +686,7 @@ describe('ModelValidatorMixin', function() {
 
     describe('when custom message is set', function() {
       it('validates the presence of the attributes set on `validations.presence` and use the correct message', function() {
-        var model = this.subject({ bussinessEmail: '' });
+        var model = this.owner.lookup('service:store').createRecord('fake-model', { bussinessEmail: '' });
         run(function() {
           expect(model.validate()).to.equal(false);
           expect(
@@ -701,7 +699,7 @@ describe('ModelValidatorMixin', function() {
       });
 
       it('validates the truthyness of user func for `validations.custom` and use the correct message', function() {
-        var model = this.subject({ lotteryNumber: 777, favoriteColor: null });
+        var model = this.owner.lookup('service:store').createRecord('fake-model', { lotteryNumber: 777, favoriteColor: null });
         run(function() {
           expect(model.validate()).to.equal(false);
           expect(
@@ -714,7 +712,7 @@ describe('ModelValidatorMixin', function() {
       });
 
       it('validates the email format of the attributes set on `validations.email` and use the correct message', function() {
-        var model = this.subject({ bussinessEmail: 'adsfasdf$' });
+        var model = this.owner.lookup('service:store').createRecord('fake-model', { bussinessEmail: 'adsfasdf$' });
         run(function() {
           expect(model.validate()).to.equal(false);
           expect(
@@ -727,7 +725,7 @@ describe('ModelValidatorMixin', function() {
       });
 
       it('validates the color format of the attributes set on `validations.color` and use the correct message', function() {
-        var model = this.subject({ favoriteColor: 'adsfasdf$' });
+        var model = this.owner.lookup('service:store').createRecord('fake-model', { favoriteColor: 'adsfasdf$' });
         run(function() {
           expect(model.validate()).to.equal(false);
           expect(
@@ -740,7 +738,7 @@ describe('ModelValidatorMixin', function() {
       });
 
       it('validates the subdomain format of the attributes set on `validations.subdomain` and use the correct message', function() {
-        var model = this.subject({ mySubdomain: 'with space' });
+        var model = this.owner.lookup('service:store').createRecord('fake-model', { mySubdomain: 'with space' });
         run(function() {
           expect(model.validate()).to.equal(false);
           expect(
@@ -753,7 +751,7 @@ describe('ModelValidatorMixin', function() {
       });
 
       it('validates the subdomain reserved words of the attributes set on `validations.subdomain` and use the correct message', function() {
-        var model = this.subject({ mySubdomain: 'admin' });
+        var model = this.owner.lookup('service:store').createRecord('fake-model', { mySubdomain: 'admin' });
         run(function() {
           expect(model.validate()).to.equal(false);
           expect(
@@ -766,7 +764,7 @@ describe('ModelValidatorMixin', function() {
       });
 
       it('validates the format of the attributes set on `validations.format` and use the correct message', function() {
-        var model = this.subject({ mainstreamCode: 3123123 });
+        var model = this.owner.lookup('service:store').createRecord('fake-model', { mainstreamCode: 3123123 });
         run(function() {
           expect(model.validate()).to.equal(false);
           expect(
@@ -779,7 +777,7 @@ describe('ModelValidatorMixin', function() {
       });
 
       it('validates the inclusion of the attributes set on `validations.inclusion` and use the correct message', function() {
-        var model = this.subject({ name: 'adsfasdf$' });
+        var model = this.owner.lookup('service:store').createRecord('fake-model', { name: 'adsfasdf$' });
         run(function() {
           expect(model.validate()).to.equal(false);
           expect(
@@ -792,7 +790,7 @@ describe('ModelValidatorMixin', function() {
       });
 
       it('validates the exclusion of the attributes set on `validations.exclusion` and use the correct message', function() {
-        var model = this.subject({ secondName: 'Wilder Medina' });
+        var model = this.owner.lookup('service:store').createRecord('fake-model', { secondName: 'Wilder Medina' });
         run(function() {
           expect(model.validate()).to.equal(false);
           expect(
@@ -805,7 +803,7 @@ describe('ModelValidatorMixin', function() {
       });
 
       it('validates the numericality of the attributes set on `validations.numericality`', function() {
-        var model = this.subject({ alibabaNumber: 'adsfasdf$' });
+        var model = this.owner.lookup('service:store').createRecord('fake-model', { alibabaNumber: 'adsfasdf$' });
         run(function() {
           expect(model.validate()).to.equal(false);
           expect(
@@ -820,7 +818,7 @@ describe('ModelValidatorMixin', function() {
       describe('When custom message is a function', function() {
         describe('and function returns a string', function() {
           it('set error message using the function return', function() {
-            var model = this.subject({ otherCustomValidation: 123456 });
+            var model = this.owner.lookup('service:store').createRecord('fake-model', { otherCustomValidation: 123456 });
             run(function() {
               expect(model.validate()).to.equal(false);
               expect(
@@ -839,7 +837,7 @@ describe('ModelValidatorMixin', function() {
 
         describe('and function does not return a string', function() {
           it('set error message to default message', function() {
-            var model = this.subject({ otherCustomValidationBadMessageFunction: 123456 });
+            var model = this.owner.lookup('service:store').createRecord('fake-model', { otherCustomValidationBadMessageFunction: 123456 });
             run(function() {
               expect(model.validate()).to.equal(false);
               expect(
@@ -856,7 +854,7 @@ describe('ModelValidatorMixin', function() {
 
     describe('when errorAs is set', function() {
       it('validates the presence of the attributes set on `validations.presence` and add errors to `errorAs`', function() {
-        var model = this.subject(),
+        var model = this.owner.lookup('service:store').createRecord('fake-model'),
           errorAs = model.validations.name.presence.errorAs;
         run(function() {
           expect(model.validate()).to.equal(false);
@@ -872,7 +870,7 @@ describe('ModelValidatorMixin', function() {
 
     describe('when data is corrected after validation', function() {
       it('it clean the errors', function() {
-        var model = this.subject({
+        var model = this.owner.lookup('service:store').createRecord('fake-model', {
             email: 'adsfasdf$',
             name: 'Jose Rene',
             lotteryNumber: 124,
@@ -901,7 +899,7 @@ describe('ModelValidatorMixin', function() {
 
     describe('when `addErrors` is passed to `validate`', function() {
       it('it validates all the attributes but does not add errors', function() {
-        var model = this.subject({
+        var model = this.owner.lookup('service:store').createRecord('fake-model', {
           email: 'adsfasdf$',
           name: 'Jose Rene',
           lotteryNumber: 124,
@@ -935,7 +933,7 @@ describe('ModelValidatorMixin', function() {
 
     describe('when `except` is passed to `validate`', function() {
       it('it validates all the attributes except the ones specifed', function() {
-        var model = this.subject({
+        var model = this.owner.lookup('service:store').createRecord('fake-model', {
           email: 'adsfasdf$',
           name: 'Jose Rene',
           lotteryNumber: 124,
@@ -960,7 +958,7 @@ describe('ModelValidatorMixin', function() {
 
     describe('when `only` is passed to `validate`', function() {
       it('it validates only the attributes specifed', function() {
-        var model = this.subject({
+        var model = this.owner.lookup('service:store').createRecord('fake-model', {
           email: 'adsfasdf$',
           name: 'Jose Rene',
           lotteryNumber: 124,
