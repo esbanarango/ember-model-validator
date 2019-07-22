@@ -44,12 +44,10 @@ export default Mixin.create({
   },
 
   validate(options = {}) {
-    let errors = null,
-      validations = get(this, 'validations');
+    let validations = get(this, 'validations');
 
     // Clean all the current errors
     this.clearErrors();
-    errors = get(this, 'validationErrors');
 
     // Validate but not set errors
     if (options.hasOwnProperty('addErrors')) {
@@ -57,6 +55,7 @@ export default Mixin.create({
     } else {
       set(this, 'addErrors', true);
     }
+
     // Call validators defined on each property
     for (let property in validations) {
       for (let validation in validations[property]) {
@@ -78,6 +77,8 @@ export default Mixin.create({
 
     // Check if it's valid or not
     if (!get(this, 'isValidNow')) {
+      let errors = get(this, 'validationErrors');
+
       // It may be invalid because of its relations
       if (get(this, 'addErrors') && Object.keys(errors).length !== 0) {
         this.pushErrors(errors);
