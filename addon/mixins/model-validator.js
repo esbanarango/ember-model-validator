@@ -39,6 +39,8 @@ export default Mixin.create({
 
   clearErrors() {
     this._internalModel.clearErrorMessages();
+    set(this, 'validationErrors', {});
+    set(this, 'isValidNow', true);
   },
 
   validate(options = {}) {
@@ -47,8 +49,6 @@ export default Mixin.create({
 
     // Clean all the current errors
     this.clearErrors();
-    set(this, 'validationErrors', {});
-    set(this, 'isValidNow', true);
     errors = get(this, 'validationErrors');
 
     // Validate but not set errors
