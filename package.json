@@ -31,7 +31,7 @@
     "@ember/jquery": "0.6.1",
     "@ember/optional-features": "^0.6.3",
     "broccoli-asset-rev": "^3.0.0",
-    "ember-angle-bracket-invocation-polyfill": "^1.2.5",
+    "ember-angle-bracket-invocation-polyfill": "^2.0.0",
     "ember-cli": "~3.11.0",
     "ember-cli-chai": "0.5.0",
     "ember-cli-clipboard": "0.13.0",
