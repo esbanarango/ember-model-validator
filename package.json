@@ -53,7 +53,7 @@
     "ember-font-awesome": "4.0.0-rc.3",
     "ember-load-initializers": "^2.0.0",
     "ember-mocha": "0.16.0",
-    "ember-moment": "^7.8.1",
+    "ember-moment": "^8.0.0",
     "ember-pikaday": "esbanarango/ember-pikaday",
     "ember-prism": "0.5.0",
     "ember-qunit": "^4.4.1",
