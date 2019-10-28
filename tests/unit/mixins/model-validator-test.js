@@ -947,11 +947,11 @@ describe('ModelValidatorMixin', function() {
         run(function() {
           model.set('password', 'k$1hkjGd');
           model.set('passwordConfirmation', 'k$1hkjGd');
-          model.set('email', 'rene@higuita.com');
           model.set('images', 'las images');
           model.set('mainstreamCode', '');
           expect(model.validate()).to.equal(false);
-          expect(model.validate({ except: ['asyncModel', 'otherFake'] })).to.equal(true);
+          expect(model.validate({ except: ['asyncModel', 'otherFake'] })).to.equal(false);
+          expect(model.validate({ except: ['asyncModel', 'otherFake', 'email:email'] })).to.equal(true);
         });
       });
     });
@@ -967,8 +967,9 @@ describe('ModelValidatorMixin', function() {
         });
         run(function() {
           expect(model.validate()).to.equal(false);
-          model.set('email', 'user.name+1@gmail.com');
-          expect(model.validate({ only: ['email'] })).to.equal(true);
+          model.set('email', 'user.name+1');
+          expect(model.validate({ only: ['email'] })).to.equal(false);
+          expect(model.validate({ only: ['email:presence'] })).to.equal(true);
         });
       });
     });
