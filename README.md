@@ -498,6 +498,15 @@ myModel.validate({ addErrors: false });
 // ^ This will validate the model but won't add any errors.
 ```
 
+To target specific validations when using `except`/`only`, pass the validations' names along the attribute's name:
+
+```js
+// This runs all validations, except name's presence and length validations and
+// any email validations.
+// Other name validations are still run.
+myModel.validate({ except: ['name:presence,length', 'email'] });
+```
+
 ### Usage Example
 
 ```js
