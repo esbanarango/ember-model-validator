@@ -52,6 +52,15 @@ myModel.validate({ addErrors: false });
 // This will validate the model but won't add any errors.
     {{/code-block}}
 
+    <p>
+      To target specific validations when using <code class="ui label">except / only</code>, pass the validations' names along the attribute's name:
+    </p>
+    {{#code-block language="javascript"}}
+// This runs all validations, except name's presence and length validations and
+// any email validations.
+// Other name validations are still run.
+myModel.validate({ except: ['name:presence,length', 'email'] });
+    {{/code-block}}
   </div>
 
   <h3 class="ui header">Conditional Validators</h3>
