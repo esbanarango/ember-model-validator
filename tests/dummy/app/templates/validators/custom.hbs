@@ -131,7 +131,7 @@ validations: {
     {{#ui-annotation showing=showing type="javascript" setCopyCode=setCopyCode}}
 import Model from "ember-data/model";
 import attr from "ember-data/attr";
-import Validator from "../mixins/model-validator";
+import Validator from "ember-model-validator/mixins/object-validator";
 
 export default Model.extend(Validator, {
   lotteryNumber: attr("number"),
