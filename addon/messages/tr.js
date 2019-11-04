@@ -25,9 +25,9 @@ export default {
   tooShortMessage: 'çok kısa (minimum {count} karakter)',
   tooLongMessage: 'çok uzun (maksimum {count} karakter)',
   mustContainNumberMessage: 'bir sayı içermeli',
-  mustContainSpecialMessage: 'bu özel karakterlerden birini içermelidir: {characters}',
-  mustContainLowerMessage: 'küçük harf içermelidir',
-  mustContainCapitalMessage: 'büyük harf içermelidir',
+  mustContainSpecialMessage: 'bu özel karakterlerden birini içermeli: {characters}',
+  mustContainLowerMessage: 'küçük harf içermeli',
+  mustContainCapitalMessage: 'büyük harf içermeli',
   customValidationMessage: 'geçersiz',
   matchMessage: '{match} ile eşleşmeli',
 
