@@ -13,13 +13,15 @@ import MessagesAr from '../messages/ar';
 import MessagesFr from '../messages/fr';
 import MessagesEs from '../messages/es';
 import MessagesPtbr from '../messages/pt-br';
+import MessagesUk from '../messages/uk';
 
 const Messages = {
   en: MessagesEn,
   ar: MessagesAr,
   fr: MessagesFr,
   es: MessagesEs,
-  'pt-br': MessagesPtbr
+  'pt-br': MessagesPtbr,
+  uk: MessagesUk,
 };
 
 export default Mixin.create({
@@ -60,7 +62,7 @@ export default Mixin.create({
     // Call validators defined on each property
     for (let property in validations) {
       for (let validation in validations[property]) {
-        if (this._exceptOrOnly(property, options)) {
+        if (this._exceptOrOnly(property, validation, options)) {
           let validationName = capitalize(validation);
           // allowBlank option
           if (get(validations[property], `${validation}.allowBlank`) && isEmpty(get(this, property))) {
@@ -491,15 +493,31 @@ export default Mixin.create({
   },
 
   /**** Helper methods ****/
-  _exceptOrOnly(property, options) {
+  _exceptOrOnly(property, validation, options) {
     let validateThis = true;
-    if (options.hasOwnProperty('except') && options.except.indexOf(property) !== -1) {
-      validateThis = false;
+    if (isPresent(options.except) && isArray(options.except)) {
+      validateThis = !this._hasCompositeTag(property, validation, options.except);
     }
-    if (options.hasOwnProperty('only') && options.only.indexOf(property) === -1) {
-      validateThis = false;
+    if (isPresent(options.only) && isArray(options.only)) {
+      validateThis = this._hasCompositeTag(property, validation, options.only);
     }
     return validateThis;
+  },
+  _hasCompositeTag(property, validation, tags){
+    for (const tag of tags) {
+      if(tag === property) return true;
+
+      if(tag.indexOf(':') !== -1) {
+        const [ field, rest = '' ] = tag.split(':', 2);
+        if (field !== property) continue;
+
+        const rules = rest.split(',');
+        for (const rule of rules) {
+          if(rule === validation) return true;
+        }
+      }
+    }
+    return false;
   },
   _getCustomValidator(validation) {
     let customValidator = validation;

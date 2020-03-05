@@ -28,37 +28,36 @@ or
 ---
 
 - [Ember model validator](#ember-model-validator)
-    - [Live demo & Documentation](#live-demo--documentation)
+  - [Live demo & Documentation](#live-demo--documentation)
   - [Purpose](#purpose)
   - [Installation](#installation)
   - [Compatibility](#compatibility)
-  - [Validators](#validators)
-        - [Common options](#common-options)
+  - [Validators](#validators) - [Common options](#common-options)
     - [Presence](#presence)
     - [Acceptance](#acceptance)
     - [Absence](#absence)
     - [Format](#format)
     - [Length](#length)
-        - [Options](#options)
+      - [Options](#options)
     - [Email](#email)
     - [ZipCode](#zipcode)
-        - [Options](#options-1)
+      - [Options](#options-1)
     - [Hex Color](#hex-color)
     - [Subdomain](#subdomain)
     - [URL](#url)
     - [Inclusion](#inclusion)
     - [Exclusion](#exclusion)
     - [Match](#match)
-        - [Options](#options-2)
+      - [Options](#options-2)
     - [Numericality](#numericality)
-        - [Options](#options-3)
+      - [Options](#options-3)
     - [Date](#date)
-        - [Options](#options-4)
+      - [Options](#options-4)
     - [Custom](#custom)
     - [Password](#password)
     - [Relations](#relations)
     - [Using function to generate custom message](#using-function-to-generate-custom-message)
-        - [Example](#example)
+      - [Example](#example)
   - [Usage](#usage)
     - [Usage Example](#usage-example)
     - [Or Usage in non Model(Controller, Componente, Object ...) Example](#or-usage-in-non-modelcontroller-componente-object--example)
@@ -498,6 +497,15 @@ myModel.validate({ addErrors: false });
 // ^ This will validate the model but won't add any errors.
 ```
 
+To target specific validations when using `except`/`only`, pass the validations' names along the attribute's name:
+
+```js
+// This runs all validations, except name's presence and length validations and
+// any email validations.
+// Other name validations are still run.
+myModel.validate({ except: ['name:presence,length', 'email'] });
+```
+
 ### Usage Example
 
 ```js
@@ -510,7 +518,7 @@ export default Model.extend(Validator, {
   fruit: attr('string'),
   favoriteColor: attr('string'),
 
-  validations = {
+  validations: {
     fullName: {
       presence: true
     },
@@ -527,34 +535,33 @@ export default Model.extend(Validator, {
 After setting the validations on your model you will be able to:
 
 ```js
-import Route from '@ember/routing/route';
+import Controller from '@ember/controller';
+import { action } from '@ember/object';
 
-export default Route.extend({
-  actions: {
-    saveFakeModel: function() {
-      let fakeModel = this.get('model');
+export default class MyController extends Controller {
+  @action
+  saveFakeModel() {
+    let fakeModel = this.model;
 
-      if (fakeModel.validate()) {
-        fakeModel.save().then(
-          // Success
-          function() {
-            // Alert success
-            console.log('ooooh yeah we just saved the FakeModel...');
-          },
-
-          // Error handling
-          function(error) {
-            // Alert failure
-            console.log('There was a problem saving the FakeModel...');
-            console.log(error);
-          }
-        );
-      } else {
-        fakeModel.get('errors');
-      }
+    if (fakeModel.validate()) {
+      fakeModel.save().then(
+        // Success
+        function() {
+          // Alert success
+          console.log('ooooh yeah we just saved the FakeModel...');
+        },
+        // Error handling
+        function(error) {
+          // Alert failure
+          console.log('There was a problem saving the FakeModel...');
+          console.log(error);
+        }
+      );
+    } else {
+      fakeModel.get('errors');
     }
   }
-});
+}
 ```
 
 ### Or Usage in non Model(Controller, Componente, Object ...) Example
@@ -576,7 +583,7 @@ export default Component.extend(Validator, {
 
 ## I18n
 
-Set `validatorDefaultLocale` in your config enviroment a language, for now it's possible use 'en', 'fr', 'es' or 'pt-br', default is 'en';
+Set `validatorDefaultLocale` in your config enviroment a language, for now it's possible use 'en', 'fr', 'es', 'uk' or 'pt-br', default is 'en';
 
 ```js
 //config/environment.js
