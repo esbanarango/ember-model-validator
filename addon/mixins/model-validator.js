@@ -13,13 +13,15 @@ import MessagesAr from '../messages/ar';
 import MessagesFr from '../messages/fr';
 import MessagesEs from '../messages/es';
 import MessagesPtbr from '../messages/pt-br';
+import MessagesUk from '../messages/uk';
 
 const Messages = {
   en: MessagesEn,
   ar: MessagesAr,
   fr: MessagesFr,
   es: MessagesEs,
-  'pt-br': MessagesPtbr
+  'pt-br': MessagesPtbr,
+  uk: MessagesUk,
 };
 
 export default Mixin.create({

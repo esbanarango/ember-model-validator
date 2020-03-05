@@ -583,7 +583,7 @@ export default Component.extend(Validator, {
 
 ## I18n
 
-Set `validatorDefaultLocale` in your config enviroment a language, for now it's possible use 'en', 'fr', 'es' or 'pt-br', default is 'en';
+Set `validatorDefaultLocale` in your config enviroment a language, for now it's possible use 'en', 'fr', 'es', 'uk' or 'pt-br', default is 'en';
 
 ```js
 //config/environment.js
