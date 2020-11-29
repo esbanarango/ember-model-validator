@@ -455,14 +455,13 @@ The message function receives the attribute name, the value of the attribute and
 ##### Example
 
 ```js
-import Model from 'ember-data/model';
-import attr from 'ember-data/attr';
-import Validator from '../mixins/model-validator';
+import Model, { attr } from '@ember-data/model';
+import Validator from 'ember-model-validator/mixins/object-validator';
 
-export default Model.extend(Validator, {
-  otherCustomAttribute: attr('number', { defaultValue: 12345 }),
+export default class MyModel extends Model.extend(Validator) {
+  @attr('number', { defaultValue: 12345 }) otherCustomAttribute;
 
-  validations: {
+  validations = {
     otherCustomAttribute: {
       custom: {
         validation: function(key, value) {
@@ -473,8 +472,8 @@ export default Model.extend(Validator, {
         }
       }
     }
-  }
-});
+  };
+}
 ```
 
 ## Usage
@@ -509,16 +508,15 @@ myModel.validate({ except: ['name:presence,length', 'email'] });
 ### Usage Example
 
 ```js
-import Model from 'ember-data/model';
-import attr from 'ember-data/attr';
-import Validator from '../../mixins/model-validator';
+import Model, { attr } from '@ember-data/model';
+import Validator from 'ember-model-validator/mixins/object-validator';
 
-export default Model.extend(Validator, {
-  fullName: attr('string'),
-  fruit: attr('string'),
-  favoriteColor: attr('string'),
+export default class MyModel extends Model.extend(Validator) {
+  @attr('string') fullName;
+  @attr('string') fruit;
+  @attr('string') favoriteColor;
 
-  validations: {
+  validations = {
     fullName: {
       presence: true
     },
@@ -528,8 +526,8 @@ export default Model.extend(Validator, {
     favoriteColor: {
       color: true
     }
-  }
-});
+  };
+}
 ```
 
 After setting the validations on your model you will be able to:
@@ -568,7 +566,7 @@ export default class MyController extends Controller {
 
 ```js
 import Component from '@ember/component';
-import Validator from '../mixins/object-validator';
+import Validator from 'ember-model-validator/mixins/object-validator';
 
 export default Component.extend(Validator, {
   test: 'ABC',
