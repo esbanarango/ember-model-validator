@@ -1,12 +1,11 @@
-export function initialize() {
-  let application = arguments[1] || arguments[0];
+export function initialize(application) {
   let validatorDefaultLocale = application.get('validatorDefaultLocale');
   if (validatorDefaultLocale) {
-    application.register('validator:locale', validatorDefaultLocale, { instantiate: false });
+    application.register('validator:locale', { locale: validatorDefaultLocale }, { instantiate: false });
   }
 }
 
 export default {
   name: 'model-locale',
-  initialize
+  initialize,
 };

@@ -30,17 +30,18 @@ export default Mixin.create({
   addErrors: true,
   _validationMessages: {},
 
-  _locale: computed(function() {
-    return getOwner(this).lookup('validator:locale');
+  _locale: computed(function () {
+    const validatorLocale = getOwner(this).lookup('validator:locale');
+    return validatorLocale?.locale;
   }),
 
-  _initMessage: on('init', function() {
+  _initMessage: on('init', function () {
     let locale = get(this, '_locale') || 'en';
     set(this, '_validationMessages', Messages[locale]);
   }),
 
   clearErrors() {
-    this._internalModel.clearErrorMessages();
+    this._internalModel.getRecord().errors._clear();
   },
 
   validate(options = {}) {
@@ -166,7 +167,7 @@ export default Mixin.create({
       countryCode = validation.zipCode.countryCode;
     }
     if (isArray(countryCode)) {
-      countryCode.forEach(function(code) {
+      countryCode.forEach(function (code) {
         let postalCodeRegexp = PostalCodesRegex[code];
         if (typeof postalCodeRegexp === 'undefined') {
           postalCodeRegexp = PostalCodesRegex[DEFAULT_COUNTRY_CODE];
@@ -259,7 +260,11 @@ export default Mixin.create({
     if (validation.numericality.hasOwnProperty('onlyInteger') && validation.numericality.onlyInteger) {
       if (!/^[+-]?\d+$/.test(propertyValue)) {
         set(this, 'isValidNow', false);
-        this._addToErrors(property, validation.numericality, get(this, '_validationMessages').numericalityOnlyIntegerMessage);
+        this._addToErrors(
+          property,
+          validation.numericality,
+          get(this, '_validationMessages').numericalityOnlyIntegerMessage
+        );
       }
     }
     if (validation.numericality.hasOwnProperty('even') && validation.numericality.even) {
@@ -368,7 +373,11 @@ export default Mixin.create({
       if (typeOf(validation.match) === 'object') {
         validation.match.interpolatedValue = matchingUnCamelCase;
       }
-      this._addToErrors(property, validation.match, this._formatMessage(get(this, '_validationMessages').matchMessage, context));
+      this._addToErrors(
+        property,
+        validation.match,
+        this._formatMessage(get(this, '_validationMessages').matchMessage, context)
+      );
     }
   },
   // Length Validator
@@ -444,7 +453,7 @@ export default Mixin.create({
   _validateRelations(property, validation) {
     if (validation.relations.indexOf('hasMany') !== -1) {
       if (get(this, `${property}.content`)) {
-        get(this, `${property}.content`).forEach(objRelation => {
+        get(this, `${property}.content`).forEach((objRelation) => {
           if (!objRelation.validate()) {
             set(this, 'isValidNow', false);
           }
@@ -503,17 +512,17 @@ export default Mixin.create({
     }
     return validateThis;
   },
-  _hasCompositeTag(property, validation, tags){
+  _hasCompositeTag(property, validation, tags) {
     for (const tag of tags) {
-      if(tag === property) return true;
+      if (tag === property) return true;
 
-      if(tag.indexOf(':') !== -1) {
-        const [ field, rest = '' ] = tag.split(':', 2);
+      if (tag.indexOf(':') !== -1) {
+        const [field, rest = ''] = tag.split(':', 2);
         if (field !== property) continue;
 
         const rules = rest.split(',');
         for (const rule of rules) {
-          if(rule === validation) return true;
+          if (rule === validation) return true;
         }
       }
     }
@@ -561,7 +570,7 @@ export default Mixin.create({
         // insert a space before all caps
         .replace(/([A-Z])/g, ' $1')
         // uppercase the first character
-        .replace(/^./, function(str) {
+        .replace(/^./, function (str) {
           return capitalize(str);
         })
     );
@@ -591,5 +600,5 @@ export default Mixin.create({
   },
   _formatMessage(message, context = {}) {
     return message.replace(/\{(\w+)\}/, (s, attr) => context[attr]);
-  }
+  },
 });
