@@ -1,6 +1,6 @@
 {
   "name": "ember-model-validator",
-  "version": "3.9.0",
+  "version": "3.10.0",
   "description": "ember-cli package, which adds validation support to your Ember-Data models.",
   "keywords": [
     "ember-addon",
@@ -25,59 +25,57 @@
     "test": "ember try:each"
   },
   "dependencies": {
-    "ember-cli-babel": "^7.6.0"
+    "ember-cli-babel": "^7.26.6"
   },
   "devDependencies": {
-    "@ember/jquery": "0.6.1",
-    "@ember/optional-features": "^0.6.3",
+    "@ember/jquery": "1.1.0",
+    "@ember/optional-features": "^1.0.0",
+    "babel-eslint": "10.1.0",
     "broccoli-asset-rev": "^3.0.0",
-    "ember-angle-bracket-invocation-polyfill": "^1.2.5",
-    "ember-cli": "~3.11.0",
+    "ember-angle-bracket-invocation-polyfill": "^2.0.0",
+    "ember-cli": "~3.18.0",
     "ember-cli-chai": "0.5.0",
     "ember-cli-clipboard": "0.13.0",
     "ember-cli-dependency-checker": "^3.1.0",
-    "ember-cli-eslint": "^5.0.0",
+    "ember-cli-eslint": "5.1.0",
     "ember-cli-github-pages": "0.2.2",
-    "ember-cli-htmlbars": "^3.0.1",
-    "ember-cli-htmlbars-inline-precompile": "^2.1.0",
+    "ember-cli-htmlbars": "^5.0.0",
     "ember-cli-inject-live-reload": "^2.0.1",
-    "ember-cli-moment-shim": "3.7.1",
+    "ember-cli-moment-shim": "3.8.0",
     "ember-cli-sass": "10.0.1",
     "ember-cli-sri": "^2.1.1",
     "ember-cli-template-lint": "^1.0.0-beta.1",
     "ember-cli-uglify": "^3.0.0",
-    "ember-composable-helpers": "2.3.0",
-    "ember-data": "^3.8.0",
+    "ember-composable-helpers": "3.2.0",
+    "ember-data": "3.24.2",
     "ember-disable-prototype-extensions": "^1.1.3",
     "ember-export-application-global": "^2.0.0",
     "ember-font-awesome": "4.0.0-rc.3",
     "ember-load-initializers": "^2.0.0",
-    "ember-mocha": "0.14.0",
-    "ember-moment": "^7.8.1",
+    "ember-mocha": "0.16.2",
+    "ember-moment": "^8.0.0",
     "ember-pikaday": "esbanarango/ember-pikaday",
     "ember-prism": "0.5.0",
-    "ember-qunit": "^3.4.1",
-    "ember-resolver": "^5.1.3",
-    "ember-source": "~3.8.0",
+    "ember-resolver": "^8.0.0",
+    "ember-source": "3.24.3",
     "ember-source-channel-url": "^2.0.0",
     "ember-template-lint": "^1.1.0",
-    "ember-try": "^1.0.0",
+    "ember-try": "^1.2.1",
     "eslint-plugin-ember": "^6.3.0",
-    "eslint-plugin-node": "^9.0.0",
+    "eslint-plugin-node": "11.1.0",
+    "highlightjs": "^9.12.0",
     "loader.js": "^4.7.0",
     "sass": "^1.13.4",
     "semantic-ui-ember": "^3.0.3"
   },
   "engines": {
-    "node": "6.* || 8.* || >= 10.*"
+    "node": "10.* || >= 12"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"
   },
-  "greenkeeper": {
-    "ignore": [
-      "ember-source",
-      "ember-data"
-    ]
+  "volta": {
+    "node": "14.17.5",
+    "yarn": "1.22.11"
   }
 }

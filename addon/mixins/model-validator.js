@@ -13,13 +13,15 @@ import MessagesAr from '../messages/ar';
 import MessagesFr from '../messages/fr';
 import MessagesEs from '../messages/es';
 import MessagesPtbr from '../messages/pt-br';
+import MessagesUk from '../messages/uk';
 
 const Messages = {
   en: MessagesEn,
   ar: MessagesAr,
   fr: MessagesFr,
   es: MessagesEs,
-  'pt-br': MessagesPtbr
+  'pt-br': MessagesPtbr,
+  uk: MessagesUk,
 };
 
 export default Mixin.create({
@@ -28,17 +30,18 @@ export default Mixin.create({
   addErrors: true,
   _validationMessages: {},
 
-  _locale: computed(function() {
-    return getOwner(this).lookup('validator:locale');
+  _locale: computed(function () {
+    const validatorLocale = getOwner(this).lookup('validator:locale');
+    return validatorLocale?.locale;
   }),
 
-  _initMessage: on('init', function() {
+  _initMessage: on('init', function () {
     let locale = get(this, '_locale') || 'en';
     set(this, '_validationMessages', Messages[locale]);
   }),
 
   clearErrors() {
-    this._internalModel.clearErrorMessages();
+    this._internalModel.getRecord().errors._clear();
     set(this, 'validationErrors', {});
     set(this, 'isValidNow', true);
   },
@@ -59,7 +62,7 @@ export default Mixin.create({
     // Call validators defined on each property
     for (let property in validations) {
       for (let validation in validations[property]) {
-        if (this._exceptOrOnly(property, options)) {
+        if (this._exceptOrOnly(property, validation, options)) {
           let validationName = capitalize(validation);
           // allowBlank option
           if (get(validations[property], `${validation}.allowBlank`) && isEmpty(get(this, property))) {
@@ -165,7 +168,7 @@ export default Mixin.create({
       countryCode = validation.zipCode.countryCode;
     }
     if (isArray(countryCode)) {
-      countryCode.forEach(function(code) {
+      countryCode.forEach(function (code) {
         let postalCodeRegexp = PostalCodesRegex[code];
         if (typeof postalCodeRegexp === 'undefined') {
           postalCodeRegexp = PostalCodesRegex[DEFAULT_COUNTRY_CODE];
@@ -258,7 +261,11 @@ export default Mixin.create({
     if (validation.numericality.hasOwnProperty('onlyInteger') && validation.numericality.onlyInteger) {
       if (!/^[+-]?\d+$/.test(propertyValue)) {
         set(this, 'isValidNow', false);
-        this._addToErrors(property, validation.numericality, get(this, '_validationMessages').numericalityOnlyIntegerMessage);
+        this._addToErrors(
+          property,
+          validation.numericality,
+          get(this, '_validationMessages').numericalityOnlyIntegerMessage
+        );
       }
     }
     if (validation.numericality.hasOwnProperty('even') && validation.numericality.even) {
@@ -367,7 +374,11 @@ export default Mixin.create({
       if (typeOf(validation.match) === 'object') {
         validation.match.interpolatedValue = matchingUnCamelCase;
       }
-      this._addToErrors(property, validation.match, this._formatMessage(get(this, '_validationMessages').matchMessage, context));
+      this._addToErrors(
+        property,
+        validation.match,
+        this._formatMessage(get(this, '_validationMessages').matchMessage, context)
+      );
     }
   },
   // Length Validator
@@ -443,7 +454,7 @@ export default Mixin.create({
   _validateRelations(property, validation) {
     if (validation.relations.indexOf('hasMany') !== -1) {
       if (get(this, `${property}.content`)) {
-        get(this, `${property}.content`).forEach(objRelation => {
+        get(this, `${property}.content`).forEach((objRelation) => {
           if (!objRelation.validate()) {
             set(this, 'isValidNow', false);
           }
@@ -492,15 +503,31 @@ export default Mixin.create({
   },
 
   /**** Helper methods ****/
-  _exceptOrOnly(property, options) {
+  _exceptOrOnly(property, validation, options) {
     let validateThis = true;
-    if (options.hasOwnProperty('except') && options.except.indexOf(property) !== -1) {
-      validateThis = false;
+    if (isPresent(options.except) && isArray(options.except)) {
+      validateThis = !this._hasCompositeTag(property, validation, options.except);
     }
-    if (options.hasOwnProperty('only') && options.only.indexOf(property) === -1) {
-      validateThis = false;
+    if (isPresent(options.only) && isArray(options.only)) {
+      validateThis = this._hasCompositeTag(property, validation, options.only);
     }
     return validateThis;
+  },
+  _hasCompositeTag(property, validation, tags) {
+    for (const tag of tags) {
+      if (tag === property) return true;
+
+      if (tag.indexOf(':') !== -1) {
+        const [field, rest = ''] = tag.split(':', 2);
+        if (field !== property) continue;
+
+        const rules = rest.split(',');
+        for (const rule of rules) {
+          if (rule === validation) return true;
+        }
+      }
+    }
+    return false;
   },
   _getCustomValidator(validation) {
     let customValidator = validation;
@@ -544,7 +571,7 @@ export default Mixin.create({
         // insert a space before all caps
         .replace(/([A-Z])/g, ' $1')
         // uppercase the first character
-        .replace(/^./, function(str) {
+        .replace(/^./, function (str) {
           return capitalize(str);
         })
     );
@@ -574,5 +601,5 @@ export default Mixin.create({
   },
   _formatMessage(message, context = {}) {
     return message.replace(/\{(\w+)\}/, (s, attr) => context[attr]);
-  }
+  },
 });

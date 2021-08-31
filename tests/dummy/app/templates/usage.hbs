@@ -11,7 +11,7 @@
 
   <div class="no example">
     <p>
-      <strong>Ember-model-validator</strong> provides a mixin to be included in your models for adding validation support. This mixin can be imported from your app's namespace (e.g. ../mixins/model-validator in your models).
+      <strong>Ember-model-validator</strong> provides a mixin to be included in your models for adding validation support. This mixin can be imported from your app's namespace (e.g. ember-model-validator/mixins/object-validator in your models).
     </p>
 
     <p>
@@ -52,6 +52,15 @@ myModel.validate({ addErrors: false });
 // This will validate the model but won't add any errors.
     {{/code-block}}
 
+    <p>
+      To target specific validations when using <code class="ui label">except / only</code>, pass the validations' names along the attribute's name:
+    </p>
+    {{#code-block language="javascript"}}
+// This runs all validations, except name's presence and length validations and
+// any email validations.
+// Other name validations are still run.
+myModel.validate({ except: ['name:presence,length', 'email'] });
+    {{/code-block}}
   </div>
 
   <h3 class="ui header">Conditional Validators</h3>
@@ -62,7 +71,7 @@ myModel.validate({ addErrors: false });
   {{#code-block language="javascript"}}
 import Model from "ember-data/model";
 import attr from "ember-data/attr";
-import Validator from "../mixins/model-validator";
+import Validator from "ember-model-validator/mixins/object-validator";
 
 export default Model.extend(Validator, {
   images: attr(""),
@@ -94,7 +103,7 @@ export default Model.extend(Validator, {
   {{#code-block language="javascript"}}
 import Model from "ember-data/model";
 import attr from "ember-data/attr";
-import Validator from "../mixins/model-validator";
+import Validator from "ember-model-validator/mixins/object-validator";
 
 export default Model.extend(Validator, {
   otherCustomAttribute: attr("number", { defaultValue: 12345 }),
@@ -122,7 +131,7 @@ export default Model.extend(Validator, {
     {{#code-block language="javascript"}}
 import Model from "ember-data/model";
 import attr from "ember-data/attr";
-import Validator from "../mixins/model-validator";
+import Validator from "ember-model-validator/mixins/object-validator";
 
 export default Model.extend(Validator, {
   name: attr("string"),
@@ -162,33 +171,33 @@ export default Model.extend(Validator, {
     {{/code-block}}
     <p>After setting the validations on your model you will be able to:</p>
     {{#code-block language="javascript"}}
-import Route from "@ember/routing/route";
+import Controller from '@ember/controller';
+import { action } from '@ember/object';
 
-export default Route.extend({
-  actions: {
-    saveFakeModel: function() {
-      let fakeModel = this.get("model");
+export default class MyController extends Controller {
+  @action
+  saveFakeModel() {
+    let fakeModel = this.model;
 
-      if (fakeModel.validate()) {
-        fakeModel.save().then(
-          // Success
-          () => {
-            // Alert success
-            console.log("ooooh yeah we just saved the FakeModel...");
-          },
-          // Error handling
-          error => {
-            // Alert failure
-            console.log("There was a problem saving the FakeModel...");
-            console.log(error);
-          }
-        );
-      } else {
-        fakeModel.get("errors"); // [...]
-      }
+    if (fakeModel.validate()) {
+      fakeModel.save().then(
+        // Success
+        function() {
+          // Alert success
+          console.log('ooooh yeah we just saved the FakeModel...');
+        },
+        // Error handling
+        function(error) {
+          // Alert failure
+          console.log('There was a problem saving the FakeModel...');
+          console.log(error);
+        }
+      );
+    } else {
+      fakeModel.get('errors');
     }
   }
-});
+}
     {{/code-block}}
     {{! template-lint-enable }}
   </div>

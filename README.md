@@ -1,6 +1,6 @@
 # Ember model validator
 
-![Download count all time](https://img.shields.io/npm/dt/ember-model-validator.svg) [![Build Status](https://travis-ci.org/esbanarango/ember-model-validator.svg?branch=master)](https://travis-ci.org/esbanarango/ember-model-validator) [![npm version](https://badge.fury.io/js/ember-model-validator.svg)](http://badge.fury.io/js/ember-model-validator) [![Ember Observer Score](http://emberobserver.com/badges/ember-model-validator.svg)](http://emberobserver.com/addons/ember-model-validator) [![Greenkeeper badge](https://badges.greenkeeper.io/esbanarango/ember-model-validator.svg)](https://greenkeeper.io/)
+![Download count all time](https://img.shields.io/npm/dt/ember-model-validator.svg) [![Build Status](https://travis-ci.org/esbanarango/ember-model-validator.svg?branch=master)](https://travis-ci.org/esbanarango/ember-model-validator) [![npm version](https://badge.fury.io/js/ember-model-validator.svg)](http://badge.fury.io/js/ember-model-validator) [![Ember Observer Score](http://emberobserver.com/badges/ember-model-validator.svg)](http://emberobserver.com/addons/ember-model-validator)
 
 ### [Live demo & Documentation](http://esbanarango.github.io/ember-model-validator/)
 
@@ -456,14 +456,13 @@ The message function receives the attribute name, the value of the attribute and
 ##### Example
 
 ```js
-import Model from 'ember-data/model';
-import attr from 'ember-data/attr';
-import Validator from '../mixins/model-validator';
+import Model, { attr } from '@ember-data/model';
+import Validator from 'ember-model-validator/mixins/object-validator';
 
-export default Model.extend(Validator, {
-  otherCustomAttribute: attr('number', { defaultValue: 12345 }),
+export default class MyModel extends Model.extend(Validator) {
+  @attr('number', { defaultValue: 12345 }) otherCustomAttribute;
 
-  validations: {
+  validations = {
     otherCustomAttribute: {
       custom: {
         validation: function(key, value) {
@@ -474,8 +473,8 @@ export default Model.extend(Validator, {
         }
       }
     }
-  }
-});
+  };
+}
 ```
 
 ## Usage
@@ -498,17 +497,25 @@ myModel.validate({ addErrors: false });
 // ^ This will validate the model but won't add any errors.
 ```
 
+To target specific validations when using `except`/`only`, pass the validations' names along the attribute's name:
+
+```js
+// This runs all validations, except name's presence and length validations and
+// any email validations.
+// Other name validations are still run.
+myModel.validate({ except: ['name:presence,length', 'email'] });
+```
+
 ### Usage Example
 
 ```js
-import Model from 'ember-data/model';
-import attr from 'ember-data/attr';
-import Validator from '../../mixins/model-validator';
+import Model, { attr } from '@ember-data/model';
+import Validator from 'ember-model-validator/mixins/object-validator';
 
-export default Model.extend(Validator, {
-  fullName: attr('string'),
-  fruit: attr('string'),
-  favoriteColor: attr('string'),
+export default class MyModel extends Model.extend(Validator) {
+  @attr('string') fullName;
+  @attr('string') fruit;
+  @attr('string') favoriteColor;
 
   validations = {
     fullName: {
@@ -520,48 +527,47 @@ export default Model.extend(Validator, {
     favoriteColor: {
       color: true
     }
-  }
-});
+  };
+}
 ```
 
 After setting the validations on your model you will be able to:
 
 ```js
-import Route from '@ember/routing/route';
+import Controller from '@ember/controller';
+import { action } from '@ember/object';
 
-export default Route.extend({
-  actions: {
-    saveFakeModel: function() {
-      let fakeModel = this.get('model');
+export default class MyController extends Controller {
+  @action
+  saveFakeModel() {
+    let fakeModel = this.model;
 
-      if (fakeModel.validate()) {
-        fakeModel.save().then(
-          // Success
-          function() {
-            // Alert success
-            console.log('ooooh yeah we just saved the FakeModel...');
-          },
-
-          // Error handling
-          function(error) {
-            // Alert failure
-            console.log('There was a problem saving the FakeModel...');
-            console.log(error);
-          }
-        );
-      } else {
-        fakeModel.get('errors');
-      }
+    if (fakeModel.validate()) {
+      fakeModel.save().then(
+        // Success
+        function() {
+          // Alert success
+          console.log('ooooh yeah we just saved the FakeModel...');
+        },
+        // Error handling
+        function(error) {
+          // Alert failure
+          console.log('There was a problem saving the FakeModel...');
+          console.log(error);
+        }
+      );
+    } else {
+      fakeModel.get('errors');
     }
   }
-});
+}
 ```
 
 ### Or Usage in non Model(Controller, Componente, Object ...) Example
 
 ```js
 import Component from '@ember/component';
-import Validator from '../mixins/object-validator';
+import Validator from 'ember-model-validator/mixins/object-validator';
 
 export default Component.extend(Validator, {
   test: 'ABC',
@@ -576,7 +582,7 @@ export default Component.extend(Validator, {
 
 ## I18n
 
-Set `validatorDefaultLocale` in your config enviroment a language, for now it's possible use 'en', 'fr', 'es' or 'pt-br', default is 'en';
+Set `validatorDefaultLocale` in your config enviroment a language, for now it's possible use 'en', 'fr', 'es', 'uk' or 'pt-br', default is 'en';
 
 ```js
 //config/environment.js
