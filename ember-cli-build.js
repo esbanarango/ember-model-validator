@@ -2,15 +2,21 @@
 'use strict';
 const EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
 
-module.exports = function(defaults) {
+module.exports = function (defaults) {
   let app = new EmberAddon(defaults, {
+    babel: {
+      // enable "loose" mode
+      loose: true,
+      exclude: [],
+      plugins: [],
+    },
     'ember-prism': {
       theme: 'okaidia',
-      components: ['javascript', 'handlebars', 'markup-templating']
+      components: ['javascript', 'handlebars', 'markup-templating'],
     },
     sassOptions: {
-      implementation: require('sass')
-    }
+      implementation: require('sass'),
+    },
   });
 
   /*
