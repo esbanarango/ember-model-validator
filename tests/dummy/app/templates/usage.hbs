@@ -7,15 +7,15 @@
 </div>
 
 <div class="ui main container">
-  <h2 class="ui header">One Mixin to <i> Validate Them All</i></h2>
+  <h2 class="ui header">One Decorator to <i>Validate Them All</i> 💍</h2>
 
   <div class="no example">
     <p>
-      <strong>Ember-model-validator</strong> provides a mixin to be included in your models for adding validation support. This mixin can be imported from your app's namespace (e.g. ember-model-validator/mixins/object-validator in your models).
+      <strong>Ember-model-validator</strong> provides a decorator to be included in your models for adding validation support. This decorator can be imported from your app's namespace (e.g. ember-model-validator/decorators/object-validator in your models).
     </p>
 
     <p>
-      By including Ember-model-validator's mixin into your model, you will get a <code class="ui label">validate</code> function available. it is a synchronous function which returns either <i>true</i> or <i>false</i>.
+      By including Ember-model-validator's decorator into your model, you will get a <code class="ui label">validate</code> function available. it is a synchronous function which returns either <i>true</i> or <i>false</i>.
     </p>
     {{! template-lint-disable block-indentation }}
     {{#code-block language="javascript"}}
@@ -69,15 +69,16 @@ myModel.validate({ except: ['name:presence,length', 'email'] });
   </p>
   {{! template-lint-disable block-indentation }}
   {{#code-block language="javascript"}}
-import Model from "ember-data/model";
-import attr from "ember-data/attr";
-import Validator from "ember-model-validator/mixins/object-validator";
+import Model from 'ember-data/model';
+import attr from 'ember-data/attr';
+import Validator from 'ember-model-validator/decorators/model-validator';
 
-export default Model.extend(Validator, {
-  images: attr(""),
-  type: attr("string"),
+@Validator
+class MyModel extends Model {
+  @attr("") images;
+  @attr("string") type;
 
-  validations: {
+  validations = {
     images: {
       presence: {
         if: function(key, value, _this) {
@@ -85,8 +86,10 @@ export default Model.extend(Validator, {
         }
       }
     }
-  }
-});
+  };
+}
+
+export default MyModel;
   {{/code-block}}
   <h3 class="ui header">Using function to generate custom message</h3>
 
@@ -101,14 +104,15 @@ export default Model.extend(Validator, {
 
   <p><strong>Note:</strong> If the function doesn't return a string the default message is going to be used.</p>
   {{#code-block language="javascript"}}
-import Model from "ember-data/model";
-import attr from "ember-data/attr";
-import Validator from "ember-model-validator/mixins/object-validator";
+import Model from 'ember-data/model';
+import attr from 'ember-data/attr';
+import Validator from 'ember-model-validator/decorators/model-validator';
 
-export default Model.extend(Validator, {
-  otherCustomAttribute: attr("number", { defaultValue: 12345 }),
+@Validator
+class MyModel extends Model {
+  @attr("number", { defaultValue: 12345 }) otherCustomAttribute;
 
-  validations: {
+  validations = {
     otherCustomAttribute: {
       custom: {
         validation: function(key, value) {
@@ -119,8 +123,10 @@ export default Model.extend(Validator, {
         }
       }
     }
-  }
-});
+  };
+}
+
+export default MyModel;
   {{/code-block}}
 
   <div class="ui hidden divider"></div>
@@ -129,19 +135,20 @@ export default Model.extend(Validator, {
 
   <div class="no example">
     {{#code-block language="javascript"}}
-import Model from "ember-data/model";
-import attr from "ember-data/attr";
-import Validator from "ember-model-validator/mixins/object-validator";
+import Model from 'ember-data/model';
+import attr from 'ember-data/attr';
+import Validator from 'ember-model-validator/decorators/model-validator';
 
-export default Model.extend(Validator, {
-  name: attr("string"),
-  login: attr("string"),
-  secondName: attr("string"),
-  email: attr("string"),
-  password: attr("string"),
-  passwordConfirmation: attr("string"),
+@Validator
+class MyModel extends Model {
+  @attr("string") name;
+  @attr("string") login;
+  @attr("string") secondName;
+  @attr("string") email;
+  @attr("string") password;
+  @attr("string") passwordConfirmation;
 
-  validations: {
+  validations = {
     name: {
       presence: { errorAs: "profile.name" },
       inclusion: { in: ["Jose Rene", "Aristi Gol", "Armani"], message: "Solo verde a morir" }
@@ -166,8 +173,10 @@ export default Model.extend(Validator, {
       mustContainNumber: true,
       mustContainSpecial: true
     }
-  }
-});
+  };
+}
+
+export default MyModel;
     {{/code-block}}
     <p>After setting the validations on your model you will be able to:</p>
     {{#code-block language="javascript"}}

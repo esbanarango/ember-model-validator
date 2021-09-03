@@ -1,20 +1,20 @@
 import Model from 'ember-data/model';
 import attr from 'ember-data/attr';
-import Validator from '../../mixins/model-validator';
+import Validator from 'ember-model-validator/decorators/model-validator';
 
-export default Model.extend(Validator, {
-  secretLettersCode: attr('string'),
-  secretNumericCode: attr('string'),
+@Validator
+class ForFormat extends Model {
+  @attr('string') secretLettersCode;
+  @attr('string') secretNumericCode;
 
-  init() {
-    this._super(...arguments);
-    this.validations = {
-      secretLettersCode: {
-        format: { with: /^[a-zA-Z]+$/, message: 'Only letters pls' }
-      },
-      secretNumericCode: {
-        format: { with: /^[0-9]+$/, message: 'Only numbers pls' }
-      }
-    };
-  }
-});
+  validations = {
+    secretLettersCode: {
+      format: { with: /^[a-zA-Z]+$/, message: 'Only letters pls' },
+    },
+    secretNumericCode: {
+      format: { with: /^[0-9]+$/, message: 'Only numbers pls' },
+    },
+  };
+}
+
+export default ForFormat;

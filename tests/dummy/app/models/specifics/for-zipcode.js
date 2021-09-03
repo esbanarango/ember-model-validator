@@ -1,16 +1,16 @@
 import Model from 'ember-data/model';
 import attr from 'ember-data/attr';
-import Validator from '../../mixins/model-validator';
+import Validator from 'ember-model-validator/decorators/model-validator';
 
-export default Model.extend(Validator, {
-  postalCode: attr('string'),
+@Validator
+class ForZipcode extends Model {
+  @attr('string') postalCode;
 
-  init() {
-    this._super(...arguments);
-    this.validations = {
-      postalCode: {
-        zipCode: true
-      }
-    };
-  }
-});
+  validations = {
+    postalCode: {
+      zipCode: true,
+    },
+  };
+}
+
+export default ForZipcode;

@@ -1,16 +1,16 @@
 import Model from 'ember-data/model';
 import attr from 'ember-data/attr';
-import Validator from '../../mixins/model-validator';
+import Validator from 'ember-model-validator/decorators/model-validator';
 
-export default Model.extend(Validator, {
-  agree: attr('boolean'),
+@Validator
+class ForAcceptance extends Model {
+  @attr('boolean') agree;
 
-  init() {
-    this._super(...arguments);
-    this.validations = {
-      agree: {
-        acceptance: true
-      }
-    };
-  }
-});
+  validations = {
+    agree: {
+      acceptance: true,
+    },
+  };
+}
+
+export default ForAcceptance;

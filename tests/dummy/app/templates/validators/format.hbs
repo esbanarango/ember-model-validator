@@ -19,11 +19,11 @@
     </p>
     {{! template-lint-disable block-indentation }}
     {{#ui-annotation showing=true type="javascript"}}
-validations: {
+validations = {
   secretLettersCode: {
     format: { with: /^[a-zA-Z]+$/ }
   }
-}
+};
     {{/ui-annotation}}
     {{! template-lint-enable }}
   </p>
@@ -47,7 +47,7 @@ validations: {
             {{/form-field}}
             <div class="actions">
               <div class="ui input submit">
-                <button class="ui button primary" {{action "validate"}}>Validate</button>
+                <button class="ui button primary mr-10" {{action "validate"}}>Validate</button>
                 <button class="ui button reset" {{action "reset"}}>Reset</button>
               </div>
             </div>
@@ -64,23 +64,26 @@ validations: {
 
     {{! template-lint-disable block-indentation }}
     {{#ui-annotation showing=showing type="javascript" setCopyCode=setCopyCode}}
-import Model from "ember-data/model";
-import attr from "ember-data/attr";
-import Validator from "ember-model-validator/mixins/object-validator";
+import Model from 'ember-data/model';
+import attr from 'ember-data/attr';
+import Validator from 'ember-model-validator/decorators/model-validator';
 
-export default Model.extend(Validator, {
-  secretLettersCode: attr("string"),
-  secretNumericCode: attr("string"),
+@Validator
+class MyModel extends Model {
+  @attr("string") secretLettersCode;
+  @attr("string") secretNumericCode;
 
-  validations: {
+  validations = {
     secretLettersCode: {
       format: { with: /^[a-zA-Z]+$/, message: "Only letters pls" }
     },
     secretNumericCode: {
       format: { with: /^[0-9]+$/, message: "Only numbers pls" }
     }
-  }
-});
+  };
+}
+
+export default MyModel;
     {{/ui-annotation}}
     {{! template-lint-enable }}
   {{/ui-example}}

@@ -1,16 +1,16 @@
 import Model from 'ember-data/model';
 import attr from 'ember-data/attr';
-import Validator from '../../mixins/model-validator';
+import Validator from 'ember-model-validator/decorators/model-validator';
 
-export default Model.extend(Validator, {
-  blogUrl: attr('string'),
+@Validator
+class ForUrl extends Model {
+  @attr('string') blogUrl;
 
-  init() {
-    this._super(...arguments);
-    this.validations = {
-      blogUrl: {
-        URL: true
-      }
-    };
-  }
-});
+  validations = {
+    blogUrl: {
+      URL: true,
+    },
+  };
+}
+
+export default ForUrl;

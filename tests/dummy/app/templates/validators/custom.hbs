@@ -25,20 +25,20 @@
     </ul>
     {{! template-lint-disable block-indentation }}
     {{#ui-annotation showing=true type="javascript"}}
-validations: {
+validations = {
   lotteryNumber: {
     custom: function(key, value, model){
       return model.get("accountBalance") > 1 ? true : false;
     }
   }
-}
+};
     {{/ui-annotation}}
     <br>
     <p>
       this has the same action as above except will use a custom message instead of the default.
     </p>
     {{#ui-annotation showing=true type="javascript"}}
-validations: {
+validations = {
   lotteryNumber: {
     custom: {
       validation: function(key, value, model){
@@ -47,14 +47,14 @@ validations: {
       message: "You can't win off of good looks and charm."
     }
   }
-}
+};
     {{/ui-annotation}}
     <br>
     <p>
       to have multiple custom validation functions on the same property, give 'custom' an array of either of the two syntax above.
     </p>
     {{#ui-annotation showing=true type="javascript"}}
-validations: {
+validations = {
   lotteryNumber: {
     custom: [
       {
@@ -71,7 +71,7 @@ validations: {
       }
     ]
   }
-}
+};
     {{/ui-annotation}}
     {{! template-lint-enable }}
   </p>
@@ -113,7 +113,7 @@ validations: {
             </div>
             <div class="actions">
               <div class="ui input submit">
-                <button class="ui button primary" {{action "validate"}}>Validate</button>
+                <button class="ui button primary mr-10" {{action "validate"}}>Validate</button>
                 <button class="ui button reset" {{action "reset"}}>Reset</button>
               </div>
             </div>
@@ -129,26 +129,29 @@ validations: {
     {{/ui-html}}
     {{! template-lint-disable block-indentation }}
     {{#ui-annotation showing=showing type="javascript" setCopyCode=setCopyCode}}
-import Model from "ember-data/model";
-import attr from "ember-data/attr";
-import Validator from "ember-model-validator/mixins/object-validator";
+import Model from 'ember-data/model';
+import attr from 'ember-data/attr';
+import Validator from 'ember-model-validator/decorators/model-validator';
 
-export default Model.extend(Validator, {
-  lotteryNumber: attr("number"),
-  favoriteColor: attr("string"),
+@Validator
+class MyModel extends Model {
+  @attr('number') lotteryNumber;
+  @attr('string') favoriteColor;
 
-  validations: {
+  validations = {
     lotteryNumber: {
       custom: {
-        validation: function(key, value, _this) {
-          var favColor = _this.get("favoriteColor");
+        validation: function (key, value, _this) {
+          var favColor = _this.get('favoriteColor');
           return !!favColor;
         },
-        message: "🤦‍♂️ must have a favorite color to play the lotto, duh"
-      }
-    }
-  }
-});
+        message: '🤦‍♂️ must have a favorite color to play the lotto, duh',
+      },
+    },
+  };
+}
+
+export default MyModel;
     {{/ui-annotation}}
     {{! template-lint-enable }}
   {{/ui-example}}

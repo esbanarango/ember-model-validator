@@ -21,7 +21,7 @@
     </ul>
     {{! template-lint-disable block-indentation }}
     {{#ui-annotation showing=true type="javascript"}}
-validations: {
+validations = {
   email: {
     match: "confirmationEmail"
   },
@@ -31,7 +31,7 @@ validations: {
       message: "sup, it is not the same!"
     }
   }
-}
+};
     {{/ui-annotation}}
     {{! template-lint-enable }}
   </p>
@@ -73,7 +73,7 @@ validations: {
             </div>
             <div class="actions">
               <div class="ui input submit">
-                <button class="ui button primary" {{action "validate"}}>Validate</button>
+                <button class="ui button primary mr-10" {{action "validate"}}>Validate</button>
                 <button class="ui button reset" {{action "reset"}}>Reset</button>
               </div>
             </div>
@@ -89,27 +89,33 @@ validations: {
     {{/ui-html}}
     {{! template-lint-disable block-indentation }}
     {{#ui-annotation showing=showing type="javascript" setCopyCode=setCopyCode}}
-import Model from "ember-data/model";
-import attr from "ember-data/attr";
-import Validator from "ember-model-validator/mixins/object-validator";
+import Model from 'ember-data/model';
+import attr from 'ember-data/attr';
+import Validator from 'ember-model-validator/decorators/model-validator';
 
-export default Model.extend(Validator,{
-  confirmationEmail: attr("boolean"),
-  email: attr("boolean"),
-  password: attr("boolean"),
-  passwordConfirmation: attr("boolean"),
+@Validator
+class MyModel extends Model {
+  @attr('boolean') email;
+  @attr('boolean') confirmationEmail;
+  @attr('boolean') password;
+  @attr('boolean') passwordConfirmation;
 
-  validations: {
-    email:{
-      match: "confirmationEmail"
+  validations = {
+    email: {
+      match: 'confirmationEmail',
+      presence: true,
     },
-    password:{
+    password: {
       match: {
-        attr: "passwordConfirmation",
-        message: "sup, it is not the same!"
-      }
-    }
-  }
+        attr: 'passwordConfirmation',
+        message: 'sup, it is not the same!',
+      },
+      presence: true,
+    },
+  };
+}
+
+export default MyModel;
     {{/ui-annotation}}
     {{! template-lint-enable }}
   {{/ui-example}}

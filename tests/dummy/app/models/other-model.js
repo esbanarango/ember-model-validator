@@ -1,21 +1,21 @@
 import Model from 'ember-data/model';
 import attr from 'ember-data/attr';
-import Validator from '../mixins/model-validator';
+import Validator from 'ember-model-validator/decorators/model-validator';
 
-export default Model.extend(Validator, {
-  name: attr('string'),
-  email: attr('string'),
+@Validator
+class OtherModel extends Model {
+  @attr('string') name;
+  @attr('string') email;
 
-  init() {
-    this._super(...arguments);
-    this.validations = {
-      name: {
-        presence: true
-      },
-      email: {
-        presence: true,
-        email: true
-      }
-    };
-  }
-});
+  validations = {
+    name: {
+      presence: true,
+    },
+    email: {
+      presence: true,
+      email: true,
+    },
+  };
+}
+
+export default OtherModel;

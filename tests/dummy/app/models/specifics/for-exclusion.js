@@ -1,16 +1,16 @@
 import Model from 'ember-data/model';
 import attr from 'ember-data/attr';
-import Validator from '../../mixins/model-validator';
+import Validator from 'ember-model-validator/decorators/model-validator';
 
-export default Model.extend(Validator, {
-  playerName: attr('string'),
+@Validator
+class ForExclusion extends Model {
+  @attr('string') playerName;
 
-  init() {
-    this._super(...arguments);
-    this.validations = {
-      playerName: {
-        exclusion: { in: ['Gionvany Hernandez', 'Wilder Medina'] }
-      }
-    };
-  }
-});
+  validations = {
+    playerName: {
+      exclusion: { in: ['Gionvany Hernandez', 'Wilder Medina'] },
+    },
+  };
+}
+
+export default ForExclusion;

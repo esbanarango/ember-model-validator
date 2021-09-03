@@ -1,16 +1,16 @@
 import Model from 'ember-data/model';
 import attr from 'ember-data/attr';
-import Validator from '../../mixins/model-validator';
+import Validator from 'ember-model-validator/decorators/model-validator';
 
-export default Model.extend(Validator, {
-  autoGenerate: attr('string'),
+@Validator
+class ForAbsence extends Model {
+  @attr('string') autoGenerate;
 
-  init() {
-    this._super(...arguments);
-    this.validations = {
-      autoGenerate: {
-        absence: true
-      }
-    };
-  }
-});
+  validations = {
+    autoGenerate: {
+      absence: true,
+    },
+  };
+}
+
+export default ForAbsence;

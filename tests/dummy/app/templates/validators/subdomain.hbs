@@ -20,11 +20,11 @@
     </ul>
     {{! template-lint-disable block-indentation }}
     {{#ui-annotation showing=true type="javascript"}}
-validations: {
+validations = {
   mySubdomain: {
     subdomain: { reserved: ["admin", "blog"] }
   }
-}
+};
     {{/ui-annotation}}
     {{! template-lint-enable }}
   </p>
@@ -66,7 +66,7 @@ validations: {
             </div>
             <div class="actions">
               <div class="ui input submit">
-                <button class="ui button primary" {{action "validate"}}>Validate</button>
+                <button class="ui button primary mr-10" {{action "validate"}}>Validate</button>
                 <button class="ui button reset" {{action "reset"}}>Reset</button>
               </div>
             </div>
@@ -81,19 +81,22 @@ validations: {
     {{/ui-html}}
     {{! template-lint-disable block-indentation }}
     {{#ui-annotation showing=showing type="javascript" setCopyCode=setCopyCode}}
-import Model from "ember-data/model";
-import attr from "ember-data/attr";
-import Validator from "ember-model-validator/mixins/object-validator";
+import Model from 'ember-data/model';
+import attr from 'ember-data/attr';
+import Validator from 'ember-model-validator/decorators/model-validator';
 
-export default Model.extend(Validator, {
-  companySubdomain: attr("string"),
+@Validator
+class MyModel extends Model {
+  @attr('string') companySubdomain;
 
-  validations: {
+  validations = {
     companySubdomain: {
-      subdomain: { reserved: ["admin", "blog"] }
-    }
-  }
-});
+      subdomain: { reserved: ['admin', 'blog'] },
+    },
+  };
+}
+
+export default MyModel;
     {{/ui-annotation}}
     {{! template-lint-enable }}
   {{/ui-example}}

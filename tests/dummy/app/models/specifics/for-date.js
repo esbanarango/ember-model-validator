@@ -1,24 +1,24 @@
 import Model from 'ember-data/model';
 import attr from 'ember-data/attr';
-import Validator from '../../mixins/model-validator';
+import Validator from 'ember-model-validator/decorators/model-validator';
 
-export default Model.extend(Validator, {
-  birthdate: attr('date'),
-  graduationDate: attr('date'),
+@Validator
+class ForDate extends Model {
+  @attr('date') birthdate;
+  @attr('date') graduationDate;
 
-  init() {
-    this._super(...arguments);
-    this.validations = {
-      birthdate: {
-        date: {
-          before: new Date()
-        }
+  validations = {
+    birthdate: {
+      date: {
+        before: new Date(),
       },
-      graduationDate: {
-        date: {
-          after: '2015-01-01'
-        }
-      }
-    };
-  }
-});
+    },
+    graduationDate: {
+      date: {
+        after: '2015-01-01',
+      },
+    },
+  };
+}
+
+export default ForDate;

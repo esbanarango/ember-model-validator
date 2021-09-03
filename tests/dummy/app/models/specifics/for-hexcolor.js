@@ -1,16 +1,16 @@
 import Model from 'ember-data/model';
 import attr from 'ember-data/attr';
-import Validator from '../../mixins/model-validator';
+import Validator from 'ember-model-validator/decorators/model-validator';
 
-export default Model.extend(Validator, {
-  favoriteColor: attr('string'),
+@Validator
+class ForHexcolor extends Model {
+  @attr('string') favoriteColor;
 
-  init() {
-    this._super(...arguments);
-    this.validations = {
-      favoriteColor: {
-        color: true
-      }
-    };
-  }
-});
+  validations = {
+    favoriteColor: {
+      color: true,
+    },
+  };
+}
+
+export default ForHexcolor;

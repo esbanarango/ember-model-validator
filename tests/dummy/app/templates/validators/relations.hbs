@@ -19,14 +19,14 @@
   <p>
     {{! template-lint-disable block-indentation }}
     {{#ui-annotation showing=true type="javascript"}}
-validations: {
+validations = {
   myHasManyRelation: {
     relations: ["hasMany"]
   },
   myBelongsToRelation: {
     relations: ["belongsTo"]
   }
-}
+};
     {{/ui-annotation}}
     {{! template-lint-enable }}
   </p>
@@ -83,7 +83,7 @@ validations: {
             {{/form-field}}
             <div class="actions">
               <div class="ui input submit">
-                <button class="ui button primary" {{action "validate"}}>Validate</button>
+                <button class="ui button primary mr-10" {{action "validate"}}>Validate</button>
                 <button class="ui button reset" {{action "reset"}}>Reset</button>
               </div>
             </div>
@@ -100,24 +100,27 @@ validations: {
     {{/ui-html}}
     {{! template-lint-disable block-indentation }}
     {{#ui-annotation showing=showing type="javascript" setCopyCode=setCopyCode}}
-import Model from "ember-data/model";
-import attr from "ember-data/attr";
-import { belongsTo } from "ember-data/relationships";
-import Validator from "ember-model-validator/mixins/object-validator";
+import Model from 'ember-data/model';
+import attr from 'ember-data/attr';
+import { belongsTo } from 'ember-data/relationships';
+import Validator from 'ember-model-validator/decorators/model-validator';
 
-export default Model.extend(Validator, {
-  relationYeah: belongsTo("another-model"),
-  happyWithMyRelation: attr("boolean"),
+@Validator
+class MyModel extends Model {
+  @belongsTo('specifics.for-presence') relationYeah;
+  @attr('boolean') happyWithMyRelation;
 
-  validations: {
+  validations = {
     happyWithMyRelation: {
-      acceptance: true
+      acceptance: true,
     },
     relationYeah: {
-      relations: ["belongsTo"]
-    }
-  }
-});
+      relations: ['belongsTo'],
+    },
+  };
+}
+
+export default MyModel;
     {{/ui-annotation}}
     {{! template-lint-enable }}
   {{/ui-example}}
