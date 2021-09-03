@@ -81,7 +81,7 @@ All validators accept the following options
 A value is not present if it is empty or a whitespace string. It uses [Ember.isBlank](https://emberjs.com/api/ember/3.0/functions/@ember%2Futils/isBlank) method. This can be also used on **async** `belongsTo` relations.
 
 ```js
-validations: {
+validations = {
   name: {
     presence: true;
   }
@@ -93,7 +93,7 @@ validations: {
 These values: `['1', 1, true]` are the acceptable values. But you can specify yours with the `accept` option.
 
 ```js
-validations: {
+validations = {
   acceptConditions: {
     acceptance: {
       accept: 'yes';
@@ -109,7 +109,7 @@ validations: {
 Validates that the specified attributes are absent. It uses [Ember.isPresent](https://emberjs.com/api/ember/3.0/functions/@ember%2Futils/isPresent) method.
 
 ```js
-validations: {
+validations = {
   login: {
     absence: true;
   }
@@ -121,7 +121,7 @@ validations: {
 Specify a Regex to validate with. It uses the [match()](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/String/match) method from String.
 
 ```js
-  validations: {
+  validations = {
     legacyCode:{
       format: { with: /^[a-zA-Z]+$/ }
     }
@@ -141,7 +141,7 @@ Specify the lengths that are allowed.
 - `maximum` _option_. The maximum length of the value allowed.
 
 ```js
-  validations: {
+  validations = {
     socialSecurity: {
       length: 5
     },
@@ -173,7 +173,7 @@ Specify the lengths that are allowed.
 Validates the proper format of the email.
 
 ```js
-  validations: {
+  validations = {
     email: {
       email: true
     }
@@ -191,7 +191,7 @@ Countries supported and regular expressions used can be found in [postal-codes-r
 - `countryCode` _option_. The code of the country for which the postal code will be validated.
 
 ```js
-validations: {
+validations = {
   postalCode: {
     // If no countryCode is specified, 'US' is used as default
     zipCode: true;
@@ -200,7 +200,7 @@ validations: {
 ```
 
 ```js
-validations: {
+validations = {
   postalCodeUK: {
     zipCode: {
       countryCode: 'UK';
@@ -214,7 +214,7 @@ validations: {
 The value must be a correct Hexadecimal color.
 
 ```js
-validations: {
+validations = {
   favoriteColor: {
     color: true;
   }
@@ -226,7 +226,7 @@ validations: {
 The value must a well formatted subdomain. Here you can also specify reserved words.
 
 ```js
-validations: {
+validations = {
   mySubdomain: {
     subdomain: {
       reserved: ['admin', 'blog'];
@@ -240,7 +240,7 @@ validations: {
 The value must a well formatted URL.
 
 ```js
-validations: {
+validations = {
   myBlog: {
     URL: true;
   }
@@ -252,7 +252,7 @@ validations: {
 The value has to be included in a given set.
 
 ```js
-  validations: {
+  validations = {
     name:{
       inclusion: { in: ['Jose Rene', 'Aristi Gol', 'Armani'] }
     }
@@ -264,7 +264,7 @@ The value has to be included in a given set.
 The value can't be included in a given set.
 
 ```js
-  validations: {
+  validations = {
     name:{
       exclusion: { in: ['Gionvany Hernandez', 'Wilder Medina'] }
     }
@@ -281,7 +281,7 @@ Specify the attribute to match with.
 - `attr` _option_. The name of the attribute to match with.
 
 ```js
-  validations: {
+  validations = {
     email:{
       match: 'confirmationEmail'
     },
@@ -310,7 +310,7 @@ The value has to have only numeric values.
 - `even` _option_. The value must be even.
 
 ```js
-validations: {
+validations = {
   lotteryNumber: {
     numericality: true;
   }
@@ -327,7 +327,7 @@ The value must be a `Date` object or a string that produces a valid date when pa
 - `after` _option_. The value must be after the supplied date.
 
 ```js
-  validations: {
+  validations = {
     birthDate: {
       date: {
         before: new Date()
@@ -346,7 +346,7 @@ The value must be a `Date` object or a string that produces a valid date when pa
 Define a custom callback function to validate the model's value. The validation callback is passed 3 values: the _key_, _value_, _model's scope_. return true (or a truthy value) to pass the validation, return false (or falsy value) to fail the validation.
 
 ```js
-  validations: {
+  validations = {
     lotteryNumber: {
       custom: function(key, value, model){
         return model.get('accountBalance') > 1 ? true : false;
@@ -358,7 +358,7 @@ Define a custom callback function to validate the model's value. The validation 
 this has the same action as above except will use a custom message instead of the default.
 
 ```js
-  validations: {
+  validations = {
     lotteryNumber: {
       custom: {
         validation: function(key, value, model){
@@ -373,7 +373,7 @@ this has the same action as above except will use a custom message instead of th
 to have multiple custom validation functions on the same property, give 'custom' an array of either of the two syntax above.
 
 ```js
-validations: {
+validations = {
   lotteryNumber: {
     custom: [
       {
@@ -404,7 +404,7 @@ A set of validators which are especially useful for validating passwords. Be awa
 - `length` (explained in-depth [above](#length)).
 
 ```js
-validations: {
+validations = {
   password: {
     presence: true,
     mustContainCapital: true,
@@ -431,7 +431,7 @@ This validator will run the `validate()` function for the specific relation. If 
 > Note: The relations **have** to be [`embedded`](http://emberjs.com/api/data/classes/DS.EmbeddedRecordsMixin.html) or the promise has to be already resolved.
 
 ```js
-  validations: {
+  validations = {
     myHasManyRelation:{
       relations: ['hasMany']
     },
