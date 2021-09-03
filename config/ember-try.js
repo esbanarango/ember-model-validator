@@ -13,6 +13,7 @@ module.exports = function () {
             devDependencies: {
               'ember-source': '~3.4.8',
               'ember-data': '~3.4.4',
+              'ember-decorators-polyfill': '1.1.5',
             },
           },
         },
@@ -22,6 +23,7 @@ module.exports = function () {
             devDependencies: {
               'ember-source': '~3.8.3',
               'ember-data': '~3.8.1',
+              'ember-decorators-polyfill': '1.1.5',
             },
           },
         },
