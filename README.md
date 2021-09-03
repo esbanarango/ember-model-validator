@@ -22,8 +22,7 @@ or
 
 ## Compatibility
 
-- Ember.js v2.16 or above
-- Ember CLI v2.13 or above
+- `ember-source`and `ember-data` v3.8 or above
 
 ---
 
@@ -457,9 +456,10 @@ The message function receives the attribute name, the value of the attribute and
 
 ```js
 import Model, { attr } from '@ember-data/model';
-import Validator from 'ember-model-validator/mixins/object-validator';
+import Validator from 'ember-model-validator/decorators/object-validator';
 
-export default class MyModel extends Model.extend(Validator) {
+@Validator
+export default class MyModel extends Model {
   @attr('number', { defaultValue: 12345 }) otherCustomAttribute;
 
   validations = {
@@ -479,9 +479,9 @@ export default class MyModel extends Model.extend(Validator) {
 
 ## Usage
 
-**Ember-model-validator** provides a mixin to be included in your models for adding validation support. This mixin can be imported from your app's namespace (e.g. `../mixins/model-validator` in your models).
+**Ember-model-validator** provides a decorator to be included in your models for adding validation support. This decorator can be imported from your app's namespace (e.g. `ember-model-validator/decorators/object-validator` in your models).
 
-By including **Ember-model-validator's** mixin into your model, this will have a `validate` function available, it is a _synchronous_ function which returns either **true** or **false**.
+By including **Ember-model-validator's** decorator into your model, this will have a `validate` function available, it is a _synchronous_ function which returns either **true** or **false**.
 
 You can also pass an _option_ hash for excluding or forcing certain attributes to be validated, and to prevent errors to be added.
 
@@ -510,9 +510,10 @@ myModel.validate({ except: ['name:presence,length', 'email'] });
 
 ```js
 import Model, { attr } from '@ember-data/model';
-import Validator from 'ember-model-validator/mixins/object-validator';
+import Validator from 'ember-model-validator/decorators/object-validator';
 
-export default class MyModel extends Model.extend(Validator) {
+@Validator
+export default class MyModel extends Model {
   @attr('string') fullName;
   @attr('string') fruit;
   @attr('string') favoriteColor;
@@ -567,17 +568,18 @@ export default class MyController extends Controller {
 
 ```js
 import Component from '@ember/component';
-import Validator from 'ember-model-validator/mixins/object-validator';
+import Validator from 'ember-model-validator/decorators/object-validator';
 
-export default Component.extend(Validator, {
-  test: 'ABC',
+@Validator
+export default class MyComponent extends Component {
+  test = 'ABC',
 
-  validations: {
+  validations = {
     test: {
       presence: true
     }
   }
-});
+};
 ```
 
 ## I18n
