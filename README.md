@@ -510,7 +510,7 @@ myModel.validate({ except: ['name:presence,length', 'email'] });
 
 ```js
 import Model, { attr } from '@ember-data/model';
-import Validator from 'ember-model-validator/decorators/object-validator';
+import Validator from 'ember-model-validator/decorators/model-validator';
 
 @Validator
 export default class MyModel extends Model {
