@@ -1,10 +1,10 @@
 import { expect } from 'chai';
 import { describe, it, beforeEach, afterEach } from 'mocha';
 import Application from '@ember/application';
-import { initialize } from 'dummy/initializers/set-version';
+import { initialize } from 'dummy/initializers/register-version';
 import destroyApp from '../../helpers/destroy-app';
 
-describe('Unit | Initializer | set-version', function() {
+describe('Unit | Initializer | register-version', function() {
   beforeEach(function() {
     this.TestApplication = Application.extend();
     this.TestApplication.initializer({
