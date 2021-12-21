@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import { describe, it, beforeEach, afterEach } from 'mocha';
 import Application from '@ember/application';
 import { initialize } from 'dummy/initializers/register-version';
+import startApp from '../../helpers/start-app';
 import destroyApp from '../../helpers/destroy-app';
 
 describe('Unit | Initializer | register-version', function() {
@@ -12,7 +13,7 @@ describe('Unit | Initializer | register-version', function() {
       initialize
     });
 
-    this.application = this.TestApplication.create({ autoboot: false });
+    this.application = startApp({ autoboot: false });
   });
 
   afterEach(function() {
@@ -20,10 +21,11 @@ describe('Unit | Initializer | register-version', function() {
   });
 
   // TODO: Replace this with your real tests.
-  it('works', async function() {
-    await this.application.boot();
+  it('works', function() {
+    this.application.boot().then(() => {
 
-    // you would normally confirm the results of the initializer here
-    expect(true).to.be.ok;
+      // you would normally confirm the results of the initializer here
+      expect(true).to.be.ok;
+    });
   });
 });
