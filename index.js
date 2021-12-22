@@ -9,7 +9,5 @@ module.exports = {
     if (typeof app.import !== 'function' && app.app) {
       app = app.app;
     }
-
-    app.import('vendor/ember-model-validator/register-version.js');
   }
 };
