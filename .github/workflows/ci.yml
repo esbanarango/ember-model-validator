@@ -49,6 +49,7 @@ jobs:
           - ember-lts-3.16-and-ember-data-3.16
           - ember-lts-3.20-and-ember-data-3.20
           - ember-lts-3.24-and-ember-data-3.24
+          - ember-source-3.26-and-ember-data-3.26
           # - ember-release
           # - ember-beta
           # - ember-canary
