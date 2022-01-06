@@ -14,7 +14,7 @@ function modelValidator(Class) {
       let stateToTransition = this.isNew ? 'created.uncommitted' : 'updated.uncommitted';
       this.transitionTo(stateToTransition);
       let recordModel = this.adapterDidInvalidate ? this : this._internalModel;
-      store.recordWasInvalid(recordModel, errors);
+      store.recordWasInvalid(recordModel, errors, 'error');
     }
   }
   return ModelValidator;
