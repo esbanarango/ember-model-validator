@@ -45,10 +45,12 @@ jobs:
       fail-fast: true
       matrix:
         ember-try-scenario:
-          - ember-lts-3.8-and-ember-data-3.8
           - ember-lts-3.16-and-ember-data-3.16
           - ember-lts-3.20-and-ember-data-3.20
           - ember-lts-3.24-and-ember-data-3.24
+          - ember-lts-3.25-and-ember-data-3.25
+          - ember-lts-3.27-and-ember-data-3.27
+          - ember-lts-3.28-and-ember-data-3.28
           # - ember-release
           # - ember-beta
           # - ember-canary

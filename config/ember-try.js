@@ -8,16 +8,6 @@ module.exports = function () {
       useYarn: true,
       scenarios: [
         {
-          name: 'ember-lts-3.8-and-ember-data-3.8',
-          npm: {
-            devDependencies: {
-              'ember-source': '~3.8.3',
-              'ember-data': '~3.8.1',
-              'ember-decorators-polyfill': '1.1.5',
-            },
-          },
-        },
-        {
           name: 'ember-lts-3.16-and-ember-data-3.16',
           npm: {
             devDependencies: {
@@ -41,6 +31,33 @@ module.exports = function () {
             devDependencies: {
               'ember-source': '~3.24.3',
               'ember-data': '~3.24.2',
+            },
+          },
+        },
+        {
+          name: 'ember-lts-3.25-and-ember-data-3.25',
+          npm: {
+            devDependencies: {
+              'ember-source': '~3.25.4',
+              'ember-data': '~3.25.0',
+            },
+          },
+        },
+        {
+          name: 'ember-lts-3.27-and-ember-data-3.27',
+          npm: {
+            devDependencies: {
+              'ember-source': '~3.27.5',
+              'ember-data': '~3.27.1',
+            },
+          },
+        },
+        {
+          name: 'ember-lts-3.28-and-ember-data-3.28',
+          npm: {
+            devDependencies: {
+              'ember-source': '~3.28.8',
+              'ember-data': '~3.28.7',
             },
           },
         },
