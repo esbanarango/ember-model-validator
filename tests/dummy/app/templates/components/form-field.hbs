@@ -7,7 +7,7 @@
     {{#if hasBlock}}
       {{yield}}
     {{else}}
-      {{input type=type value=value}}
+      <Input @type={{type}} @value={{value}} />
     {{/if}}
     <i class="{{icon}} icon"></i>
   </div>
@@ -19,7 +19,7 @@
     {{#if hasBlock}}
       {{yield}}
     {{else}}
-      {{input type=type value=value}}
+      <Input @type={{type}} @value={{value}} />
     {{/if}}
     {{#if post}}
       <div class="ui basic label">{{post}}</div>

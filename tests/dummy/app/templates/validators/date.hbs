@@ -20,7 +20,7 @@
       <li><code class="ui label">after</code>. The value must be <i>after</i> the supplied date.</li>
     </ul>
     {{! template-lint-disable block-indentation }}
-    {{#ui-annotation showing=true type="javascript"}}
+    <UiAnnotation @showing={{true}} @type="javascript">
 validations = {
   birthdate: {
     date: {
@@ -33,17 +33,15 @@ validations = {
     }
   }
 };
-    {{/ui-annotation}}
+    </UiAnnotation>
   </p>
-  {{config-options defaultMessage=messages.wrongLengthMessage}}
-  {{#ui-example
-    header="Examples"
-    as |showing setCopyCode|}}
+  <ConfigOptions @defaultMessage={{messages.wrongLengthMessage}} />
+  <UiExample @header="Examples" as |showing setCopyCode|>
 
-    {{#ui-html showing=showing}}
+    <UiHtml @showing={{showing}}>
       <div class="ui two column grid">
         <div class="column">
-          {{#object-form for=model classNames="segment"}}
+          <ObjectForm @for={{model}} @classNames="segment">
             <div class="disabled  field">
               <label>Academic degree</label>
               <div class="fields">
@@ -60,14 +58,14 @@ validations = {
             </div>
             <div class="fields">
               <div class="field">
-                {{#form-field for="birthdate" label="Birthday" required=true icon="calendar"}}
-                  {{pikaday-input value=model.birthdate onSelection=(action (mut model.birthdate)) placeholder="Birthday" format="MM/DD/YYYY"}}
-                {{/form-field}}
+                <FormField @for="birthdate" @label="Birthday" @required={{true}} @icon="calendar">
+                  <PikadayInput @value={{model.birthdate}} @onSelection={{action (mut model.birthdate)}} @placeholder="Birthday" @format="MM/DD/YYYY" />
+                </FormField>
               </div>
               <div class="field">
-                {{#form-field for="graduationDate" label="Graduation Date" required=true icon="delete calendar"}}
-                  {{pikaday-input value=model.graduationDate onSelection=(action (mut model.graduationDate)) placeholder="Graduation Date" format="MM/DD/YYYY"}}
-                {{/form-field}}
+                <FormField @for="graduationDate" @label="Graduation Date" @required={{true}} @icon="delete calendar">
+                  <PikadayInput @value={{model.graduationDate}} @onSelection={{action (mut model.graduationDate)}} @placeholder="Graduation Date" @format="MM/DD/YYYY" />
+                </FormField>
               </div>
             </div>
             <div class="actions">
@@ -76,17 +74,17 @@ validations = {
                 <button class="ui button reset" {{action "reset"}}>Reset</button>
               </div>
             </div>
-          {{/object-form}}
+          </ObjectForm>
         </div>
         <div class="column">
           <div class="ui segment">
-            {{model-errors-to-json errors=model.errors modelName=modelName}}
+            <ModelErrorsToJson @errors={{model.errors}} @modelName={{modelName}} />
           </div>
         </div>
       </div>
-    {{/ui-html}}
+    </UiHtml>
     {{! template-lint-disable block-indentation }}
-    {{#ui-annotation showing=showing type="javascript" setCopyCode=setCopyCode}}
+    <UiAnnotation @showing={{showing}} @type="javascript" @setCopyCode={{setCopyCode}}>
 import Model from 'ember-data/model';
 import attr from 'ember-data/attr';
 import Validator from 'ember-model-validator/decorators/model-validator';
@@ -111,7 +109,7 @@ class MyModel extends Model {
 }
 
 export default MyModel;
-    {{/ui-annotation}}
+    </UiAnnotation>
     {{! template-lint-enable }}
-  {{/ui-example}}
+  </UiExample>
 </div>

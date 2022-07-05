@@ -18,33 +18,30 @@
 <div class="ui main container">
   <p>
     {{! template-lint-disable block-indentation }}
-    {{#ui-annotation showing=true type="javascript"}}
+    <UiAnnotation @showing={{true}} @type="javascript">
 validations = {
   name: {
     presence: true
   }
 }
-    {{/ui-annotation}}
+    </UiAnnotation>
     {{! template-lint-enable }}
   </p>
-  {{config-options defaultMessage=messages.presenceMessage}}
-  {{#ui-example
-    header="Form Input Examples"
-    subHeader="A form with some required inputs"
-    as |showing setCopyCode|}}
+  <ConfigOptions @defaultMessage={{messages.presenceMessage}} />
+  <UiExample @header="Form Input Examples" @subHeader="A form with some required inputs" as |showing setCopyCode|>
 
-    {{#ui-html showing=showing}}
+    <UiHtml @showing={{showing}}>
       <div class="ui two column grid">
         <div class="column">
 
-          {{#object-form for=model classNames="segment"}}
-            {{#form-field for="fullName" label="Full Name" required=true}}
-              {{input value=model.fullName placeholder="Full Name"}}
-            {{/form-field}}
+          <ObjectForm @for={{model}} @classNames="segment">
+            <FormField @for="fullName" @label="Full Name" @required={{true}}>
+              <Input @value={{model.fullName}} placeholder="Full Name" />
+            </FormField>
             <div class="fields">
               <div class="field">
-                {{#form-field for="fruit" label="Favorite Fruit" required=true}}
-                  {{#ui-dropdown class="selection" selected=model.fruit onChange=(action (mut model.fruit))}}
+                <FormField @for="fruit" @label="Favorite Fruit" @required={{true}}>
+                  <UiDropdown @class="selection" @selected={{model.fruit}} @onChange={{action (mut model.fruit)}}>
                     <div class="default text">Fruit</div>
                     <i class="dropdown icon"></i>
                     <div class="menu">
@@ -55,13 +52,13 @@ validations = {
                         </div>
                       {{/each}}
                     </div>
-                  {{/ui-dropdown}}
-                {{/form-field}}
+                  </UiDropdown>
+                </FormField>
               </div>
               <div class="field">
-                {{#form-field for="color" label="Favorite Color" }}
-                  {{input value=model.color placeholder="Favorite Color"}}
-                {{/form-field}}
+                <FormField @for="color" @label="Favorite Color">
+                  <Input @value={{model.color}} placeholder="Favorite Color" />
+                </FormField>
               </div>
             </div>
 
@@ -71,17 +68,17 @@ validations = {
                 <button class="ui button reset" {{action "reset"}}>Reset</button>
               </div>
             </div>
-          {{/object-form}}
+          </ObjectForm>
         </div>
         <div class="column">
           <div class="ui segment">
-            {{model-errors-to-json errors=model.errors modelName=modelName}}
+            <ModelErrorsToJson @errors={{model.errors}} @modelName={{modelName}} />
           </div>
         </div>
       </div>
-    {{/ui-html}}
+    </UiHtml>
     {{! template-lint-disable block-indentation }}
-    {{#ui-annotation showing=showing type="javascript" setCopyCode=setCopyCode}}
+    <UiAnnotation @showing={{showing}} @type="javascript" @setCopyCode={{setCopyCode}}>
 import Model from 'ember-data/model';
 import attr from 'ember-data/attr';
 import Validator from 'ember-model-validator/decorators/model-validator';
@@ -104,7 +101,7 @@ class MyModel extends Model {
 
 export default MyModel;
 
-    {{/ui-annotation}}
+    </UiAnnotation>
     {{! template-lint-enable }}
-  {{/ui-example}}
+  </UiExample>
 </div>

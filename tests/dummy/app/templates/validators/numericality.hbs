@@ -26,7 +26,7 @@
       <li><code class="ui label">even</code>. The value must be even.</li>
     </ul>
     {{! template-lint-disable block-indentation }}
-    {{#ui-annotation showing=true type="javascript"}}
+    <UiAnnotation @showing={{true}} @type="javascript">
 validations = {
   anInteger: {
     numericality: { onlyInteger: true }
@@ -56,72 +56,70 @@ validations = {
     numericality: { onlyInteger: true, allowBlank: true }
   }
 };
-    {{/ui-annotation}}
+    </UiAnnotation>
     {{! template-lint-enable }}
   </p>
 
-  {{config-options defaultMessage=messages.numericalityMessage}}
+  <ConfigOptions @defaultMessage={{messages.numericalityMessage}} />
 
-  {{#ui-example
-    header="Examples"
-    as |showing setCopyCode|}}
+  <UiExample @header="Examples" as |showing setCopyCode|>
 
-    {{#ui-html showing=showing}}
+    <UiHtml @showing={{showing}}>
       <div class="ui two column grid">
         <div class="column">
           <h4>The Numericality Party</h4>
-          {{#object-form for=model classNames="segment"}}
+          <ObjectForm @for={{model}} @classNames="segment">
 
             <div class="four fields">
               <div class="field">
-                {{#form-field for="anInteger" label="An integer" required=true}}
-                  {{input value=model.anInteger placeholder="An integer"}}
-                {{/form-field}}
+                <FormField @for="anInteger" @label="An integer" @required={{true}}>
+                  <Input @value={{model.anInteger}} placeholder="An integer" />
+                </FormField>
               </div>
               <div class="field">
-                {{#form-field for="anIntegerLessThan4" label="Less than 4" required=true}}
-                  {{input value=model.anIntegerLessThan4 placeholder="Less than 4"}}
-                {{/form-field}}
+                <FormField @for="anIntegerLessThan4" @label="Less than 4" @required={{true}}>
+                  <Input @value={{model.anIntegerLessThan4}} placeholder="Less than 4" />
+                </FormField>
               </div>
               <div class="field">
-                {{#form-field for="anIntegerGreaterThan4" label="Greater than 4" required=true}}
-                  {{input value=model.anIntegerGreaterThan4 placeholder="Greater than 4"}}
-                {{/form-field}}
+                <FormField @for="anIntegerGreaterThan4" @label="Greater than 4" @required={{true}}>
+                  <Input @value={{model.anIntegerGreaterThan4}} placeholder="Greater than 4" />
+                </FormField>
               </div>
               <div class="field">
-                {{#form-field for="aTenNumber" label="A ten" required=true}}
-                  {{input value=model.aTenNumber placeholder="A ten"}}
-                {{/form-field}}
+                <FormField @for="aTenNumber" @label="A ten" @required={{true}}>
+                  <Input @value={{model.aTenNumber}} placeholder="A ten" />
+                </FormField>
               </div>
             </div>
 
             <div class="three fields">
               <div class="field">
-                {{#form-field for="anOddNumber" label="Odd Number" required=true}}
-                  {{input value=model.anOddNumber placeholder="Odd Number"}}
-                {{/form-field}}
+                <FormField @for="anOddNumber" @label="Odd Number" @required={{true}}>
+                  <Input @value={{model.anOddNumber}} placeholder="Odd Number" />
+                </FormField>
               </div>
               <div class="field">
-                {{#form-field for="anEvenNumber" label="Even Number" required=true}}
-                  {{input value=model.anEvenNumber placeholder="Even Number"}}
-                {{/form-field}}
+                <FormField @for="anEvenNumber" @label="Even Number" @required={{true}}>
+                  <Input @value={{model.anEvenNumber}} placeholder="Even Number" />
+                </FormField>
               </div>
               <div class="field">
-                {{#form-field for="anOptionalNumber" label="Optional Number" required=true}}
-                  {{input value=model.anOptionalNumber placeholder="Optional Number"}}
-                {{/form-field}}
+                <FormField @for="anOptionalNumber" @label="Optional Number" @required={{true}}>
+                  <Input @value={{model.anOptionalNumber}} placeholder="Optional Number" />
+                </FormField>
               </div>
             </div>
             <div class="two fields">
               <div class="field">
-                {{#form-field for="anIntegerGreaterThanOrEqual7" label="Greater than or equal 7" required=true}}
-                  {{input value=model.anIntegerGreaterThanOrEqual7 placeholder="Greater than or equal 7"}}
-                {{/form-field}}
+                <FormField @for="anIntegerGreaterThanOrEqual7" @label="Greater than or equal 7" @required={{true}}>
+                  <Input @value={{model.anIntegerGreaterThanOrEqual7}} placeholder="Greater than or equal 7" />
+                </FormField>
               </div>
               <div class="field">
-                {{#form-field for="anIntegerLessThanOrEqual6" label="Less than or equal 6" required=true}}
-                  {{input value=model.anIntegerLessThanOrEqual6 placeholder="Less than or equal 6"}}
-                {{/form-field}}
+                <FormField @for="anIntegerLessThanOrEqual6" @label="Less than or equal 6" @required={{true}}>
+                  <Input @value={{model.anIntegerLessThanOrEqual6}} placeholder="Less than or equal 6" />
+                </FormField>
               </div>
             </div>
             <div class="actions">
@@ -130,18 +128,18 @@ validations = {
                 <button class="ui button reset" {{action "reset"}}>Reset</button>
               </div>
             </div>
-          {{/object-form}}
+          </ObjectForm>
 
         </div>
         <div class="column">
           <div class="ui segment">
-            {{model-errors-to-json errors=model.errors modelName=modelName}}
+            <ModelErrorsToJson @errors={{model.errors}} @modelName={{modelName}} />
           </div>
         </div>
       </div>
-    {{/ui-html}}
+    </UiHtml>
     {{! template-lint-disable block-indentation }}
-    {{#ui-annotation showing=showing type="javascript" setCopyCode=setCopyCode}}
+    <UiAnnotation @showing={{showing}} @type="javascript" @setCopyCode={{setCopyCode}}>
 import Model from 'ember-data/model';
 import attr from 'ember-data/attr';
 import Validator from 'ember-model-validator/decorators/model-validator';
@@ -190,7 +188,7 @@ class MyModel extends Model {
 }
 
 export default MyModel;
-    {{/ui-annotation}}
+    </UiAnnotation>
     {{! template-lint-enable }}
-  {{/ui-example}}
+  </UiExample>
 </div>

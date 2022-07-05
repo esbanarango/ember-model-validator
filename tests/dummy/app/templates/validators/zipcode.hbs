@@ -22,32 +22,32 @@
       <li><code class="ui label">countryCode</code>. The code of the country for which the postal code will be validated.</li>
     </ul>
     {{! template-lint-disable block-indentation }}
-    {{#ui-annotation showing=true type="javascript"}}
+    <UiAnnotation @showing={{true}} @type="javascript">
 validations = {
   postalCode: {
      // If no countryCode is specified, "US" is used as default
     zipCode: true
   }
 };
-    {{/ui-annotation}}
+    </UiAnnotation>
     <br>
-    {{#ui-annotation showing=true type="javascript"}}
+    <UiAnnotation @showing={{true}} @type="javascript">
 validations = {
   postalCodeUK: {
     zipCode: { countryCode: "UK" }
   }
 };
-    {{/ui-annotation}}
+    </UiAnnotation>
     {{! template-lint-enable }}
   </p>
 
-  {{config-options  defaultMessage=messages.zipCodeMessage}}
+  <ConfigOptions @defaultMessage={{messages.zipCodeMessage}} />
 
-  {{#ui-example header="Examples" as |showing setCopyCode|}}
-    {{#ui-html showing=showing}}
+  <UiExample @header="Examples" as |showing setCopyCode|>
+    <UiHtml @showing={{showing}}>
       <div class="ui two column grid">
         <div class="column">
-          {{#object-form for=model classNames="segment"}}
+          <ObjectForm @for={{model}} @classNames="segment">
             <div class="disabled  field">
               <label>Billing Address</label>
               <div class="fields">
@@ -67,9 +67,9 @@ validations = {
                 </div>
               </div>
               <div class="six wide field">
-                {{#form-field for="postalCode" label="Postal Code" required=true}}
-                  {{input value=model.postalCode placeholder="Postal Code"}}
-                {{/form-field}}
+                <FormField @for="postalCode" @label="Postal Code" @required={{true}}>
+                  <Input @value={{model.postalCode}} placeholder="Postal Code" />
+                </FormField>
               </div>
             </div>
             <div class="actions">
@@ -78,17 +78,17 @@ validations = {
                 <button class="ui button reset" {{action "reset"}}>Reset</button>
               </div>
             </div>
-          {{/object-form}}
+          </ObjectForm>
         </div>
         <div class="column">
           <div class="ui segment">
-            {{model-errors-to-json errors=model.errors modelName=modelName}}
+            <ModelErrorsToJson @errors={{model.errors}} @modelName={{modelName}} />
           </div>
         </div>
       </div>
-    {{/ui-html}}
+    </UiHtml>
     {{! template-lint-disable block-indentation }}
-    {{#ui-annotation showing=showing type="javascript" setCopyCode=setCopyCode}}
+    <UiAnnotation @showing={{showing}} @type="javascript" @setCopyCode={{setCopyCode}}>
 import Model from 'ember-data/model';
 import attr from 'ember-data/attr';
 import Validator from 'ember-model-validator/decorators/model-validator';
@@ -105,7 +105,7 @@ class MyModel extends Model {
 }
 
 export default MyModel;
-    {{/ui-annotation}}
+    </UiAnnotation>
     {{! template-lint-enable }}
-  {{/ui-example}}
+  </UiExample>
 </div>

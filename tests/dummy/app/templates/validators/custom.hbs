@@ -24,7 +24,7 @@
       <li><code class="ui label">model</code> Current model.</li>
     </ul>
     {{! template-lint-disable block-indentation }}
-    {{#ui-annotation showing=true type="javascript"}}
+    <UiAnnotation @showing={{true}} @type="javascript">
 validations = {
   lotteryNumber: {
     custom: function(key, value, model){
@@ -32,12 +32,12 @@ validations = {
     }
   }
 };
-    {{/ui-annotation}}
+    </UiAnnotation>
     <br>
     <p>
       this has the same action as above except will use a custom message instead of the default.
     </p>
-    {{#ui-annotation showing=true type="javascript"}}
+    <UiAnnotation @showing={{true}} @type="javascript">
 validations = {
   lotteryNumber: {
     custom: {
@@ -48,12 +48,12 @@ validations = {
     }
   }
 };
-    {{/ui-annotation}}
+    </UiAnnotation>
     <br>
     <p>
       to have multiple custom validation functions on the same property, give 'custom' an array of either of the two syntax above.
     </p>
-    {{#ui-annotation showing=true type="javascript"}}
+    <UiAnnotation @showing={{true}} @type="javascript">
 validations = {
   lotteryNumber: {
     custom: [
@@ -72,26 +72,23 @@ validations = {
     ]
   }
 };
-    {{/ui-annotation}}
+    </UiAnnotation>
     {{! template-lint-enable }}
   </p>
 
-  {{config-options defaultMessage=messages.customValidationMessage}}
+  <ConfigOptions @defaultMessage={{messages.customValidationMessage}} />
 
-  {{#ui-example
-    header="Examples"
-    subHeader=" "
-    as |showing setCopyCode|}}
+  <UiExample @header="Examples" @subHeader=" " as |showing setCopyCode|>
 
-    {{#ui-html showing=showing}}
+    <UiHtml @showing={{showing}}>
       <div class="ui two column grid">
         <div class="column">
 
-          {{#object-form for=model classNames="segment"}}
+          <ObjectForm @for={{model}} @classNames="segment">
             <div class="fields">
               <div class="seven wide field">
-                {{#form-field for="favoriteColor" label="Favorite Color" required=true}}
-                  {{#ui-dropdown class="selection" selected=model.favoriteColor onChange=(action (mut model.favoriteColor))}}
+                <FormField @for="favoriteColor" @label="Favorite Color" @required={{true}}>
+                  <UiDropdown @class="selection" @selected={{model.favoriteColor}} @onChange={{action (mut model.favoriteColor)}}>
                     <div class="default text">Color</div>
                     <i class="dropdown icon"></i>
                     <div class="menu">
@@ -102,13 +99,13 @@ validations = {
                         </div>
                       {{/each}}
                     </div>
-                  {{/ui-dropdown}}
-                {{/form-field}}
+                  </UiDropdown>
+                </FormField>
               </div>
               <div class="nine wide field">
-                {{#form-field for="lotteryNumber" label="Lottery Number" required=true}}
-                  {{input value=model.lotteryNumber placeholder="Lottery Number"}}
-                {{/form-field}}
+                <FormField @for="lotteryNumber" @label="Lottery Number" @required={{true}}>
+                  <Input @value={{model.lotteryNumber}} placeholder="Lottery Number" />
+                </FormField>
               </div>
             </div>
             <div class="actions">
@@ -117,18 +114,18 @@ validations = {
                 <button class="ui button reset" {{action "reset"}}>Reset</button>
               </div>
             </div>
-          {{/object-form}}
+          </ObjectForm>
 
         </div>
         <div class="column">
           <div class="ui segment">
-            {{model-errors-to-json errors=model.errors modelName=modelName}}
+            <ModelErrorsToJson @errors={{model.errors}} @modelName={{modelName}} />
           </div>
         </div>
       </div>
-    {{/ui-html}}
+    </UiHtml>
     {{! template-lint-disable block-indentation }}
-    {{#ui-annotation showing=showing type="javascript" setCopyCode=setCopyCode}}
+    <UiAnnotation @showing={{showing}} @type="javascript" @setCopyCode={{setCopyCode}}>
 import Model from 'ember-data/model';
 import attr from 'ember-data/attr';
 import Validator from 'ember-model-validator/decorators/model-validator';
@@ -152,7 +149,7 @@ class MyModel extends Model {
 }
 
 export default MyModel;
-    {{/ui-annotation}}
+    </UiAnnotation>
     {{! template-lint-enable }}
-  {{/ui-example}}
+  </UiExample>
 </div>

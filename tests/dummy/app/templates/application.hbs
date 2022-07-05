@@ -2,39 +2,39 @@
   <div class="toc">
     <div class="ui vertical inverted sidebar menu left overlay visible">
       <div class="item">
-        {{#link-to "index" class="ui logo icon image"}}
+        <LinkTo @route="index" class="ui logo icon image">
           <img src="ember-logo.png" alt="Ember Logo">
-        {{/link-to}}
+        </LinkTo>
         <a href="/"><b>MODEL VALIDATOR</b></a>
       </div>
       <div class="item">
         <div class="header">Getting Started</div>
         <div class="menu">
-          {{#link-to "index" class="item"}}Introduction{{/link-to}}
-          {{#link-to "usage" class="item"}}Usage{{/link-to}}
-          {{#link-to "i18n" class="item"}}Internationalization (i18n){{/link-to}}
+          <LinkTo @route="index" class="item">Introduction</LinkTo>
+          <LinkTo @route="usage" class="item">Usage</LinkTo>
+          <LinkTo @route="i18n" class="item">Internationalization (i18n)</LinkTo>
           <a href="https://github.com/esbanarango/ember-model-validator" class="item" target="_blank" rel="noopener">
             {{fa-icon "github"}} Repo
           </a>
         </div>
       </div>
-      {{link-to "Presence" "validators.presence" class="item"}}
-      {{link-to "Acceptance" "validators.acceptance" class="item"}}
-      {{link-to "Absence" "validators.absence" class="item"}}
-      {{link-to "Format" "validators.format" class="item"}}
-      {{link-to "Length" "validators.length" class="item"}}
-      {{link-to "Email" "validators.email" class="item"}}
-      {{link-to "ZIP Code" "validators.zipcode" class="item"}}
-      {{link-to "Hex Color" "validators.hexcolor" class="item"}}
-      {{link-to "Subdomain" "validators.subdomain" class="item"}}
-      {{link-to "URL" "validators.url" class="item"}}
-      {{link-to "Inclusion" "validators.inclusion" class="item"}}
-      {{link-to "Exclusion" "validators.exclusion" class="item"}}
-      {{link-to "Match" "validators.match" class="item"}}
-      {{link-to "Date" "validators.date" class="item"}}
-      {{link-to "Numericality" "validators.numericality" class="item"}}
-      {{link-to "Custom" "validators.custom" class="item"}}
-      {{link-to "Relations" "validators.relations" class="item"}}
+      <LinkTo @route="validators.presence" class="item">Presence</LinkTo>
+      <LinkTo @route="validators.acceptance" class="item">Acceptance</LinkTo>
+      <LinkTo @route="validators.absence" class="item">Absence</LinkTo>
+      <LinkTo @route="validators.format" class="item">Format</LinkTo>
+      <LinkTo @route="validators.length" class="item">Length</LinkTo>
+      <LinkTo @route="validators.email" class="item">Email</LinkTo>
+      <LinkTo @route="validators.zipcode" class="item">ZIP Code</LinkTo>
+      <LinkTo @route="validators.hexcolor" class="item">Hex Color</LinkTo>
+      <LinkTo @route="validators.subdomain" class="item">Subdomain</LinkTo>
+      <LinkTo @route="validators.url" class="item">URL</LinkTo>
+      <LinkTo @route="validators.inclusion" class="item">Inclusion</LinkTo>
+      <LinkTo @route="validators.exclusion" class="item">Exclusion</LinkTo>
+      <LinkTo @route="validators.match" class="item">Match</LinkTo>
+      <LinkTo @route="validators.date" class="item">Date</LinkTo>
+      <LinkTo @route="validators.numericality" class="item">Numericality</LinkTo>
+      <LinkTo @route="validators.custom" class="item">Custom</LinkTo>
+      <LinkTo @route="validators.relations" class="item">Relations</LinkTo>
     </div>
   </div>
 

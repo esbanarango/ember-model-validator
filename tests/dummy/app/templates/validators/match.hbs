@@ -20,7 +20,7 @@
       <li><code class="ui label">attr</code>. Attribute to match (only needed when using custom message).</li>
     </ul>
     {{! template-lint-disable block-indentation }}
-    {{#ui-annotation showing=true type="javascript"}}
+    <UiAnnotation @showing={{true}} @type="javascript">
 validations = {
   email: {
     match: "confirmationEmail"
@@ -32,43 +32,41 @@ validations = {
     }
   }
 };
-    {{/ui-annotation}}
+    </UiAnnotation>
     {{! template-lint-enable }}
   </p>
 
-  {{config-options defaultMessage=messages.matchMessage}}
+  <ConfigOptions @defaultMessage={{messages.matchMessage}} />
 
-  {{#ui-example
-    header="Examples"
-    as |showing setCopyCode|}}
+  <UiExample @header="Examples" as |showing setCopyCode|>
 
-    {{#ui-html showing=showing}}
+    <UiHtml @showing={{showing}}>
       <div class="ui two column grid">
         <div class="column">
 
-          {{#object-form for=model classNames="segment"}}
+          <ObjectForm @for={{model}} @classNames="segment">
             <div class="fields">
               <div class="field">
-                {{#form-field for="email" label="Email" required=true icon="mail"}}
-                  {{input value=model.email placeholder="Email" autocomplete="off"}}
-                {{/form-field}}
+                <FormField @for="email" @label="Email" @required={{true}} @icon="mail">
+                  <Input @value={{model.email}} placeholder="Email" @autocomplete="off" />
+                </FormField>
               </div>
               <div class="field">
-                {{#form-field for="confirmationEmail" label="Confirmation Email" required=true icon="mail"}}
-                  {{input value=model.confirmationEmail placeholder="Confirmation Email"}}
-                {{/form-field}}
+                <FormField @for="confirmationEmail" @label="Confirmation Email" @required={{true}} @icon="mail">
+                  <Input @value={{model.confirmationEmail}} placeholder="Confirmation Email" />
+                </FormField>
               </div>
             </div>
             <div class="fields">
               <div class="field">
-                {{#form-field for="password" label="Password" required=true icon="asterisk"}}
-                  {{input type="password" value=model.password placeholder="Password" autocomplete="off"}}
-                {{/form-field}}
+                <FormField @for="password" @label="Password" @required={{true}} @icon="asterisk">
+                  <Input @type="password" @value={{model.password}} placeholder="Password" @autocomplete="off" />
+                </FormField>
               </div>
               <div class="field">
-                {{#form-field for="passwordConfirmation" label="Password Confirmation" required=true icon="asterisk"}}
-                  {{input type="password" value=model.passwordConfirmation placeholder="Password Confirmation"}}
-                {{/form-field}}
+                <FormField @for="passwordConfirmation" @label="Password Confirmation" @required={{true}} @icon="asterisk">
+                  <Input @type="password" @value={{model.passwordConfirmation}} placeholder="Password Confirmation" />
+                </FormField>
               </div>
             </div>
             <div class="actions">
@@ -77,18 +75,18 @@ validations = {
                 <button class="ui button reset" {{action "reset"}}>Reset</button>
               </div>
             </div>
-          {{/object-form}}
+          </ObjectForm>
 
         </div>
         <div class="column">
           <div class="ui segment">
-            {{model-errors-to-json errors=model.errors modelName=modelName}}
+            <ModelErrorsToJson @errors={{model.errors}} @modelName={{modelName}} />
           </div>
         </div>
       </div>
-    {{/ui-html}}
+    </UiHtml>
     {{! template-lint-disable block-indentation }}
-    {{#ui-annotation showing=showing type="javascript" setCopyCode=setCopyCode}}
+    <UiAnnotation @showing={{showing}} @type="javascript" @setCopyCode={{setCopyCode}}>
 import Model from 'ember-data/model';
 import attr from 'ember-data/attr';
 import Validator from 'ember-model-validator/decorators/model-validator';
@@ -116,7 +114,7 @@ class MyModel extends Model {
 }
 
 export default MyModel;
-    {{/ui-annotation}}
+    </UiAnnotation>
     {{! template-lint-enable }}
-  {{/ui-example}}
+  </UiExample>
 </div>

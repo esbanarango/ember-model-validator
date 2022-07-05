@@ -21,28 +21,25 @@
       The <code class="ui label">accept</code> option receives either a string or an array of acceptable values.
     </p>
     {{! template-lint-disable block-indentation }}
-    {{#ui-annotation showing=true type="javascript"}}
+    <UiAnnotation @showing={{true}} @type="javascript">
 validations = {
   agree: {
     acceptance: true // { accept: "yes" } | { accept: 1 } | { accept: [1, "sisas"] }
   }
 }
-    {{/ui-annotation}}
+    </UiAnnotation>
     {{! template-lint-enable }}
   </p>
 
-  {{config-options defaultMessage=messages.acceptanceMessage}}
+  <ConfigOptions @defaultMessage={{messages.acceptanceMessage}} />
 
-  {{#ui-example
-    header="Examples"
-    subHeader="A form with some required inputs"
-    as |showing setCopyCode|}}
+  <UiExample @header="Examples" @subHeader="A form with some required inputs" as |showing setCopyCode|>
 
-    {{#ui-html showing=showing}}
+    <UiHtml @showing={{showing}}>
       <div class="ui two column grid">
         <div class="column">
 
-          {{#object-form for=model classNames="segment"}}
+          <ObjectForm @for={{model}} @classNames="segment">
 
             <p>
               Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
@@ -51,26 +48,26 @@ validations = {
               consequat.
             </p>
 
-            {{#form-field for="agree" label="Understood?" required=true}}
-              {{ui-checkbox class="toggle" label="Agree!" checked=model.agree onChange=(action (mut model.agree))}}
-            {{/form-field}}
+            <FormField @for="agree" @label="Understood?" @required={{true}}>
+              <UiCheckbox @class="toggle" @label="Agree!" @checked={{model.agree}} @onChange={{action (mut model.agree)}} />
+            </FormField>
             <div class="actions">
               <div class="ui input submit">
                 <button class="ui button primary mr-10" {{action "validate"}}>Validate</button>
                 <button class="ui button reset" {{action "reset"}}>Reset</button>
               </div>
             </div>
-          {{/object-form}}
+          </ObjectForm>
         </div>
         <div class="column">
           <div class="ui segment">
-            {{model-errors-to-json errors=model.errors modelName=modelName}}
+            <ModelErrorsToJson @errors={{model.errors}} @modelName={{modelName}} />
           </div>
         </div>
       </div>
-    {{/ui-html}}
+    </UiHtml>
     {{! template-lint-disable block-indentation }}
-    {{#ui-annotation showing=showing type="javascript" setCopyCode=setCopyCode}}
+    <UiAnnotation @showing={{showing}} @type="javascript" @setCopyCode={{setCopyCode}}>
 import Model from 'ember-data/model';
 import attr from 'ember-data/attr';
 import Validator from 'ember-model-validator/decorators/model-validator';
@@ -87,7 +84,7 @@ class MyModel extends Model {
 }
 
 export default MyModel;
-    {{/ui-annotation}}
+    </UiAnnotation>
     {{! template-lint-enable }}
-  {{/ui-example}}
+  </UiExample>
 </div>

@@ -19,30 +19,28 @@
       <li><code class="ui label">in</code>. Receives the set of values that will be accepted.</li>
     </ul>
     {{! template-lint-disable block-indentation }}
-    {{#ui-annotation showing=true type="javascript"}}
+    <UiAnnotation @showing={{true}} @type="javascript">
 validations = {
   playerName: {
     inclusion: { in: ["Jose Rene", "Aristi Gol", "Armani"] }
   }
 };
-    {{/ui-annotation}}
+    </UiAnnotation>
     {{! template-lint-enable }}
   </p>
 
-  {{config-options defaultMessage=messages.inclusionMessage}}
+  <ConfigOptions @defaultMessage={{messages.inclusionMessage}} />
 
-  {{#ui-example
-    header="Examples"
-    as |showing setCopyCode|}}
+  <UiExample @header="Examples" as |showing setCopyCode|>
 
-    {{#ui-html showing=showing}}
+    <UiHtml @showing={{showing}}>
       <div class="ui two column grid">
         <div class="column">
 
-          {{#object-form for=model classNames="segment"}}
-            {{#form-field for="playerName" label="Current Player Name" required=true}}
-              {{input value=model.playerName placeholder="Player Name"}}
-            {{/form-field}}
+          <ObjectForm @for={{model}} @classNames="segment">
+            <FormField @for="playerName" @label="Current Player Name" @required={{true}}>
+              <Input @value={{model.playerName}} placeholder="Player Name" />
+            </FormField>
             <div class="fields">
               <div class="seven wide field">
                 <div class="disabled field">
@@ -63,18 +61,18 @@ validations = {
                 <button class="ui button reset" {{action "reset"}}>Reset</button>
               </div>
             </div>
-          {{/object-form}}
+          </ObjectForm>
 
         </div>
         <div class="column">
           <div class="ui segment">
-            {{model-errors-to-json errors=model.errors modelName=modelName}}
+            <ModelErrorsToJson @errors={{model.errors}} @modelName={{modelName}} />
           </div>
         </div>
       </div>
-    {{/ui-html}}
+    </UiHtml>
     {{! template-lint-disable block-indentation }}
-    {{#ui-annotation showing=showing type="javascript" setCopyCode=setCopyCode}}
+    <UiAnnotation @showing={{showing}} @type="javascript" @setCopyCode={{setCopyCode}}>
 import Model from 'ember-data/model';
 import attr from 'ember-data/attr';
 import Validator from 'ember-model-validator/decorators/model-validator';
@@ -91,7 +89,7 @@ class MyModel extends Model {
 }
 
 export default MyModel;
-    {{/ui-annotation}}
+    </UiAnnotation>
     {{! template-lint-enable }}
-  {{/ui-example}}
+  </UiExample>
 </div>

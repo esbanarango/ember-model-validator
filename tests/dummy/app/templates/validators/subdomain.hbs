@@ -19,27 +19,25 @@
       <li><code class="ui label">reserved</code>. Words that are not allowed.</li>
     </ul>
     {{! template-lint-disable block-indentation }}
-    {{#ui-annotation showing=true type="javascript"}}
+    <UiAnnotation @showing={{true}} @type="javascript">
 validations = {
   mySubdomain: {
     subdomain: { reserved: ["admin", "blog"] }
   }
 };
-    {{/ui-annotation}}
+    </UiAnnotation>
     {{! template-lint-enable }}
   </p>
 
-  {{config-options defaultMessage=messages.wrongLengthMessage}}
+  <ConfigOptions @defaultMessage={{messages.wrongLengthMessage}} />
 
-  {{#ui-example
-    header="Examples"
-    as |showing setCopyCode|}}
+  <UiExample @header="Examples" as |showing setCopyCode|>
 
-    {{#ui-html showing=showing}}
+    <UiHtml @showing={{showing}}>
       <div class="ui two column grid">
         <div class="column">
 
-          {{#object-form for=model classNames="segment"}}
+          <ObjectForm @for={{model}} @classNames="segment">
             <div class="disabled  field">
               <label>Company settings</label>
               <div class="fields">
@@ -53,9 +51,9 @@ validations = {
             </div>
             <div class="fields">
               <div class="ten wide field">
-                {{#form-field for="companySubdomain" label="Subdomain" required=true pre="http://" post=".ember.com"}}
-                  {{input value=model.companySubdomain placeholder="Subdomain"}}
-                {{/form-field}}
+                <FormField @for="companySubdomain" @label="Subdomain" @required={{true}} @pre="http://" @post=".ember.com">
+                  <Input @value={{model.companySubdomain}} placeholder="Subdomain" />
+                </FormField>
               </div>
               <div class="six wide field">
                 <div class="disabled field">
@@ -70,17 +68,17 @@ validations = {
                 <button class="ui button reset" {{action "reset"}}>Reset</button>
               </div>
             </div>
-          {{/object-form}}
+          </ObjectForm>
         </div>
         <div class="column">
           <div class="ui segment">
-            {{model-errors-to-json errors=model.errors modelName=modelName}}
+            <ModelErrorsToJson @errors={{model.errors}} @modelName={{modelName}} />
           </div>
         </div>
       </div>
-    {{/ui-html}}
+    </UiHtml>
     {{! template-lint-disable block-indentation }}
-    {{#ui-annotation showing=showing type="javascript" setCopyCode=setCopyCode}}
+    <UiAnnotation @showing={{showing}} @type="javascript" @setCopyCode={{setCopyCode}}>
 import Model from 'ember-data/model';
 import attr from 'ember-data/attr';
 import Validator from 'ember-model-validator/decorators/model-validator';
@@ -97,7 +95,7 @@ class MyModel extends Model {
 }
 
 export default MyModel;
-    {{/ui-annotation}}
+    </UiAnnotation>
     {{! template-lint-enable }}
-  {{/ui-example}}
+  </UiExample>
 </div>

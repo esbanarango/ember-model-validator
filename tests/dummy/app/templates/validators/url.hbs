@@ -15,28 +15,25 @@
 <div class="ui main container">
   <p>
     {{! template-lint-disable block-indentation }}
-    {{#ui-annotation showing=true type="javascript"}}
+    <UiAnnotation @showing={{true}} @type="javascript">
 validations = {
   myBlog: {
     URL: true
   }
 };
-    {{/ui-annotation}}
+    </UiAnnotation>
     {{! template-lint-enable }}
   </p>
 
-  {{config-options defaultMessage=messages.wrongLengthMessage}}
+  <ConfigOptions @defaultMessage={{messages.wrongLengthMessage}} />
 
-  {{#ui-example
-    header="Examples"
-    subHeader=" "
-    as |showing setCopyCode|}}
+  <UiExample @header="Examples" @subHeader=" " as |showing setCopyCode|>
 
-    {{#ui-html showing=showing}}
+    <UiHtml @showing={{showing}}>
       <div class="ui two column grid">
         <div class="column">
 
-          {{#object-form for=model classNames="segment"}}
+          <ObjectForm @for={{model}} @classNames="segment">
             <div class="fields">
               <div class="seven wide field">
                 <div class="disabled field">
@@ -53,14 +50,14 @@ validations = {
             </div>
             <div class="fields">
               <div class="eleven wide field">
-                {{#form-field for="blogUrl" label="Blog URL" required=true icon="tumblr square"}}
-                  {{input value=model.blogUrl placeholder="Blog URL"}}
-                {{/form-field}}
+                <FormField @for="blogUrl" @label="Blog URL" @required={{true}} @icon="tumblr square">
+                  <Input @value={{model.blogUrl}} placeholder="Blog URL" />
+                </FormField>
               </div>
               <div class="five wide field">
                 <div class="disabled field">
                   <label>Do you like dogs?</label>
-                  {{ui-checkbox class="toggle" label="Ofcourse!"}}
+                  <UiCheckbox @class="toggle" @label="Ofcourse!" />
                 </div>
               </div>
             </div>
@@ -70,17 +67,17 @@ validations = {
                 <button class="ui button reset" {{action "reset"}}>Reset</button>
               </div>
             </div>
-          {{/object-form}}
+          </ObjectForm>
         </div>
         <div class="column">
           <div class="ui segment">
-            {{model-errors-to-json errors=model.errors modelName=modelName}}
+            <ModelErrorsToJson @errors={{model.errors}} @modelName={{modelName}} />
           </div>
         </div>
       </div>
-    {{/ui-html}}
+    </UiHtml>
     {{! template-lint-disable block-indentation }}
-    {{#ui-annotation showing=showing type="javascript" setCopyCode=setCopyCode}}
+    <UiAnnotation @showing={{showing}} @type="javascript" @setCopyCode={{setCopyCode}}>
 import Model from 'ember-data/model';
 import attr from 'ember-data/attr';
 import Validator from 'ember-model-validator/decorators/model-validator';
@@ -97,7 +94,7 @@ class MyModel extends Model {
 }
 
 export default MyModel;
-    {{/ui-annotation}}
+    </UiAnnotation>
     {{! template-lint-enable }}
-  {{/ui-example}}
+  </UiExample>
 </div>

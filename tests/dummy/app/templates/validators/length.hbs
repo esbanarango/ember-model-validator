@@ -23,7 +23,7 @@
       <li><code class="ui label">maximum</code> <em>option</em>. The maximum length of the value allowed.</li>
     </ul>
     {{! template-lint-disable block-indentation }}
-    {{#ui-annotation showing=true type="javascript"}}
+    <UiAnnotation @showing={{true}} @type="javascript">
 validations = {
   socialSecurity: {
     length: 5
@@ -50,60 +50,58 @@ validations = {
     }
   }
 };
-    {{/ui-annotation}}
+    </UiAnnotation>
     {{! template-lint-enable }}
   </p>
 
-  {{config-options defaultMessage=messages.wrongLengthMessage}}
+  <ConfigOptions @defaultMessage={{messages.wrongLengthMessage}} />
 
-  {{#ui-example
-    header="Examples"
-    as |showing setCopyCode|}}
+  <UiExample @header="Examples" as |showing setCopyCode|>
 
-    {{#ui-html showing=showing}}
+    <UiHtml @showing={{showing}}>
       <div class="ui two column grid">
         <div class="column">
 
-          {{#object-form for=model classNames="segment"}}
-            {{#form-field for="chuncaluchoNumber" label="Chuncalucho Number" required=true}}
-              {{input value=model.chuncaluchoNumber placeholder="Chuncalucho Number"}}
-            {{/form-field}}
+          <ObjectForm @for={{model}} @classNames="segment">
+            <FormField @for="chuncaluchoNumber" @label="Chuncalucho Number" @required={{true}}>
+              <Input @value={{model.chuncaluchoNumber}} placeholder="Chuncalucho Number" />
+            </FormField>
             <div class="fields">
               <div class="ten wide field">
-                {{#form-field for="hugeName" label="Huge name" required=true}}
-                  {{input value=model.hugeName placeholder="Huge name"}}
-                {{/form-field}}
+                <FormField @for="hugeName" @label="Huge name" @required={{true}}>
+                  <Input @value={{model.hugeName}} placeholder="Huge name" />
+                </FormField>
               </div>
               <div class="six wide field">
-                {{#form-field for="smallName" label="Small Name" required=true}}
-                  {{input value=model.smallName placeholder="Small Name"}}
-                {{/form-field}}
+                <FormField @for="smallName" @label="Small Name" @required={{true}}>
+                  <Input @value={{model.smallName}} placeholder="Small Name" />
+                </FormField>
               </div>
             </div>
-            {{#form-field for="socialSecurity" label="Social Security" required=true}}
-              {{input value=model.socialSecurity placeholder="Social Security"}}
-            {{/form-field}}
-            {{#form-field for="nsaNumber" label="NSA Number" required=true}}
-              {{input value=model.nsaNumber placeholder="NSA Number"}}
-            {{/form-field}}
+            <FormField @for="socialSecurity" @label="Social Security" @required={{true}}>
+              <Input @value={{model.socialSecurity}} placeholder="Social Security" />
+            </FormField>
+            <FormField @for="nsaNumber" @label="NSA Number" @required={{true}}>
+              <Input @value={{model.nsaNumber}} placeholder="NSA Number" />
+            </FormField>
             <div class="actions">
               <div class="ui input submit">
                 <button class="ui button primary mr-10" {{action "validate"}}>Validate</button>
                 <button class="ui button reset" {{action "reset"}}>Reset</button>
               </div>
             </div>
-          {{/object-form}}
+          </ObjectForm>
 
         </div>
         <div class="column">
           <div class="ui segment">
-            {{model-errors-to-json errors=model.errors modelName=modelName}}
+            <ModelErrorsToJson @errors={{model.errors}} @modelName={{modelName}} />
           </div>
         </div>
       </div>
-    {{/ui-html}}
+    </UiHtml>
     {{! template-lint-disable block-indentation }}
-    {{#ui-annotation showing=showing type="javascript" setCopyCode=setCopyCode}}
+    <UiAnnotation @showing={{showing}} @type="javascript" @setCopyCode={{setCopyCode}}>
 import Model from 'ember-data/model';
 import attr from 'ember-data/attr';
 import Validator from 'ember-model-validator/decorators/model-validator';
@@ -145,7 +143,7 @@ class MyModel extends Model {
 }
 
 export default MyModel;
-    {{/ui-annotation}}
+    </UiAnnotation>
     {{! template-lint-enable }}
-  {{/ui-example}}
+  </UiExample>
 </div>

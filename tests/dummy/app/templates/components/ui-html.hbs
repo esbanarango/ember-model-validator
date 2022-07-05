@@ -3,11 +3,7 @@
 
 <div class="ui top attached label">
   Example
-  {{#copy-button
-    clipboardText=""
-    success=(action "copied")
-    error=(action "copyError")
-  }}
-    {{ui-popup tagName="i" class="copy link icon" content=copyMessage variation="inverted"}}
-  {{/copy-button}}
+  <CopyButton @clipboardText="" @success={{action "copied"}} @error={{action "copyError"}}>
+    <UiPopup @tagName="i" @class="copy link icon" @content={{copyMessage}} @variation="inverted" />
+  </CopyButton>
 </div>

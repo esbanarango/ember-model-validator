@@ -15,52 +15,49 @@
 <div class="ui main container">
   <p>
     {{! template-lint-disable block-indentation }}
-    {{#ui-annotation showing=true type="javascript"}}
+    <UiAnnotation @showing={{true}} @type="javascript">
 validations = {
   login: {
     absence: true
   }
 };
-    {{/ui-annotation}}
+    </UiAnnotation>
     {{! template-lint-enable }}
   </p>
 
-  {{config-options allowBlank=false defaultMessage=messages.absenceMessage}}
+  <ConfigOptions @allowBlank={{false}} @defaultMessage={{messages.absenceMessage}} />
 
-  {{#ui-example
-    header="Examples"
-    subHeader="A form with some required inputs"
-    as |showing setCopyCode|}}
+  <UiExample @header="Examples" @subHeader="A form with some required inputs" as |showing setCopyCode|>
 
-    {{#ui-html showing=showing}}
+    <UiHtml @showing={{showing}}>
       <div class="ui two column grid">
         <div class="column">
 
-          {{#object-form for=model classNames="segment"}}
+          <ObjectForm @for={{model}} @classNames="segment">
 
             <p> This is a "read-only" input, we will generate a super secure token for you.</p>
 
-            {{#form-field for="autoGenerate" label="Auto Generate Token"}}
-              {{input value=model.autoGenerate placeholder="Auto Generate Token"}}
-            {{/form-field}}
+            <FormField @for="autoGenerate" @label="Auto Generate Token">
+              <Input @value={{model.autoGenerate}} placeholder="Auto Generate Token" />
+            </FormField>
             <div class="actions">
               <div class="ui input submit">
                 <button class="ui button primary mr-10" {{action "validate"}}>Validate</button>
                 <button class="ui button reset" {{action "reset"}}>Reset</button>
               </div>
             </div>
-          {{/object-form}}
+          </ObjectForm>
 
         </div>
         <div class="column">
           <div class="ui segment">
-            {{model-errors-to-json errors=model.errors modelName=modelName}}
+            <ModelErrorsToJson @errors={{model.errors}} @modelName={{modelName}} />
           </div>
         </div>
       </div>
-    {{/ui-html}}
+    </UiHtml>
     {{! template-lint-disable block-indentation }}
-    {{#ui-annotation showing=showing type="javascript" setCopyCode=setCopyCode}}
+    <UiAnnotation @showing={{showing}} @type="javascript" @setCopyCode={{setCopyCode}}>
 import Model from 'ember-data/model';
 import attr from 'ember-data/attr';
 import Validator from 'ember-model-validator/decorators/model-validator';
@@ -77,7 +74,7 @@ class MyModel extends Model {
 }
 
 export default MyModel;
-    {{/ui-annotation}}
+    </UiAnnotation>
     {{! template-lint-enable }}
-  {{/ui-example}}
+  </UiExample>
 </div>
