@@ -1,67 +1,79 @@
 name: CI
 
 on:
-  pull_request:
   push:
     branches:
       - main
       - master
-  schedule:
-    - cron: '0 3 * * 0' # every Sunday at 3am
+  pull_request: {}
 
-env:
-  CI: true
+concurrency:
+  group: ci-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  tests:
-    if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
-    name: Base Tests
-    timeout-minutes: 5
+  test:
+    name: "Tests"
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node:
-          - '12'
-          - '14'
+    timeout-minutes: 10
+
     steps:
-      - uses: actions/checkout@v2
-      - uses: volta-cli/action@v1
+      - uses: actions/checkout@v3
+      - name: Install Node
+        uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node }}
+          node-version: 14.x
+          cache: yarn
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
+      - name: Lint
+        run: yarn lint
+      - name: Run Tests
+        run: yarn test:ember
 
-      - run: yarn install
+  floating:
+    name: "Floating Dependencies"
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
 
-      - name: Test with ${{ matrix.node }}
-        run: node_modules/.bin/ember test
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14.x
+          cache: yarn
+      - name: Install Dependencies
+        run: yarn install --no-lockfile
+      - name: Run Tests
+        run: yarn test:ember
 
   try-scenarios:
-    if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
-    name: 'Compatibility'
-    timeout-minutes: 7
+    name: ${{ matrix.try-scenario }}
     runs-on: ubuntu-latest
-    needs: tests
+    needs: "test"
+    timeout-minutes: 10
 
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
-        ember-try-scenario:
-          - ember-lts-3.16-and-ember-data-3.16
-          - ember-lts-3.20-and-ember-data-3.20
-          - ember-lts-3.24-and-ember-data-3.24
-          - ember-lts-3.25-and-ember-data-3.25
-          - ember-lts-3.27-and-ember-data-3.27
-          - ember-lts-3.28-and-ember-data-3.28
-          # - ember-release
-          # - ember-beta
-          # - ember-canary
-          # - embroider-safe
-          # - embroider-optimized
+        try-scenario:
+          - ember-lts-3.28
+          - ember-lts-4.4
+          - ember-release
+          - ember-beta
+          - ember-canary
+          - ember-classic
+          - embroider-safe
+          - embroider-optimized
+
     steps:
-      - uses: actions/checkout@v2
-      - uses: volta-cli/action@v1
+      - uses: actions/checkout@v3
+      - name: Install Node
+        uses: actions/setup-node@v3
         with:
-          node-version: 12.x
-      - name: install dependencies
-        run: yarn install
-      - name: test
-        run: node_modules/.bin/ember try:one ${{ matrix.ember-try-scenario }} --skip-cleanup
+          node-version: 14.x
+          cache: yarn
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
+      - name: Run Tests
+        run: ./node_modules/.bin/ember try:one ${{ matrix.try-scenario }}
