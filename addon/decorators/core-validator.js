@@ -600,13 +600,22 @@ function coreValidator(Class) {
       }
     }
     _modelRelations() {
-      const relationships = {};
-      if (this.constructor.eachRelationship) {
-        this.constructor.eachRelationship((name) => {
-          relationships[name] = this.relationshipFor(name);
-        });
+      // eslint-disable-next-line ember/no-get
+      if (get(this, '_relationships')) {
+        return this._relationships;
+        // eslint-disable-next-line ember/no-get
+      } else if (get(this, '_internalModel._relationships')) {
+        // eslint-disable-next-line ember/no-get
+        return get(this, '_internalModel._relationships.initializedRelationships');
+      } else {
+        const relationships = {};
+        if (this.constructor.eachRelationship) {
+          this.constructor.eachRelationship((name) => {
+            relationships[name] = this.relationshipFor(name);
+          });
+        }
+        return relationships;
       }
-      return relationships;
     }
     _formatMessage(message, context = {}) {
       return message.replace(/\{(\w+)\}/, (s, attr) => context[attr]);
