@@ -24,7 +24,6 @@ module('Unit | Model | fake-model', function (hooks) {
       );
 
       model.validate();
-
       assert.strictEqual(model.get('errors').errorsFor('anOptionalNumber').length, 0);
     });
     test('it runs remaining validations when optional field is not blank', function (assert) {
@@ -34,7 +33,6 @@ module('Unit | Model | fake-model', function (hooks) {
       );
 
       assert.false(model.validate());
-
       assert.strictEqual(model.get('errors').errorsFor('anOptionalNumber').length, 2);
 
       assert.strictEqual(

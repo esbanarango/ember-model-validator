@@ -55,7 +55,7 @@ function coreValidator(Class) {
       this.clearErrors();
 
       // Validate but not set errors
-      if (options.hasOwnProperty('addErrors')) {
+      if (Object.prototype.hasOwnProperty.call(options, 'addErrors')) {
         set(this, 'addErrors', options['addErrors']);
       } else {
         set(this, 'addErrors', true);
@@ -158,7 +158,7 @@ function coreValidator(Class) {
       let propertyValue = get(this, property);
 
       let countryCode = DEFAULT_COUNTRY_CODE;
-      if (validation.zipCode.hasOwnProperty('countryCode')) {
+      if (Object.prototype.hasOwnProperty.call(validation.zipCode, 'countryCode')) {
         countryCode = validation.zipCode.countryCode;
       }
       if (isArray(countryCode)) {
@@ -221,7 +221,7 @@ function coreValidator(Class) {
         this._addToErrors(property, validation.date, this._validationMessages.dateMessage);
         return;
       }
-      if (validation.date.hasOwnProperty('before') && validation.date.before) {
+      if (Object.prototype.hasOwnProperty.call(validation.date, 'before') && validation.date.before) {
         if (propertyValue.getTime() >= new Date(validation.date.before).getTime()) {
           set(this, 'isValidNow', false);
           let context = { date: new Date(validation.date.before) };
@@ -233,7 +233,7 @@ function coreValidator(Class) {
           );
         }
       }
-      if (validation.date.hasOwnProperty('after') && validation.date.after) {
+      if (Object.prototype.hasOwnProperty.call(validation.date, 'after') && validation.date.after) {
         if (propertyValue.getTime() <= new Date(validation.date.after).getTime()) {
           set(this, 'isValidNow', false);
           let context = { date: new Date(validation.date.after) };
@@ -252,26 +252,29 @@ function coreValidator(Class) {
         set(this, 'isValidNow', false);
         this._addToErrors(property, validation.numericality, this._validationMessages.numericalityMessage);
       }
-      if (validation.numericality.hasOwnProperty('onlyInteger') && validation.numericality.onlyInteger) {
+      if (
+        Object.prototype.hasOwnProperty.call(validation.numericality, 'onlyInteger') &&
+        validation.numericality.onlyInteger
+      ) {
         if (!/^[+-]?\d+$/.test(propertyValue)) {
           set(this, 'isValidNow', false);
           this._addToErrors(property, validation.numericality, this._validationMessages.numericalityOnlyIntegerMessage);
         }
       }
-      if (validation.numericality.hasOwnProperty('even') && validation.numericality.even) {
+      if (Object.prototype.hasOwnProperty.call(validation.numericality, 'even') && validation.numericality.even) {
         if (propertyValue % 2 !== 0) {
           set(this, 'isValidNow', false);
           this._addToErrors(property, validation.numericality, this._validationMessages.numericalityEvenMessage);
         }
       }
-      if (validation.numericality.hasOwnProperty('odd') && validation.numericality.odd) {
+      if (Object.prototype.hasOwnProperty.call(validation.numericality, 'odd') && validation.numericality.odd) {
         if (propertyValue % 2 === 0) {
           set(this, 'isValidNow', false);
           this._addToErrors(property, validation.numericality, this._validationMessages.numericalityOddMessage);
         }
       }
       if (
-        validation.numericality.hasOwnProperty('greaterThan') &&
+        Object.prototype.hasOwnProperty.call(validation.numericality, 'greaterThan') &&
         this._isNumber(validation.numericality.greaterThan)
       ) {
         if (propertyValue <= validation.numericality.greaterThan) {
@@ -286,7 +289,7 @@ function coreValidator(Class) {
         }
       }
       if (
-        validation.numericality.hasOwnProperty('greaterThanOrEqualTo') &&
+        Object.prototype.hasOwnProperty.call(validation.numericality, 'greaterThanOrEqualTo') &&
         this._isNumber(validation.numericality.greaterThanOrEqualTo)
       ) {
         if (propertyValue < validation.numericality.greaterThanOrEqualTo) {
@@ -300,7 +303,10 @@ function coreValidator(Class) {
           );
         }
       }
-      if (validation.numericality.hasOwnProperty('equalTo') && this._isNumber(validation.numericality.equalTo)) {
+      if (
+        Object.prototype.hasOwnProperty.call(validation.numericality, 'equalTo') &&
+        this._isNumber(validation.numericality.equalTo)
+      ) {
         if (propertyValue !== validation.numericality.equalTo) {
           set(this, 'isValidNow', false);
           let context = { count: validation.numericality.equalTo };
@@ -312,7 +318,10 @@ function coreValidator(Class) {
           );
         }
       }
-      if (validation.numericality.hasOwnProperty('lessThan') && this._isNumber(validation.numericality.lessThan)) {
+      if (
+        Object.prototype.hasOwnProperty.call(validation.numericality, 'lessThan') &&
+        this._isNumber(validation.numericality.lessThan)
+      ) {
         if (propertyValue >= validation.numericality.lessThan) {
           set(this, 'isValidNow', false);
           let context = { count: validation.numericality.lessThan };
@@ -325,7 +334,7 @@ function coreValidator(Class) {
         }
       }
       if (
-        validation.numericality.hasOwnProperty('lessThanOrEqualTo') &&
+        Object.prototype.hasOwnProperty.call(validation.numericality, 'lessThanOrEqualTo') &&
         this._isNumber(validation.numericality.lessThanOrEqualTo)
       ) {
         if (propertyValue > validation.numericality.lessThanOrEqualTo) {
@@ -341,7 +350,7 @@ function coreValidator(Class) {
       }
     }
     _validateExclusion(property, validation) {
-      if (validation.exclusion.hasOwnProperty('in')) {
+      if (Object.prototype.hasOwnProperty.call(validation.exclusion, 'in')) {
         if (validation.exclusion.in.indexOf(get(this, property)) !== -1) {
           set(this, 'isValidNow', false);
           this._addToErrors(property, validation.exclusion, this._validationMessages.exclusionMessage);
@@ -349,7 +358,7 @@ function coreValidator(Class) {
       }
     }
     _validateInclusion(property, validation) {
-      if (validation.inclusion.hasOwnProperty('in')) {
+      if (Object.prototype.hasOwnProperty.call(validation.inclusion, 'in')) {
         if (validation.inclusion.in.indexOf(get(this, property)) === -1) {
           set(this, 'isValidNow', false);
           this._addToErrors(property, validation.inclusion, this._validationMessages.inclusionMessage);
@@ -387,7 +396,7 @@ function coreValidator(Class) {
         validation.length = { minimum: validation.length[0], maximum: validation.length[1] };
         this._rangeLength(stringLength, property, validation);
       } else if (validationType === 'object') {
-        if (validation.length.hasOwnProperty('is')) {
+        if (Object.prototype.hasOwnProperty.call(validation.length, 'is')) {
           this._exactLength(stringLength, property, validation);
         } else {
           this._rangeLength(stringLength, property, validation);
@@ -412,12 +421,18 @@ function coreValidator(Class) {
       // Maximum and Minimum can be objects
       if (typeOf(validation.length.minimum) === 'number') {
         minimum = validation.length.minimum;
-      } else if (typeOf(validation.length.minimum) === 'object' && validation.length.minimum.hasOwnProperty('value')) {
+      } else if (
+        typeOf(validation.length.minimum) === 'object' &&
+        Object.prototype.hasOwnProperty.call(validation.length.minimum, 'value')
+      ) {
         minimum = validation.length.minimum.value;
       }
       if (typeOf(validation.length.maximum) === 'number') {
         maximum = validation.length.maximum;
-      } else if (typeOf(validation.length.maximum) === 'object' && validation.length.maximum.hasOwnProperty('value')) {
+      } else if (
+        typeOf(validation.length.maximum) === 'object' &&
+        Object.prototype.hasOwnProperty.call(validation.length.maximum, 'value')
+      ) {
         maximum = validation.length.maximum.value;
       }
 
@@ -525,13 +540,13 @@ function coreValidator(Class) {
     }
     _getCustomValidator(validation) {
       let customValidator = validation;
-      if (typeOf(validation) === 'object' && validation.hasOwnProperty('validation')) {
+      if (typeOf(validation) === 'object' && Object.prototype.hasOwnProperty.call(validation, 'validation')) {
         customValidator = validation.validation;
       }
       return this._isFunction(customValidator) ? customValidator : false;
     }
     _getCustomMessage(validationObj, defaultMessage, property) {
-      if (typeOf(validationObj) === 'object' && validationObj.hasOwnProperty('message')) {
+      if (typeOf(validationObj) === 'object' && Object.prototype.hasOwnProperty.call(validationObj, 'message')) {
         if (this._isFunction(validationObj.message)) {
           let msg = validationObj.message.call(this, property, get(this, property), this);
           return this._isString(msg) ? msg : defaultMessage;
@@ -586,9 +601,11 @@ function coreValidator(Class) {
     }
     _modelRelations() {
       const relationships = {};
-      this.constructor.eachRelationship((name) => {
-        relationships[name] = this.relationshipFor(name);
-      });
+      if (this.constructor.eachRelationship) {
+        this.constructor.eachRelationship((name) => {
+          relationships[name] = this.relationshipFor(name);
+        });
+      }
       return relationships;
     }
     _formatMessage(message, context = {}) {

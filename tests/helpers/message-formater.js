@@ -1,9 +1,8 @@
-import EmberObject, { get } from '@ember/object';
+import EmberObject from '@ember/object';
 
-export default EmberObject.extend({
-  _regex: /\{(\w+)\}/g,
-
+export default class MessageFormater extends EmberObject {
+  _regex = /\{(\w+)\}/g;
   formatMessage(message, context = {}) {
-    return message.replace(get(this, '_regex'), (_s, attr) => context[attr]);
-  },
-});
+    return message.replace(this._regex, (_s, attr) => context[attr]);
+  }
+}
