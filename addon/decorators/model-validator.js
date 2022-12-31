@@ -11,10 +11,18 @@ function modelValidator(Class) {
       set(this, 'isValidNow', true);
     }
     pushErrors(errors) {
-      const modelErrors = this.errors;
-      Object.keys(errors).forEach(function (error) {
-        modelErrors.add(error, errors[error]);
-      });
+      // This is a hack to support Ember Data 3.28
+      if (this._internalModel) {
+        const stateToTransition = this.isNew ? 'created.uncommitted' : 'updated.uncommitted';
+        this._internalModel.transitionTo(stateToTransition);
+        const recordModel = this.adapterDidInvalidate ? this : this._internalModel;
+        this.store.recordWasInvalid(recordModel, errors, 'error');
+      } else {
+        const modelErrors = this.errors;
+        Object.keys(errors).forEach(function (error) {
+          modelErrors.add(error, errors[error]);
+        });
+      }
     }
   }
   return ModelValidator;
