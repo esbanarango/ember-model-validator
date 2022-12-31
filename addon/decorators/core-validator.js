@@ -608,7 +608,7 @@ function coreValidator(Class) {
         // eslint-disable-next-line ember/no-get
         return get(this, '_internalModel._relationships.initializedRelationships');
         // eslint-disable-next-line ember/no-get
-      } else if (get(this, '_internalModel._recordData')) {
+      } else if (get(this, '_internalModel._recordData._relationships')) {
         // eslint-disable-next-line ember/no-get
         return get(this, '_internalModel._recordData._relationships.initializedRelationships');
       } else {
