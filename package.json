@@ -12,7 +12,7 @@
   "repository": "https://github.com/esbanarango/ember-model-validator",
   "demoURL": "http://esbanarango.github.io/ember-model-validator",
   "license": "MIT",
-  "author": "",
+  "author": "Esteban Arango Medina",
   "directories": {
     "doc": "doc",
     "test": "tests"
