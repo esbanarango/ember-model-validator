@@ -10,9 +10,11 @@ declare module 'ember-model-validator/decorators/model-validator' {
    * errors to be added.
    *
    */
-  export default function modelValidator<T>(target: T): T & { validate: (options?: []) => boolean };
-}
+  export default function modelValidator<T>(target: T): T & { validate: (options?: validateOptions) => boolean };
 
-declare module 'ember-model-validator/decorators/core-validator' {
-  export default function coreValidator<T>(target: T): T;
+  export interface validateOptions {
+    except: string[];
+    only: string[];
+    addErrors: boolean;
+  }
 }

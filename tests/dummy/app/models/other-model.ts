@@ -1,9 +1,9 @@
 import Model, { attr } from '@ember-data/model';
 
-import Validator from 'ember-model-validator/decorators/model-validator';
+import Validator, { validateOptions } from 'ember-model-validator/decorators/model-validator';
 
 class ModelValidator extends Model {
-  validate!: (options?: []) => boolean;
+  validate!: (options?: validateOptions) => boolean;
 }
 
 @Validator
