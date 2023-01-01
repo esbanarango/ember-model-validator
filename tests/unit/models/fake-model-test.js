@@ -1,6 +1,5 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import { run } from '@ember/runloop';
 import Messages from 'ember-model-validator/messages/en';
 import MessageFormater from '../../helpers/message-formater';
 
@@ -11,7 +10,7 @@ module('Unit | Model | fake-model', function (hooks) {
 
   test('exists', function (assert) {
     assert.expect(1);
-    const model = run(() => this.owner.lookup('service:store').createRecord('fake-model'));
+    const model = this.owner.lookup('service:store').createRecord('fake-model');
 
     assert.ok(model);
   });
@@ -19,18 +18,14 @@ module('Unit | Model | fake-model', function (hooks) {
   module('allowBlank option', function () {
     test('it skips other validations when optional field is blank', function (assert) {
       assert.expect(1);
-      const model = run(() =>
-        this.owner.lookup('service:store').createRecord('fake-model', { anOptionalNumber: null })
-      );
+      const model = this.owner.lookup('service:store').createRecord('fake-model', { anOptionalNumber: null });
 
       model.validate();
       assert.strictEqual(model.get('errors').errorsFor('anOptionalNumber').length, 0);
     });
     test('it runs remaining validations when optional field is not blank', function (assert) {
       assert.expect(4);
-      const model = run(() =>
-        this.owner.lookup('service:store').createRecord('fake-model', { anOptionalNumber: 'abc' })
-      );
+      const model = this.owner.lookup('service:store').createRecord('fake-model', { anOptionalNumber: 'abc' });
 
       assert.false(model.validate());
       assert.strictEqual(model.get('errors').errorsFor('anOptionalNumber').length, 2);
@@ -51,7 +46,7 @@ module('Unit | Model | fake-model', function (hooks) {
     test('it validates only if `if function` returns true', function (assert) {
       assert.expect(2);
 
-      const model = run(() => this.owner.lookup('service:store').createRecord('fake-model', { condType: 'gallery' }));
+      const model = this.owner.lookup('service:store').createRecord('fake-model', { condType: 'gallery' });
 
       model.validate();
 
@@ -62,9 +57,7 @@ module('Unit | Model | fake-model', function (hooks) {
     test('skips validation if `if function` returns false', function (assert) {
       assert.expect(1);
 
-      const model = run(() =>
-        this.owner.lookup('service:store').createRecord('fake-model', { condType: 'chancuncha' })
-      );
+      const model = this.owner.lookup('service:store').createRecord('fake-model', { condType: 'chancuncha' });
 
       model.validate();
 
@@ -75,9 +68,9 @@ module('Unit | Model | fake-model', function (hooks) {
   module('message with interpolated values', function () {
     test('interpolates the value whitn the message', function (assert) {
       assert.expect(2);
-      const model = run(() =>
-        this.owner.lookup('service:store').createRecord('fake-model', { theMinimunmInterpolatedTenNumber: '1' })
-      );
+      const model = this.owner
+        .lookup('service:store')
+        .createRecord('fake-model', { theMinimunmInterpolatedTenNumber: '1' });
 
       assert.false(model.validate({ only: ['theMinimunmInterpolatedTenNumber'] }));
 
@@ -91,7 +84,7 @@ module('Unit | Model | fake-model', function (hooks) {
   module('Presence validator', function () {
     test('it validates the presence of the attributes set on `validations.presence`', function (assert) {
       assert.expect(3);
-      const model = run(() => this.owner.lookup('service:store').createRecord('fake-model'));
+      const model = this.owner.lookup('service:store').createRecord('fake-model');
       const errorAs = model.validations.name.presence.errorAs;
       delete model.validations.name.presence.errorAs;
 
@@ -103,7 +96,7 @@ module('Unit | Model | fake-model', function (hooks) {
     module('When is a relation', function () {
       test('it validates the presence of the attributes set on `validations.presence` for Async relations', function (assert) {
         assert.expect(2);
-        const model = run(() => this.owner.lookup('service:store').createRecord('fake-model'));
+        const model = this.owner.lookup('service:store').createRecord('fake-model');
 
         assert.false(model.validate());
         assert.strictEqual(
@@ -114,7 +107,7 @@ module('Unit | Model | fake-model', function (hooks) {
 
       test('it validates the presence of the attributes set on `validations.presence` for embedded relations', function (assert) {
         assert.expect(2);
-        const model = run(() => this.owner.lookup('service:store').createRecord('fake-model'));
+        const model = this.owner.lookup('service:store').createRecord('fake-model');
 
         assert.false(model.validate());
 
@@ -125,7 +118,7 @@ module('Unit | Model | fake-model', function (hooks) {
 
   test('it validates the format of the attributes set on `validations.format`', function (assert) {
     assert.expect(2);
-    const model = run(() => this.owner.lookup('service:store').createRecord('fake-model', { legacyCode: 3123123 }));
+    const model = this.owner.lookup('service:store').createRecord('fake-model', { legacyCode: 3123123 });
 
     assert.false(model.validate());
 
@@ -134,7 +127,7 @@ module('Unit | Model | fake-model', function (hooks) {
 
   test('it validates the acceptance of the attributes set on `validations.acceptance`', function (assert) {
     assert.expect(2);
-    const model = run(() => this.owner.lookup('service:store').createRecord('fake-model', { acceptConditions: 0 }));
+    const model = this.owner.lookup('service:store').createRecord('fake-model', { acceptConditions: 0 });
 
     assert.false(model.validate());
     assert.strictEqual(
@@ -145,11 +138,9 @@ module('Unit | Model | fake-model', function (hooks) {
 
   test('it validates the matching of the attributes set on `validations.password`', function (assert) {
     assert.expect(2);
-    const model = run(() =>
-      this.owner
-        .lookup('service:store')
-        .createRecord('fake-model', { password: 'k$1hkjGd', passwordConfirmation: 'uuuu' })
-    );
+    const model = this.owner
+      .lookup('service:store')
+      .createRecord('fake-model', { password: 'k$1hkjGd', passwordConfirmation: 'uuuu' });
 
     assert.false(model.validate());
 
@@ -163,7 +154,7 @@ module('Unit | Model | fake-model', function (hooks) {
 
   test('it validates the absence of the attributes set on `validations.absence`', function (assert) {
     assert.expect(2);
-    const model = run(() => this.owner.lookup('service:store').createRecord('fake-model', { login: 'asdasd' }));
+    const model = this.owner.lookup('service:store').createRecord('fake-model', { login: 'asdasd' });
 
     assert.false(model.validate());
     assert.strictEqual(model.get('errors').errorsFor('login').mapBy('message')[0][0], Messages.absenceMessage);
@@ -172,9 +163,7 @@ module('Unit | Model | fake-model', function (hooks) {
   module('Postalcode validation', function () {
     test('it validates the zip code being invalid in the US', function (assert) {
       assert.expect(2);
-      const model = run(() =>
-        this.owner.lookup('service:store').createRecord('fake-model', { postalCodeUS: 'dfasdfsad' })
-      );
+      const model = this.owner.lookup('service:store').createRecord('fake-model', { postalCodeUS: 'dfasdfsad' });
 
       assert.false(model.validate());
       assert.strictEqual(model.get('errors').errorsFor('postalCodeUS').mapBy('message')[0][0], Messages.zipCodeMessage);
@@ -182,7 +171,7 @@ module('Unit | Model | fake-model', function (hooks) {
 
     test('it validates postal codes from outside US - UK', function (assert) {
       assert.expect(2);
-      const model = run(() => this.owner.lookup('service:store').createRecord('fake-model', { postalCodeUK: '09011' }));
+      const model = this.owner.lookup('service:store').createRecord('fake-model', { postalCodeUK: '09011' });
 
       assert.false(model.validate());
       assert.strictEqual(model.get('errors').errorsFor('postalCodeUK').mapBy('message')[0][0], Messages.zipCodeMessage);
@@ -190,7 +179,7 @@ module('Unit | Model | fake-model', function (hooks) {
 
     test('it validates postal codes from outside US - CA', function (assert) {
       assert.expect(2);
-      const model = run(() => this.owner.lookup('service:store').createRecord('fake-model', { postalCodeCA: '09011' }));
+      const model = this.owner.lookup('service:store').createRecord('fake-model', { postalCodeCA: '09011' });
 
       assert.false(model.validate());
       assert.strictEqual(model.get('errors').errorsFor('postalCodeCA').mapBy('message')[0][0], Messages.zipCodeMessage);
@@ -198,9 +187,7 @@ module('Unit | Model | fake-model', function (hooks) {
 
     test('it validates that non-existing country codes default to US behavior', function (assert) {
       assert.expect(2);
-      const model = run(() =>
-        this.owner.lookup('service:store').createRecord('fake-model', { postalCodeZZ: 'dfasdfsad' })
-      );
+      const model = this.owner.lookup('service:store').createRecord('fake-model', { postalCodeZZ: 'dfasdfsad' });
 
       assert.false(model.validate());
       assert.strictEqual(model.get('errors').errorsFor('postalCodeZZ').mapBy('message')[0][0], Messages.zipCodeMessage);
@@ -209,7 +196,7 @@ module('Unit | Model | fake-model', function (hooks) {
 
   test('it validates the truthyness of the user custom validation function on `validations.custom`', function (assert) {
     assert.expect(2);
-    const model = run(() => this.owner.lookup('service:store').createRecord('fake-model', { password: 12345 }));
+    const model = this.owner.lookup('service:store').createRecord('fake-model', { password: 12345 });
 
     assert.false(model.validate());
 
@@ -221,7 +208,7 @@ module('Unit | Model | fake-model', function (hooks) {
 
   test('it validates the an array of custom validations', function (assert) {
     assert.expect(2);
-    const model = run(() => this.owner.lookup('service:store').createRecord('fake-model', { thing: 'fail' }));
+    const model = this.owner.lookup('service:store').createRecord('fake-model', { thing: 'fail' });
 
     assert.false(model.validate());
     assert.strictEqual(model.get('errors').errorsFor('thing').mapBy('message')[0][0], Messages.customValidationMessage);
@@ -229,7 +216,7 @@ module('Unit | Model | fake-model', function (hooks) {
 
   test('it validates the email format of the attributes set on `validations.email`', function (assert) {
     assert.expect(2);
-    const model = run(() => this.owner.lookup('service:store').createRecord('fake-model', { email: 'adsfasdf$' }));
+    const model = this.owner.lookup('service:store').createRecord('fake-model', { email: 'adsfasdf$' });
 
     assert.false(model.validate());
     assert.strictEqual(model.get('errors').errorsFor('email').mapBy('message')[0][0], Messages.mailMessage);
@@ -237,9 +224,7 @@ module('Unit | Model | fake-model', function (hooks) {
 
   test('it validates the url format of the attributes set on `validations.url`', function (assert) {
     assert.expect(2);
-    const model = run(() =>
-      this.owner.lookup('service:store').createRecord('fake-model', { myBlog: '//www.hola.com' })
-    );
+    const model = this.owner.lookup('service:store').createRecord('fake-model', { myBlog: '//www.hola.com' });
 
     assert.false(model.validate());
     assert.strictEqual(model.get('errors').errorsFor('myBlog').mapBy('message')[0][0], Messages.URLMessage);
@@ -247,7 +232,7 @@ module('Unit | Model | fake-model', function (hooks) {
 
   test('it validates the color format of the attributes set on `validations.color`', function (assert) {
     assert.expect(2);
-    const model = run(() => this.owner.lookup('service:store').createRecord('fake-model', { favoriteColor: '000XXX' }));
+    const model = this.owner.lookup('service:store').createRecord('fake-model', { favoriteColor: '000XXX' });
 
     const message = model.validations.favoriteColor.color.message;
     delete model.validations.favoriteColor.color.message;
@@ -260,9 +245,7 @@ module('Unit | Model | fake-model', function (hooks) {
 
   test('it validates the numericality of the attributes set on `validations.numericality`', function (assert) {
     assert.expect(2);
-    const model = run(() =>
-      this.owner.lookup('service:store').createRecord('fake-model', { lotteryNumber: 'adsfasdf$' })
-    );
+    const model = this.owner.lookup('service:store').createRecord('fake-model', { lotteryNumber: 'adsfasdf$' });
 
     assert.false(model.validate());
     assert.strictEqual(
@@ -273,9 +256,8 @@ module('Unit | Model | fake-model', function (hooks) {
 
   test('it validates the subdomain format of the attributes set on `validations.subdomain`', function (assert) {
     assert.expect(2);
-    const model = run(() =>
-      this.owner.lookup('service:store').createRecord('fake-model', { mySubdomain: 'with space' })
-    );
+    const model = this.owner.lookup('service:store').createRecord('fake-model', { mySubdomain: 'with space' });
+
     const message = model.validations.mySubdomain.subdomain.message;
     delete model.validations.mySubdomain.subdomain.message;
 
@@ -287,7 +269,7 @@ module('Unit | Model | fake-model', function (hooks) {
 
   test('it validates the inclusion of the attributes set on `validations.inclusion`', function (assert) {
     assert.expect(2);
-    const model = run(() => this.owner.lookup('service:store').createRecord('fake-model', { name: 'adsfasdf$' }));
+    const model = this.owner.lookup('service:store').createRecord('fake-model', { name: 'adsfasdf$' });
     const message = model.validations.name.inclusion.message;
     delete model.validations.name.inclusion.message;
 
@@ -299,9 +281,8 @@ module('Unit | Model | fake-model', function (hooks) {
 
   test('it validates the exclusion of the attributes set on `validations.exclusion`', function (assert) {
     assert.expect(2);
-    const model = run(() =>
-      this.owner.lookup('service:store').createRecord('fake-model', { secondName: 'Wilder Medina' })
-    );
+    const model = this.owner.lookup('service:store').createRecord('fake-model', { secondName: 'Wilder Medina' });
+
     const message = model.validations.secondName.exclusion.message;
     delete model.validations.secondName.exclusion.message;
 
@@ -316,7 +297,7 @@ module('Unit | Model | fake-model', function (hooks) {
     module('`onlyInteger` option', function () {
       test('it validates the number for only being an integer', function (assert) {
         assert.expect(2);
-        const model = run(() => this.owner.lookup('service:store').createRecord('fake-model', { anInteger: 1.3 }));
+        const model = this.owner.lookup('service:store').createRecord('fake-model', { anInteger: 1.3 });
 
         assert.false(model.validate({ only: ['anInteger'] }));
         assert.strictEqual(
@@ -329,9 +310,7 @@ module('Unit | Model | fake-model', function (hooks) {
     module('`greaterThan` option', function () {
       test('it validates that the number is `greater than` the specified value', function (assert) {
         assert.expect(2);
-        const model = run(() =>
-          this.owner.lookup('service:store').createRecord('fake-model', { anIntegerGreaterThan4: 2 })
-        );
+        const model = this.owner.lookup('service:store').createRecord('fake-model', { anIntegerGreaterThan4: 2 });
 
         assert.false(model.validate({ only: ['anIntegerGreaterThan4'] }));
 
@@ -346,9 +325,9 @@ module('Unit | Model | fake-model', function (hooks) {
     module('`greaterThanOrEqualTo` option', function () {
       test('it validates that the number is `greater than or equal` to the specified value', function (assert) {
         assert.expect(2);
-        const model = run(() =>
-          this.owner.lookup('service:store').createRecord('fake-model', { anIntegerGreaterThanOrEqual7: 2 })
-        );
+        const model = this.owner
+          .lookup('service:store')
+          .createRecord('fake-model', { anIntegerGreaterThanOrEqual7: 2 });
 
         assert.false(model.validate({ only: ['anIntegerGreaterThanOrEqual7'] }));
 
@@ -363,7 +342,7 @@ module('Unit | Model | fake-model', function (hooks) {
     module('`equalTo` option', function () {
       test('it validates that the number is `greater than or equal` to the specified value', function (assert) {
         assert.expect(2);
-        const model = run(() => this.owner.lookup('service:store').createRecord('fake-model', { aTenNumber: 2 }));
+        const model = this.owner.lookup('service:store').createRecord('fake-model', { aTenNumber: 2 });
 
         assert.false(model.validate({ only: ['aTenNumber'] }));
         const context = { count: 10 };
@@ -378,9 +357,7 @@ module('Unit | Model | fake-model', function (hooks) {
     module('`lessThan` option', function () {
       test('validates that the number is `less than` the specified value', function (assert) {
         assert.expect(2);
-        const model = run(() =>
-          this.owner.lookup('service:store').createRecord('fake-model', { anIntegerLessThan4: 5 })
-        );
+        const model = this.owner.lookup('service:store').createRecord('fake-model', { anIntegerLessThan4: 5 });
 
         assert.false(model.validate({ only: ['anIntegerLessThan4'] }));
 
@@ -395,9 +372,7 @@ module('Unit | Model | fake-model', function (hooks) {
     module('`lessThanOrEqualTo` option', function () {
       test('it validates that the number is `less than or equal` to the specified value', function (assert) {
         assert.expect(2);
-        const model = run(() =>
-          this.owner.lookup('service:store').createRecord('fake-model', { anIntegerLessThanOrEqual6: 8 })
-        );
+        const model = this.owner.lookup('service:store').createRecord('fake-model', { anIntegerLessThanOrEqual6: 8 });
 
         assert.false(model.validate({ only: ['anIntegerLessThanOrEqual6'] }));
 
@@ -412,7 +387,7 @@ module('Unit | Model | fake-model', function (hooks) {
     module('`odd` option', function () {
       test('it validates that the number is `odd`', function (assert) {
         assert.expect(2);
-        const model = run(() => this.owner.lookup('service:store').createRecord('fake-model', { anOddNumber: 2 }));
+        const model = this.owner.lookup('service:store').createRecord('fake-model', { anOddNumber: 2 });
 
         assert.false(model.validate({ only: ['anOddNumber'] }));
 
@@ -426,7 +401,7 @@ module('Unit | Model | fake-model', function (hooks) {
     module('`even` option', function () {
       test('validates that the number is `even`', function (assert) {
         assert.expect(2);
-        const model = run(() => this.owner.lookup('service:store').createRecord('fake-model', { anEvenNumber: 3 }));
+        const model = this.owner.lookup('service:store').createRecord('fake-model', { anEvenNumber: 3 });
 
         assert.false(model.validate({ only: ['anEvenNumber'] }));
 
@@ -441,25 +416,21 @@ module('Unit | Model | fake-model', function (hooks) {
   module('Date Validator', function () {
     test('validates a date object', function (assert) {
       assert.expect(2);
-      const model = run(() => this.owner.lookup('service:store').createRecord('fake-model', { date: new Date('a') }));
+      const model = this.owner.lookup('service:store').createRecord('fake-model', { date: new Date('a') });
 
       assert.false(model.validate({ only: ['date'] }));
       assert.strictEqual(model.get('errors').errorsFor('date').mapBy('message')[0][0], Messages.dateMessage);
     });
     test('validates a date string', function (assert) {
       assert.expect(2);
-      const model = run(() =>
-        this.owner.lookup('service:store').createRecord('fake-model', { stringDate: '2015-13-1' })
-      );
+      const model = this.owner.lookup('service:store').createRecord('fake-model', { stringDate: '2015-13-1' });
 
       assert.false(model.validate({ only: ['stringDate'] }));
       assert.strictEqual(model.get('errors').errorsFor('stringDate').mapBy('message')[0][0], Messages.dateMessage);
     });
     test('validates that the date is `before` the specified value', function (assert) {
       assert.expect(2);
-      const model = run(() =>
-        this.owner.lookup('service:store').createRecord('fake-model', { dateBefore2015: '2015-10-31' })
-      );
+      const model = this.owner.lookup('service:store').createRecord('fake-model', { dateBefore2015: '2015-10-31' });
 
       assert.false(model.validate({ only: ['dateBefore2015'] }));
 
@@ -471,9 +442,7 @@ module('Unit | Model | fake-model', function (hooks) {
     });
     test('validates that the date is `after` the specified value', function (assert) {
       assert.expect(2);
-      const model = run(() =>
-        this.owner.lookup('service:store').createRecord('fake-model', { dateAfter2014: '2015-01-01' })
-      );
+      const model = this.owner.lookup('service:store').createRecord('fake-model', { dateAfter2014: '2015-01-01' });
 
       assert.false(model.validate({ only: ['dateAfter2014'] }));
 
@@ -490,9 +459,7 @@ module('Unit | Model | fake-model', function (hooks) {
       module('when is set to a number', function () {
         test('it validates the length of the attributes set on `validations.length`', function (assert) {
           assert.expect(2);
-          const model = run(() =>
-            this.owner.lookup('service:store').createRecord('fake-model', { socialSecurity: 123 })
-          );
+          const model = this.owner.lookup('service:store').createRecord('fake-model', { socialSecurity: 123 });
 
           assert.false(model.validate({ only: ['socialSecurity'] }));
 
@@ -508,9 +475,7 @@ module('Unit | Model | fake-model', function (hooks) {
       module('when `is` is used to set the number', function () {
         test('it validates the length of the attributes set on `validations.length`', function (assert) {
           assert.expect(2);
-          const model = run(() =>
-            this.owner.lookup('service:store').createRecord('fake-model', { chuncaluchoNumber: 123 })
-          );
+          const model = this.owner.lookup('service:store').createRecord('fake-model', { chuncaluchoNumber: 123 });
 
           assert.false(model.validate({ only: ['chuncaluchoNumber'] }));
 
@@ -524,9 +489,7 @@ module('Unit | Model | fake-model', function (hooks) {
       module('when `message` is set for `minimum` or `maximum` option', function () {
         test('it validates the length of the attributes set on `validations.length`', function (assert) {
           assert.expect(2);
-          const model = run(() =>
-            this.owner.lookup('service:store').createRecord('fake-model', { theMinimunmTwoNumber: '1' })
-          );
+          const model = this.owner.lookup('service:store').createRecord('fake-model', { theMinimunmTwoNumber: '1' });
 
           assert.false(model.validate({ only: ['theMinimunmTwoNumber'] }));
           assert.strictEqual(
@@ -541,7 +504,7 @@ module('Unit | Model | fake-model', function (hooks) {
       module('when is set to an array', function () {
         test('validates the length of the attributes set on `validations.length`', function (assert) {
           assert.expect(2);
-          const model = run(() => this.owner.lookup('service:store').createRecord('fake-model', { nsaNumber: 12 }));
+          const model = this.owner.lookup('service:store').createRecord('fake-model', { nsaNumber: 12 });
 
           assert.false(model.validate({ only: ['nsaNumber'] }));
 
@@ -556,7 +519,7 @@ module('Unit | Model | fake-model', function (hooks) {
       module('when is set using `minimum` and `maximum` keys', function () {
         test('validates the length of the attributes set on `validations.length`', function (assert) {
           assert.expect(2);
-          const model = run(() => this.owner.lookup('service:store').createRecord('fake-model', { hugeName: 123456 }));
+          const model = this.owner.lookup('service:store').createRecord('fake-model', { hugeName: 123456 });
 
           assert.false(model.validate({ only: ['hugeName'] }));
 
@@ -574,11 +537,9 @@ module('Unit | Model | fake-model', function (hooks) {
   module('Password validations', function () {
     test('it accepts a string that meets all validation requirements', function (assert) {
       assert.expect(1);
-      const model = run(() =>
-        this.owner
-          .lookup('service:store')
-          .createRecord('fake-model', { password: 'k$1hkjGd', passwordConfirmation: 'k$1hkjGd' })
-      );
+      const model = this.owner
+        .lookup('service:store')
+        .createRecord('fake-model', { password: 'k$1hkjGd', passwordConfirmation: 'k$1hkjGd' });
 
       assert.true(model.validate({ only: ['password'] }));
     });
@@ -586,11 +547,9 @@ module('Unit | Model | fake-model', function (hooks) {
     module('capital character validation', function () {
       test('it rejects a string that does not contain a capital character', function (assert) {
         assert.expect(2);
-        const model = run(() =>
-          this.owner
-            .lookup('service:store')
-            .createRecord('fake-model', { password: 'k$1hkjgd', passwordConfirmation: 'k$1hkjgd' })
-        );
+        const model = this.owner
+          .lookup('service:store')
+          .createRecord('fake-model', { password: 'k$1hkjgd', passwordConfirmation: 'k$1hkjgd' });
 
         assert.false(model.validate({ only: ['password'] }));
         assert.strictEqual(
@@ -603,11 +562,10 @@ module('Unit | Model | fake-model', function (hooks) {
     module('lower case character validation', function () {
       test('it rejects a string that does not contain a lower case character', function (assert) {
         assert.expect(2);
-        const model = run(() =>
-          this.owner
-            .lookup('service:store')
-            .createRecord('fake-model', { password: 'K$1HKJGD', passwordConfirmation: 'K$1HKJGD' })
-        );
+        const model = this.owner
+          .lookup('service:store')
+          .createRecord('fake-model', { password: 'K$1HKJGD', passwordConfirmation: 'K$1HKJGD' });
+
         assert.false(model.validate({ only: ['password'] }));
         assert.strictEqual(
           model.get('errors').errorsFor('password').mapBy('message')[0][0],
@@ -619,11 +577,9 @@ module('Unit | Model | fake-model', function (hooks) {
     module('special character validation', function () {
       test('it rejects a string that does not contain a special character', function (assert) {
         assert.expect(2);
-        const model = run(() =>
-          this.owner
-            .lookup('service:store')
-            .createRecord('fake-model', { password: 'kW1hkjgd', passwordConfirmation: 'kW1hkjgd' })
-        );
+        const model = this.owner
+          .lookup('service:store')
+          .createRecord('fake-model', { password: 'kW1hkjgd', passwordConfirmation: 'kW1hkjgd' });
 
         assert.false(model.validate({ only: ['password'] }));
         assert.strictEqual(
@@ -636,11 +592,9 @@ module('Unit | Model | fake-model', function (hooks) {
     module('number validation', function () {
       test('it rejects a string that does not contain a number', function (assert) {
         assert.expect(2);
-        const model = run(() =>
-          this.owner
-            .lookup('service:store')
-            .createRecord('fake-model', { password: 'k$Whkjgd', passwordConfirmation: 'k$Whkjgd' })
-        );
+        const model = this.owner
+          .lookup('service:store')
+          .createRecord('fake-model', { password: 'k$Whkjgd', passwordConfirmation: 'k$Whkjgd' });
 
         assert.false(model.validate({ only: ['password'] }));
         assert.strictEqual(model.get('errors').errorsFor('password').mapBy('message')[0][0], 'must include a number');
@@ -653,9 +607,8 @@ module('Unit | Model | fake-model', function (hooks) {
       test('it validates the relations specified on `validations.relations`', function (assert) {
         assert.expect(1);
         const store = this.owner.lookup('service:store');
-        const model = run(() =>
-          store.createRecord('fake-model', { email: 'thiisagoo@email.con', name: 'Jose Rene Higuita' })
-        );
+        const model = store.createRecord('fake-model', { email: 'thiisagoo@email.con', name: 'Jose Rene Higuita' });
+
         let otherFakes = model.get('otherFakes');
         const otherFake = store.createRecord('other-model');
         otherFakes.pushObject(otherFake);
@@ -668,9 +621,7 @@ module('Unit | Model | fake-model', function (hooks) {
       test('it validates the relations specified on `validations.relations`', function (assert) {
         assert.expect(2);
         const store = this.owner.lookup('service:store');
-        const model = run(() =>
-          store.createRecord('fake-model', { email: 'thiisagoo@email.con', name: 'Jose Rene Higuita' })
-        );
+        const model = store.createRecord('fake-model', { email: 'thiisagoo@email.con', name: 'Jose Rene Higuita' });
 
         model.set('otherFake', store.createRecord('other-model'));
         assert.false(model.validate({ only: ['otherFake'] }));
@@ -686,7 +637,7 @@ module('Unit | Model | fake-model', function (hooks) {
   module('Acceptance validator', function () {
     test('it returns false when the attribute value is not in the list of acceptable values', function (assert) {
       assert.expect(1);
-      const model = run(() => this.owner.lookup('service:store').createRecord('fake-model', { acceptConditions: 10 }));
+      const model = this.owner.lookup('service:store').createRecord('fake-model', { acceptConditions: 10 });
 
       assert.false(model.validate({ only: ['acceptConditions'] }));
     });
@@ -695,7 +646,7 @@ module('Unit | Model | fake-model', function (hooks) {
   module('when custom message is set', function () {
     test('it validates the presence of the attributes set on `validations.presence` and use the correct message', function (assert) {
       assert.expect(2);
-      const model = run(() => this.owner.lookup('service:store').createRecord('fake-model', { bussinessEmail: '' }));
+      const model = this.owner.lookup('service:store').createRecord('fake-model', { bussinessEmail: '' });
 
       assert.false(model.validate());
 
@@ -707,9 +658,9 @@ module('Unit | Model | fake-model', function (hooks) {
 
     test('it validates the truthyness of user func for `validations.custom` and use the correct message', function (assert) {
       assert.expect(2);
-      const model = run(() =>
-        this.owner.lookup('service:store').createRecord('fake-model', { lotteryNumber: 777, favoriteColor: null })
-      );
+      const model = this.owner
+        .lookup('service:store')
+        .createRecord('fake-model', { lotteryNumber: 777, favoriteColor: null });
 
       assert.false(model.validate());
 
@@ -721,9 +672,7 @@ module('Unit | Model | fake-model', function (hooks) {
 
     test('it validates the email format of the attributes set on `validations.email` and use the correct message', function (assert) {
       assert.expect(2);
-      const model = run(() =>
-        this.owner.lookup('service:store').createRecord('fake-model', { bussinessEmail: 'adsfasdf$' })
-      );
+      const model = this.owner.lookup('service:store').createRecord('fake-model', { bussinessEmail: 'adsfasdf$' });
 
       assert.false(model.validate());
       assert.strictEqual(
@@ -734,9 +683,7 @@ module('Unit | Model | fake-model', function (hooks) {
 
     test('it validates the color format of the attributes set on `validations.color` and use the correct message', function (assert) {
       assert.expect(2);
-      const model = run(() =>
-        this.owner.lookup('service:store').createRecord('fake-model', { favoriteColor: 'adsfasdf$' })
-      );
+      const model = this.owner.lookup('service:store').createRecord('fake-model', { favoriteColor: 'adsfasdf$' });
 
       assert.false(model.validate());
       assert.strictEqual(
@@ -747,9 +694,7 @@ module('Unit | Model | fake-model', function (hooks) {
 
     test('it validates the subdomain format of the attributes set on `validations.subdomain` and use the correct message', function (assert) {
       assert.expect(2);
-      const model = run(() =>
-        this.owner.lookup('service:store').createRecord('fake-model', { mySubdomain: 'with space' })
-      );
+      const model = this.owner.lookup('service:store').createRecord('fake-model', { mySubdomain: 'with space' });
 
       assert.false(model.validate());
       assert.strictEqual(
@@ -760,7 +705,7 @@ module('Unit | Model | fake-model', function (hooks) {
 
     test('it validates the subdomain reserved words of the attributes set on `validations.subdomain` and use the correct message', function (assert) {
       assert.expect(2);
-      const model = run(() => this.owner.lookup('service:store').createRecord('fake-model', { mySubdomain: 'admin' }));
+      const model = this.owner.lookup('service:store').createRecord('fake-model', { mySubdomain: 'admin' });
 
       assert.false(model.validate());
       assert.strictEqual(
@@ -771,9 +716,7 @@ module('Unit | Model | fake-model', function (hooks) {
 
     test('it validates the format of the attributes set on `validations.format` and use the correct message', function (assert) {
       assert.expect(2);
-      const model = run(() =>
-        this.owner.lookup('service:store').createRecord('fake-model', { mainstreamCode: 3123123 })
-      );
+      const model = this.owner.lookup('service:store').createRecord('fake-model', { mainstreamCode: 3123123 });
 
       assert.false(model.validate());
       assert.strictEqual(
@@ -784,7 +727,7 @@ module('Unit | Model | fake-model', function (hooks) {
 
     test('it validates the inclusion of the attributes set on `validations.inclusion` and use the correct message', function (assert) {
       assert.expect(2);
-      const model = run(() => this.owner.lookup('service:store').createRecord('fake-model', { name: 'adsfasdf$' }));
+      const model = this.owner.lookup('service:store').createRecord('fake-model', { name: 'adsfasdf$' });
 
       assert.false(model.validate());
       assert.strictEqual(
@@ -795,9 +738,7 @@ module('Unit | Model | fake-model', function (hooks) {
 
     test('it validates the exclusion of the attributes set on `validations.exclusion` and use the correct message', function (assert) {
       assert.expect(2);
-      const model = run(() =>
-        this.owner.lookup('service:store').createRecord('fake-model', { secondName: 'Wilder Medina' })
-      );
+      const model = this.owner.lookup('service:store').createRecord('fake-model', { secondName: 'Wilder Medina' });
 
       assert.false(model.validate());
       assert.strictEqual(
@@ -808,9 +749,7 @@ module('Unit | Model | fake-model', function (hooks) {
 
     test('it validates the numericality of the attributes set on `validations.numericality`', function (assert) {
       assert.expect(2);
-      const model = run(() =>
-        this.owner.lookup('service:store').createRecord('fake-model', { alibabaNumber: 'adsfasdf$' })
-      );
+      const model = this.owner.lookup('service:store').createRecord('fake-model', { alibabaNumber: 'adsfasdf$' });
 
       assert.false(model.validate());
       assert.strictEqual(
@@ -823,9 +762,9 @@ module('Unit | Model | fake-model', function (hooks) {
       module('and function returns a string', function () {
         test('it set error message using the function return', function (assert) {
           assert.expect(2);
-          const model = run(() =>
-            this.owner.lookup('service:store').createRecord('fake-model', { otherCustomValidation: 123456 })
-          );
+          const model = this.owner
+            .lookup('service:store')
+            .createRecord('fake-model', { otherCustomValidation: 123456 });
 
           assert.false(model.validate());
           assert.strictEqual(
@@ -838,11 +777,9 @@ module('Unit | Model | fake-model', function (hooks) {
       module('and function does not return a string', function () {
         test('it set error message to default message', function (assert) {
           assert.expect(2);
-          const model = run(() =>
-            this.owner
-              .lookup('service:store')
-              .createRecord('fake-model', { otherCustomValidationBadMessageFunction: 123456 })
-          );
+          const model = this.owner
+            .lookup('service:store')
+            .createRecord('fake-model', { otherCustomValidationBadMessageFunction: 123456 });
 
           assert.false(model.validate());
           assert.strictEqual(
@@ -857,7 +794,7 @@ module('Unit | Model | fake-model', function (hooks) {
   module('when errorAs is set', function () {
     test('it validates the presence of the attributes set on `validations.presence` and add errors to `errorAs`', function (assert) {
       assert.expect(2);
-      const model = run(() => this.owner.lookup('service:store').createRecord('fake-model'));
+      const model = this.owner.lookup('service:store').createRecord('fake-model');
       const errorAs = model.validations.name.presence.errorAs;
 
       assert.false(model.validate());

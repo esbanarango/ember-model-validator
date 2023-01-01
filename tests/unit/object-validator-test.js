@@ -9,6 +9,7 @@ module('Unit | object-validator', function (hooks) {
   setupTest(hooks);
 
   test('Validator on Simple Object', function (assert) {
+    assert.expect(2);
     @ObjectValidator
     class ValidatorObjectClass extends EmberObject {
       name = null;
