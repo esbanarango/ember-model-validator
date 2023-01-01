@@ -22,22 +22,22 @@ const Messages = {
   uk: MessagesUk,
 };
 
-function coreValidator(Class) {
-  return class CoreValidator extends Class {
+function coreValidator(constructor) {
+  return class CoreValidator extends constructor {
     validationErrors = {};
     isValidNow = true;
     addErrors = true;
     _validationMessages = {};
 
-    constructor() {
-      super(...arguments);
+    constructor(...args) {
+      super(...args);
       let validatorLocale;
       if (getOwner(this)) {
         validatorLocale = getOwner(this)?.lookup('validator:locale');
       }
 
-      this._locale = this._locale ?? (validatorLocale ? validatorLocale.locale : 'en');
-      set(this, '_validationMessages', Messages[this._locale]);
+      this['_locale'] = this['_locale'] ?? (validatorLocale ? validatorLocale.locale : 'en');
+      set(this, '_validationMessages', Messages[this['_locale']]);
     }
 
     // to be implemented
@@ -49,10 +49,11 @@ function coreValidator(Class) {
     // }
 
     validate(options = {}) {
-      let validations = this.validations;
+      let validations = this['validations'];
 
       // Clean all the current errors
-      this.clearErrors();
+      // Clean all the current errors
+      this['clearErrors']();
 
       // Validate but not set errors
       if (Object.prototype.hasOwnProperty.call(options, 'addErrors')) {
@@ -86,7 +87,7 @@ function coreValidator(Class) {
 
         // It may be invalid because of its relations
         if (this.addErrors && Object.keys(errors).length !== 0) {
-          this.pushErrors(errors);
+          this['pushErrors'](errors);
         }
         return false;
       } else {
@@ -600,7 +601,7 @@ function coreValidator(Class) {
     _modelRelations() {
       // eslint-disable-next-line ember/no-get
       if (get(this, '_relationships')) {
-        return this._relationships;
+        return this['_relationships'];
         // eslint-disable-next-line ember/no-get
       } else if (get(this, '_internalModel._relationships')) {
         // eslint-disable-next-line ember/no-get
@@ -613,7 +614,7 @@ function coreValidator(Class) {
         const relationships = {};
         if (this.constructor.eachRelationship) {
           this.constructor.eachRelationship((name) => {
-            relationships[name] = this.relationshipFor(name);
+            relationships[name] = this['relationshipFor'](name);
           });
         }
         return relationships;

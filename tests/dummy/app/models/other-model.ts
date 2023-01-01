@@ -4,8 +4,8 @@ import Validator from 'ember-model-validator/decorators/model-validator';
 
 @Validator
 class OtherModel extends Model {
-  @attr('string') name;
-  @attr('string') email;
+  @attr('string') declare name: string;
+  @attr('string') declare email: string;
 
   validations = {
     name: {

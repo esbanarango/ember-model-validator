@@ -112,6 +112,7 @@
   "engines": {
     "node": "14.* || 16.* || >= 18"
   },
+  "types": "./addon/index.d.ts",
   "ember": {
     "edition": "octane"
   },

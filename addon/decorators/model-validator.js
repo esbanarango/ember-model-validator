@@ -1,9 +1,9 @@
 import { set } from '@ember/object';
 import Validator from 'ember-model-validator/decorators/core-validator';
 
-function modelValidator(Class) {
+function modelValidator(constructor) {
   @Validator
-  class ModelValidator extends Class {
+  class ModelValidator extends constructor {
     clearErrors() {
       let errors = this.errors;
       errors.clear();
