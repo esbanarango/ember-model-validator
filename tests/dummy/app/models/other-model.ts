@@ -1,16 +1,17 @@
 import Model, { attr } from '@ember-data/model';
 
-import Validator, { validateOptions } from 'ember-model-validator/decorators/model-validator';
+import Validator, {
+  type validationsConfig,
+  type ValidatedModel,
+} from 'ember-model-validator/decorators/model-validator';
 
-interface OtherModel extends Model {
-  validate(options?: validateOptions): boolean;
-}
+interface OtherModel extends ValidatedModel, Model {}
 
 @Validator
 class OtherModel extends Model {
   @attr('string') declare name: string;
 
-  validations = {
+  validations: validationsConfig = {
     name: {
       presence: true,
     },
@@ -19,6 +20,16 @@ class OtherModel extends Model {
       email: true,
     },
   };
+
+  get asdasd() {
+    return this.validate();
+  }
 }
 
 export default OtherModel;
+
+declare module 'ember-data/types/registries/model' {
+  export default interface ModelRegistry {
+    'other-model': OtherModel;
+  }
+}

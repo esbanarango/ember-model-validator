@@ -1,4 +1,27 @@
 declare module 'ember-model-validator/decorators/model-validator' {
+  type ValidationKeys =
+    | 'presence'
+    | 'acceptance'
+    | 'absence'
+    | 'format'
+    | 'length'
+    | 'email'
+    | 'zipCode'
+    | 'color'
+    | 'subdomain'
+    | 'URL'
+    | 'inclusion'
+    | 'exclusion'
+    | 'match'
+    | 'date'
+    | 'custom'
+    | 'numericality'
+    | 'mustContainCapital'
+    | 'mustContainLower'
+    | 'mustContainNumber'
+    | 'mustContainSpecial'
+    | 'relations';
+
   /**
    * @decorator
    *
@@ -16,5 +39,15 @@ declare module 'ember-model-validator/decorators/model-validator' {
     except: string[];
     only: string[];
     addErrors: boolean;
+  }
+
+  export interface validationsConfig {
+    [key: string]: {
+      [K in ValidationKeys]?: any;
+    };
+  }
+
+  export interface ValidatedModel {
+    validate(options?: validateOptions): boolean;
   }
 }

@@ -1,76 +1,90 @@
-import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
+import Model, {
+  attr,
+  belongsTo,
+  hasMany,
+  type AsyncBelongsTo,
+  type AsyncHasMany,
+  type SyncHasMany,
+} from '@ember-data/model';
 
-import Validator from 'ember-model-validator/decorators/model-validator';
+import Validator, {
+  type validationsConfig,
+  type ValidatedModel,
+} from 'ember-model-validator/decorators/model-validator';
+import type AsyncModel from './async-model';
+import type OtherModel from './other-model';
+
+interface FakeModel extends ValidatedModel, Model {}
 
 @Validator
 class FakeModel extends Model {
-  @attr('string') name;
-  @attr('string') login;
-  @attr('string') secondName;
-  @attr('string') email;
-  @attr('string') password;
-  @attr('string') passwordConfirmation;
-  @attr('string', { defaultValue: 'donJoseRene@higuita.com' }) bussinessEmail;
-  @attr('string', { defaultValue: '423abb' }) favoriteColor;
-  @attr('string') legacyCode;
-  @attr('string', { defaultValue: 'hiphopBachatudo' }) mainstreamCode;
-  @attr('number') lotteryNumber;
-  @attr('number') alibabaNumber;
-  @attr('number', { defaultValue: 111 }) anInteger;
-  @attr('number', { defaultValue: 5 }) anIntegerGreaterThan4;
-  @attr('number', { defaultValue: 3 }) anIntegerLessThan4;
-  @attr('number', { defaultValue: 7 }) anIntegerGreaterThanOrEqual7;
-  @attr('number', { defaultValue: 6 }) anIntegerLessThanOrEqual6;
-  @attr('number', { defaultValue: 10 }) aTenNumber;
-  @attr('number', { defaultValue: 3 }) anOddNumber;
-  @attr('number', { defaultValue: 2 }) anEvenNumber;
-  @attr('number', { defaultValue: null }) anOptionalNumber;
-  @attr('boolean', { defaultValue: true }) acceptConditions;
-  @attr('number', { defaultValue: 12345 }) socialSecurity;
-  @attr('number', { defaultValue: 1234 }) nsaNumber;
-  @attr('number', { defaultValue: 1234567891 }) chuncaluchoNumber;
-  @attr('number', { defaultValue: 3223 }) theMinimunmTwoNumber;
-  @attr('number', { defaultValue: 3223222222 }) theMinimunmInterpolatedTenNumber;
-  @attr('string', { defaultValue: 12345 }) hugeName;
-  @attr('string', { defaultValue: '09011' }) postalCodeUS;
-  @attr('string', { defaultValue: 'KY16 8BP' }) postalCodeUK;
-  @attr('string', { defaultValue: 'T2A2V8' }) postalCodeCA;
-  @attr('string', { defaultValue: '09011' }) postalCodeZZ;
-  @attr('string', { defaultValue: 'fake_subdomain' }) mySubdomain;
-  @attr('string', { defaultValue: 'http://esbanarango.com' }) myBlog;
-  @attr('') thing;
-  @attr('number', { defaultValue: 12345 }) otherCustomValidation;
-  @attr('number', { defaultValue: 12345 }) otherCustomValidationBadMessageFunction;
-  @attr('') images;
-  @attr('string') condType;
+  @attr('string') declare name: string;
+  @attr('string') declare login: string;
+  @attr('string') declare secondName: string;
+  @attr('string') declare email: string;
+  @attr('string') declare password: string;
+  @attr('string') declare passwordConfirmation: string;
+  @attr('string', { defaultValue: 'donJoseRene@higuita.com' }) declare bussinessEmail: string;
+  @attr('string', { defaultValue: '423abb' }) declare favoriteColor: string;
+  @attr('string') declare legacyCode: string;
+  @attr('string', { defaultValue: 'hiphopBachatudo' }) declare mainstreamCode: string;
+  @attr('number') declare lotteryNumber: number;
+  @attr('number') declare alibabaNumber: number;
+  @attr('number', { defaultValue: 111 }) declare anInteger: number;
+  @attr('number', { defaultValue: 5 }) declare anIntegerGreaterThan4: number;
+  @attr('number', { defaultValue: 3 }) declare anIntegerLessThan4: number;
+  @attr('number', { defaultValue: 7 }) declare anIntegerGreaterThanOrEqual7: number;
+  @attr('number', { defaultValue: 6 }) declare anIntegerLessThanOrEqual6: number;
+  @attr('number', { defaultValue: 10 }) declare aTenNumber: number;
+  @attr('number', { defaultValue: 3 }) declare anOddNumber: number;
+  @attr('number', { defaultValue: 2 }) declare anEvenNumber: number;
+  @attr('number', { defaultValue: undefined }) declare anOptionalNumber: number | null;
+  @attr('boolean', { defaultValue: true }) declare acceptConditions: boolean;
+  @attr('number', { defaultValue: 12345 }) declare socialSecurity: number;
+  @attr('number', { defaultValue: 1234 }) declare nsaNumber: number;
+  @attr('number', { defaultValue: 1234567891 }) declare chuncaluchoNumber: number;
+  @attr('number', { defaultValue: 3223 }) declare theMinimunmTwoNumber: number;
+  @attr('number', { defaultValue: 3223222222 }) declare theMinimunmInterpolatedTenNumber: number;
+  @attr('number', { defaultValue: 12345 }) declare hugeName: number;
+  @attr('string', { defaultValue: '09011' }) declare postalCodeUS: string;
+  @attr('string', { defaultValue: 'KY16 8BP' }) declare postalCodeUK: string;
+  @attr('string', { defaultValue: 'T2A2V8' }) declare postalCodeCA: string;
+  @attr('string', { defaultValue: '09011' }) declare postalCodeZZ: string;
+  @attr('string', { defaultValue: 'fake_subdomain' }) declare mySubdomain: string;
+  @attr('string', { defaultValue: 'http://esbanarango.com' }) declare myBlog: string;
+  @attr() declare thing: any;
+  @attr('number', { defaultValue: 12345 }) declare otherCustomValidation: number;
+  @attr('number', { defaultValue: 12345 }) declare otherCustomValidationBadMessageFunction: number;
+  @attr() declare images: any;
+  @attr('string') declare condType: string;
 
-  @hasMany('other-model') otherFakes;
-  @belongsTo('other-model') otherFake;
-  @belongsTo('async-model', { async: true }) asyncModel;
+  @hasMany('other-model') declare otherFakes: AsyncHasMany<OtherModel>;
+  @belongsTo('other-model') declare otherFake: AsyncBelongsTo<OtherModel>;
+  @belongsTo('async-model', { async: true }) declare asyncModel: SyncHasMany<AsyncModel>;
 
   @attr('date', {
     defaultValue() {
       return new Date();
     },
   })
-  date;
+  declare date: Date;
 
-  @attr('string', { defaultValue: '2015-01-01' }) stringDate;
+  @attr('string', { defaultValue: '2015-01-01' }) declare stringDate: string;
   @attr('date', {
     defaultValue() {
       return new Date(2014, 7, 1);
     },
   })
-  dateBefore2015;
+  declare dateBefore2015: Date;
 
   @attr('date', {
     defaultValue() {
       return new Date(2015, 5, 3);
     },
   })
-  dateAfter2014;
+  declare dateAfter2014: Date;
 
-  validations = {
+  validations: validationsConfig = {
     asyncModel: {
       presence: true,
     },
@@ -80,7 +94,7 @@ class FakeModel extends Model {
     },
     images: {
       presence: {
-        if: function (key, value, _this) {
+        if: function (key: string, value: any, _this: FakeModel) {
           return 'gallery' === _this.get('condType');
         },
       },
@@ -134,7 +148,7 @@ class FakeModel extends Model {
       email: true,
     },
     password: {
-      custom: function (key, value, _this) {
+      custom: function (key: string, value: any, _this: FakeModel) {
         return String(value) === String(_this.get('socialSecurity')) ? false : true;
       },
       match: 'passwordConfirmation',
@@ -146,12 +160,12 @@ class FakeModel extends Model {
     thing: {
       custom: [
         {
-          validation: function (key, value) {
+          validation: function (key: string, value: any) {
             return value !== 'blahblahblahblahbthishouldneverfaillahblahblah';
           },
         },
         {
-          validation: function (key, value) {
+          validation: function (key: string, value: any) {
             return value !== 'fail';
           },
         },
@@ -202,8 +216,8 @@ class FakeModel extends Model {
     lotteryNumber: {
       numericality: true,
       custom: {
-        validation: function (key, value, _this) {
-          var favColor = _this.get('favoriteColor');
+        validation: function (key: string, value: any, _this: FakeModel) {
+          const favColor = _this.get('favoriteColor');
           return !!favColor;
         },
         message: 'must have a favorite color to play the lotto, duh',
@@ -233,17 +247,17 @@ class FakeModel extends Model {
     },
     otherCustomValidation: {
       custom: {
-        validation: function (key, value) {
+        validation: function (key: string, value: any) {
           return value.toString().length === 5 ? true : false;
         },
-        message: function (key, value) {
+        message: function (key: string, value: any) {
           return `${key} must have exactly 5 digits, value ${value} does not`;
         },
       },
     },
     otherCustomValidationBadMessageFunction: {
       custom: {
-        validation: function (key, value) {
+        validation: function (key: string, value: any) {
           return value.toString().length === 5 ? true : false;
         },
         message: function () {
@@ -268,6 +282,12 @@ class FakeModel extends Model {
       },
     },
   };
+}
+
+declare module 'ember-data/types/registries/model' {
+  export default interface ModelRegistry {
+    'fake-model': FakeModel;
+  }
 }
 
 export default FakeModel;
