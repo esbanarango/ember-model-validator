@@ -2,8 +2,12 @@ import Model, { attr } from '@ember-data/model';
 
 import Validator from 'ember-model-validator/decorators/model-validator';
 
+class ModelValidator extends Model {
+  validate!: (options?: []) => boolean;
+}
+
 @Validator
-class OtherModel extends Model {
+class OtherModel extends ModelValidator {
   @attr('string') declare name: string;
   @attr('string') declare email: string;
 
