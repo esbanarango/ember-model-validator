@@ -20,10 +20,6 @@ class OtherModel extends Model {
       email: true,
     },
   };
-
-  get asdasd() {
-    return this.validate();
-  }
 }
 
 export default OtherModel;

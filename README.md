@@ -83,25 +83,13 @@ import { action } from '@ember/object';
 
 export default class MyController extends Controller {
   @action
-  saveFakeModel() {
-    let fakeModel = this.model;
+  async saveFakeModel() {
+    const fakeModel = this.model;
 
     if (fakeModel.validate()) {
-      fakeModel.save().then(
-        // Success
-        function() {
-          // Alert success
-          console.log('ooooh yeah we just saved the FakeModel...');
-        },
-        // Error handling
-        function(error) {
-          // Alert failure
-          console.log('There was a problem saving the FakeModel...');
-          console.log(error);
-        }
-      );
+      await fakeModel.save();
     } else {
-      fakeModel.get('errors');
+      console.log({ errors: fakeModel.get('errors') });
     }
   }
 }
@@ -125,6 +113,44 @@ export default class MyComponent extends Component {
 };
 ```
 
+### TypeScript
+```typescript
+import Model, { attr } from '@ember-data/model';
+
+import Validator, {
+  type validationsConfig,
+  type ValidatedModel,
+} from 'ember-model-validator/decorators/model-validator';
+
+// https://github.com/microsoft/TypeScript/issues/4881
+interface MyModel extends ValidatedModel, Model {}
+
+@Validator
+class MyModel extends Model {
+  @attr('string') declare name: string;
+
+  validations: validationsConfig = {
+    name: {
+      presence: true,
+    },
+    email: {
+      presence: true,
+      email: true,
+    },
+  };
+}
+
+export default MyModel;
+
+declare module 'ember-data/types/registries/model' {
+  export default interface ModelRegistry {
+    'my-model': MyModel;
+  }
+}
+
+```
+
+
 ## Compatibility
 
 - `ember-source`and `ember-data` v3.28 or above
@@ -138,6 +164,7 @@ export default class MyComponent extends Component {
   - [Usage](#usage)
     - [Usage Example](#usage-example)
     - [Or Usage in non Model(Controller, Componente, Object ...) Example](#or-usage-in-non-modelcontroller-componente-object--example)
+    - [TypeScript](#typescript)
   - [Compatibility](#compatibility)
   - [Validators](#validators)
         - [Common options](#common-options)
