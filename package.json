@@ -30,6 +30,7 @@
     "test": "concurrently \"npm:lint\" \"npm:test:*\" --names \"lint,test:\"",
     "test:ember": "ember test",
     "test:ember-compatibility": "ember try:each",
+    "release": "release-it",
     "prepack": "ember ts:precompile",
     "postpack": "ember ts:clean"
   },
@@ -75,6 +76,7 @@
     "@types/rsvp": "^4.0.4",
     "@typescript-eslint/eslint-plugin": "^5.45.1",
     "@typescript-eslint/parser": "^5.45.1",
+    "auto-changelog": "^2.4.0",
     "broccoli-asset-rev": "^3.0.0",
     "concurrently": "^7.6.0",
     "ember-auto-import": "^2.5.0",
@@ -100,6 +102,7 @@
     "eslint-plugin-qunit": "^7.3.4",
     "loader.js": "^4.7.0",
     "prettier": "^2.8.1",
+    "release-it": "^15.6.0",
     "qunit": "^2.19.3",
     "qunit-dom": "^2.0.0",
     "typescript": "^4.9.4",
@@ -118,5 +121,16 @@
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"
+  },
+  "release-it": {
+    "hooks": {
+      "after:bump": "yarn auto-changelog -p"
+    },
+    "git": {
+      "tagName": "v${version}"
+    },
+    "github": {
+      "release": false
+    }
   }
 }
