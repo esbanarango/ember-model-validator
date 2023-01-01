@@ -20,16 +20,124 @@ Install **Ember-model-validator** is easy as:
 or
 `yarn add ember-model-validator --dev`
 
+## Usage
+
+**Ember-model-validator** provides a decorator to be included in your models for adding validation support. This decorator can be imported from your app's namespace (e.g. `ember-model-validator/decorators/object-validator` in your models).
+
+By including **Ember-model-validator's** decorator into your model, this will have a `validate` function available, it is a _synchronous_ function which returns either **true** or **false**.
+
+You can also pass an _option_ hash for excluding or forcing certain attributes to be validated, and to prevent errors to be added.
+
+```js
+// Using `except`
+myModel.validate({ except: ['name', 'cellphone'] });
+
+// Using `only`
+myModel.validate({ only: ['favoriteColor', 'mainstreamCode'] });
+
+// Using `addErrors`
+myModel.validate({ addErrors: false });
+// ^ This will validate the model but won't add any errors.
+```
+
+To target specific validations when using `except`/`only`, pass the validations' names along the attribute's name:
+
+```js
+// This runs all validations, except name's presence and length validations and
+// any email validations.
+// Other name validations are still run.
+myModel.validate({ except: ['name:presence,length', 'email'] });
+```
+
+### Usage Example
+
+```js
+import Model, { attr } from '@ember-data/model';
+import Validator from 'ember-model-validator/decorators/model-validator';
+
+@Validator
+export default class MyModel extends Model {
+  @attr('string') fullName;
+  @attr('string') fruit;
+  @attr('string') favoriteColor;
+
+  validations = {
+    fullName: {
+      presence: true
+    },
+    fruit: {
+      presence: true
+    },
+    favoriteColor: {
+      color: true
+    }
+  };
+}
+```
+
+After setting the validations on your model you will be able to:
+
+```js
+import Controller from '@ember/controller';
+import { action } from '@ember/object';
+
+export default class MyController extends Controller {
+  @action
+  saveFakeModel() {
+    let fakeModel = this.model;
+
+    if (fakeModel.validate()) {
+      fakeModel.save().then(
+        // Success
+        function() {
+          // Alert success
+          console.log('ooooh yeah we just saved the FakeModel...');
+        },
+        // Error handling
+        function(error) {
+          // Alert failure
+          console.log('There was a problem saving the FakeModel...');
+          console.log(error);
+        }
+      );
+    } else {
+      fakeModel.get('errors');
+    }
+  }
+}
+```
+
+### Or Usage in non Model(Controller, Componente, Object ...) Example
+
+```js
+import Component from '@ember/component';
+import Validator from 'ember-model-validator/decorators/object-validator';
+
+@Validator
+export default class MyComponent extends Component {
+  test = 'ABC',
+
+  validations = {
+    test: {
+      presence: true
+    }
+  }
+};
+```
+
 ## Compatibility
 
-- `ember-source`and `ember-data` v3.8 or above
+- `ember-source`and `ember-data` v3.28 or above
 
 ---
 
 - [Ember model validator](#ember-model-validator)
-    - [Live demo & Documentation](#live-demo--documentation)
+    - [Live demo \& Documentation](#live-demo--documentation)
   - [Purpose](#purpose)
   - [Installation](#installation)
+  - [Usage](#usage)
+    - [Usage Example](#usage-example)
+    - [Or Usage in non Model(Controller, Componente, Object ...) Example](#or-usage-in-non-modelcontroller-componente-object--example)
   - [Compatibility](#compatibility)
   - [Validators](#validators)
         - [Common options](#common-options)
@@ -58,12 +166,8 @@ or
     - [Relations](#relations)
     - [Using function to generate custom message](#using-function-to-generate-custom-message)
         - [Example](#example)
-  - [Usage](#usage)
-    - [Usage Example](#usage-example)
-    - [Or Usage in non Model(Controller, Componente, Object ...) Example](#or-usage-in-non-modelcontroller-componente-object--example)
   - [I18n](#i18n)
   - [Running Tests](#running-tests)
-  - [Support on Beerpay](#support-on-beerpay)
 
 ## Validators
 
@@ -477,111 +581,6 @@ export default class MyModel extends Model {
 }
 ```
 
-## Usage
-
-**Ember-model-validator** provides a decorator to be included in your models for adding validation support. This decorator can be imported from your app's namespace (e.g. `ember-model-validator/decorators/object-validator` in your models).
-
-By including **Ember-model-validator's** decorator into your model, this will have a `validate` function available, it is a _synchronous_ function which returns either **true** or **false**.
-
-You can also pass an _option_ hash for excluding or forcing certain attributes to be validated, and to prevent errors to be added.
-
-```js
-// Using `except`
-myModel.validate({ except: ['name', 'cellphone'] });
-
-// Using `only`
-myModel.validate({ only: ['favoriteColor', 'mainstreamCode'] });
-
-// Using `addErrors`
-myModel.validate({ addErrors: false });
-// ^ This will validate the model but won't add any errors.
-```
-
-To target specific validations when using `except`/`only`, pass the validations' names along the attribute's name:
-
-```js
-// This runs all validations, except name's presence and length validations and
-// any email validations.
-// Other name validations are still run.
-myModel.validate({ except: ['name:presence,length', 'email'] });
-```
-
-### Usage Example
-
-```js
-import Model, { attr } from '@ember-data/model';
-import Validator from 'ember-model-validator/decorators/model-validator';
-
-@Validator
-export default class MyModel extends Model {
-  @attr('string') fullName;
-  @attr('string') fruit;
-  @attr('string') favoriteColor;
-
-  validations = {
-    fullName: {
-      presence: true
-    },
-    fruit: {
-      presence: true
-    },
-    favoriteColor: {
-      color: true
-    }
-  };
-}
-```
-
-After setting the validations on your model you will be able to:
-
-```js
-import Controller from '@ember/controller';
-import { action } from '@ember/object';
-
-export default class MyController extends Controller {
-  @action
-  saveFakeModel() {
-    let fakeModel = this.model;
-
-    if (fakeModel.validate()) {
-      fakeModel.save().then(
-        // Success
-        function() {
-          // Alert success
-          console.log('ooooh yeah we just saved the FakeModel...');
-        },
-        // Error handling
-        function(error) {
-          // Alert failure
-          console.log('There was a problem saving the FakeModel...');
-          console.log(error);
-        }
-      );
-    } else {
-      fakeModel.get('errors');
-    }
-  }
-}
-```
-
-### Or Usage in non Model(Controller, Componente, Object ...) Example
-
-```js
-import Component from '@ember/component';
-import Validator from 'ember-model-validator/decorators/object-validator';
-
-@Validator
-export default class MyComponent extends Component {
-  test = 'ABC',
-
-  validations = {
-    test: {
-      presence: true
-    }
-  }
-};
-```
-
 ## I18n
 
 Set `validatorDefaultLocale` in your config enviroment a language, for now it's possible use 'en', 'fr', 'es', 'uk' or 'pt-br', default is 'en';
@@ -606,9 +605,3 @@ Set `validatorDefaultLocale` in your config enviroment a language, for now it's 
 - `ember test --server`
 
 See the [Contributing](CONTRIBUTING.md) guide for details.
-
-## Support on Beerpay
-
-Hey people! Help me out for a couple of :beers:!
-
-[![Beerpay](https://beerpay.io/esbanarango/ember-model-validator/badge.svg?style=beer-square)](https://beerpay.io/esbanarango/ember-model-validator) [![Beerpay](https://beerpay.io/esbanarango/ember-model-validator/make-wish.svg?style=flat-square)](https://beerpay.io/esbanarango/ember-model-validator?focus=wish)

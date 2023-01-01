@@ -1,20 +1,28 @@
 import { set } from '@ember/object';
 import Validator from 'ember-model-validator/decorators/core-validator';
 
-function modelValidator(Class) {
+function modelValidator(constructor) {
   @Validator
-  class ModelValidator extends Class {
+  class ModelValidator extends constructor {
     clearErrors() {
-      this._internalModel.getRecord().errors._clear();
+      let errors = this.errors;
+      errors.clear();
       set(this, 'validationErrors', {});
       set(this, 'isValidNow', true);
     }
     pushErrors(errors) {
-      let store = this.store;
-      let stateToTransition = this.isNew ? 'created.uncommitted' : 'updated.uncommitted';
-      this._internalModel.transitionTo(stateToTransition);
-      let recordModel = this.adapterDidInvalidate ? this : this._internalModel;
-      store.recordWasInvalid(recordModel, errors, 'error');
+      // This is a hack to support Ember Data 3.28
+      if (this._internalModel) {
+        const stateToTransition = this.isNew ? 'created.uncommitted' : 'updated.uncommitted';
+        this._internalModel.transitionTo(stateToTransition);
+        const recordModel = this.adapterDidInvalidate ? this : this._internalModel;
+        this.store.recordWasInvalid(recordModel, errors, 'error');
+      } else {
+        const modelErrors = this.errors;
+        Object.keys(errors).forEach(function (error) {
+          modelErrors.add(error, errors[error]);
+        });
+      }
     }
   }
   return ModelValidator;

@@ -22,22 +22,22 @@ const Messages = {
   uk: MessagesUk,
 };
 
-function coreValidator(Class) {
-  return class CoreValidator extends Class {
+function coreValidator(constructor) {
+  return class CoreValidator extends constructor {
     validationErrors = {};
     isValidNow = true;
     addErrors = true;
     _validationMessages = {};
 
-    constructor() {
-      super(...arguments);
+    constructor(...args) {
+      super(...args);
       let validatorLocale;
       if (getOwner(this)) {
         validatorLocale = getOwner(this)?.lookup('validator:locale');
       }
 
-      this._locale = this._locale ?? (validatorLocale ? validatorLocale.locale : 'en');
-      set(this, '_validationMessages', Messages[this._locale]);
+      this['_locale'] = this['_locale'] ?? (validatorLocale ? validatorLocale.locale : 'en');
+      set(this, '_validationMessages', Messages[this['_locale']]);
     }
 
     // to be implemented
@@ -49,13 +49,14 @@ function coreValidator(Class) {
     // }
 
     validate(options = {}) {
-      let validations = get(this, 'validations');
+      let validations = this['validations'];
 
       // Clean all the current errors
-      this.clearErrors();
+      // Clean all the current errors
+      this['clearErrors']();
 
       // Validate but not set errors
-      if (options.hasOwnProperty('addErrors')) {
+      if (Object.prototype.hasOwnProperty.call(options, 'addErrors')) {
         set(this, 'addErrors', options['addErrors']);
       } else {
         set(this, 'addErrors', true);
@@ -81,12 +82,12 @@ function coreValidator(Class) {
       }
 
       // Check if it's valid or not
-      if (!get(this, 'isValidNow')) {
-        let errors = get(this, 'validationErrors');
+      if (!this.isValidNow) {
+        let errors = this.validationErrors;
 
         // It may be invalid because of its relations
-        if (get(this, 'addErrors') && Object.keys(errors).length !== 0) {
-          this.pushErrors(errors);
+        if (this.addErrors && Object.keys(errors).length !== 0) {
+          this['pushErrors'](errors);
         }
         return false;
       } else {
@@ -103,7 +104,7 @@ function coreValidator(Class) {
           let passedCustomValidation = customValidator(property, get(this, property), this);
           if (!passedCustomValidation) {
             set(this, 'isValidNow', false);
-            this._addToErrors(property, validation[i], get(this, '_validationMessages').customValidationMessage);
+            this._addToErrors(property, validation[i], this._validationMessages.customValidationMessage);
           }
         }
       }
@@ -112,19 +113,17 @@ function coreValidator(Class) {
       let propertyValue = get(this, property);
       // If the property is an async relationship.
       if (this._modelRelations() && !isBlank(this._modelRelations()[property])) {
-        if (this._modelRelations()[property]['isAsync']) {
-          propertyValue = get(this, `${property}.content`);
-        }
+        propertyValue = get(this, `${property}.content`);
       }
       if (isBlank(propertyValue)) {
         set(this, 'isValidNow', false);
-        this._addToErrors(property, validation.presence, get(this, '_validationMessages').presenceMessage);
+        this._addToErrors(property, validation.presence, this._validationMessages.presenceMessage);
       }
     }
     _validateAbsence(property, validation) {
       if (isPresent(get(this, property))) {
         set(this, 'isValidNow', false);
-        this._addToErrors(property, validation.absence, get(this, '_validationMessages').absenceMessage);
+        this._addToErrors(property, validation.absence, this._validationMessages.absenceMessage);
       }
     }
     _validateAcceptance(property, validation) {
@@ -132,14 +131,14 @@ function coreValidator(Class) {
         accept = validation.acceptance.accept || [1, '1', true];
       if (!this._includes(A(accept), propertyValue)) {
         set(this, 'isValidNow', false);
-        this._addToErrors(property, validation.acceptance, get(this, '_validationMessages').acceptanceMessage);
+        this._addToErrors(property, validation.acceptance, this._validationMessages.acceptanceMessage);
       }
     }
     _validateFormat(property, validation) {
       let withRegexp = validation.format.with;
       if (get(this, property) && String(get(this, property)).match(withRegexp) === null) {
         set(this, 'isValidNow', false);
-        this._addToErrors(property, validation.format, get(this, '_validationMessages').formatMessage);
+        this._addToErrors(property, validation.format, this._validationMessages.formatMessage);
       }
     }
     _validateEmail(property, validation) {
@@ -150,7 +149,7 @@ function coreValidator(Class) {
         ) === null
       ) {
         set(this, 'isValidNow', false);
-        this._addToErrors(property, validation.email, get(this, '_validationMessages').mailMessage);
+        this._addToErrors(property, validation.email, this._validationMessages.mailMessage);
       }
     }
     _validateZipCode(property, validation) {
@@ -158,7 +157,7 @@ function coreValidator(Class) {
       let propertyValue = get(this, property);
 
       let countryCode = DEFAULT_COUNTRY_CODE;
-      if (validation.zipCode.hasOwnProperty('countryCode')) {
+      if (Object.prototype.hasOwnProperty.call(validation.zipCode, 'countryCode')) {
         countryCode = validation.zipCode.countryCode;
       }
       if (isArray(countryCode)) {
@@ -169,7 +168,7 @@ function coreValidator(Class) {
           }
           if (!propertyValue || String(propertyValue).match(postalCodeRegexp) === null) {
             set(this, 'isValidNow', false);
-            this._addToErrors(property, validation.zipCode, get(this, '_validationMessages').zipCodeMessage);
+            this._addToErrors(property, validation.zipCode, this._validationMessages.zipCodeMessage);
           }
         });
       } else {
@@ -179,7 +178,7 @@ function coreValidator(Class) {
         }
         if (!propertyValue || String(propertyValue).match(postalCodeRegexp) === null) {
           set(this, 'isValidNow', false);
-          this._addToErrors(property, validation.zipCode, get(this, '_validationMessages').zipCodeMessage);
+          this._addToErrors(property, validation.zipCode, this._validationMessages.zipCodeMessage);
         }
       }
     }
@@ -187,7 +186,7 @@ function coreValidator(Class) {
       let propertyValue = get(this, property);
       if (!propertyValue || String(propertyValue).match(/([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/i) === null) {
         set(this, 'isValidNow', false);
-        this._addToErrors(property, validation.color, get(this, '_validationMessages').colorMessage);
+        this._addToErrors(property, validation.color, this._validationMessages.colorMessage);
       }
     }
     _validateURL(property, validation) {
@@ -199,7 +198,7 @@ function coreValidator(Class) {
         ) === null
       ) {
         set(this, 'isValidNow', false);
-        this._addToErrors(property, validation.URL, get(this, '_validationMessages').URLMessage);
+        this._addToErrors(property, validation.URL, this._validationMessages.URLMessage);
       }
     }
     _validateSubdomain(property, validation) {
@@ -211,17 +210,17 @@ function coreValidator(Class) {
         reserved.indexOf(propertyValue) !== -1
       ) {
         set(this, 'isValidNow', false);
-        this._addToErrors(property, validation.subdomain, get(this, '_validationMessages').subdomainMessage);
+        this._addToErrors(property, validation.subdomain, this._validationMessages.subdomainMessage);
       }
     }
     _validateDate(property, validation) {
       let propertyValue = new Date(get(this, property));
       if (isNaN(propertyValue.getTime())) {
         set(this, 'isValidNow', false);
-        this._addToErrors(property, validation.date, get(this, '_validationMessages').dateMessage);
+        this._addToErrors(property, validation.date, this._validationMessages.dateMessage);
         return;
       }
-      if (validation.date.hasOwnProperty('before') && validation.date.before) {
+      if (Object.prototype.hasOwnProperty.call(validation.date, 'before') && validation.date.before) {
         if (propertyValue.getTime() >= new Date(validation.date.before).getTime()) {
           set(this, 'isValidNow', false);
           let context = { date: new Date(validation.date.before) };
@@ -229,11 +228,11 @@ function coreValidator(Class) {
           this._addToErrors(
             property,
             validation.date,
-            this._formatMessage(get(this, '_validationMessages').dateBeforeMessage, context)
+            this._formatMessage(this._validationMessages.dateBeforeMessage, context)
           );
         }
       }
-      if (validation.date.hasOwnProperty('after') && validation.date.after) {
+      if (Object.prototype.hasOwnProperty.call(validation.date, 'after') && validation.date.after) {
         if (propertyValue.getTime() <= new Date(validation.date.after).getTime()) {
           set(this, 'isValidNow', false);
           let context = { date: new Date(validation.date.after) };
@@ -241,7 +240,7 @@ function coreValidator(Class) {
           this._addToErrors(
             property,
             validation.date,
-            this._formatMessage(get(this, '_validationMessages').dateAfterMessage, context)
+            this._formatMessage(this._validationMessages.dateAfterMessage, context)
           );
         }
       }
@@ -250,36 +249,31 @@ function coreValidator(Class) {
       let propertyValue = get(this, property);
       if (!this._isNumber(get(this, property))) {
         set(this, 'isValidNow', false);
-        this._addToErrors(property, validation.numericality, get(this, '_validationMessages').numericalityMessage);
+        this._addToErrors(property, validation.numericality, this._validationMessages.numericalityMessage);
       }
-      if (validation.numericality.hasOwnProperty('onlyInteger') && validation.numericality.onlyInteger) {
+      if (
+        Object.prototype.hasOwnProperty.call(validation.numericality, 'onlyInteger') &&
+        validation.numericality.onlyInteger
+      ) {
         if (!/^[+-]?\d+$/.test(propertyValue)) {
           set(this, 'isValidNow', false);
-          this._addToErrors(
-            property,
-            validation.numericality,
-            get(this, '_validationMessages').numericalityOnlyIntegerMessage
-          );
+          this._addToErrors(property, validation.numericality, this._validationMessages.numericalityOnlyIntegerMessage);
         }
       }
-      if (validation.numericality.hasOwnProperty('even') && validation.numericality.even) {
+      if (Object.prototype.hasOwnProperty.call(validation.numericality, 'even') && validation.numericality.even) {
         if (propertyValue % 2 !== 0) {
           set(this, 'isValidNow', false);
-          this._addToErrors(
-            property,
-            validation.numericality,
-            get(this, '_validationMessages').numericalityEvenMessage
-          );
+          this._addToErrors(property, validation.numericality, this._validationMessages.numericalityEvenMessage);
         }
       }
-      if (validation.numericality.hasOwnProperty('odd') && validation.numericality.odd) {
+      if (Object.prototype.hasOwnProperty.call(validation.numericality, 'odd') && validation.numericality.odd) {
         if (propertyValue % 2 === 0) {
           set(this, 'isValidNow', false);
-          this._addToErrors(property, validation.numericality, get(this, '_validationMessages').numericalityOddMessage);
+          this._addToErrors(property, validation.numericality, this._validationMessages.numericalityOddMessage);
         }
       }
       if (
-        validation.numericality.hasOwnProperty('greaterThan') &&
+        Object.prototype.hasOwnProperty.call(validation.numericality, 'greaterThan') &&
         this._isNumber(validation.numericality.greaterThan)
       ) {
         if (propertyValue <= validation.numericality.greaterThan) {
@@ -289,12 +283,12 @@ function coreValidator(Class) {
           this._addToErrors(
             property,
             validation.numericality,
-            this._formatMessage(get(this, '_validationMessages').numericalityGreaterThanMessage, context)
+            this._formatMessage(this._validationMessages.numericalityGreaterThanMessage, context)
           );
         }
       }
       if (
-        validation.numericality.hasOwnProperty('greaterThanOrEqualTo') &&
+        Object.prototype.hasOwnProperty.call(validation.numericality, 'greaterThanOrEqualTo') &&
         this._isNumber(validation.numericality.greaterThanOrEqualTo)
       ) {
         if (propertyValue < validation.numericality.greaterThanOrEqualTo) {
@@ -304,11 +298,14 @@ function coreValidator(Class) {
           this._addToErrors(
             property,
             validation.numericality,
-            this._formatMessage(get(this, '_validationMessages').numericalityGreaterThanOrEqualToMessage, context)
+            this._formatMessage(this._validationMessages.numericalityGreaterThanOrEqualToMessage, context)
           );
         }
       }
-      if (validation.numericality.hasOwnProperty('equalTo') && this._isNumber(validation.numericality.equalTo)) {
+      if (
+        Object.prototype.hasOwnProperty.call(validation.numericality, 'equalTo') &&
+        this._isNumber(validation.numericality.equalTo)
+      ) {
         if (propertyValue !== validation.numericality.equalTo) {
           set(this, 'isValidNow', false);
           let context = { count: validation.numericality.equalTo };
@@ -316,11 +313,14 @@ function coreValidator(Class) {
           this._addToErrors(
             property,
             validation.numericality,
-            this._formatMessage(get(this, '_validationMessages').numericalityEqualToMessage, context)
+            this._formatMessage(this._validationMessages.numericalityEqualToMessage, context)
           );
         }
       }
-      if (validation.numericality.hasOwnProperty('lessThan') && this._isNumber(validation.numericality.lessThan)) {
+      if (
+        Object.prototype.hasOwnProperty.call(validation.numericality, 'lessThan') &&
+        this._isNumber(validation.numericality.lessThan)
+      ) {
         if (propertyValue >= validation.numericality.lessThan) {
           set(this, 'isValidNow', false);
           let context = { count: validation.numericality.lessThan };
@@ -328,12 +328,12 @@ function coreValidator(Class) {
           this._addToErrors(
             property,
             validation.numericality,
-            this._formatMessage(get(this, '_validationMessages').numericalityLessThanMessage, context)
+            this._formatMessage(this._validationMessages.numericalityLessThanMessage, context)
           );
         }
       }
       if (
-        validation.numericality.hasOwnProperty('lessThanOrEqualTo') &&
+        Object.prototype.hasOwnProperty.call(validation.numericality, 'lessThanOrEqualTo') &&
         this._isNumber(validation.numericality.lessThanOrEqualTo)
       ) {
         if (propertyValue > validation.numericality.lessThanOrEqualTo) {
@@ -343,24 +343,24 @@ function coreValidator(Class) {
           this._addToErrors(
             property,
             validation.numericality,
-            this._formatMessage(get(this, '_validationMessages').numericalityLessThanOrEqualToMessage, context)
+            this._formatMessage(this._validationMessages.numericalityLessThanOrEqualToMessage, context)
           );
         }
       }
     }
     _validateExclusion(property, validation) {
-      if (validation.exclusion.hasOwnProperty('in')) {
+      if (Object.prototype.hasOwnProperty.call(validation.exclusion, 'in')) {
         if (validation.exclusion.in.indexOf(get(this, property)) !== -1) {
           set(this, 'isValidNow', false);
-          this._addToErrors(property, validation.exclusion, get(this, '_validationMessages').exclusionMessage);
+          this._addToErrors(property, validation.exclusion, this._validationMessages.exclusionMessage);
         }
       }
     }
     _validateInclusion(property, validation) {
-      if (validation.inclusion.hasOwnProperty('in')) {
+      if (Object.prototype.hasOwnProperty.call(validation.inclusion, 'in')) {
         if (validation.inclusion.in.indexOf(get(this, property)) === -1) {
           set(this, 'isValidNow', false);
-          this._addToErrors(property, validation.inclusion, get(this, '_validationMessages').inclusionMessage);
+          this._addToErrors(property, validation.inclusion, this._validationMessages.inclusionMessage);
         }
       }
     }
@@ -378,7 +378,7 @@ function coreValidator(Class) {
         this._addToErrors(
           property,
           validation.match,
-          this._formatMessage(get(this, '_validationMessages').matchMessage, context)
+          this._formatMessage(this._validationMessages.matchMessage, context)
         );
       }
     }
@@ -395,7 +395,7 @@ function coreValidator(Class) {
         validation.length = { minimum: validation.length[0], maximum: validation.length[1] };
         this._rangeLength(stringLength, property, validation);
       } else if (validationType === 'object') {
-        if (validation.length.hasOwnProperty('is')) {
+        if (Object.prototype.hasOwnProperty.call(validation.length, 'is')) {
           this._exactLength(stringLength, property, validation);
         } else {
           this._rangeLength(stringLength, property, validation);
@@ -410,7 +410,7 @@ function coreValidator(Class) {
         this._addToErrors(
           property,
           validation.length,
-          this._formatMessage(get(this, '_validationMessages').wrongLengthMessage, context)
+          this._formatMessage(this._validationMessages.wrongLengthMessage, context)
         );
       }
     }
@@ -420,12 +420,18 @@ function coreValidator(Class) {
       // Maximum and Minimum can be objects
       if (typeOf(validation.length.minimum) === 'number') {
         minimum = validation.length.minimum;
-      } else if (typeOf(validation.length.minimum) === 'object' && validation.length.minimum.hasOwnProperty('value')) {
+      } else if (
+        typeOf(validation.length.minimum) === 'object' &&
+        Object.prototype.hasOwnProperty.call(validation.length.minimum, 'value')
+      ) {
         minimum = validation.length.minimum.value;
       }
       if (typeOf(validation.length.maximum) === 'number') {
         maximum = validation.length.maximum;
-      } else if (typeOf(validation.length.maximum) === 'object' && validation.length.maximum.hasOwnProperty('value')) {
+      } else if (
+        typeOf(validation.length.maximum) === 'object' &&
+        Object.prototype.hasOwnProperty.call(validation.length.maximum, 'value')
+      ) {
         maximum = validation.length.maximum.value;
       }
 
@@ -438,7 +444,7 @@ function coreValidator(Class) {
         this._addToErrors(
           property,
           validation.length.minimum,
-          this._formatMessage(get(this, '_validationMessages').tooShortMessage, context)
+          this._formatMessage(this._validationMessages.tooShortMessage, context)
         );
       } else if (stringLength > maximum) {
         set(this, 'isValidNow', false);
@@ -449,7 +455,7 @@ function coreValidator(Class) {
         this._addToErrors(
           property,
           validation.length.maximum,
-          this._formatMessage(get(this, '_validationMessages').tooLongMessage, context)
+          this._formatMessage(this._validationMessages.tooLongMessage, context)
         );
       }
     }
@@ -470,7 +476,7 @@ function coreValidator(Class) {
     }
     _validateMustContainCapital(property, validation) {
       let notContainCapital = String(get(this, property)).match(/(?=.*[A-Z])/) === null,
-        message = validation.mustContainCapital.message || get(this, '_validationMessages').mustContainCapitalMessage;
+        message = validation.mustContainCapital.message || this._validationMessages.mustContainCapitalMessage;
       if (validation.mustContainCapital && notContainCapital) {
         set(this, 'isValidNow', false);
         this._addToErrors(property, validation, message);
@@ -478,7 +484,7 @@ function coreValidator(Class) {
     }
     _validateMustContainLower(property, validation) {
       let containsLower = String(get(this, property)).match(/(?=.*[a-z])/) !== null,
-        message = validation.mustContainLower.message || get(this, '_validationMessages').mustContainLowerMessage;
+        message = validation.mustContainLower.message || this._validationMessages.mustContainLowerMessage;
       if (validation.mustContainLower && !containsLower) {
         set(this, 'isValidNow', false);
         this._addToErrors(property, validation, message);
@@ -486,7 +492,7 @@ function coreValidator(Class) {
     }
     _validateMustContainNumber(property, validation) {
       let containsNumber = String(get(this, property)).match(/(?=.*[0-9])/) !== null,
-        message = validation.mustContainNumber.message || get(this, '_validationMessages').mustContainNumberMessage;
+        message = validation.mustContainNumber.message || this._validationMessages.mustContainNumberMessage;
       if (validation.mustContainNumber && !containsNumber) {
         set(this, 'isValidNow', false);
         this._addToErrors(property, validation, message);
@@ -496,7 +502,7 @@ function coreValidator(Class) {
       let regexString = validation.mustContainSpecial.acceptableChars || '-+_!@#$%^&*.,?()',
         regex = new RegExp(`(?=.*[${regexString}])`),
         containsSpecial = String(get(this, property)).match(regex) !== null,
-        message = validation.mustContainSpecial.message || get(this, '_validationMessages').mustContainSpecialMessage;
+        message = validation.mustContainSpecial.message || this._validationMessages.mustContainSpecialMessage;
       if (validation.mustContainSpecial && !containsSpecial) {
         set(this, 'isValidNow', false);
         let context = { characters: regexString };
@@ -533,13 +539,13 @@ function coreValidator(Class) {
     }
     _getCustomValidator(validation) {
       let customValidator = validation;
-      if (typeOf(validation) === 'object' && validation.hasOwnProperty('validation')) {
+      if (typeOf(validation) === 'object' && Object.prototype.hasOwnProperty.call(validation, 'validation')) {
         customValidator = validation.validation;
       }
       return this._isFunction(customValidator) ? customValidator : false;
     }
     _getCustomMessage(validationObj, defaultMessage, property) {
-      if (typeOf(validationObj) === 'object' && validationObj.hasOwnProperty('message')) {
+      if (typeOf(validationObj) === 'object' && Object.prototype.hasOwnProperty.call(validationObj, 'message')) {
         if (this._isFunction(validationObj.message)) {
           let msg = validationObj.message.call(this, property, get(this, property), this);
           return this._isString(msg) ? msg : defaultMessage;
@@ -552,13 +558,13 @@ function coreValidator(Class) {
       }
     }
     _addToErrors(property, validation, defaultMessage) {
-      let errors = get(this, 'validationErrors'),
+      let errors = this.validationErrors,
         message = this._getCustomMessage(validation, defaultMessage, property),
         errorAs = typeOf(validation) === 'object' ? validation.errorAs || property : property;
       if (!isArray(errors[errorAs])) {
         errors[errorAs] = [];
       }
-      if (get(this, 'addErrors')) {
+      if (this.addErrors) {
         errors[errorAs].push([message]);
       }
     }
@@ -593,12 +599,25 @@ function coreValidator(Class) {
       }
     }
     _modelRelations() {
+      // eslint-disable-next-line ember/no-get
       if (get(this, '_relationships')) {
-        return get(this, '_relationships');
+        return this['_relationships'];
+        // eslint-disable-next-line ember/no-get
       } else if (get(this, '_internalModel._relationships')) {
+        // eslint-disable-next-line ember/no-get
         return get(this, '_internalModel._relationships.initializedRelationships');
-      } else {
+        // eslint-disable-next-line ember/no-get
+      } else if (get(this, '_internalModel._recordData._relationships')) {
+        // eslint-disable-next-line ember/no-get
         return get(this, '_internalModel._recordData._relationships.initializedRelationships');
+      } else {
+        const relationships = {};
+        if (this.constructor.eachRelationship) {
+          this.constructor.eachRelationship((name) => {
+            relationships[name] = this['relationshipFor'](name);
+          });
+        }
+        return relationships;
       }
     }
     _formatMessage(message, context = {}) {

@@ -1,44 +1,5 @@
-<div class="full height">
-  <div class="toc">
-    <div class="ui vertical inverted sidebar menu left overlay visible">
-      <div class="item">
-        {{#link-to "index" class="ui logo icon image"}}
-          <img src="ember-logo.png" alt="Ember Logo">
-        {{/link-to}}
-        <a href="/"><b>MODEL VALIDATOR</b></a>
-      </div>
-      <div class="item">
-        <div class="header">Getting Started</div>
-        <div class="menu">
-          {{#link-to "index" class="item"}}Introduction{{/link-to}}
-          {{#link-to "usage" class="item"}}Usage{{/link-to}}
-          {{#link-to "i18n" class="item"}}Internationalization (i18n){{/link-to}}
-          <a href="https://github.com/esbanarango/ember-model-validator" class="item" target="_blank" rel="noopener">
-            {{fa-icon "github"}} Repo
-          </a>
-        </div>
-      </div>
-      {{link-to "Presence" "validators.presence" class="item"}}
-      {{link-to "Acceptance" "validators.acceptance" class="item"}}
-      {{link-to "Absence" "validators.absence" class="item"}}
-      {{link-to "Format" "validators.format" class="item"}}
-      {{link-to "Length" "validators.length" class="item"}}
-      {{link-to "Email" "validators.email" class="item"}}
-      {{link-to "ZIP Code" "validators.zipcode" class="item"}}
-      {{link-to "Hex Color" "validators.hexcolor" class="item"}}
-      {{link-to "Subdomain" "validators.subdomain" class="item"}}
-      {{link-to "URL" "validators.url" class="item"}}
-      {{link-to "Inclusion" "validators.inclusion" class="item"}}
-      {{link-to "Exclusion" "validators.exclusion" class="item"}}
-      {{link-to "Match" "validators.match" class="item"}}
-      {{link-to "Date" "validators.date" class="item"}}
-      {{link-to "Numericality" "validators.numericality" class="item"}}
-      {{link-to "Custom" "validators.custom" class="item"}}
-      {{link-to "Relations" "validators.relations" class="item"}}
-    </div>
-  </div>
+{{page-title "Dummy"}}
 
-  <div class="article">
-    {{outlet}}
-  </div>
-</div>
+<h2 id="title">Welcome to Ember</h2>
+
+{{outlet}}
