@@ -130,7 +130,7 @@
       "tagName": "v${version}"
     },
     "github": {
-      "release": false
+      "release": true
     }
   }
 }
