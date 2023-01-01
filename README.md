@@ -1,6 +1,6 @@
 # Ember model validator
 
-![Download count all time](https://img.shields.io/npm/dt/ember-model-validator.svg) [![Build Status](https://travis-ci.org/esbanarango/ember-model-validator.svg?branch=master)](https://travis-ci.org/esbanarango/ember-model-validator) [![npm version](https://badge.fury.io/js/ember-model-validator.svg)](http://badge.fury.io/js/ember-model-validator) [![Ember Observer Score](http://emberobserver.com/badges/ember-model-validator.svg)](http://emberobserver.com/addons/ember-model-validator)
+![Download count all time](https://img.shields.io/npm/dt/ember-model-validator.svg) [![CI](https://github.com/esbanarango/ember-model-validator/actions/workflows/ci.yml/badge.svg)](https://github.com/esbanarango/ember-model-validator/actions/workflows/ci.yml) [![npm version](https://badge.fury.io/js/ember-model-validator.svg)](http://badge.fury.io/js/ember-model-validator) [![Ember Observer Score](http://emberobserver.com/badges/ember-model-validator.svg)](http://emberobserver.com/addons/ember-model-validator)
 
 ### [Live demo & Documentation](http://esbanarango.github.io/ember-model-validator/)
 
