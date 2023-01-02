@@ -1,5 +1,5 @@
 import EmberObject from '@ember/object';
-import ObjectValidator from 'ember-model-validator/decorators/object-validator';
+import { objectValidator, type ValidatedObject } from 'ember-model-validator';
 import Messages from 'ember-model-validator/messages/pt-br';
 
 import { module, test } from 'qunit';
@@ -10,9 +10,12 @@ module('Unit | object-validator', function (hooks) {
 
   test('Validator on Simple Object', function (assert) {
     assert.expect(2);
-    @ObjectValidator
+
+    interface ValidatorObjectClass extends ValidatedObject, EmberObject {}
+
+    @objectValidator
     class ValidatorObjectClass extends EmberObject {
-      name = null;
+      name = '';
       _locale = 'pt-br';
       validations = {
         name: {

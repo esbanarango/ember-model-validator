@@ -1,13 +1,10 @@
 import Model, { attr } from '@ember-data/model';
 
-import Validator, {
-  type validationsConfig,
-  type ValidatedModel,
-} from 'ember-model-validator/decorators/model-validator';
+import { modelValidator, type validationsConfig, type ValidatedModel } from 'ember-model-validator';
 
 interface OtherModel extends ValidatedModel, Model {}
 
-@Validator
+@modelValidator
 class OtherModel extends Model {
   @attr('string') declare name: string;
 

@@ -7,16 +7,13 @@ import Model, {
   type SyncHasMany,
 } from '@ember-data/model';
 
-import Validator, {
-  type validationsConfig,
-  type ValidatedModel,
-} from 'ember-model-validator/decorators/model-validator';
+import { modelValidator, type validationsConfig, type ValidatedModel } from 'ember-model-validator';
 import type AsyncModel from './async-model';
 import type OtherModel from './other-model';
 
 interface FakeModel extends ValidatedModel, Model {}
 
-@Validator
+@modelValidator
 class FakeModel extends Model {
   @attr('string') declare name: string;
   @attr('string') declare login: string;
