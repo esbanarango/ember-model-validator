@@ -33,9 +33,9 @@ export function modelValidator<T>(target: T): T & { validate: (options?: Validat
 export function objectValidator<T>(target: T): T & { validate: (options?: ValidateOptions) => boolean };
 
 export interface ValidateOptions {
-  except: string[];
-  only: string[];
-  addErrors: boolean;
+  except?: string[];
+  only?: string[];
+  addErrors?: boolean;
 }
 
 export interface ValidationsConfig {
