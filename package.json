@@ -1,6 +1,6 @@
 {
   "name": "ember-model-validator",
-  "version": "4.1.0",
+  "version": "4.2.0",
   "description": "ember addon. It adds validation support to your Ember-Data models.",
   "keywords": [
     "ember-addon",
