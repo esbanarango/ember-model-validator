@@ -6,6 +6,7 @@
     // layout, which is not resolvable with the Node resolution algorithm, to
     // work with TypeScript.
     "baseUrl": ".",
+    "declaration": true,
     "paths": {
       "dummy/tests/*": [
         "tests/*"
