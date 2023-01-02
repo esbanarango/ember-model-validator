@@ -7,7 +7,7 @@ import Model, {
   type SyncHasMany,
 } from '@ember-data/model';
 
-import { modelValidator, type validationsConfig, type ValidatedModel } from 'ember-model-validator';
+import { modelValidator, type ValidationsConfig, type ValidatedModel } from 'ember-model-validator';
 import type AsyncModel from './async-model';
 import type OtherModel from './other-model';
 
@@ -81,7 +81,7 @@ class FakeModel extends Model {
   })
   declare dateAfter2014: Date;
 
-  validations: validationsConfig = {
+  validations: ValidationsConfig = {
     asyncModel: {
       presence: true,
     },

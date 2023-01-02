@@ -24,34 +24,31 @@ type ValidationKeys =
 /**
  * @decorator
  *
- * Marks a property as tracked.
- *
- * By including Ember-model-validator's decorator into your model, this will have a validate function available,
+ * By including Ember-model-validator's decorator into your model, this will add a `validate()` function available,
  * it is a synchronous function which returns either true or false.
  * You can also pass an option hash for excluding or forcing certain attributes to be validated, and to prevent
  * errors to be added.
- *
  */
-export function modelValidator<T>(target: T): T & { validate: (options?: validateOptions) => boolean };
-export function objectValidator<T>(target: T): T & { validate: (options?: validateOptions) => boolean };
+export function modelValidator<T>(target: T): T & { validate: (options?: ValidateOptions) => boolean };
+export function objectValidator<T>(target: T): T & { validate: (options?: ValidateOptions) => boolean };
 
-export interface validateOptions {
+export interface ValidateOptions {
   except: string[];
   only: string[];
   addErrors: boolean;
 }
 
-export interface validationsConfig {
+export interface ValidationsConfig {
   [key: string]: {
     [K in ValidationKeys]?: any;
   };
 }
 
 export interface ValidatedModel {
-  validate(options?: validateOptions): boolean;
+  validate(options?: ValidateOptions): boolean;
 }
 
 export interface ValidatedObject {
-  validate(options?: validateOptions): boolean;
+  validate(options?: ValidateOptions): boolean;
   errors: any;
 }

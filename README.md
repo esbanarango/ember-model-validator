@@ -117,7 +117,7 @@ export default class MyComponent extends Component {
 ```typescript
 import Model, { attr } from '@ember-data/model';
 
-import { modelValidator, type validationsConfig, type ValidatedModel } from 'ember-model-validator';
+import { modelValidator, type ValidationsConfig, type ValidatedModel } from 'ember-model-validator';
 
 // https://github.com/microsoft/TypeScript/issues/4881
 interface MyModel extends ValidatedModel, Model {}
@@ -126,7 +126,7 @@ interface MyModel extends ValidatedModel, Model {}
 class MyModel extends Model {
   @attr('string') declare name: string;
 
-  validations: validationsConfig = {
+  validations: ValidationsConfig = {
     name: {
       presence: true,
     },

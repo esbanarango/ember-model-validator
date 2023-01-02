@@ -1,6 +1,6 @@
 import Model, { attr } from '@ember-data/model';
 
-import { modelValidator, type validationsConfig, type ValidatedModel } from 'ember-model-validator';
+import { modelValidator, type ValidationsConfig, type ValidatedModel } from 'ember-model-validator';
 
 interface OtherModel extends ValidatedModel, Model {}
 
@@ -8,7 +8,7 @@ interface OtherModel extends ValidatedModel, Model {}
 class OtherModel extends Model {
   @attr('string') declare name: string;
 
-  validations: validationsConfig = {
+  validations: ValidationsConfig = {
     name: {
       presence: true,
     },
