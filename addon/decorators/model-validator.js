@@ -12,7 +12,7 @@ function modelValidator(constructor) {
     }
     pushErrors(errors) {
       // This is a hack to support Ember Data 3.28
-      if (this._internalModel) {
+      if (this._internalModel?.transitionTo) {
         const stateToTransition = this.isNew ? 'created.uncommitted' : 'updated.uncommitted';
         this._internalModel.transitionTo(stateToTransition);
         const recordModel = this.adapterDidInvalidate ? this : this._internalModel;
