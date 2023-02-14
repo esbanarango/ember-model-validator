@@ -1683,10 +1683,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/ember-data@*", "@types/ember-data@4.4.6":
-  version "4.4.6"
-  resolved "https://registry.yarnpkg.com/@types/ember-data/-/ember-data-4.4.6.tgz#fd083e6242f665bc2805faff0d4b52b4d36717dd"
-  integrity sha512-r9LpQ8Nr8C/UM+MouLeMcGG56EpKH496+fDf05yPig7n+Kjc4I+PrUuLsbm2RrV0FCgq2PmRZj91Gq6d6NM+Bg==
+"@types/ember-data@*", "@types/ember-data@4.4.7":
+  version "4.4.7"
+  resolved "https://registry.yarnpkg.com/@types/ember-data/-/ember-data-4.4.7.tgz#b99957a7fe61bb295daffd4a33d27d13249fbc1d"
+  integrity sha512-0wkcXojxWT3oOfjEM5dqZd7UICrkZyQdbuxkyhNtxHZaQ+s9wS2UkzHpXazI9MpaP58Rrq9khwMh+oaFv9U7eA==
   dependencies:
     "@types/ember" "*"
     "@types/ember__error" "*"
