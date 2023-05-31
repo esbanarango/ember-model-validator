@@ -1,5 +1,5 @@
 export default {
-  presenceMessage: "не може остати празно/а",
+  presenceMessage: 'не може остати празно/а',
   absenceMessage: 'мора бити празно/а',
   inclusionMessage: 'није на листи',
   exclusionMessage: 'резервисано/на',

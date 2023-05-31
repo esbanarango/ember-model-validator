@@ -1,5 +1,5 @@
 export default {
-  presenceMessage: "nem lehet üres",
+  presenceMessage: 'nem lehet üres',
   absenceMessage: 'üresnek kell lennie',
   inclusionMessage: 'nem szerepel a listában',
   exclusionMessage: 'foglalt',

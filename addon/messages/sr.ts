@@ -1,5 +1,5 @@
 export default {
-  presenceMessage: "ne može ostati prazno/a",
+  presenceMessage: 'ne može ostati prazno/a',
   absenceMessage: 'mora biti prazno/a',
   inclusionMessage: 'nije na listi',
   exclusionMessage: 'rezervisano/na',
