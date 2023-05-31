@@ -1,0 +1,38 @@
+export default {
+  presenceMessage: "ne može ostati prazno/a",
+  absenceMessage: 'mora biti prazno/a',
+  inclusionMessage: 'nije na listi',
+  exclusionMessage: 'rezervisano/na',
+
+  // Numericality
+  numericalityMessage: 'treba da je broj',
+  numericalityOnlyIntegerMessage: 'treba da bude ceo broj',
+  numericalityGreaterThanMessage: 'treba da je veće/a od {count}',
+  numericalityGreaterThanOrEqualToMessage: 'treba da je veće/a ili jednako/a od/sa {count}',
+  numericalityEqualToMessage: 'treba da bude jednako/a sa {count}',
+  numericalityLessThanMessage: 'treba da bude manje/a od {count}',
+  numericalityLessThanOrEqualToMessage: 'treba da bude manje/a ili jednako/a od/sa {count}',
+  numericalityOddMessage: 'treba da bude neparno/a',
+  numericalityEvenMessage: 'treba da bude parno/a',
+
+  mailMessage: 'treba da bude važeća email adresa',
+  formatMessage: 'sadrži grešku',
+  colorMessage: 'mora biti važeći CSS hex kod boje',
+  subdomainMessage: 'mora da bude važeći poddomen',
+  acceptanceMessage: 'mora biti prihvaćeno/a',
+  zipCodeMessage: 'nije važeći poštanski broj',
+  URLMessage: 'mora da bude važeći url',
+  wrongLengthMessage: 'pogrešne dužine (trebalo/la bi biti {count} karaktera)',
+  tooShortMessage: 'prekratko/a (minimum je {count} karaktera)',
+  tooLongMessage: 'predugo/a (maksimum je {count} karaktera)',
+  mustContainNumberMessage: 'mora da sadrži broj',
+  mustContainSpecialMessage: 'mora da sadrži jedan od ovih specijalnih znakova: {characters}',
+  mustContainLowerMessage: 'mora da sadrži mala slova',
+  mustContainCapitalMessage: 'mora da sadrži veliko slovo',
+  customValidationMessage: 'sadrži grešku',
+  matchMessage: 'treba da bude jednako/a sa {match}',
+
+  dateMessage: 'pogrešnog formata datuma',
+  dateBeforeMessage: 'mora biti pre {date}',
+  dateAfterMessage: 'mora biti posle {date}',
+};

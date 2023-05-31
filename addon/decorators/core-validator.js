@@ -12,6 +12,9 @@ import MessagesFr from '../messages/fr';
 import MessagesEs from '../messages/es';
 import MessagesPtbr from '../messages/pt-br';
 import MessagesUk from '../messages/uk';
+import MessagesHu from '../messages/hu';
+import MessagesSr from '../messages/sr';
+import MessagesSrCyrl from '../messages/sr-cyrl';
 
 const Messages = {
   en: MessagesEn,
@@ -20,6 +23,9 @@ const Messages = {
   es: MessagesEs,
   'pt-br': MessagesPtbr,
   uk: MessagesUk,
+  hu: MessagesHu,
+  sr: MessagesSr,
+  'sr-cyrl': MessagesSrCyrl,
 };
 
 function coreValidator(constructor) {
