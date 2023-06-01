@@ -607,7 +607,7 @@ export default class MyModel extends Model {
 
 ## I18n
 
-Set `validatorDefaultLocale` in your config enviroment a language, for now it's possible use 'en', 'fr', 'es', 'uk' or 'pt-br', default is 'en';
+Set `validatorDefaultLocale` in your config enviroment a language, for now it's possible use 'en', 'fr', 'es', 'uk', 'hu', 'sr', 'sr-cyrl' or 'pt-br', default is 'en';
 
 ```js
 //config/environment.js
