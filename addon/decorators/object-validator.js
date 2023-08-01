@@ -16,16 +16,22 @@ function objectValidator(Class) {
     };
 
     clearErrors() {
-      set(this, 'errors', { ...this.errors, _errors: A() });
+      set(this, 'errors', { errorsFor: this.errors.errorsFor, _errors: A() });
       set(this, 'validationErrors', {});
       set(this, 'isValidNow', true);
     }
 
     pushErrors(errors) {
+      let errorsObj = {};
       for (let attribute in errors) {
         let messages = errors[attribute];
+        if (!errorsObj[attribute]) {
+          errorsObj[attribute] = A([]);
+        }
+        errorsObj[attribute].push({ message: messages.flat() });
         set(this, 'errors', {
           ...this.errors,
+          ...errorsObj,
           _errors: [...this.errors._errors, { attribute, message: messages.flat() }],
         });
       }
