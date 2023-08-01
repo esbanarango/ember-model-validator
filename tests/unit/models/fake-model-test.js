@@ -604,18 +604,15 @@ module('Unit | Model | fake-model', function (hooks) {
 
   module('Relations validations', function () {
     module('`hasMany` relations', function () {
-      test('it validates the relations specified on `validations.relations`', function (assert) {
+      test('it validates the relations specified on `validations.relations`', async function (assert) {
         assert.expect(1);
         const store = this.owner.lookup('service:store');
         const model = store.createRecord('fake-model', { email: 'thiisagoo@email.con', name: 'Jose Rene Higuita' });
 
-        let otherFakes = model.get('otherFakes');
+        let otherFakes = await model.otherFakes;
         const otherFake = store.createRecord('other-model');
-        if (otherFakes.push) {
-          otherFakes.push(otherFake);
-        } else {
-          otherFakes.pushObject(otherFake);
-        }
+
+        otherFakes.push(otherFake);
 
         assert.false(model.validate({ only: ['otherFakes'] }));
       });
