@@ -50,7 +50,7 @@ class FakeModel extends Model {
 
   @hasMany('other-model', { async: true, inverse: null }) declare otherFakes: AsyncHasMany<OtherModel>;
   @belongsTo('other-model', { async: true, inverse: null }) declare otherFake: AsyncBelongsTo<OtherModel>;
-  @belongsTo('async-model', { async: false, inverse: null }) declare asyncModel: AsyncModel;
+  @belongsTo('async-model', { async: true, inverse: 'fakeModel' }) declare asyncModel: AsyncModel;
 
   @attr('date', {
     defaultValue() {
