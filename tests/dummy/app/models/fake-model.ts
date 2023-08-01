@@ -1,11 +1,4 @@
-import Model, {
-  attr,
-  belongsTo,
-  hasMany,
-  type AsyncBelongsTo,
-  type AsyncHasMany,
-  type SyncHasMany,
-} from '@ember-data/model';
+import Model, { attr, belongsTo, hasMany, type AsyncBelongsTo, type AsyncHasMany } from '@ember-data/model';
 
 import { modelValidator, type ValidationsConfig, type ValidatedModel } from 'ember-model-validator';
 import type AsyncModel from './async-model';
@@ -55,9 +48,9 @@ class FakeModel extends Model {
   @attr() declare images: any;
   @attr('string') declare condType: string;
 
-  @hasMany('other-model') declare otherFakes: AsyncHasMany<OtherModel>;
-  @belongsTo('other-model') declare otherFake: AsyncBelongsTo<OtherModel>;
-  @belongsTo('async-model', { async: true }) declare asyncModel: SyncHasMany<AsyncModel>;
+  @hasMany('other-model', { async: true, inverse: null }) declare otherFakes: AsyncHasMany<OtherModel>;
+  @belongsTo('other-model', { async: true, inverse: null }) declare otherFake: AsyncBelongsTo<OtherModel>;
+  @belongsTo('async-model', { async: false, inverse: null }) declare asyncModel: AsyncModel;
 
   @attr('date', {
     defaultValue() {
