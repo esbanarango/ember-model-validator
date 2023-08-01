@@ -48,7 +48,7 @@ class FakeModel extends Model {
   @attr() declare images: any;
   @attr('string') declare condType: string;
 
-  @hasMany('other-model', { async: true, inverse: null }) declare otherFakes: AsyncHasMany<OtherModel>;
+  @hasMany('other-model', { async: true, inverse: 'fakeModel' }) declare otherFakes: AsyncHasMany<OtherModel>;
   @belongsTo('other-model', { async: true, inverse: null }) declare otherFake: AsyncBelongsTo<OtherModel>;
   @belongsTo('async-model', { async: true, inverse: 'fakeModel' }) declare asyncModel: AsyncModel;
 
