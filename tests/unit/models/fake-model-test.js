@@ -611,8 +611,11 @@ module('Unit | Model | fake-model', function (hooks) {
 
         let otherFakes = await model.otherFakes;
         const otherFake = store.createRecord('other-model');
-
-        otherFakes.push(otherFake);
+        if (otherFakes.push) {
+          otherFakes.push(otherFake);
+        } else {
+          otherFakes.pushObject(otherFake);
+        }
 
         assert.false(model.validate({ only: ['otherFakes'] }));
       });
