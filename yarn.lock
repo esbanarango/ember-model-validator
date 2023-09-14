@@ -1689,10 +1689,10 @@
     "@types/ember__object" "*"
     "@types/rsvp" "*"
 
-"@types/ember-data__adapter@4.0.1":
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/@types/ember-data__adapter/-/ember-data__adapter-4.0.1.tgz#f8de80466120103793c131ea19aab224705aa2f1"
-  integrity sha512-+ZbfrZP1YTYM4/wbTaa6DN2AGJbeYeIYIC5Z95+aafcOfzMobbH6CwOc/tJc5O7eLVRA8PxNhDmQOJf89GDJ1Q==
+"@types/ember-data__adapter@4.0.2":
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/@types/ember-data__adapter/-/ember-data__adapter-4.0.2.tgz#b8f5f7f569969968c8aa439fb63c966cda0ef726"
+  integrity sha512-CCz5VeNstBHLeHo3l1n9J8Z765Xa0c+q5XQNEPxswHEHtiFdygUEmc1sBfLWRLw/fJLN0wTCbusjXuB/meJ49w==
   dependencies:
     "@types/ember-data" "*"
 
