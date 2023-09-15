@@ -66,7 +66,7 @@
     "@types/ember__test-helpers": "^2.9.1",
     "@types/ember__utils": "^4.0.2",
     "@types/ember-data": "4.4.7",
-    "@types/ember-data__adapter": "4.0.1",
+    "@types/ember-data__adapter": "4.0.2",
     "@types/ember-data__model": "^4.0.0",
     "@types/ember-data__serializer": "^4.0.1",
     "@types/ember-data__store": "^4.0.2",
