@@ -2725,9 +2725,9 @@
     "@types/ember__owner" "*"
 
 "@types/ember__destroyable@^4.0.1":
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/@types/ember__destroyable/-/ember__destroyable-4.0.1.tgz#6b5d5cd52a6a38ec74ea6b19804a8b4618c8810f"
-  integrity sha512-U497H5zW2bfdwmX1rktaSe+IsOrcqLn7jtrHI2dNnf9le38e1Wcnes8amA9PCv4lOhH+Mc3nkNIdQx38DwflXA==
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/@types/ember__destroyable/-/ember__destroyable-4.0.2.tgz#54ae318dea3e86a87e11cfd923ddf9581ca6d47f"
+  integrity sha512-1aBorZlXN06iAo51qE04xF5VH+KiULLVIfCu4bV7cW/bgGaV5myTS7C38xrtua1sPSpZDMMvHeqFOzmFnVJZEw==
 
 "@types/ember__engine@*", "@types/ember__engine@^4.0.4":
   version "4.0.5"
