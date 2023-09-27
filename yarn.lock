@@ -2619,9 +2619,9 @@
     "@types/ember-data" "*"
 
 "@types/ember-data__model@^4.0.0":
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/@types/ember-data__model/-/ember-data__model-4.0.0.tgz#e6c145fd55bdabb6cc86a5013aabc35ea4268b17"
-  integrity sha512-2AYPQZWYrm5RS4qx5ajtkVs5nH4hADdKRV1l7+OoPTitXbXA4hNwvra68QhRcBR6cxM9ALlxkC/Fz84pDB2Oaw==
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/@types/ember-data__model/-/ember-data__model-4.0.2.tgz#1a65ecad2e44475d0c6bba1908fad6e2a9dcc585"
+  integrity sha512-FmqYaJFf3PKQlT7k/WEGiz87Nn+ZmeXRSw+2P5pBu2AVMRFSltguM1Ch4pDSoL8y+L5ZXwGgehnJlgK3qecAGA==
   dependencies:
     "@types/ember-data" "*"
 
