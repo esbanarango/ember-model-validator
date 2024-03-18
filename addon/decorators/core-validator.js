@@ -35,16 +35,6 @@ function coreValidator(constructor) {
     addErrors = true;
     _validationMessages = {};
 
-    constructor(...args) {
-      super(...args);
-      let validatorLocale;
-      if (getOwner(this)) {
-        validatorLocale = getOwner(this)?.lookup('validator:locale');
-      }
-
-      this['_locale'] = this['_locale'] ?? (validatorLocale ? validatorLocale.locale : 'en');
-      set(this, '_validationMessages', Messages[this['_locale']]);
-    }
 
     // to be implemented
     // clearErrors() {
