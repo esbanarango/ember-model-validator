@@ -107,6 +107,7 @@
     "qunit": "^2.19.3",
     "qunit-dom": "3.3.0",
     "release-it": "^15.6.0",
+    "to-fast-properties": "^4.0.0",
     "typescript": "^5.2.2",
     "webpack": "^5.75.0"
   },
