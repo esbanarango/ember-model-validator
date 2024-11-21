@@ -1,6 +1,5 @@
 import { get, set } from '@ember/object';
 import { getOwner } from '@ember/application';
-import { capitalize } from '@ember/string';
 import { isEmpty, isBlank, isPresent, typeOf, isEqual } from '@ember/utils';
 import { A, isArray } from '@ember/array';
 
@@ -27,6 +26,11 @@ const Messages = {
   sr: MessagesSr,
   'sr-cyrl': MessagesSrCyrl,
 };
+
+function capitalize(str) {
+  if (typeof str !== 'string' || !str.length) return '';
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
 
 function coreValidator(constructor) {
   return class CoreValidator extends constructor {
