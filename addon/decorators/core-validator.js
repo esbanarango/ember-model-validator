@@ -470,7 +470,9 @@ function coreValidator(constructor) {
       }
     }
     _validateRelations(property, validation) {
-      if (validation.relations.indexOf('hasMany') !== -1) {
+      const relationType = Array.isArray(validation.relations) ? validation.relations : validation.relations.value;
+
+      if (relationType.indexOf('hasMany') !== -1) {
         if (get(this, `${property}.content`)) {
           get(this, `${property}.content`).forEach((objRelation) => {
             if (!objRelation.validate()) {
@@ -478,7 +480,7 @@ function coreValidator(constructor) {
             }
           });
         }
-      } else if (validation.relations.indexOf('belongsTo') !== -1) {
+      } else if (relationType.indexOf('belongsTo') !== -1) {
         if (get(this, `${property}.content`) && !get(this, `${property}.content`).validate()) {
           set(this, 'isValidNow', false);
         }
