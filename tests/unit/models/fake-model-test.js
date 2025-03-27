@@ -619,6 +619,44 @@ module('Unit | Model | fake-model', function (hooks) {
 
         assert.false(model.validate({ only: ['otherFakes'] }));
       });
+
+      module('conditional option', function () {
+        test('it validates only if `if function` returns true', async function (assert) {
+          assert.expect(1);
+
+          const store = this.owner.lookup('service:store');
+          const model = store.createRecord('fake-model', { condType: 'gallery' });
+
+          let ifOtherFakes = await model.ifOtherFakes;
+          const otherFake = store.createRecord('other-model');
+          if (ifOtherFakes.push) {
+            ifOtherFakes.push(otherFake);
+          } else {
+            ifOtherFakes.pushObject(otherFake);
+          }
+
+          assert.false(model.validate({ only: ['ifOtherFakes'] }));
+        });
+
+        test('skips validation if `if function` returns false', async function (assert) {
+          assert.expect(1);
+
+          const store = this.owner.lookup('service:store');
+          const model = store.createRecord('fake-model', { condType: 'chancuncha' });
+
+          let ifOtherFakes = await model.ifOtherFakes;
+          const otherFake = store.createRecord('other-model');
+          if (ifOtherFakes.push) {
+            ifOtherFakes.push(otherFake);
+          } else {
+            ifOtherFakes.pushObject(otherFake);
+          }
+
+          model.validate();
+
+          assert.strictEqual(model.get('errors').errorsFor('ifOtherFakes').length, 0);
+        });
+      });
     });
 
     module('`belongsTo` relations', function () {
@@ -634,6 +672,32 @@ module('Unit | Model | fake-model', function (hooks) {
           model.get('otherFake.errors').errorsFor('name').mapBy('message')[0][0],
           Messages.presenceMessage
         );
+      });
+
+      module('conditional option', function () {
+        test('it validates only if `if function` returns true', async function (assert) {
+          assert.expect(1);
+
+          const store = this.owner.lookup('service:store');
+          const model = store.createRecord('fake-model', { condType: 'gallery' });
+
+          model.set('ifOtherFake', store.createRecord('other-model'));
+
+          assert.false(model.validate({ only: ['ifOtherFake'] }));
+        });
+
+        test('skips validation if `if function` returns false', async function (assert) {
+          assert.expect(1);
+
+          const store = this.owner.lookup('service:store');
+          const model = store.createRecord('fake-model', { condType: 'chancuncha' });
+
+          model.set('ifOtherFake', store.createRecord('other-model'));
+
+          model.validate();
+
+          assert.strictEqual(model.get('errors').errorsFor('ifOtherFake').length, 0);
+        });
       });
     });
   });

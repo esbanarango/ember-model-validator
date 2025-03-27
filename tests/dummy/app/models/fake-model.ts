@@ -52,6 +52,9 @@ class FakeModel extends Model {
   @belongsTo('other-model', { async: true, inverse: null }) declare otherFake: AsyncBelongsTo<OtherModel>;
   @belongsTo('async-model', { async: true, inverse: 'fakeModel' }) declare asyncModel: AsyncModel;
 
+  @belongsTo('other-model', { async: true, inverse: null }) declare ifOtherFake: AsyncBelongsTo<OtherModel>;
+  @hasMany('other-model', { async: true, inverse: null }) declare ifOtherFakes: AsyncHasMany<OtherModel>;
+
   @attr('date', {
     defaultValue() {
       return new Date();
@@ -234,6 +237,22 @@ class FakeModel extends Model {
     otherFake: {
       presence: true,
       relations: ['belongsTo'],
+    },
+    ifOtherFake: {
+      relations: {
+        if: function (key: string, value: any, _this: FakeModel) {
+          return 'gallery' === _this.get('condType');
+        },
+        value: ['belongsTo'],
+      },
+    },
+    ifOtherFakes: {
+      relations: {
+        if: function (key: string, value: any, _this: FakeModel) {
+          return 'gallery' === _this.get('condType');
+        },
+        value: ['hasMany'],
+      },
     },
     otherCustomValidation: {
       custom: {
