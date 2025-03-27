@@ -59,10 +59,12 @@ jobs:
         try-scenario:
           - ember-lts-3.28-and-ember-data-3.28
           - ember-lts-4.4-and-ember-data-4.4
-          - ember-release
-          - ember-beta
-          - ember-canary
+          - ember-lts-5.12-and-ember-data-5.3
+          - ember-6.2-and-ember-data-5.3
           - ember-classic
+          # - ember-release
+          # - ember-beta
+          # - ember-canary
           # - embroider-safe
           # - embroider-optimized
 
