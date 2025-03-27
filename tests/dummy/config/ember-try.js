@@ -1,6 +1,6 @@
 'use strict';
 
-const getChannelURL = require('ember-source-channel-url');
+// const getChannelURL = require('ember-source-channel-url');
 // const { embroiderSafe, embroiderOptimized } = require('@embroider/test-setup');
 
 module.exports = async function () {
@@ -26,33 +26,51 @@ module.exports = async function () {
         },
       },
       {
-        name: 'ember-release',
+        name: 'ember-lts-5.12-and-ember-data-5.3',
         npm: {
           devDependencies: {
-            'ember-source': await getChannelURL('release'),
-            'ember-data': 'lts',
+            'ember-source': '~5.12.0',
+            'ember-data': '~5.3.0',
           },
         },
       },
       {
-        name: 'ember-beta',
+        name: 'ember-6.2-and-ember-data-5.3',
         npm: {
           devDependencies: {
-            'ember-source': await getChannelURL('beta'),
-            'ember-data': 'beta',
+            'ember-source': '~6.2.0',
+            'ember-data': '~5.3.0',
           },
         },
       },
-      {
-        name: 'ember-canary',
-        allowedToFail: true,
-        npm: {
-          devDependencies: {
-            'ember-source': await getChannelURL('canary'),
-            'ember-data': 'canary',
-          },
-        },
-      },
+      // {
+      //   name: 'ember-release',
+      //   npm: {
+      //     devDependencies: {
+      //       'ember-source': await getChannelURL('release'),
+      //       'ember-data': 'lts',
+      //     },
+      //   },
+      // },
+      // {
+      //   name: 'ember-beta',
+      //   npm: {
+      //     devDependencies: {
+      //       'ember-source': await getChannelURL('beta'),
+      //       'ember-data': 'beta',
+      //     },
+      //   },
+      // },
+      // {
+      //   name: 'ember-canary',
+      //   allowedToFail: true,
+      //   npm: {
+      //     devDependencies: {
+      //       'ember-source': await getChannelURL('canary'),
+      //       'ember-data': 'canary',
+      //     },
+      //   },
+      // },
       {
         name: 'ember-classic',
         env: {
