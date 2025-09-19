@@ -123,8 +123,13 @@ function coreValidator(constructor) {
       let propertyValue = get(this, property);
       // If the property is an async relationship.
       if (this._modelRelations() && !isBlank(this._modelRelations()[property])) {
-        propertyValue = get(this, `${property}.content`);
+        if (this['relationshipFor'](property).options?.async === false) {
+          propertyValue = this._modelRelations()[property]
+        } else {
+          propertyValue = get(this, `${property}.content`);
+        }
       }
+
       if (isBlank(propertyValue)) {
         set(this, 'isValidNow', false);
         this._addToErrors(property, validation.presence, this._validationMessages.presenceMessage);
@@ -470,7 +475,9 @@ function coreValidator(constructor) {
       }
     }
     _validateRelations(property, validation) {
-      if (validation.relations.indexOf('hasMany') !== -1) {
+      const relationType = Array.isArray(validation.relations) ? validation.relations : validation.relations.value;
+
+      if (relationType.indexOf('hasMany') !== -1) {
         if (get(this, `${property}.content`)) {
           get(this, `${property}.content`).forEach((objRelation) => {
             if (!objRelation.validate()) {
@@ -478,7 +485,7 @@ function coreValidator(constructor) {
             }
           });
         }
-      } else if (validation.relations.indexOf('belongsTo') !== -1) {
+      } else if (relationType.indexOf('belongsTo') !== -1) {
         if (get(this, `${property}.content`) && !get(this, `${property}.content`).validate()) {
           set(this, 'isValidNow', false);
         }
@@ -623,8 +630,14 @@ function coreValidator(constructor) {
       } else {
         const relationships = {};
         if (this.constructor.eachRelationship) {
-          this.constructor.eachRelationship((name) => {
-            relationships[name] = this['relationshipFor'](name);
+          this.constructor.eachRelationship((name, descriptor) => {
+            if (descriptor.options?.async === false) {
+              if (get(this, `${name}.id`)) {
+                relationships[name] = {content: { id: get(this, `${name}.id`) }}
+              }
+            } else {
+              relationships[name] = this['relationshipFor'](name);
+            }
           });
         }
         return relationships;

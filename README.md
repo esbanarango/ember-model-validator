@@ -20,6 +20,11 @@ Install **Ember-model-validator** is easy as:
 or
 `yarn add ember-model-validator --dev`
 
+## Compatibility
+
+* `ember-source` >= v3.28 and <= 6.2
+* `ember-data` v3.28 or above
+
 ## Usage
 
 **Ember-model-validator** provides a decorator to be included in your models for adding validation support. This decorator can be imported from your app's namespace (e.g. `import { modelValidator, objectValidator } from 'ember-model-validator';` in your models).
@@ -146,11 +151,6 @@ declare module 'ember-data/types/registries/model' {
 }
 
 ```
-
-
-## Compatibility
-
-- `ember-source`and `ember-data` v3.28 or above
 
 ---
 
