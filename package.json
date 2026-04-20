@@ -33,7 +33,7 @@
     "src"
   ],
   "scripts": {
-    "build": "rollup --config && cp src/index.d.ts declarations/index.d.ts",
+    "build": "rollup --config",
     "format": "prettier . --cache --write",
     "lint": "concurrently \"pnpm:lint:*(!fix)\" --names \"lint:\" --prefixColors auto",
     "lint:fix": "concurrently \"pnpm:lint:*:fix\" --names \"fix:\" --prefixColors auto && pnpm run format",
@@ -44,7 +44,7 @@
     "lint:js:fix": "eslint . --fix",
     "lint:types": "ember-tsc --noEmit",
     "lint:publish": "pnpm build && publint run --level error",
-    "prepack": "rollup --config && cp src/index.d.ts declarations/index.d.ts",
+    "prepack": "rollup --config",
     "start": "vite dev",
     "test": "vite build --mode=development --out-dir dist-tests && testem --file testem.cjs ci --port 0"
   },
@@ -81,7 +81,7 @@
     "@types/ember-data__serializer": "^4.0.1",
     "@types/ember-data__store": "^4.0.2",
     "@types/qunit": "^2.19.12",
-    "@warp-drive/build-config": "0.0.3",
+    "@warp-drive/build-config": "5.4.1",
     "babel-plugin-ember-template-compilation": "^4.0.0",
     "concurrently": "^9.0.1",
     "ember-data": "~5.3.13",

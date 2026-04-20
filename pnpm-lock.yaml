@@ -100,8 +100,8 @@ importers:
         specifier: ^2.19.12
         version: 2.19.13
       '@warp-drive/build-config':
-        specifier: 0.0.3
-        version: 0.0.3(@babel/core@7.29.0)(@glint/template@1.7.7)
+        specifier: 5.4.1
+        version: 5.4.1(@babel/core@7.29.0)(@glint/template@1.7.7)
       babel-plugin-ember-template-compilation:
         specifier: ^4.0.0
         version: 4.0.0
@@ -1677,6 +1677,10 @@ packages:
 
   '@warp-drive/build-config@0.0.3':
     resolution: {integrity: sha512-cvaZE2tF73o+DvXkKmu7WU65tDffAZKQgRh3HWnVWksWs7B4rn86zGg3uUh6edKnpZ76o7xQ0cBaqdQkoDJ5Ng==}
+    engines: {node: '>= 18.20.8'}
+
+  '@warp-drive/build-config@5.4.1':
+    resolution: {integrity: sha512-qGwZOlLKJ2DECR8WwfFdS3zVVkXaDga/sa7+LtsArGQr9QgRJZ9xWWGDyi4xUTeD+faUwX2Ki2Kd4Dpy39foew==}
     engines: {node: '>= 18.20.8'}
 
   '@warp-drive/core-types@0.0.3':
@@ -7112,6 +7116,17 @@ snapshots:
   '@vscode/l10n@0.0.18': {}
 
   '@warp-drive/build-config@0.0.3(@babel/core@7.29.0)(@glint/template@1.7.7)':
+    dependencies:
+      '@embroider/addon-shim': 1.10.2
+      '@embroider/macros': 1.20.2(@babel/core@7.29.0)(@glint/template@1.7.7)
+      babel-import-util: 2.1.1
+      semver: 7.7.4
+    transitivePeerDependencies:
+      - '@babel/core'
+      - '@glint/template'
+      - supports-color
+
+  '@warp-drive/build-config@5.4.1(@babel/core@7.29.0)(@glint/template@1.7.7)':
     dependencies:
       '@embroider/addon-shim': 1.10.2
       '@embroider/macros': 1.20.2(@babel/core@7.29.0)(@glint/template@1.7.7)

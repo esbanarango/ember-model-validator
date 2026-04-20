@@ -79,6 +79,7 @@ jobs:
         run: pnpm install --no-lockfile
       - name: Build
         run: pnpm build
+        env: ${{ matrix.env }}
       - name: Run Tests
         run: |
           pnpm test

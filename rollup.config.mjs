@@ -3,6 +3,7 @@ import { nodeResolve } from '@rollup/plugin-node-resolve';
 import { Addon } from '@embroider/addon-dev/rollup';
 import { fileURLToPath } from 'node:url';
 import { resolve, dirname } from 'node:path';
+import { copyFileSync, mkdirSync } from 'node:fs';
 
 const addon = new Addon({
   srcDir: 'src',
@@ -67,10 +68,19 @@ export default {
     addon.keepAssets(['**/*.css']),
 
     // Generate declaration files from tsconfig.publish.json
-    addon.declarations(
-      'declarations',
-      'ember-tsc -p tsconfig.publish.json --declaration --emitDeclarationOnly',
-    ),
+    !process.env.SKIP_DECLARATIONS &&
+      addon.declarations(
+        'declarations',
+        'ember-tsc -p tsconfig.publish.json --declaration --emitDeclarationOnly',
+      ),
+
+    {
+      name: 'copy-index-declaration',
+      closeBundle() {
+        mkdirSync('declarations', { recursive: true });
+        copyFileSync('src/index.d.ts', 'declarations/index.d.ts');
+      },
+    },
 
     // Remove leftover build artifacts when starting a new build.
     addon.clean(),
