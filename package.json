@@ -1,6 +1,6 @@
 {
   "name": "ember-model-validator",
-  "version": "4.8.0",
+  "version": "5.0.0",
   "description": "ember addon. It adds validation support to your Ember-Data models.",
   "keywords": [
     "ember-addon",
@@ -122,6 +122,7 @@
     "app-js": {
       "./decorators/model-validator.js": "./dist/_app_/decorators/model-validator.js",
       "./decorators/object-validator.js": "./dist/_app_/decorators/object-validator.js",
+      "./decorators/core-validator.js": "./dist/_app_/decorators/core-validator.js",
       "./initializers/model-locale.js": "./dist/_app_/initializers/model-locale.js"
     }
   }
