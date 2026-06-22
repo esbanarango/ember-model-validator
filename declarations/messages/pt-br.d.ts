@@ -1,0 +1,36 @@
+declare const _default: {
+    presenceMessage: string;
+    absenceMessage: string;
+    inclusionMessage: string;
+    exclusionMessage: string;
+    numericalityMessage: string;
+    numericalityOnlyIntegerMessage: string;
+    numericalityGreaterThanMessage: string;
+    numericalityGreaterThanOrEqualToMessage: string;
+    numericalityEqualToMessage: string;
+    numericalityLessThanMessage: string;
+    numericalityLessThanOrEqualToMessage: string;
+    numericalityOddMessage: string;
+    numericalityEvenMessage: string;
+    mailMessage: string;
+    formatMessage: string;
+    colorMessage: string;
+    subdomainMessage: string;
+    acceptanceMessage: string;
+    zipCodeMessage: string;
+    URLMessage: string;
+    wrongLengthMessage: string;
+    tooShortMessage: string;
+    tooLongMessage: string;
+    mustContainNumberMessage: string;
+    mustContainSpecialMessage: string;
+    mustContainLowerMessage: string;
+    mustContainCapitalMessage: string;
+    customValidationMessage: string;
+    matchMessage: string;
+    dateMessage: string;
+    dateBeforeMessage: string;
+    dateAfterMessage: string;
+};
+export default _default;
+//# sourceMappingURL=pt-br.d.ts.map
