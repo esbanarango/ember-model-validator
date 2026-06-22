@@ -12,68 +12,75 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  test:
-    name: 'Tests'
+  lint:
+    name: "Lints"
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
     steps:
-      - uses: actions/checkout@v3
-      - name: Install Node
-        uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: 18.x
-          cache: yarn
+          node-version: 22
+          cache: pnpm
       - name: Install Dependencies
-        run: yarn install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
+      - name: Build
+        run: pnpm build
       - name: Lint
-        run: yarn lint
-      - name: Run Tests
-        run: yarn test:ember
+        run: pnpm lint
 
-  floating:
-    name: 'Floating Dependencies'
+  test:
+    name: "Tests"
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
 
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: 18.x
-          cache: yarn
+          node-version: 22
+          cache: pnpm
       - name: Install Dependencies
-        run: yarn install --no-lockfile
+        run: pnpm install --frozen-lockfile
+      - name: Build
+        run: pnpm build
       - name: Run Tests
-        run: yarn test:ember
+        run: pnpm test
+      # For the Try Scenarios
+      - id: set-matrix
+        run: |
+          echo "matrix=$(pnpm -s dlx @embroider/try list)" >> $GITHUB_OUTPUT
 
   try-scenarios:
-    name: ${{ matrix.try-scenario }}
+    name: ${{ matrix.name }}
     runs-on: ubuntu-latest
-    needs: 'test'
+    needs: "test"
     timeout-minutes: 10
-
     strategy:
       fail-fast: false
-      matrix:
-        try-scenario:
-          - ember-lts-3.28-and-ember-data-3.28
-          - ember-lts-4.4-and-ember-data-4.4
-          - ember-release
-          - ember-beta
-          - ember-canary
-          - ember-classic
-          # - embroider-safe
-          # - embroider-optimized
+      matrix: ${{fromJson(needs.test.outputs.matrix)}}
 
     steps:
-      - uses: actions/checkout@v3
-      - name: Install Node
-        uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: 18.x
-          cache: yarn
+          node-version: 22
+          cache: pnpm
+      - name: Apply Scenario
+        run: |
+          pnpm dlx @embroider/try apply ${{ matrix.name }}
       - name: Install Dependencies
-        run: yarn install --frozen-lockfile
+        run: pnpm install --no-lockfile
+      - name: Build
+        run: pnpm build
+        env: ${{ matrix.env }}
       - name: Run Tests
-        run: ./node_modules/.bin/ember try:one ${{ matrix.try-scenario }}
+        run: |
+          pnpm test
+        env: ${{ matrix.env }}
