@@ -124,7 +124,7 @@ function coreValidator(constructor) {
       // If the property is an async relationship.
       if (this._modelRelations() && !isBlank(this._modelRelations()[property])) {
         if (this['relationshipFor'](property).options?.async === false) {
-          propertyValue = this._modelRelations()[property]
+          propertyValue = this._modelRelations()[property];
         } else {
           propertyValue = get(this, `${property}.content`);
         }
@@ -633,7 +633,7 @@ function coreValidator(constructor) {
           this.constructor.eachRelationship((name, descriptor) => {
             if (descriptor.options?.async === false) {
               if (get(this, `${name}.id`)) {
-                relationships[name] = {content: { id: get(this, `${name}.id`) }}
+                relationships[name] = { content: { id: get(this, `${name}.id`) } };
               }
             } else {
               relationships[name] = this['relationshipFor'](name);
