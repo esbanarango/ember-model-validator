@@ -122,9 +122,10 @@ function coreValidator(constructor) {
     _validatePresence(property, validation) {
       let propertyValue = get(this, property);
       // If the property is an async relationship.
-      if (this._modelRelations() && !isBlank(this._modelRelations()[property])) {
-        if (this['relationshipFor'](property).options?.async === false) {
-          propertyValue = this._modelRelations()[property];
+      const modelRelations = this._modelRelations();
+      if (modelRelations && !isBlank(modelRelations[property])) {
+        if (this['relationshipFor'](property)?.options?.async === false) {
+          propertyValue = modelRelations[property];
         } else {
           propertyValue = get(this, `${property}.content`);
         }

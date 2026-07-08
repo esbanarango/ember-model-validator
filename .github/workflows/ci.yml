@@ -63,6 +63,7 @@ jobs:
           - ember-6.2-and-ember-data-5.3
           - ember-lts-6.12-and-ember-data-5.8
           - ember-classic
+          # Disabled: dynamic channel scenarios are replaced by pinned versions above
           # - ember-release
           # - ember-beta
           # - ember-canary
