@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-declaration-merging, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */
 import EmberObject from '@ember/object';
 import { objectValidator, type ValidatedObject } from 'ember-model-validator';
 import Messages from 'ember-model-validator/messages/pt-br';
@@ -29,7 +30,10 @@ module('Unit | object-validator', function (hooks) {
     subject.name = '';
 
     assert.false(subject.validate());
-    assert.strictEqual(subject.errors.errorsFor('name').mapBy('message')[0][0], Messages.presenceMessage);
+    assert.strictEqual(
+      subject.errors.errorsFor('name').mapBy('message')[0][0],
+      Messages.presenceMessage,
+    );
   });
 
   test('Validator on Simple EmberObject', function (assert) {
@@ -52,7 +56,10 @@ module('Unit | object-validator', function (hooks) {
     subject.name = '';
 
     assert.false(subject.validate());
-    assert.strictEqual(subject.get('errors').errorsFor('name').mapBy('message')[0][0], Messages.presenceMessage);
+    assert.strictEqual(
+      subject.get('errors').errorsFor('name').mapBy('message')[0][0],
+      Messages.presenceMessage,
+    );
   });
 
   test('Re computed errors', function (assert) {
@@ -74,7 +81,10 @@ module('Unit | object-validator', function (hooks) {
     subject.name = '';
 
     assert.false(subject.validate());
-    assert.strictEqual(subject.get('errors').errorsFor('name').mapBy('message')[0][0], Messages.presenceMessage);
+    assert.strictEqual(
+      subject.get('errors').errorsFor('name').mapBy('message')[0][0],
+      Messages.presenceMessage,
+    );
 
     subject.name = 'test';
     assert.true(subject.validate());
@@ -100,7 +110,10 @@ module('Unit | object-validator', function (hooks) {
     subject.name = '';
 
     assert.false(subject.validate());
-    assert.strictEqual(subject.errors['name'].mapBy('message')[0][0], Messages.presenceMessage);
+    assert.strictEqual(
+      subject.errors['name'].mapBy('message')[0][0],
+      Messages.presenceMessage,
+    );
 
     subject.name = 'test';
     assert.true(subject.validate());
