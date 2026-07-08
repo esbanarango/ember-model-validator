@@ -61,6 +61,7 @@ jobs:
           - ember-lts-4.4-and-ember-data-4.4
           - ember-lts-5.12-and-ember-data-5.3
           - ember-6.2-and-ember-data-5.3
+          - ember-lts-6.12-and-ember-data-5.8
           - ember-classic
           # - ember-release
           # - ember-beta
